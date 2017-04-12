@@ -1,0 +1,17 @@
+@import 'client/theme.scss';
+
+.slide-creator {
+    background: $accent;
+    @include basic-frame-theme($theme);
+}
+
+textarea {
+    width: 98%;
+    //background: transparent;
+
+    &:active,
+    &:focus {
+        outline: none;
+        border: 1px solid $primary;
+    }
+}

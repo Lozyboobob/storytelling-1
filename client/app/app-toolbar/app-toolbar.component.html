@@ -1,0 +1,47 @@
+<div class="extend-toolbar header" [class.toggled]="isToggled">
+  <div class="top">
+    <div class="nav-wrapper">
+      <ul class="left inline-block topTitle " *ngIf="!isNormalScreen">
+        <li class="item toggle-left toggle-left-btn" mdTooltip="Menu" (click)="toggleNav()">
+          <i class="fa fa-ellipsis-h green-text text-darken-3" md-colors="{color: 'primary-500'}"></i>
+        </li>
+      </ul>
+      <!--Mobile toolbox-->
+      <ul class="right" *ngIf="!isNormalScreen">
+        <li class="item" mdTooltip="Operation">
+          <a class="expand-btn" (click)="openToolBox()"><i class="fa fa-cog green-text text-darken-3" md-colors="{color: 'primary-500'}" ></i></a>
+        </li>
+      </ul>
+      <ul class="right" *ngIf="isNormalScreen||isOpenToolBox">
+        <li mdTooltip="Sign out">
+          <a *ngIf="loggedIn$ | async" [routerLink]="['login']" class="login">
+            <fa name="sign-in" #login size="1x"></fa>
+          </a>
+        </li>
+        <li mdTooltip="Sign out">
+          <a *ngIf="loggedOut$ | async" (click)="logout()" class="logout">
+            <fa name="sign-out" #login size="1x"></fa>
+          </a>
+        </li>
+      </ul>
+      <!--normal screen topbar-->
+      <ul class="right" *ngIf="(isNormalScreen||isOpenToolBox)">
+        <li *ngFor="let item of menuList" [ngSwitch]="item.type" mdTooltip="item.title">
+          <a *ngSwitchCase="button"><i class="fa {{item.icon}}"></i></a>
+          <div *ngSwitchCase="dropdown-menu">
+            <a md-icon-button [mdMenuTriggerFor]="menu" ng-click="vm.openMenu($mdMenu, $event)" class="toggle-button"><i class="fa {{item.icon}}"></i></a>
+            <md-menu>
+              <li *ngFor="let subItem of item">
+                <a class="toggle-button" href="{{subitem.state}}"><i class="fa {{subitem.icon}}"></i></a>
+              </li>
+            </md-menu>
+          </div>
+          <!-- else  -->
+          <a *ngSwitchDefault href="{{item.state}}" data-position="bottom" data-delay="550" md-colors="{color: 'primary-500'}"><i class="fa {{item.icon}}"></i></a>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,19 @@
+<div class="slides-list-container">
+  <md-grid-list cols="4">
+    <md-grid-tile *ngFor="let s of slides" class="list-item slides-item ">
+      <md-card (click)="openSlides($event)" [attr.id]="s.id">
+        <img md-card-image src="assets/svg.png">
+        <md-card-content>
+          {{s.title}}
+        </md-card-content>
+      </md-card>
+    </md-grid-tile>
+    <md-grid-tile class="list-item addBtn">
+      <md-card (click)="createSlides()">
+        <md-card-content>
+          <md-icon>add</md-icon>
+        </md-card-content>
+      </md-card>
+    </md-grid-tile>
+  </md-grid-list>
+</div>

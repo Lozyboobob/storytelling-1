@@ -1,0 +1,35 @@
+@import 'client/theme.scss';
+
+.select-graph-dialog {
+    @include basic-frame-theme($theme);
+    overflow: scroll;
+    max-height: 80vh;
+
+    .graph-gallery {
+        position: relative;
+        width: 80vw;
+
+        .graph-img {
+            width: 30vw;
+        }
+
+
+    }
+}
+input[type="radio"].graph-radio {
+  display: none;
+    &+label {
+        overflow: hidden;
+        position: relative;
+        .img-mask {
+            position: absolute;
+            width: 30%;
+            height: 150px;
+            background: $primary;
+            opacity: 0.2;
+        }
+        img{
+        //  background: url("assets/logo-mean.ico");
+        }
+    }
+}
