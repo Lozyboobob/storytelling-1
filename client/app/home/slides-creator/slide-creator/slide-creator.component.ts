@@ -1,14 +1,14 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectorRef  } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectorRef  } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators, FormArray  } from '@angular/forms';
 
 import {MdDialog, MdDialogRef} from '@angular/material';
-import {SelectGraphComponent } from './select-graph/select-graph.component'
+
 @Component({
     selector: 'app-slide-creator',
     templateUrl: './slide-creator.component.html',
     styleUrls: ['./slide-creator.component.scss']
 })
-export class SlideCreatorComponent implements OnInit {
+export class SlideCreatorComponent implements OnInit, AfterViewInit {
     @Output() confirmSlideOpt: EventEmitter<Object> = new EventEmitter();
     form: FormGroup;
     slide: any = {};
@@ -23,14 +23,21 @@ export class SlideCreatorComponent implements OnInit {
     dataExample: any
     @ViewChild("dataInput") dataInputTab;
     @ViewChild("graphSelector") graphSelector;
+
     constructor(
         public dialog: MdDialog,
         private cdRef: ChangeDetectorRef,
         private _fb: FormBuilder
-    ) { }
+    ) {
+
+    }
 
     ngOnInit() {
         this.form = this._buildForm();
+
+    }
+    ngAfterViewInit() {
+
     }
     private _buildForm() {
         return this._fb.group({
@@ -70,12 +77,7 @@ export class SlideCreatorComponent implements OnInit {
         this.slide.graph = "";
         console.log(this.form);
     }
-    openDialog() {
-        let dialogRef = this.dialog.open(SelectGraphComponent);
-        dialogRef.afterClosed().subscribe(result => {
-            //  this.selectedOption = result;
-        });
-    }
+
     initData() {
         let dataForm = {
             index: [''],

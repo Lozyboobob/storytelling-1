@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SelectGraphComponent } from './select-graph.component';
+import { MarkdownEditorComponent } from './markdown-editor.component';
 
-describe('SelectGraphComponent', () => {
-  let component: SelectGraphComponent;
-  let fixture: ComponentFixture<SelectGraphComponent>;
+describe('MarkdownEditorComponent', () => {
+  let component: MarkdownEditorComponent;
+  let fixture: ComponentFixture<MarkdownEditorComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SelectGraphComponent ]
+      declarations: [ MarkdownEditorComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SelectGraphComponent);
+    fixture = TestBed.createComponent(MarkdownEditorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

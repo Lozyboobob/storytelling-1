@@ -1,18 +1,17 @@
+
 <md-card class="slide-creator secondery-theme">
   <md-card-header class="section-title">
     Slide 1
   </md-card-header>
   <form novalidate [formGroup]="form" (ngSubmit)="f.form.valid" #f="ngForm">
-    <div class="flex-container">
-      <div class="left flex-item">
-        <div class="full-frame">
-          <div class="margin-frame">
-            <md-select placeholder="Select graph" formControlName="slideGraph" name="slideGraph" (change)="graphChange()">
-              <md-option *ngFor="let graph of graphs" [value]="graph.value">
-                {{ graph.type }}
-              </md-option>
-            </md-select>
-          </div>
+    <div class="full-frame">
+      <div class="margin-frame">
+        <md-select placeholder="Select graph" formControlName="slideGraph" name="slideGraph" (change)="graphChange()">
+          <md-option *ngFor="let graph of graphs" [value]="graph.value">
+            {{ graph.type }}
+          </md-option>
+        </md-select>
+        <div class="margin-ver-frame">
           <md-tab-group *ngIf="form.controls.slideGraph.value" #dataInput>
             <md-tab label="Input">
               <div [ngSwitch]="form.controls.slideGraph.value">
@@ -50,19 +49,12 @@
               <textarea formControlName="graphDataJson" name="graphDataJson" [(ngModel)]="dataExample"></textarea>
             </md-tab>
           </md-tab-group>
-
         </div>
-
-      </div>
-      <div class="flex-item right">
-        <div class="full-frame ">
-          <div class="margin-frame">
-            <textarea formControlName="slideText" name="slideText" [(ngModel)]="slide.text"></textarea>
-          </div>
+        <div class="margin-ver-frame">
+          <app-markdown-editor></app-markdown-editor>
         </div>
       </div>
     </div>
-
     <br>
     <button md-raised-button type="submit" (click)="confirmSlide()" [disabled]="!form.valid">OK</button>
 

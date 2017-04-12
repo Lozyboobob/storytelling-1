@@ -34,10 +34,12 @@ import { SlideCreatorComponent } from './home/slides-creator/slide-creator/slide
 import { SlidesComponent } from './home/slides/slides.component';
 import { ScrollDirective } from './home/slides/scroll.directive';
 import {Ng2PageScrollModule} from 'ng2-page-scroll';
+import { SimplemdeModule, SIMPLEMDE_CONFIG } from 'ng2-simplemde'
 import { BarChartComponent } from './charts/test/bar-chart/bar-chart.component';
 import { SlidesListComponent } from './home/slides-list/slides-list.component';
 import { ForceDirectedGraphComponent } from './charts/force-directed-graph/force-directed-graph.component';
-import { SelectGraphComponent } from './home/slides-creator/slide-creator/select-graph/select-graph.component';
+import { MarkdownEditorComponent } from './home/slides-creator/slide-creator/markdown-editor/markdown-editor.component';
+
 
 
 
@@ -56,9 +58,8 @@ import { SelectGraphComponent } from './home/slides-creator/slide-creator/select
         BarChartComponent,
         SlidesListComponent,
         ForceDirectedGraphComponent,
-        SelectGraphComponent,
+        MarkdownEditorComponent,
     ],
-    entryComponents: [SelectGraphComponent],
     imports: [
         BrowserModule,
         ReactiveFormsModule,
@@ -69,7 +70,8 @@ import { SelectGraphComponent } from './home/slides-creator/slide-creator/select
         APP_ROUTES,
         Angular2FontAwesomeModule,
         MaterialModule.forRoot(),
-        Ng2PageScrollModule.forRoot()
+        Ng2PageScrollModule.forRoot(),
+
     ],
     providers: [
         OverlayContainer,
