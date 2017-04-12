@@ -38,8 +38,7 @@ export class SlidesCreatorComponent implements OnInit {
             index: this.curSlideIndex,
             text: slide.text,
             graph:slide.graph,
-            data:slide.data,
-            subTitle:slide.subTitle
+            data:slide.data
         };
         this.slides.push(s);
         console.log("get slide:",s);

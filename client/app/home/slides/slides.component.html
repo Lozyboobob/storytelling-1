@@ -14,15 +14,8 @@
 
         <app-bar-chart class="chart" #chart *ngSwitchDefault></app-bar-chart>
       </md-grid-tile>
-      <md-grid-tile [colspan]="1">
-        <md-list>
-          <md-list-item>
-            <h2 >{{slide.subTitle}}</h2> </md-list-item>
-          <md-list-item>
-            <p >{{slide.text}}</p>
-          </md-list-item>
-
-        </md-list>
+      <md-grid-tile [colspan]="1" align="center">
+        <div [innerHTML]="slide.text" align="left"></div>
 
 
       </md-grid-tile>

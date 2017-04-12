@@ -51,7 +51,7 @@
           </md-tab-group>
         </div>
         <div class="margin-ver-frame">
-          <app-markdown-editor></app-markdown-editor>
+          <textarea  [froalaEditor]='editorOptions'  [(froalaModel)]="form.value.slideText" ></textarea>
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
@@ -34,11 +34,11 @@ import { SlideCreatorComponent } from './home/slides-creator/slide-creator/slide
 import { SlidesComponent } from './home/slides/slides.component';
 import { ScrollDirective } from './home/slides/scroll.directive';
 import {Ng2PageScrollModule} from 'ng2-page-scroll';
-import { SimplemdeModule, SIMPLEMDE_CONFIG } from 'ng2-simplemde'
 import { BarChartComponent } from './charts/test/bar-chart/bar-chart.component';
 import { SlidesListComponent } from './home/slides-list/slides-list.component';
 import { ForceDirectedGraphComponent } from './charts/force-directed-graph/force-directed-graph.component';
-import { MarkdownEditorComponent } from './home/slides-creator/slide-creator/markdown-editor/markdown-editor.component';
+
+import { FroalaEditorModule, FroalaViewModule } from 'angular2-froala-wysiwyg';
 
 
 
@@ -58,7 +58,6 @@ import { MarkdownEditorComponent } from './home/slides-creator/slide-creator/mar
         BarChartComponent,
         SlidesListComponent,
         ForceDirectedGraphComponent,
-        MarkdownEditorComponent,
     ],
     imports: [
         BrowserModule,
@@ -71,6 +70,8 @@ import { MarkdownEditorComponent } from './home/slides-creator/slide-creator/mar
         Angular2FontAwesomeModule,
         MaterialModule.forRoot(),
         Ng2PageScrollModule.forRoot(),
+        FroalaEditorModule.forRoot(),
+        FroalaViewModule.forRoot()
 
     ],
     providers: [
@@ -80,6 +81,7 @@ import { MarkdownEditorComponent } from './home/slides-creator/slide-creator/mar
         SessionEpics,
         UsersService
     ],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }

@@ -20,7 +20,12 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
             value: "forceDirectedGraph",
             type: "Force Directed Graph"
         }];
-    dataExample: any
+    dataExample: any;
+    editorOptions:Object={
+      heightMin: 200,
+      heightMax:400,
+      charCounterMax: 1000
+    }
     @ViewChild("dataInput") dataInputTab;
     @ViewChild("graphSelector") graphSelector;
 
@@ -68,14 +73,12 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
             }
             default: this.slide.data = '';
         }
-        console.log(this.dataInputTab.selectedIndex == "0", this.slide.data);
         this.slide.graph = this.form.value.slideGraph;
-        this.slide.subTitle = this.form.value.slideSubTitle;
-        console.log("confirm slide:", this.slide);
+        this.slide.text=this.form.value.slideText;
         this.confirmSlideOpt.emit(this.slide);
         this.form = this._buildForm();
         this.slide.graph = "";
-        console.log(this.form);
+        console.log("confirm slide:", this.slide);
     }
 
     initData() {
@@ -97,7 +100,6 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
             default: this.dataExample = "";
         }
     }
-
 
 }
 const barCharDataExample = '{"graphData":[{"index":"index1","value":"value1"},{"index":"index2","value":"value2"}]}';

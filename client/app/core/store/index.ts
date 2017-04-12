@@ -6,20 +6,20 @@ import * as adapter from 'redux-localstorage/lib/adapters/localStorage';
 import persistState, {mergePersistedState} from 'redux-localstorage';
 import {compose, createStore} from 'redux';
 export {
-IAppState,
-ISessionRecord,
-rootReducer,
-reimmutify,
+  IAppState,
+  ISessionRecord,
+  rootReducer,
+  reimmutify,
 };
 let storage = compose(
 )(adapter(window.localStorage));
 export let middleware = [];
 export let enhancers = [
-    persistState(storage, "redux-localstorage", () => { })
+  persistState(storage,"redux-localstorage",()=>{})
 ];
 middleware.push(
-  createLogger({
-      level: 'info',
-      collapsed: true,
-      stateTransformer: deimmutify,
-  }));
+    createLogger({
+    level: 'info',
+    collapsed: true,
+    stateTransformer: deimmutify,
+}));
