@@ -39,6 +39,7 @@ import { SlidesListComponent } from './home/slides-list/slides-list.component';
 import { ForceDirectedGraphComponent } from './charts/force-directed-graph/force-directed-graph.component';
 
 import { FroalaEditorModule, FroalaViewModule } from 'angular2-froala-wysiwyg';
+import { JsonValidatorDirective } from './home/slides-creator/json-validator.directive';
 
 
 
@@ -58,6 +59,7 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular2-froala-wysiwyg';
         BarChartComponent,
         SlidesListComponent,
         ForceDirectedGraphComponent,
+        JsonValidatorDirective,
     ],
     imports: [
         BrowserModule,

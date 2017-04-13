@@ -14,6 +14,7 @@ $lg: 26px;
     // Extract whichever individual palettes you need from the theme.
     $primary: map-get($theme, primary);
     $accent: map-get($theme, accent);
+   $warn: map-get($theme, warn);
     // Use md-color to extract individual colors from a palette as necessary.
     background-color: white;
     color: mat-color($primary);
@@ -43,6 +44,9 @@ $lg: 26px;
 
     &.secondery-theme {
         background: mat-color($primary,50);
+    }
+    .error{
+      color: mat-color($warn);
     }
 }
 @mixin Nav-theme($theme) {
