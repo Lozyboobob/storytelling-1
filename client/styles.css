@@ -13,10 +13,7 @@ body {
   background-color: #fafafa;
   //background-color: white;
 }
-ul,li{
-  list-style-type : none;
-  padding: 0px;
-}
+
 *,
 *:before,
 *:after {

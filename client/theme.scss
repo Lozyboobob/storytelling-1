@@ -6,8 +6,7 @@ $warn: mat-palette($mat-red, 600);
 $theme: mat-light-theme($primary, $accent, $warn);
 @include angular-material-theme($theme); //val for color
 $primary: mat-color( map-get($theme, primary));
-$accent: mat-color(map-get($theme, accent));
-//$secondery:md-color( map-get($theme, secondery));
+$accent: mat-color(map-get($theme, accent)); //$secondery:md-color( map-get($theme, secondery));
 // Define a mixin that accepts a theme and outputs the color styles for the component.
 /*for font size*/
 $lg: 26px;
@@ -23,7 +22,14 @@ $lg: 26px;
         font-size: $lg;
     }
 
-    .section-title, h2 {
+    li,
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .section-title,
+    h2 {
         color: mat-color($accent);
         font-size: $lg;
     }

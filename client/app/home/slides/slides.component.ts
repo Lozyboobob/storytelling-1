@@ -1,9 +1,9 @@
-import { Component, OnInit, Inject, ViewChild, ViewChildren, ElementRef, AfterViewInit, QueryList, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, ViewChildren, ElementRef, AfterViewInit, QueryList, AfterViewChecked, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {WindowResizeService} from '../../window-resize.service';
 //import { ScrollDirective} from './scroll.directive';
 import {PageScrollInstance, PageScrollService, PageScrollConfig} from 'ng2-page-scroll';
-import {DOCUMENT} from '@angular/platform-browser';
+import {DOCUMENT, DomSanitizer} from '@angular/platform-browser';
 import {SlidesService} from '../slides.service';
 import { BarChartComponent, ForceDirectedGraphComponent} from '../../charts/index';
 
@@ -11,11 +11,13 @@ import { BarChartComponent, ForceDirectedGraphComponent} from '../../charts/inde
     selector: 'app-slides',
     templateUrl: './slides.component.html',
     styleUrls: ['./slides.component.scss'],
-    providers: [WindowResizeService, SlidesService]
+    providers: [WindowResizeService, SlidesService],
+    encapsulation: ViewEncapsulation.None
 })
 export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked {
     slides: Array<any> = [];
-    slideTitle:String;
+    slideTextTransformed: Array<any> = [];
+    slideTitle: String;
     slideHeight_style: any = {
         'height': '72px'
     };
@@ -32,6 +34,7 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
         private slidesService: SlidesService,
 
         @Inject(DOCUMENT) private document: any,
+        private sanitizer: DomSanitizer,
         private router: Router,
         private route: ActivatedRoute
 
@@ -69,7 +72,10 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
             slide => {
                 this.slides = slide.slides;
                 this.slideNum = this.slides.length;
-                this.slideTitle=slide.title;
+                this.slideTitle = slide.title;
+                this.slides.forEach(
+                    (slide, index) => slide.text = this.sanitizer.bypassSecurityTrustHtml(slide.text)
+                )
                 console.log("slides.....", this.slides);
                 setTimeout(_ => this.initCharts());
             },
@@ -93,7 +99,7 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
             this.charts.push(e);
             console.log("init finished.", charts);
         });
-        charts.forEach((e,i) => {
+        charts.forEach((e, i) => {
             let data = this.slides[i].data;
             e.setData(data);
             e.init();

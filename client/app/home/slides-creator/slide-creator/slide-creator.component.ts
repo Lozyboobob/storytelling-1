@@ -6,7 +6,8 @@ import {MdDialog, MdDialogRef} from '@angular/material';
 @Component({
     selector: 'app-slide-creator',
     templateUrl: './slide-creator.component.html',
-    styleUrls: ['./slide-creator.component.scss']
+    styleUrls: ['./slide-creator.component.scss'],
+
 })
 export class SlideCreatorComponent implements OnInit, AfterViewInit {
     @Output() confirmSlideOpt: EventEmitter<Object> = new EventEmitter();
@@ -96,11 +97,11 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
     graphChange() {
         switch (this.form.value.slideGraph) {
             case "barChart": this.dataExample = barCharDataExample; break;
-            case "forceDirectedGraph": this.dataExample = forceDirectedGraphDataExample; break
+            case "forceDirectedGraph": this.dataExample = forceDirectedGraphDataExample; break;
             default: this.dataExample = "";
         }
     }
 
 }
-const barCharDataExample = '{"graphData":[{"index":"index1","value":"value1"},{"index":"index2","value":"value2"}]}';
-const forceDirectedGraphDataExample = ''
+const barCharDataExample = '{"graphData":[{"index":"index1","value":"21"},{"index":"index2","value":"20"}]}';
+const forceDirectedGraphDataExample = '{  "nodes": [{ "id": "a", "group": 1 },{ "id": "b", "group": 1 },{ "id": "c", "group": 2 },  { "id": "d", "group": 2 } ], "links": [{ "source": "a", "target": "b", "value": 1 },  { "source": "a", "target": "d", "value": 2 },{ "source": "b", "target": "c", "value": 3 },  { "source": "c", "target": "a", "value": 4 }  ]}'
