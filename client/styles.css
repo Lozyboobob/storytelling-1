@@ -404,17 +404,17 @@ slideRightOut
 		transform: translateX(0%);
 	}
 	/*50%{
-		transform: translateX(20%);
+		transform: translateX(150%);
 	}
 	65%{
 		transform: translateX(-4%);
 	}
 	80%{
 		transform: translateX(4%);
-	}
+	}*/
 	95%{
 		transform: translateX(150%);
-	}*/
+	}
 	100% {
 		transform: translateX(150%);
 	}
@@ -432,10 +432,10 @@ slideRightOut
 	}
 	80%{
 		-webkit-transform: translateX(4%);
-	}
-	95%{
-		-webkit-transform: translateX(-2%);
 	}*/
+	95%{
+		-webkit-transform: translateX(150%);
+	}
 	100% {
 		-webkit-transform: translateX(150%);
 	}

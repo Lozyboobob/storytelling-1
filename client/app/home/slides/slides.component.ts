@@ -28,6 +28,7 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
     charts: Array<any> = [];
     loadContentAni: Array<boolean> = []; //indicator for content load animation
     easeContentAni: Array<boolean> = []; //indicator for content ease(fade away) animation
+    inEaseProcess = false;
     @ViewChildren('chart') chartEle: any;
 
     constructor(
@@ -130,11 +131,16 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
     }
     loadContent(index) {
         this.loadContentAni[index] = false;
-        setTimeout(_ => this.loadContentAni[index] = true, 625);
+        setTimeout(_ =>{this.easeContentAni[index] = false ;this.loadContentAni[index] = true}, 625);
     }
     easeContent(index) {
+    //    if (this.inEaseProcess) return;
+        console.log("ease")
+        this.inEaseProcess = true;
         this.easeContentAni[index] = false;
-        setTimeout(_ => this.easeContentAni[index] = true);
+        ;
+        setTimeout(_ =>{this.loadContentAni[index] = false;this.easeContentAni[index] = true}, 0);
+        setTimeout(_ => this.inEaseProcess = false, 50);
     }
     /*slide switch operation*/
     lastSlide() {
@@ -144,12 +150,15 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
         this.curSlideIndex = this.getCurSlideIndex();
         if (this.curSlideIndex > 0) {
             this.easeChart(this.curSlideIndex - 1);
-
+            this.easeContent(this.curSlideIndex - 1);
             this.curSlideIndex--;
             this.goToSlide(this.curSlideIndex);
 
-            if (this.curSlideIndex != 0)
+            if (this.curSlideIndex != 0) {
                 this.loadChart(this.curSlideIndex - 1);
+                this.loadContent(this.curSlideIndex - 1);
+            }
+
 
         }
     }
@@ -166,7 +175,7 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
                 this.easeContent(this.curSlideIndex - 1);
             }
             this.curSlideIndex++;
-            this.goToSlide(this.curSlideIndex );
+            this.goToSlide(this.curSlideIndex);
             this.loadChart(this.curSlideIndex - 1);
             /*add animation to text content*/
             this.loadContent(this.curSlideIndex - 1);
@@ -184,13 +193,13 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
     }
     goToSlide(index: number): void {
         setTimeout(_ => {
-            if (this.inScrollProcess) return;
+
             console.log("in scroll process .............");
-            this.inScrollProcess = true;
+
             let pageScrollInstance: PageScrollInstance = PageScrollInstance.simpleInstance(this.document, '#slide-' + index);
             this.pageScrollService.start(pageScrollInstance);
 
-           setTimeout(_=> {this.inScrollProcess = false;} ,0);
+
         }, 0)
 
     };
