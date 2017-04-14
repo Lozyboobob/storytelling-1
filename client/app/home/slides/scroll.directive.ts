@@ -24,9 +24,8 @@ export class ScrollDirective {
     constructor() {
 
     }
-  
-    mouseWheelFunc(event: any) {
 
+    mouseWheelFunc(event: any) {
         var event = window.event || event; // old IE support
         // for IE
         event.returnValue = false;
@@ -34,12 +33,14 @@ export class ScrollDirective {
         if (event.preventDefault) {
             event.preventDefault();
         }
-
         var delta = Math.max(-1, Math.min(1, (event.wheelDelta || -event.detail)));
         if (delta > 0) {
             this.mouseWheelUp.emit();
         } else if (delta < 0) {
             this.mouseWheelDown.emit();
         }
+
+
+
     }
 }
