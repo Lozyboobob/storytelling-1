@@ -64,7 +64,7 @@ export class ForceDirectedGraphComponent implements OnInit, AfterViewInit {
         d.fy = d.y;
     }
     public setData(data){
-      //this.data=data;
+    //  this.data=data[0];
       this.data=graph;
     }
     public init() {

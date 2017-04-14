@@ -95,14 +95,18 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
     /*init the charts*/
     initCharts() {
         let charts = this.chartEle.toArray();
+        console.log("the chart element are:", charts);
         charts.forEach(e => {
             this.charts.push(e);
             console.log("init finished.", charts);
         });
         charts.forEach((e, i) => {
-            let data = this.slides[i].data;
-            e.setData(data);
-            e.init();
+            if (e.constructor.name != 'ElementRef') {
+                let data = this.slides[i].data;
+                e.setData(data);
+                e.init();
+            }
+
         });
 
     }
@@ -115,12 +119,18 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
           }*/
         this.curSlideIndex = this.getCurSlideIndex();
         if (this.curSlideIndex > 0) {
-            this.charts[this.curSlideIndex - 1].ease();
+            if (this.slides[this.curSlideIndex - 1].graph != 'noGraph') {
+                this.charts[this.curSlideIndex - 1].ease();
+            }
+
             this.curSlideIndex--;
             this.goToSlide(this.curSlideIndex);
 
             if (this.curSlideIndex != 0)
-                this.charts[this.curSlideIndex - 1].load();
+                if (this.slides[this.curSlideIndex - 1].graph != 'noGraph') {
+                    this.charts[this.curSlideIndex - 1].load();
+                }
+
         }
     }
     nextSlide() {
@@ -130,11 +140,15 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
         this.curSlideIndex = this.getCurSlideIndex();
         if (this.curSlideIndex < this.slideNum) {
             if (this.curSlideIndex != 0)
-                this.charts[this.curSlideIndex - 1].ease();
+                if (this.slides[this.curSlideIndex - 1].graph != 'noGraph') {
+                    this.charts[this.curSlideIndex - 1].ease();
+                }
             this.curSlideIndex++;
             this.goToSlide(this.curSlideIndex);
             console.log(this.charts);
-            this.charts[this.curSlideIndex - 1].load();
+            if (this.slides[this.curSlideIndex - 1].graph != 'noGraph') {
+                this.charts[this.curSlideIndex - 1].load();
+            }
         }
         else {
             /*this.snackBar.openFromComponent(ScrollToEndComponent, {

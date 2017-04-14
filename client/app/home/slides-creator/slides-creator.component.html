@@ -17,7 +17,7 @@
         <div class="slides" #slideBlock>
           <md-grid-list cols="2" rowHeight="100px" *ngFor="let slide of slides;let i = index" class="slide">
             <md-grid-tile [colspan]="1" [rowspan]="1">
-              <img [src]="'assets/'+slide.graph+'.png'" class="graph-img">
+              <img [src]="'assets/'+slide.graph+'.png'" class="graph-img" *ngIf="slide.graph!='noGraph'">
             </md-grid-tile>
             <md-grid-tile [colspan]="1" [rowspan]="1" class="addText" [innerHtml]="slideTextTransformed[i]">
               <p>{{slide.text}}</p>
@@ -27,8 +27,8 @@
         <app-slide-creator (confirmSlideOpt)="submitSlide($event)" [slideIndex]="curSlideIndex+1"></app-slide-creator>
       </md-card-content>
       <md-card-actions align="center">
-        <button md-raised-button color="primary" type="submit">CREATE</button>
-        <button md-raised-button class="secondery">CANCEL</button>
+        <button md-raised-button color="primary" [disabled]="!form.valid" type="submit">CREATE</button>
+        <button md-raised-button class="secondery" [routerLink]="['home']">CANCEL</button>
       </md-card-actions>
     </form>
   </md-card>

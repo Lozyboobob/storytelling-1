@@ -8,10 +8,7 @@ export class ScrollDirective {
     private enableScroll: boolean = true;
     @Output() mouseWheelUp = new EventEmitter();
     @Output() mouseWheelDown = new EventEmitter();
-    @HostListener('window:scroll', ['$event'])
-    onScroll(event: any) {
-        this.scrollFunc(event);
-    }
+
     @HostListener('mousewheel', ['$event'])
     onMouseWheelChrome(event: any) {
         this.mouseWheelFunc(event);
@@ -27,9 +24,7 @@ export class ScrollDirective {
     constructor() {
 
     }
-    scrollFunc(event:any){
-      console.log("scroll");
-    }
+  
     mouseWheelFunc(event: any) {
 
         var event = window.event || event; // old IE support

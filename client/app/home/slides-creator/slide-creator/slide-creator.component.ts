@@ -53,7 +53,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
         return this._fb.group({
             slideText: new FormControl('', Validators.nullValidator),
             slideGraph: new FormControl('noGraph', Validators.nullValidator),
-            graphDataJson: new FormControl(this.dataExample,Validators.compose([JsonValidator()]) ),
+            graphDataJson: new FormControl(this.dataExample, Validators.compose([JsonValidator()])),
             graphData: this._fb.array([
                 this.initData(),
             ])
@@ -61,22 +61,25 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
     }
     confirmSlide() {
         /* to decide which data to take from tab*/
-        switch (this.dataInputTab.selectedIndex) {
-            case 0: { this.slide.data = this.form.value.graphData; break; }
-            case 1: {
-                let data;
-                try {
-                    data = JSON.parse(this.form.value.graphDataJson);
-                    console.log(data);
-                    this.slide.data = data.graphData;
+        if (this.form.value.slideGraph != 'noGraph') {
+            switch (this.dataInputTab.selectedIndex) {
+                case 0: { this.slide.data = this.form.value.graphData; break; }
+                case 1: {
+                    let data;
+                    try {
+                        data = JSON.parse(this.form.value.graphDataJson);
+                        console.log(data);
+                        this.slide.data = data.graphData;
+                    }
+                    catch (e) {
+                        console.log("data format invalidate!!!!!");
+                    }
+                    break;
                 }
-                catch (e) {
-                    console.log("data format invalidate!!!!!");
-                }
-                break;
+                default: this.slide.data = '';
             }
-            default: this.slide.data = '';
         }
+
         this.slide.graph = this.form.value.slideGraph;
         this.slide.text = this.form.value.slideText;
         this.confirmSlideOpt.emit(this.slide);
@@ -106,7 +109,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
     }
 
 }
-const checkJson=()=>{
+const checkJson = () => {
 
 }
 const barCharDataExample = '{"graphData":[{"index":"index1","value":"21"},{"index":"index2","value":"20"}]}';

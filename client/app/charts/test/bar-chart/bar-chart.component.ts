@@ -129,7 +129,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
             .style('fill', (d, i) => this.colors(i));
 
         this.chart.selectAll('.bar').transition()
-            .delay((d, i) => i * 100 + 800)
+            .delay((d, i) => i * 100 + 400)
             .attr('y', d => this.yScale(d.value))
             .attr('height', d => this.height - this.yScale(d.value));
 
@@ -152,7 +152,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
                 .delay((d, i) => i * 100)
                 .attr('y', d => this.yScale(d.value))
                 .attr('height', d => this.height - this.yScale(d.value));
-        }, waitingTime * 2 + 800);
+        }, waitingTime * 2 + 400);
     }
 
 }
