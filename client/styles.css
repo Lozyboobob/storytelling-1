@@ -411,12 +411,12 @@ slideRightOut
 	}
 	80%{
 		transform: translateX(4%);
-	}*/
+	}
 	95%{
 		transform: translateX(150%);
-	}
+	}*/
 	100% {
-		transform: translateX(150%);
+		transform: translateX(50vw);
 	}
 }
 
@@ -432,12 +432,12 @@ slideRightOut
 	}
 	80%{
 		-webkit-transform: translateX(4%);
-	}*/
+	}
 	95%{
 		-webkit-transform: translateX(150%);
-	}
+	}*/
 	100% {
-		-webkit-transform: translateX(150%);
+		-webkit-transform: translateX(50vw);
 	}
 }
 

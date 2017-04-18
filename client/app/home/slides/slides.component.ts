@@ -67,7 +67,6 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
         let id;
         this.route.params.subscribe(params => {
             id = params['slidesId'];
-            console.log(id);
         });
         /* generate and initialize slides*/
         this.slidesService.getSlides(id)
@@ -83,7 +82,6 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
                         this.easeContentAni.push(false);
                     }
                 )
-                console.log("slides.....", this.slides);
                 setTimeout(_ => this.initCharts());
             },
             error => {
@@ -102,10 +100,8 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
     /*init the charts*/
     initCharts() {
         let charts = this.chartEle.toArray();
-        console.log("the chart element are:", charts);
         charts.forEach(e => {
             this.charts.push(e);
-            console.log("init finished.", charts);
         });
         charts.forEach((e, i) => {
             if (e.constructor.name != 'ElementRef') {
@@ -135,7 +131,6 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
     }
     easeContent(index) {
     //    if (this.inEaseProcess) return;
-        console.log("ease")
         this.inEaseProcess = true;
         this.easeContentAni[index] = false;
         ;
@@ -193,9 +188,6 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
     }
     goToSlide(index: number): void {
         setTimeout(_ => {
-
-            console.log("in scroll process .............");
-
             let pageScrollInstance: PageScrollInstance = PageScrollInstance.simpleInstance(this.document, '#slide-' + index);
             this.pageScrollService.start(pageScrollInstance);
 
