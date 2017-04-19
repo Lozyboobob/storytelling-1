@@ -11,6 +11,7 @@ import {JsonValidator } from '../json-validator.directive'
 export class SlideCreatorComponent implements OnInit, AfterViewInit {
     @Output() confirmSlideOpt: EventEmitter<Object> = new EventEmitter();
     @Input() slideIndex: string;
+
     form: FormGroup;
     slide: any = {};
     graphs: Array<any> = [
@@ -20,6 +21,10 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
         }, {
             value: "forceDirectedGraph",
             type: "Force Directed Graph"
+        },
+        {
+            value: "lineChart",
+            type: "Line Chart"
         },
         {
             value: "noGraph",
@@ -33,7 +38,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
     }
     @ViewChild("dataInput") dataInputTab;
     @ViewChild("graphSelector") graphSelector;
-
+    csvJson;
     constructor(
         public dialog: MdDialog,
         private cdRef: ChangeDetectorRef,
@@ -76,6 +81,19 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
                     }
                     break;
                 }
+                case 2: {
+                    let data;
+                    try {
+                        data = JSON.parse(this.csvJson);
+                        //console.log(data);
+                        this.slide.data = data;
+                    }
+                    catch (e) {
+                        console.log("data format invalidate!!!!!");
+                    }
+
+                    break;
+                }
                 default: this.slide.data = '';
             }
         }
@@ -104,13 +122,20 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
         switch (this.form.value.slideGraph) {
             case "barChart": this.dataExample = barCharDataExample; break;
             case "forceDirectedGraph": this.dataExample = forceDirectedGraphDataExample; break;
-            default: this.dataExample = "";
+            case "lineChart": this.dataExample = "{}"; break;
+            default: this.dataExample = "{}";
         }
     }
+    getCsvJson(json) {
+        this.csvJson = json;
+    }
+    test() {
+        console.log(this.csvJson);
+    }
+
+
 
 }
-const checkJson = () => {
 
-}
 const barCharDataExample = '{"graphData":[{"index":"index1","value":"21"},{"index":"index2","value":"20"}]}';
 const forceDirectedGraphDataExample = '{"graphData":{ "nodes": [{ "id": "a", "group": 1 },{ "id": "b", "group": 1 },{ "id": "c", "group": 2 },  { "id": "d", "group": 2 } ], "links": [{ "source": "a", "target": "b", "value": 1 },  { "source": "a", "target": "d", "value": 2 },{ "source": "b", "target": "c", "value": 3 },  { "source": "c", "target": "a", "value": 4 }  ]}}'

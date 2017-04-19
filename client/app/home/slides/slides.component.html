@@ -11,7 +11,7 @@
       <md-grid-tile [colspan]="1" [attr.id]="slide.graph" [ngSwitch]="slide.graph">
         <app-force-directed-graph class="chart" #chart *ngSwitchCase="'forceDirectedGraph'"></app-force-directed-graph>
         <app-bar-chart class="chart" #chart *ngSwitchCase="'barChart'"></app-bar-chart>
-
+        <app-line-chart class="chart" #chart *ngSwitchCase="'lineChart'"></app-line-chart>
         <div class="chart" #chart *ngSwitchDefault></div>
       </md-grid-tile>
       <md-grid-tile [colspan]="1" align="center">

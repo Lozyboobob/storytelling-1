@@ -34,12 +34,14 @@ import { SlideCreatorComponent } from './home/slides-creator/slide-creator/slide
 import { SlidesComponent } from './home/slides/slides.component';
 import { ScrollDirective } from './home/slides/scroll.directive';
 import {Ng2PageScrollModule} from 'ng2-page-scroll';
-import { BarChartComponent } from './charts/test/bar-chart/bar-chart.component';
+import { BarChartComponent } from './charts/bar-chart/bar-chart.component';
 import { SlidesListComponent } from './home/slides-list/slides-list.component';
 import { ForceDirectedGraphComponent } from './charts/force-directed-graph/force-directed-graph.component';
 
 import { FroalaEditorModule, FroalaViewModule } from 'angular2-froala-wysiwyg';
 import { JsonValidatorDirective } from './home/slides-creator/json-validator.directive';
+import { LineChartComponent } from './charts/line-chart/line-chart.component';
+import { CsvInputComponent } from './home/slides-creator/slide-creator/csv-input/csv-input.component';
 
 
 
@@ -60,6 +62,8 @@ import { JsonValidatorDirective } from './home/slides-creator/json-validator.dir
         SlidesListComponent,
         ForceDirectedGraphComponent,
         JsonValidatorDirective,
+        LineChartComponent,
+        CsvInputComponent,
     ],
     imports: [
         BrowserModule,
