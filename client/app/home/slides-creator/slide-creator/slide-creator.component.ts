@@ -68,7 +68,12 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
         /* to decide which data to take from tab*/
         if (this.form.value.slideGraph != 'noGraph') {
             switch (this.dataInputTab.selectedIndex) {
-                case 0: { this.slide.data = this.form.value.graphData; break; }
+                case 0: {
+                    if (this.form.value.slideGraph == 'barChart')
+                        this.slide.data = this.form.value.graphData;
+                    else this.slide.data = [];
+                    break;
+                }
                 case 1: {
                     let data;
                     try {
@@ -122,7 +127,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
         switch (this.form.value.slideGraph) {
             case "barChart": this.dataExample = barCharDataExample; break;
             case "forceDirectedGraph": this.dataExample = forceDirectedGraphDataExample; break;
-            case "lineChart": this.dataExample = "{}"; break;
+            case "lineChart": this.dataExample = lineChartExample; break;
             default: this.dataExample = "{}";
         }
     }
@@ -138,4 +143,5 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
 }
 
 const barCharDataExample = '{"graphData":[{"index":"index1","value":"21"},{"index":"index2","value":"20"}]}';
-const forceDirectedGraphDataExample = '{"graphData":{ "nodes": [{ "id": "a", "group": 1 },{ "id": "b", "group": 1 },{ "id": "c", "group": 2 },  { "id": "d", "group": 2 } ], "links": [{ "source": "a", "target": "b", "value": 1 },  { "source": "a", "target": "d", "value": 2 },{ "source": "b", "target": "c", "value": 3 },  { "source": "c", "target": "a", "value": 4 }  ]}}'
+const forceDirectedGraphDataExample = '{"graphData":{ "nodes": [{ "id": "a", "group": 1 },{ "id": "b", "group": 1 },{ "id": "c", "group": 2 },  { "id": "d", "group": 2 } ], "links": [{ "source": "a", "target": "b", "value": 1 },  { "source": "a", "target": "d", "value": 2 },{ "source": "b", "target": "c", "value": 3 },  { "source": "c", "target": "a", "value": 4 }  ]}}';
+const lineChartExample = '{"graphData":[{"price" : "1394.46","date" : "Jan 2000",  "symbol" : "S&P 500"}, {"price" : "1366.42",  "date" : "Feb 2000","symbol" : "S&P 500"}, {  "price" : "1498.58","date" : "Mar 2000",  "symbol" : "S&P 500"}]}';

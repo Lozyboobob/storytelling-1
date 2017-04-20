@@ -1,15 +1,15 @@
 import { Component, OnInit, OnChanges, ViewChild, ElementRef, Input, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import * as d3 from 'd3';
-
+import {Chart} from '../chart.interface';
 @Component({
     selector: 'app-bar-chart',
     templateUrl: './bar-chart.component.html',
     styleUrls: ['./bar-chart.component.scss']
 })
-export class BarChartComponent implements OnInit, AfterViewInit {
+export class BarChartComponent implements OnInit, Chart {
 
     @ViewChild('chart') private chartContainer: ElementRef;
-    private data: Array<any>;
+    private data: Array<any> = sample;
     private margin: any = { top: 20, bottom: 20, left: 20, right: 20 };
     private chart: any;
     private width: number;
@@ -26,18 +26,12 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     ngOnInit() {
         this.data = [];
     }
-    ngAfterViewInit() { }
-    ngOnChanges() {
-        if (this.chart) {
-            //this.updateChart();
-        }
-    }
 
     createChart() {
         let element = this.chartContainer.nativeElement;
         this.width = element.offsetWidth - this.margin.left - this.margin.right;
         this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
-        console.log(element, element.width, this.height);
+
         let svg = d3.select(element).append('svg')
             .attr('width', element.offsetWidth)
             .attr('height', element.offsetHeight);
@@ -110,12 +104,12 @@ export class BarChartComponent implements OnInit, AfterViewInit {
 
     }
     setData(data) {
+        if (data.length == 0) return;
         this.data = data;
     }
     init() {
         this.createChart();
-        if (this.data) {
-
+        if (this.data.length) {
             this.updateChart();
         }
     }
@@ -156,3 +150,29 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     }
 
 }
+const sample = [
+    {
+        "value": "21",
+        "index": "index1"
+    },
+    {
+        "value": "20",
+        "index": "index2"
+    },
+    {
+        "value": "20",
+        "index": "index3"
+    },
+    {
+        "value": "20",
+        "index": "index4"
+    },
+    {
+        "value": "20",
+        "index": "index5"
+    },
+    {
+        "value": "20",
+        "index": "index6"
+    }
+]
