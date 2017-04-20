@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SelectGraphComponent } from './select-graph.component';
+import { CsvInputComponent } from './csv-input.component';
 
-describe('SelectGraphComponent', () => {
-  let component: SelectGraphComponent;
-  let fixture: ComponentFixture<SelectGraphComponent>;
+describe('CsvInputComponent', () => {
+  let component: CsvInputComponent;
+  let fixture: ComponentFixture<CsvInputComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SelectGraphComponent ]
+      declarations: [ CsvInputComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SelectGraphComponent);
+    fixture = TestBed.createComponent(CsvInputComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

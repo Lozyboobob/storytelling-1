@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
@@ -34,10 +34,15 @@ import { SlideCreatorComponent } from './home/slides-creator/slide-creator/slide
 import { SlidesComponent } from './home/slides/slides.component';
 import { ScrollDirective } from './home/slides/scroll.directive';
 import {Ng2PageScrollModule} from 'ng2-page-scroll';
-import { BarChartComponent } from './charts/test/bar-chart/bar-chart.component';
+import { BarChartComponent } from './charts/bar-chart/bar-chart.component';
 import { SlidesListComponent } from './home/slides-list/slides-list.component';
 import { ForceDirectedGraphComponent } from './charts/force-directed-graph/force-directed-graph.component';
-import { SelectGraphComponent } from './home/slides-creator/slide-creator/select-graph/select-graph.component';
+
+import { FroalaEditorModule, FroalaViewModule } from 'angular2-froala-wysiwyg';
+import { JsonValidatorDirective } from './home/slides-creator/json-validator.directive';
+import { LineChartComponent } from './charts/line-chart/line-chart.component';
+import { CsvInputComponent } from './home/slides-creator/slide-creator/csv-input/csv-input.component';
+
 
 
 
@@ -56,9 +61,10 @@ import { SelectGraphComponent } from './home/slides-creator/slide-creator/select
         BarChartComponent,
         SlidesListComponent,
         ForceDirectedGraphComponent,
-        SelectGraphComponent,
+        JsonValidatorDirective,
+        LineChartComponent,
+        CsvInputComponent,
     ],
-    entryComponents: [SelectGraphComponent],
     imports: [
         BrowserModule,
         ReactiveFormsModule,
@@ -69,7 +75,10 @@ import { SelectGraphComponent } from './home/slides-creator/slide-creator/select
         APP_ROUTES,
         Angular2FontAwesomeModule,
         MaterialModule.forRoot(),
-        Ng2PageScrollModule.forRoot()
+        Ng2PageScrollModule.forRoot(),
+        FroalaEditorModule.forRoot(),
+        FroalaViewModule.forRoot()
+
     ],
     providers: [
         OverlayContainer,
@@ -78,6 +87,7 @@ import { SelectGraphComponent } from './home/slides-creator/slide-creator/select
         SessionEpics,
         UsersService
     ],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }

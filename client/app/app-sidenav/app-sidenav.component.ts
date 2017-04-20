@@ -29,14 +29,14 @@ export class AppSidenavComponent implements OnInit {
       icon: 'fa-home',
       roles: ['*']
     }
-    let articleItem = {
-      state: 'article',
-      title: 'Articles',
+    let testChartItem = {
+      state: 'test',
+      title: 'Test',
       icon: 'fa-user-secret',
       roles: ['*']
     }
     this.menuList.push(homeItem);
-    this.menuList.push(articleItem);
+    this.menuList.push(testChartItem);
     //subscribe toggle service
     this.subscription = this.ToggleNavService.toggle().subscribe(toggled => {
       this.isToggled = toggled;

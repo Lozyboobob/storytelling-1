@@ -1,15 +1,17 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectorRef  } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectorRef  } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators, FormArray  } from '@angular/forms';
 
 import {MdDialog, MdDialogRef} from '@angular/material';
-import {SelectGraphComponent } from './select-graph/select-graph.component'
+import {JsonValidator } from '../json-validator.directive'
 @Component({
     selector: 'app-slide-creator',
     templateUrl: './slide-creator.component.html',
-    styleUrls: ['./slide-creator.component.scss']
+    styleUrls: ['./slide-creator.component.scss'],
 })
-export class SlideCreatorComponent implements OnInit {
+export class SlideCreatorComponent implements OnInit, AfterViewInit {
     @Output() confirmSlideOpt: EventEmitter<Object> = new EventEmitter();
+    @Input() slideIndex: string;
+
     form: FormGroup;
     slide: any = {};
     graphs: Array<any> = [
@@ -19,25 +21,44 @@ export class SlideCreatorComponent implements OnInit {
         }, {
             value: "forceDirectedGraph",
             type: "Force Directed Graph"
+        },
+        {
+            value: "lineChart",
+            type: "Line Chart"
+        },
+        {
+            value: "noGraph",
+            type: "No Graph"
         }];
-    dataExample: any
+    dataExample: any;
+    editorOptions: Object = {
+        heightMin: 200,
+        heightMax: 400,
+        charCounterMax: 1000
+    }
     @ViewChild("dataInput") dataInputTab;
     @ViewChild("graphSelector") graphSelector;
+    csvJson;
     constructor(
         public dialog: MdDialog,
         private cdRef: ChangeDetectorRef,
         private _fb: FormBuilder
-    ) { }
+    ) {
+
+    }
 
     ngOnInit() {
         this.form = this._buildForm();
+
+    }
+    ngAfterViewInit() {
+
     }
     private _buildForm() {
         return this._fb.group({
-            slideSubTitle: new FormControl('', Validators.nullValidator),
             slideText: new FormControl('', Validators.nullValidator),
-            slideGraph: new FormControl('', Validators.nullValidator),
-            graphDataJson: new FormControl('', Validators.nullValidator),
+            slideGraph: new FormControl('noGraph', Validators.nullValidator),
+            graphDataJson: new FormControl(this.dataExample, Validators.compose([JsonValidator()])),
             graphData: this._fb.array([
                 this.initData(),
             ])
@@ -45,37 +66,51 @@ export class SlideCreatorComponent implements OnInit {
     }
     confirmSlide() {
         /* to decide which data to take from tab*/
-        switch (this.dataInputTab.selectedIndex) {
-            case 0: { this.slide.data = this.form.value.graphData; break; }
-            case 1: {
-                let data;
-                try {
-                    data = JSON.parse(this.dataExample);
-                    console.log(data);
-                    this.slide.data = data.graphData;
+        if (this.form.value.slideGraph != 'noGraph') {
+            switch (this.dataInputTab.selectedIndex) {
+                case 0: {
+                    if (this.form.value.slideGraph == 'barChart')
+                        this.slide.data = this.form.value.graphData;
+                    else this.slide.data = [];
+                    break;
                 }
-                catch (e) {
-                    console.log("data format invalidate!!!!!");
+                case 1: {
+                    let data;
+                    try {
+                        data = JSON.parse(this.form.value.graphDataJson);
+                        console.log(data);
+                        this.slide.data = data.graphData;
+                    }
+                    catch (e) {
+                        console.log("data format invalidate!!!!!");
+                    }
+                    break;
                 }
-                break;
+                case 2: {
+                    let data;
+                    try {
+                        data = JSON.parse(this.csvJson);
+                        //console.log(data);
+                        this.slide.data = data;
+                    }
+                    catch (e) {
+                        console.log("data format invalidate!!!!!");
+                    }
+
+                    break;
+                }
+                default: this.slide.data = '';
             }
-            default: this.slide.data = '';
         }
-        console.log(this.dataInputTab.selectedIndex == "0", this.slide.data);
+
         this.slide.graph = this.form.value.slideGraph;
-        this.slide.subTitle = this.form.value.slideSubTitle;
-        console.log("confirm slide:", this.slide);
+        this.slide.text = this.form.value.slideText;
         this.confirmSlideOpt.emit(this.slide);
         this.form = this._buildForm();
         this.slide.graph = "";
-        console.log(this.form);
+        console.log("confirm slide:", this.slide);
     }
-    openDialog() {
-        let dialogRef = this.dialog.open(SelectGraphComponent);
-        dialogRef.afterClosed().subscribe(result => {
-            //  this.selectedOption = result;
-        });
-    }
+
     initData() {
         let dataForm = {
             index: [''],
@@ -91,12 +126,22 @@ export class SlideCreatorComponent implements OnInit {
     graphChange() {
         switch (this.form.value.slideGraph) {
             case "barChart": this.dataExample = barCharDataExample; break;
-            case "forceDirectedGraph": this.dataExample = forceDirectedGraphDataExample; break
-            default: this.dataExample = "";
+            case "forceDirectedGraph": this.dataExample = forceDirectedGraphDataExample; break;
+            case "lineChart": this.dataExample = lineChartExample; break;
+            default: this.dataExample = "{}";
         }
+    }
+    getCsvJson(json) {
+        this.csvJson = json;
+    }
+    test() {
+        console.log(this.csvJson);
     }
 
 
+
 }
-const barCharDataExample = '{"graphData":[{"index":"index1","value":"value1"},{"index":"index2","value":"value2"}]}';
-const forceDirectedGraphDataExample = ''
+
+const barCharDataExample = '{"graphData":[{"index":"index1","value":"21"},{"index":"index2","value":"20"}]}';
+const forceDirectedGraphDataExample = '{"graphData":{ "nodes": [{ "id": "a", "group": 1 },{ "id": "b", "group": 1 },{ "id": "c", "group": 2 },  { "id": "d", "group": 2 } ], "links": [{ "source": "a", "target": "b", "value": 1 },  { "source": "a", "target": "d", "value": 2 },{ "source": "b", "target": "c", "value": 3 },  { "source": "c", "target": "a", "value": 4 }  ]}}';
+const lineChartExample = '{"graphData":[{"price" : "1394.46","date" : "Jan 2000",  "symbol" : "S&P 500"}, {"price" : "1366.42",  "date" : "Feb 2000","symbol" : "S&P 500"}, {  "price" : "1498.58","date" : "Mar 2000",  "symbol" : "S&P 500"}]}';
