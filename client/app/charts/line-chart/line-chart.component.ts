@@ -9,14 +9,13 @@ import * as d3 from 'd3';
 export class LineChartComponent implements OnInit {
     @ViewChild('chart') private chartContainer: ElementRef;
     private data: Array<any> = [];
-    private data2: Array<any> = [];
     private width: number;
     private height: number;
+    private curtain: any; //for animation
     constructor() { }
 
     ngOnInit() {
         this.data = [];
-        this.data2 = [];
     }
     public setData(data) {
         console.log(data)
@@ -30,8 +29,9 @@ export class LineChartComponent implements OnInit {
             return d.symbol == "AMZN";;
         });
         this.data = values;
-        console.log(this.data)
-        /*    var msft = data.filter(function(d) {
+        /*    this.data.push(values);
+            console.log(this.data)
+            var msft = data.filter(function(d) {
                 return d.symbol == "MSFT";
             });
             this.data.push(msft);
@@ -40,13 +40,11 @@ export class LineChartComponent implements OnInit {
 
             });
             this.data.push(ibm);
-            console.log(this.data);*/
-
+            console.log(this.data);
+    */
 
     }
     public init() {
-
-
 
         let element = this.chartContainer.nativeElement;
 
@@ -109,30 +107,36 @@ export class LineChartComponent implements OnInit {
 
             .attr('d', line);
         /* Add 'curtain' rectangle to hide entire graph */
-        var curtain = g.append('rect')
+        this.curtain = g.append('rect')
             .attr('x', -1 * this.width)
             .attr('y', -1 * this.height)
             .attr('height', this.height)
-            .attr('width', this.width)
+            .attr('width', 0)
             .attr('class', 'curtain')
             .attr('transform', 'rotate(180)')
             .style('fill', '#fafafa')
         /* Create a shared transition for anything we're animating */
 
-        curtain
-            .transition()
-            .duration(2000)
-            .attr('width', 0);
-
-
-
     }
 
     public load() {
+        this.curtain
+            .attr('width', this.width);
 
+        this.curtain.transition()
+            .duration(2000)
+            .attr('width', 0);
     }
 
-    public ease() { }
+    public ease() {
+        this.curtain.transition()
+            .duration(1250)
+            .attr('width', this.width);
+
+        this.curtain.transition()
+            .delay(1250)
+            .attr('width', 0);
+    }
 
 
 }
