@@ -1,9 +1,9 @@
-import { Component, OnInit, Inject, ViewChild, ViewChildren, ElementRef, AfterViewInit, QueryList, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, ViewChildren, ElementRef, AfterViewInit, QueryList, AfterViewChecked, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {WindowResizeService} from '../../window-resize.service';
 //import { ScrollDirective} from './scroll.directive';
 import {PageScrollInstance, PageScrollService, PageScrollConfig} from 'ng2-page-scroll';
-import {DOCUMENT} from '@angular/platform-browser';
+import {DOCUMENT, DomSanitizer} from '@angular/platform-browser';
 import {SlidesService} from '../slides.service';
 import { BarChartComponent, ForceDirectedGraphComponent} from '../../charts/index';
 
@@ -11,11 +11,13 @@ import { BarChartComponent, ForceDirectedGraphComponent} from '../../charts/inde
     selector: 'app-slides',
     templateUrl: './slides.component.html',
     styleUrls: ['./slides.component.scss'],
-    providers: [WindowResizeService, SlidesService]
+    providers: [WindowResizeService, SlidesService],
+    encapsulation: ViewEncapsulation.None
 })
 export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked {
     slides: Array<any> = [];
-    slideTitle:String;
+    slideTextTransformed: Array<any> = [];
+    slideTitle: String;
     slideHeight_style: any = {
         'height': '72px'
     };
@@ -24,6 +26,9 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
     slideNum: number;
     inScrollProcess: boolean = false;
     charts: Array<any> = [];
+    loadContentAni: Array<boolean> = []; //indicator for content load animation
+    easeContentAni: Array<boolean> = []; //indicator for content ease(fade away) animation
+    inEaseProcess = false;
     @ViewChildren('chart') chartEle: any;
 
     constructor(
@@ -32,6 +37,7 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
         private slidesService: SlidesService,
 
         @Inject(DOCUMENT) private document: any,
+        private sanitizer: DomSanitizer,
         private router: Router,
         private route: ActivatedRoute
 
@@ -61,7 +67,6 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
         let id;
         this.route.params.subscribe(params => {
             id = params['slidesId'];
-            console.log(id);
         });
         /* generate and initialize slides*/
         this.slidesService.getSlides(id)
@@ -69,8 +74,14 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
             slide => {
                 this.slides = slide.slides;
                 this.slideNum = this.slides.length;
-                this.slideTitle=slide.title;
-                console.log("slides.....", this.slides);
+                this.slideTitle = slide.title;
+                this.slides.forEach(
+                    (slide, index) => {
+                        slide.text = this.sanitizer.bypassSecurityTrustHtml(slide.text);
+                        this.loadContentAni.push(true);
+                        this.easeContentAni.push(false);
+                    }
+                )
                 setTimeout(_ => this.initCharts());
             },
             error => {
@@ -91,17 +102,41 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
         let charts = this.chartEle.toArray();
         charts.forEach(e => {
             this.charts.push(e);
-            console.log("init finished.", charts);
         });
-        charts.forEach((e,i) => {
-            let data = this.slides[i].data;
-            e.setData(data);
-            e.init();
+        charts.forEach((e, i) => {
+            if (e.constructor.name != 'ElementRef') {
+                let data = this.slides[i].data;
+                e.setData(data);
+                e.init();
+            }
+
         });
 
     }
 
-
+    /*Chart operation*/
+    loadChart(index) {
+        if (this.slides[index].graph != 'noGraph') {
+            this.charts[index].load();
+        }
+    }
+    easeChart(index) {
+        if (this.slides[index].graph != 'noGraph') {
+            this.charts[index].ease();
+        }
+    }
+    loadContent(index) {
+        this.loadContentAni[index] = false;
+        setTimeout(_ =>{this.easeContentAni[index] = false ;this.loadContentAni[index] = true}, 625);
+    }
+    easeContent(index) {
+    //    if (this.inEaseProcess) return;
+        this.inEaseProcess = true;
+        this.easeContentAni[index] = false;
+        ;
+        setTimeout(_ =>{this.loadContentAni[index] = false;this.easeContentAni[index] = true}, 0);
+        setTimeout(_ => this.inEaseProcess = false, 50);
+    }
     /*slide switch operation*/
     lastSlide() {
         /*  if (this.charts.length == 0 || this.charts === undefined) {
@@ -109,26 +144,36 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
           }*/
         this.curSlideIndex = this.getCurSlideIndex();
         if (this.curSlideIndex > 0) {
-            this.charts[this.curSlideIndex - 1].ease();
+            this.easeChart(this.curSlideIndex - 1);
+            this.easeContent(this.curSlideIndex - 1);
             this.curSlideIndex--;
             this.goToSlide(this.curSlideIndex);
 
-            if (this.curSlideIndex != 0)
-                this.charts[this.curSlideIndex - 1].load();
+            if (this.curSlideIndex != 0) {
+                this.loadChart(this.curSlideIndex - 1);
+                this.loadContent(this.curSlideIndex - 1);
+            }
+
+
         }
     }
     nextSlide() {
         /*  if (this.charts.length == 0 || this.charts === undefined) {
               this.initCharts();
           }*/
+
+
         this.curSlideIndex = this.getCurSlideIndex();
         if (this.curSlideIndex < this.slideNum) {
-            if (this.curSlideIndex != 0)
-                this.charts[this.curSlideIndex - 1].ease();
+            if (this.curSlideIndex != 0) {
+                this.easeChart(this.curSlideIndex - 1);
+                this.easeContent(this.curSlideIndex - 1);
+            }
             this.curSlideIndex++;
             this.goToSlide(this.curSlideIndex);
-            console.log(this.charts);
-            this.charts[this.curSlideIndex - 1].load();
+            this.loadChart(this.curSlideIndex - 1);
+            /*add animation to text content*/
+            this.loadContent(this.curSlideIndex - 1);
         }
         else {
             /*this.snackBar.openFromComponent(ScrollToEndComponent, {
@@ -137,14 +182,17 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
 
         }
     }
+    releaseLock() {
+
+
+    }
     goToSlide(index: number): void {
-        setTimeout(() => {
-            if (this.inScrollProcess) return;
-            this.inScrollProcess = true;
+        setTimeout(_ => {
             let pageScrollInstance: PageScrollInstance = PageScrollInstance.simpleInstance(this.document, '#slide-' + index);
             this.pageScrollService.start(pageScrollInstance);
-            this.inScrollProcess = false;
-        }, 0);
+
+
+        }, 0)
 
     };
     getCurSlideIndex(): number {

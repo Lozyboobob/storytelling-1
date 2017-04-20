@@ -8,10 +8,7 @@ export class ScrollDirective {
     private enableScroll: boolean = true;
     @Output() mouseWheelUp = new EventEmitter();
     @Output() mouseWheelDown = new EventEmitter();
-    @HostListener('window:scroll', ['$event'])
-    onScroll(event: any) {
-        this.scrollFunc(event);
-    }
+
     @HostListener('mousewheel', ['$event'])
     onMouseWheelChrome(event: any) {
         this.mouseWheelFunc(event);
@@ -27,18 +24,16 @@ export class ScrollDirective {
     constructor() {
 
     }
-    scrollFunc(event:any){
-      console.log("scroll");
-    }
-    mouseWheelFunc(event: any) {
 
-        var event = window.event || event; // old IE support
-        // for IE
-        event.returnValue = false;
-        // for Chrome and Firefox
-        if (event.preventDefault) {
-            event.preventDefault();
-        }
+    mouseWheelFunc(event: any) {
+      //  if (!this.enableScroll) return;
+           var event = window.event || event; // old IE support
+            // for IE
+            event.returnValue = false;
+            // for Chrome and Firefox
+            if (event.preventDefault) {
+                event.preventDefault();
+            }
 
         var delta = Math.max(-1, Math.min(1, (event.wheelDelta || -event.detail)));
         if (delta > 0) {
@@ -46,5 +41,7 @@ export class ScrollDirective {
         } else if (delta < 0) {
             this.mouseWheelDown.emit();
         }
+
+
     }
 }

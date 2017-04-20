@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import {DomSanitizer} from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import {SlidesService} from '../slides.service'
 import {Slides} from '../models/index'
@@ -13,8 +14,9 @@ export class SlidesCreatorComponent implements OnInit {
     form: FormGroup;
     slider: any = {};
     slides: Array<any> = [];
+    slideTextTransformed:Array<any>=[];
     curSlideIndex: number = 0;
-    constructor(private router: Router, private slidesService: SlidesService) {
+    constructor(private router: Router,private sanitizer: DomSanitizer, private slidesService: SlidesService) {
         this.form = this._buildForm();
     }
 
@@ -38,10 +40,10 @@ export class SlidesCreatorComponent implements OnInit {
             index: this.curSlideIndex,
             text: slide.text,
             graph:slide.graph,
-            data:slide.data,
-            subTitle:slide.subTitle
+            data:slide.data
         };
         this.slides.push(s);
+        this.slideTextTransformed.push(this.sanitizer.bypassSecurityTrustHtml(s.text));
         console.log("get slide:",s);
     }
     /*for create a new slides*/

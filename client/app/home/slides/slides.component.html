@@ -6,23 +6,16 @@
       </md-grid-tile>
     </md-grid-list>
   </div>
-  <div [ngStyle]="slideHeight_style" class="slide" [attr.id]="'slide-'+slide.index" *ngFor="let slide of slides">
+  <div [ngStyle]="slideHeight_style" class="slide" [attr.id]="'slide-'+slide.index" *ngFor="let slide of slides; let i =index">
     <md-grid-list cols="2">
       <md-grid-tile [colspan]="1" [attr.id]="slide.graph" [ngSwitch]="slide.graph">
         <app-force-directed-graph class="chart" #chart *ngSwitchCase="'forceDirectedGraph'"></app-force-directed-graph>
         <app-bar-chart class="chart" #chart *ngSwitchCase="'barChart'"></app-bar-chart>
-
-        <app-bar-chart class="chart" #chart *ngSwitchDefault></app-bar-chart>
+        <app-line-chart class="chart" #chart *ngSwitchCase="'lineChart'"></app-line-chart>
+        <div class="chart" #chart *ngSwitchDefault></div>
       </md-grid-tile>
-      <md-grid-tile [colspan]="1">
-        <md-list>
-          <md-list-item>
-            <h2 >{{slide.subTitle}}</h2> </md-list-item>
-          <md-list-item>
-            <p >{{slide.text}}</p>
-          </md-list-item>
-
-        </md-list>
+      <md-grid-tile [colspan]="1" align="center">
+        <div [innerHTML]="slide.text" align="left"  [class.slideLeft]="loadContentAni[i]" [class.slideRightOut]="easeContentAni[i]"></div>
 
 
       </md-grid-tile>

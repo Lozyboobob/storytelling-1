@@ -3,32 +3,32 @@
     <form novalidate [formGroup]="form" (ngSubmit)="f.form.valid && createSlides(form.value)" #f="ngForm">
       <md-toolbar color="primary">Create new slides</md-toolbar>
       <md-card-content>
-        <table style="width: 100%" cellspacing="0" >
+        <table style="width: 100%" cellspacing="0">
           <tr>
             <td>
-              <md-input-container  class="padding-ver-frame lg">
+              <md-input-container class="lg slide-name">
                 <input mdInput placeholder="Slides name" formControlName="slidesName" name="slidesName" required class="input ">
               </md-input-container>
-              <span class="error" *ngIf="f.submitted && form.controls.slidesName.invalid"><br>Slides Name is required</span>
+              <span class="error" *ngIf=" form.controls.slidesName.invalid">Slides Name is required</span>
             </td>
           </tr>
         </table>
 
         <div class="slides" #slideBlock>
-          <md-grid-list cols="2" rowHeight="100px" *ngFor="let slide of slides" class="slide">
-            <md-grid-tile [colspan]="1" [rowspan]="1" >
-              <img [src]="'assets/'+slide.graph+'.png'" class="graph-img">
+          <md-grid-list cols="2" rowHeight="100px" *ngFor="let slide of slides;let i = index" class="slide">
+            <md-grid-tile [colspan]="1" [rowspan]="1">
+              <img [src]="'assets/'+slide.graph+'.png'" class="graph-img" *ngIf="slide.graph!='noGraph'">
             </md-grid-tile>
-            <md-grid-tile [colspan]="1" [rowspan]="1" class="addText">
+            <md-grid-tile [colspan]="1" [rowspan]="1" class="addText" [innerHtml]="slideTextTransformed[i]">
               <p>{{slide.text}}</p>
             </md-grid-tile>
           </md-grid-list>
         </div>
-        <app-slide-creator (confirmSlideOpt)="submitSlide($event)"></app-slide-creator>
+        <app-slide-creator (confirmSlideOpt)="submitSlide($event)" [slideIndex]="curSlideIndex+1"></app-slide-creator>
       </md-card-content>
       <md-card-actions align="center">
-        <button md-raised-button color="primary" type="submit">CREATE</button>
-        <button md-raised-button class="secondery">CANCEL</button>
+        <button md-raised-button color="primary" [disabled]="!form.valid" type="submit">CREATE</button>
+        <button md-raised-button class="secondery" [routerLink]="['home']">CANCEL</button>
       </md-card-actions>
     </form>
   </md-card>
