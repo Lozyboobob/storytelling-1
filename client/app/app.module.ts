@@ -1,15 +1,15 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule} from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
+import {InterceptedHttp} from "./users/services/interceptors/http.interceptor";
 // FONT AWESOME
 import { Angular2FontAwesomeModule } from 'angular2-font-awesome/angular2-font-awesome';
 
 // MATERIAL DESIGN MODULES
 import { MaterialModule, OverlayContainer } from '@angular/material';
 import 'hammerjs';
-
 
 //  REDUX
 import { NgReduxModule, DevToolsExtension } from '@angular-redux/store';
@@ -25,10 +25,11 @@ import {SessionEpics} from './core/epics';
 
 //  COMPONENTS
 import { AppComponent } from './app.component';
-import { AppToolbarComponent } from './app-toolbar/index';
+
 import { LoginComponent, RegisterComponent } from './users/index';
+import { CoreModule } from "./core";
 import { HomeComponent } from './home/home.component';
-import { AppSidenavComponent } from './app-sidenav/index';
+import { HomeModule } from './home/index';
 import { SlidesCreatorComponent } from './home/slides-creator/slides-creator.component';
 import { SlideCreatorComponent } from './home/slides-creator/slide-creator/slide-creator.component';
 import { SlidesComponent } from './home/slides/slides.component';
@@ -49,11 +50,9 @@ import { CsvInputComponent } from './home/slides-creator/slide-creator/csv-input
 @NgModule({
     declarations: [
         AppComponent,
-        AppToolbarComponent,
         LoginComponent,
         RegisterComponent,
         HomeComponent,
-        AppSidenavComponent,
         SlidesCreatorComponent,
         SlideCreatorComponent,
         SlidesComponent,
@@ -87,7 +86,6 @@ import { CsvInputComponent } from './home/slides-creator/slide-creator/csv-input
         SessionEpics,
         UsersService
     ],
-    bootstrap: [AppComponent],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

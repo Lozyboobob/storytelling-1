@@ -1,0 +1,37 @@
+<div class="extend-toolbar header" [class.toggled]="isToggled">
+  <div class="top" md-colors="{background: 'background-TOPNAV', color: 'primary-50'}">
+    <div class="nav-wrapper">
+      <ul class="left inline-block topTitle " *ngIf="!isNormalScreen">
+        <li class="item toggle-left toggle-left-btn" mdTooltip="Menu" (click)="toggleNav()">
+          <i class="fa fa-ellipsis-h green-text text-darken-3" md-colors="{color: 'primary-500'}"></i>
+        </li>
+      </ul>
+      <!--Mobile toolbox-->
+      <ul class="right" *ngIf="!isNormalScreen">
+        <li class="item" mdTooltip="Operation">
+          <a class="expand-btn" (click)="openToolBox()"><i class="fa fa-cog green-text text-darken-3" md-colors="{color: 'primary-500'}" ></i></a>
+        </li>
+      </ul>
+      <ul class="right" *ngIf="isNormalScreen||isOpenToolBox">
+        <li mdTooltip="Sign out">
+          <a *ngIf="loggedOut$ | async" [routerLink]="['user/login']" class="login">
+            <fa name="sign-in" #login size="1x"></fa>
+          </a>
+        </li>
+        <li mdTooltip="Sign out">
+          <a *ngIf="loggedIn$ | async" (click)="logout()" class="logout">
+            <fa name="sign-out" #login size="1x"></fa>
+          </a>
+        </li>
+      </ul>
+      <ul class="right">
+        <li *ngFor="let item of menuList" mdTooltip="{{item.title}}">
+          <div *ngIf="item.shouldRender(state.session.user.roles,item.roles)">
+            <a *ngIf="item.roles.indexOf('*')!==-1 || (loggedIn$ | async)" href="{{item.state}}"><i class="fa {{item.icon}} fa-fw"></i></a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+</div>
