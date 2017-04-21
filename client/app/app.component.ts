@@ -4,15 +4,15 @@ import {
   NgRedux
 } from '@angular-redux/store';
 import {NgReduxRouter} from '@angular-redux/router';
-import {createEpicMiddleware} from 'redux-observable';
+import {createEpicMiddleware, combineEpics} from 'redux-observable';
 import {
   IAppState,
   rootReducer,
   middleware,
   enhancers
-} from './core/store';
-import {SessionEpics} from './core/epics';
-import { ToggleNavService } from './toggle-nav.service';
+} from './core';
+import {SessionEpics} from './core';
+import { ToggleNavService } from './core';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
@@ -26,14 +26,19 @@ export class AppComponent {
   isToggled: boolean;
   isNormalScreen:boolean=true;
   subscription: Subscription;
+  EPICS = combineEpics(
+    this.epics.login,
+    this.epics.editProfile,
+    this.epics.getProfile,
+    this.epics.changePassword,
+  );
   constructor(
     private devTools: DevToolsExtension,
     private ngRedux: NgRedux<IAppState>,
     private ngReduxRouter: NgReduxRouter,
     private epics: SessionEpics,
     private ToggleNavService: ToggleNavService) {
-
-    middleware.push(createEpicMiddleware(this.epics.login));
+    middleware.push(createEpicMiddleware(this.EPICS));
 
     ngRedux.configureStore(
       rootReducer,

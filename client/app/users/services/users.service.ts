@@ -6,11 +6,12 @@ import { Observable } from "rxjs";
 
 import { User } from '../models/index';
 import { environment } from "../../../environments/environment";
+const HEADER = { headers: new Headers({ 'Content-Type': 'application/json' }) };
 
 @Injectable()
 export class UsersService {
-    private _baseUrl : string;
 
+    private _baseUrl : string;
     constructor(private http: Http) {
        // build backend base url
         this._baseUrl = `${environment.backend.protocol}://${environment.backend.host}`;
@@ -18,24 +19,23 @@ export class UsersService {
             this._baseUrl += `:${environment.backend.port}`;
         }
     }
-
-
     signup(user: User): Observable<any> {
         let backendURL = `${this._baseUrl}${environment.backend.endpoints.signup}` ;
-        console.log(backendURL);
-        console.log('this._baseUrl',this._baseUrl);
-        return this.http.post(backendURL, user, this.jwt()).map((response: Response) => response.json());
+        return this.http.post(backendURL, user).map((response: Response) => response.json());
     }
 
 
-    // private helper methods
-    private jwt() {
-        // create authorization header with jwt token
-        console.log("getcurrenUser");
-        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        if (currentUser && currentUser.token) {
-            let headers = new Headers({ 'Authorization': 'Bearer ' + currentUser.token });
-            return new RequestOptions({ headers: headers });
-        }
+    getProfile (): Observable<any> {
+      let backendURL = `${this._baseUrl}${environment.backend.endpoints.users}/me` ;
+      return this.http.get(backendURL).map((response: Response) => response.json());
+    }
+    editProfile(user):Observable<any>{
+      let backendURL = `${this._baseUrl}${environment.backend.endpoints.users}` ;
+      console.log('backendURL',backendURL)
+      return this.http.put(backendURL, user).map((response: Response) => response.json());
+    }
+    getUsers():Observable<any>{
+      let backendURL = `${this._baseUrl}${environment.backend.endpoints.users}` ;
+      return this.http.get(backendURL).map((response: Response) => response.json());
     }
 }
