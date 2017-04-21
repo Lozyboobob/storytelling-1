@@ -379,6 +379,69 @@ slideRight
 }
 
 /*
+/*
+==============================================
+slideRightOut
+==============================================
+*/
+
+
+.slideRightOut{
+	animation-name: slideRightOut;
+	-webkit-animation-name: slideRightOut;
+
+	animation-duration: 1s;
+	-webkit-animation-duration: 1s;
+
+	animation-timing-function: ease-in-out;
+	-webkit-animation-timing-function: ease-in-out;
+
+	visibility: visible !important;
+}
+
+@keyframes slideRightOut {
+	0% {
+		transform: translateX(0%);
+	}
+	/*50%{
+		transform: translateX(150%);
+	}
+	65%{
+		transform: translateX(-4%);
+	}
+	80%{
+		transform: translateX(4%);
+	}
+	95%{
+		transform: translateX(150%);
+	}*/
+	100% {
+		transform: translateX(50vw);
+	}
+}
+
+@-webkit-keyframes slideRightOut {
+	0% {
+		-webkit-transform: translateX(0%);
+	}
+	/*50%{
+		-webkit-transform: translateX(8%);
+	}
+	65%{
+		-webkit-transform: translateX(-4%);
+	}
+	80%{
+		-webkit-transform: translateX(4%);
+	}
+	95%{
+		-webkit-transform: translateX(150%);
+	}*/
+	100% {
+		-webkit-transform: translateX(50vw);
+	}
+}
+
+/*
 ==============================================
 slideExpandUp
 ==============================================

@@ -7,8 +7,11 @@
         @include basic-frame-theme($theme);
     }
 }
-
+.slide-name{
+  margin-top: 15px;
+}
 .slides {
+
     .slide {
         padding-bottom: 15px;
         .graph-img {

@@ -1,7 +1,6 @@
-
 <md-card class="slide-creator secondery-theme">
   <md-card-header class="section-title">
-    Slide 1
+    Slide {{slideIndex}}
   </md-card-header>
   <form novalidate [formGroup]="form" (ngSubmit)="f.form.valid" #f="ngForm">
     <div class="full-frame">
@@ -12,7 +11,7 @@
           </md-option>
         </md-select>
         <div class="margin-ver-frame">
-          <md-tab-group *ngIf="form.controls.slideGraph.value" #dataInput>
+          <md-tab-group *ngIf="form.controls.slideGraph.value!='noGraph'" #dataInput>
             <md-tab label="Input">
               <div [ngSwitch]="form.controls.slideGraph.value">
                 <div *ngSwitchCase="'barChart'" class="margin-frame">
@@ -42,26 +41,29 @@
                   <h2>Use default data</h2>
 
                 </div>
+                <div *ngSwitchCase="'lineChart'" class="margin-frame">
+                  <h2>Use default data</h2>
+
+                </div>
                 <div *ngSwitchDefault></div>
               </div>
             </md-tab>
             <md-tab label="Json">
-              <textarea formControlName="graphDataJson" name="graphDataJson" [(ngModel)]="dataExample"></textarea>
+              <textarea name="graphDataJson" formControlName="graphDataJson" [(ngModel)]="dataExample"></textarea>
+              <p class="error" *ngIf=" form.controls.graphDataJson.invalid">Invalidate json format</p>
             </md-tab>
-            <md-tab label="Upload">
-
+            <md-tab label="CSV">
+              <app-csv-input (csv2json)="getCsvJson($event)"></app-csv-input>
             </md-tab>
           </md-tab-group>
         </div>
         <div class="margin-ver-frame">
-          <textarea  [froalaEditor]='editorOptions'  [(froalaModel)]="form.value.slideText" ></textarea>
+          <textarea [froalaEditor]='editorOptions' [(froalaModel)]="form.value.slideText"></textarea>
         </div>
       </div>
     </div>
     <br>
     <button md-raised-button type="submit" (click)="confirmSlide()" [disabled]="!form.valid">OK</button>
-
-
 
   </form>
 
