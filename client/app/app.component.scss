@@ -1,3 +1,4 @@
+
 * {
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
@@ -6,14 +7,11 @@
   transition: all 0.3s ease;
 }
 .container{
-  height: 100%;
-  padding-top: 50px;
+  margin-top:50px;
+  padding-top: 15px;
    padding-left: 60px;
    &.toggled{
       padding-left: 250px;
-   }
-   .wrap{
-     padding: 15px 20px;
    }
 }
 .toggle-mask{
