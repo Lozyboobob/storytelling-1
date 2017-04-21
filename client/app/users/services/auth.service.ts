@@ -6,7 +6,7 @@ import { IAppState } from '../../core/store';
 @Injectable()
 export class Auth implements CanActivate, CanActivateChild{
   userRoles = [];
-  constructor(private usersService : UsersService, 
+  constructor(private usersService : UsersService,
                 private ngRedux: NgRedux<IAppState>){}
 
   canActivate(route) {
