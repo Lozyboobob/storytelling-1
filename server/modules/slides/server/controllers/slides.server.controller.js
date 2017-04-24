@@ -5,13 +5,14 @@
  */
 var path = require('path'),
   mongoose = require('mongoose'),
+  fs = require('fs'),
   Slides = mongoose.model('Slides'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 /**
  * Create an slide
  */
-exports.create = function (req, res) {
+exports.create = function(req, res) {
   console.log("created!!!!");
   console.log(req.body);
   var slide = new Slides(req.body);
@@ -19,8 +20,14 @@ exports.create = function (req, res) {
 
 
   slide.user = req.user;
-
-  slide.save(function (err) {
+  req.imgsPath.forEach(function(p) {
+    var img = {
+      data: fs.readFileSync(p),
+      contentType: 'image/png/jpge'
+    }
+    slide.imgs.push(img);
+  })
+  slide.save(function(err) {
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)
@@ -34,7 +41,7 @@ exports.create = function (req, res) {
 /**
  * Show the current slide
  */
-exports.read = function (req, res) {
+exports.read = function(req, res) {
   // convert mongoose document to JSON
   var slide = req.slide ? req.slide.toJSON() : {};
 
@@ -48,13 +55,13 @@ exports.read = function (req, res) {
 /**
  * Update an slide
  */
-exports.update = function (req, res) {
+exports.update = function(req, res) {
   var slide = req.slide;
 
   slide.title = req.body.title;
   slide.content = req.body.content;
 
-  slide.save(function (err) {
+  slide.save(function(err) {
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)
@@ -68,10 +75,10 @@ exports.update = function (req, res) {
 /**
  * Delete an slide
  */
-exports.delete = function (req, res) {
+exports.delete = function(req, res) {
   var slide = req.slide;
 
-  slide.remove(function (err) {
+  slide.remove(function(err) {
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)
@@ -85,8 +92,8 @@ exports.delete = function (req, res) {
 /**
  * List of slides
  */
-exports.list = function (req, res) {
-  Slides.find().sort('-created').populate('user', 'displayName').exec(function (err, slides) {
+exports.list = function(req, res) {
+  Slides.find().sort('-created').populate('user', 'displayName').exec(function(err, slides) {
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)
@@ -100,7 +107,7 @@ exports.list = function (req, res) {
 /**
  * slide middleware
  */
-exports.slideByID = function (req, res, next, id) {
+exports.slideByID = function(req, res, next, id) {
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).send({
@@ -108,7 +115,7 @@ exports.slideByID = function (req, res, next, id) {
     });
   }
 
-  Slides.findById(id).populate('user', 'displayName').exec(function (err, slide) {
+  Slides.findById(id).populate('user', 'displayName').exec(function(err, slide) {
     if (err) {
       return next(err);
     } else if (!slide) {

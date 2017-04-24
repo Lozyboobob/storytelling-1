@@ -25,7 +25,7 @@ export class SlidesService {
         return this.http.get(backendURL, this.jwt()).map((response: Response) => response.json());
     }
     getSlides(id): Observable<any> {
-        let backendURL = 'http://127.0.0.1:3000/api/slides/'+id;
+        let backendURL = 'http://127.0.0.1:3000/api/slides/' + id;
         //http://127.0.0.1:3000/api/slides
         return this.http.get(backendURL, this.jwt()).map((response: Response) => response.json());
     }
