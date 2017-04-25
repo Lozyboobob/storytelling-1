@@ -5,13 +5,27 @@
   <form novalidate [formGroup]="form" (ngSubmit)="f.form.valid" #f="ngForm">
     <div class="full-frame">
       <div class="margin-frame">
-        <md-select placeholder="Select graph" formControlName="slideGraph" name="slideGraph" (change)="graphChange()">
-          <md-option *ngFor="let graph of graphs" [value]="graph.value">
-            {{ graph.type }}
-          </md-option>
-        </md-select>
+        <table cellspacing="0" class="full-line">
+          <tr>
+            <td>
+              <md-select placeholder="Page layout" formControlName="pageLayout" name="pageLayout" (change)="pageLayoutChange()">
+                <md-option *ngFor="let layout of pageLayout" [value]="layout.value">
+                  {{ layout.type }}
+                </md-option>
+              </md-select>
+            </td>
+            <td>
+              <md-select *ngIf="hasGraph" placeholder="Select graph" formControlName="slideGraph" name="slideGraph" (change)="graphChange()">
+                <md-option *ngFor="let graph of graphs" [value]="graph.value">
+                  {{ graph.type }}
+                </md-option>
+              </md-select>
+            </td>
+          </tr>
+        </table>
+
         <div class="margin-ver-frame">
-          <md-tab-group *ngIf="form.controls.slideGraph.value!='noGraph'" #dataInput>
+          <md-tab-group *ngIf="!(form.controls.slideGraph.value=='noGraph'||form.controls.slideGraph.value=='image')" #dataInput>
             <md-tab label="Input">
               <div [ngSwitch]="form.controls.slideGraph.value">
                 <div *ngSwitchCase="'barChart'" class="margin-frame">
@@ -56,8 +70,10 @@
               <app-csv-input (csv2json)="getCsvJson($event)"></app-csv-input>
             </md-tab>
           </md-tab-group>
+          <app-image-upload (setImage)="setImageHtml($event)"></app-image-upload>
+
         </div>
-        <div class="margin-ver-frame">
+        <div class="margin-ver-frame" *ngIf="hasText">
           <textarea [froalaEditor]='editorOptions' [(froalaModel)]="form.value.slideText"></textarea>
         </div>
       </div>

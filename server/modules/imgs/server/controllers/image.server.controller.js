@@ -18,13 +18,13 @@ if (!fs.existsSync(filesDir)) {
  * Create an Image
  */
 
-exports.create = function(req, res) {
+exports.createServer = function(req, res) {
   console.log("created!!!!");
   // Store image.
   FroalaEditor.Image.upload(req, 'public/images/', function(err, data) {
     // Return data.
     if (err) {
-      console.log(err);
+      console.log("get error",err);
       return res.send(JSON.stringify(err));
     }
 
@@ -32,14 +32,14 @@ exports.create = function(req, res) {
     console.log("data", data);
     res.send(data);
   });
-  /*  var img = new Image;
-    console.log("img created");
+  /*  var image = new Image;
+    console.log("image created");
 
-    img.user = req.user;
-    img.data = fs.readFileSync(p);
-    img.contentType = 'image/png/jpge/jpg'
+    image.user = req.user;
+    image.data = fs.readFileSync(p);
+    image.contentType = 'image/png/jpge/jpg'
 
-    img.save(function(err) {
+    image.save(function(err) {
       if (err) {
         console.log("fail", err);
         return res.status(422).send({
@@ -47,23 +47,43 @@ exports.create = function(req, res) {
         });
       } else {
         console.log("success");
-        res.json(img);
+        res.json(image);
       }
     });*/
 };
+exports.create = function(req, res) {
+  console.log("created!!!!");
+  // Store image.
+    var image = new Image(req.body);
+    image.contentType='image/*';
+    console.log("image created");
+    image.user = req.user;
 
+    image.save(function(err) {
+      if (err) {
+        console.log("fail", err);
+        return res.status(422).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      } else {
+        console.log("success");
+        res.json(image);
+      }
+    });
+};
 /**
  * Show the current image
  */
 exports.read = function(req, res) {
   // convert mongoose document to JSON
-  var img = req.img ? req.img.toJSON() : {};
+  var image = req.image ? req.image : {};
 
-  // Add a custom field to the img, for determining if the current User is the "owner".
-  // NOTE: This field is NOT persisted to the database, since it doesn't exist in the img model.
-  img.isCurrentUserOwner = !!(req.user && img.user && img.user._id.toString() === req.user._id.toString());
 
-  res.json(img);
+  // Add a custom field to the image, for determining if the current User is the "owner".
+  // NOTE: This field is NOT persisted to the database, since it doesn't exist in the image model.
+  image.isCurrentUserOwner = !!(req.user && image.user && image.user._id.toString() === req.user._id.toString());
+  res.contentType(image.contentType);
+  res.sent(image);
 
 };
 
@@ -72,31 +92,31 @@ exports.read = function(req, res) {
  * Delete an image
  */
 exports.delete = function(req, res) {
-  var img = req.img;
+  var image = req.image;
 
-  img.remove(function(err) {
+  image.remove(function(err) {
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      res.json(img);
+      res.json(image);
     }
   });
 };
 
 /**
- * List of imgs
+ * List of images
  */
-exports.list = function(req, res) {
+exports.listServer = function(req, res) {
 
-  /*Image.find().sort('-created').populate('user', 'displayName').exec(function(err, imgs) {
+  /*Image.find().sort('-created').populate('user', 'displayName').exec(function(err, images) {
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      res.json(imgs);
+      res.json(images);
     }
   });
 };
@@ -106,19 +126,20 @@ exports.imageByID = function(req, res, next, id) {
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).send({
-      message: 'img is invalid'
+      message: 'image is invalid'
     });
   }
 
-  Image.findById(id).populate('user', 'displayName').exec(function(err, img) {
+
+  Image.findById(id).populate('user', 'displayName').exec(function(err, image) {
     if (err) {
       return next(err);
-    } else if (!img) {
+    } else if (!image) {
       return res.status(404).send({
-        message: 'No img with that identifier has been found'
+        message: 'No image with that identifier has been found'
       });
     }
-    req.img = img;
+    req.image = image;
     next();
   });*/
   console.log("listing");
@@ -130,5 +151,69 @@ exports.imageByID = function(req, res, next, id) {
     }
     console.log(data)
     return res.send(data);
+  });
+};
+exports.list = function(req, res) {
+
+  /*Image.find().sort('-created').populate('user', 'displayName').exec(function(err, images) {
+    if (err) {
+      return res.status(422).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    } else {
+      res.json(images);
+    }
+  });
+};
+
+
+exports.imageByID = function(req, res, next, id) {
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).send({
+      message: 'image is invalid'
+    });
+  }
+
+  Image.findById(id).populate('user', 'displayName').exec(function(err, image) {
+    if (err) {
+      return next(err);
+    } else if (!image) {
+      return res.status(404).send({
+        message: 'No image with that identifier has been found'
+      });
+    }
+    req.image = image;
+    next();
+  });*/
+  console.log("listing");
+
+  FroalaEditor.Image.list('public/images/', function(err, data) {
+
+    if (err) {
+      return res.status(404).end(JSON.stringify(err));
+    }
+    console.log(data)
+    return res.send(data);
+  });
+};
+exports.imageByID = function(req, res, next, id) {
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).send({
+      message: 'image is invalid'
+    });
+  }
+
+  Image.findById(id).populate('user', 'displayName').exec(function(err, image) {
+    if (err) {
+      return next(err);
+    } else if (!image) {
+      return res.status(404).send({
+        message: 'No image with that identifier has been found'
+      });
+    }
+    req.image = image;
+    next();
   });
 };

@@ -29,6 +29,7 @@ export class SlidesListComponent implements OnInit {
             error => {
                 console.log("fail to get Slides list");
             });
+            console.log(this.slides)
     }
     /*open Slide*/
     openSlides(e) {
@@ -41,5 +42,8 @@ export class SlidesListComponent implements OnInit {
     }
     createSlides(){
        this.router.navigate(['/createSlides']);
+    }
+    test(){
+      console.log(this.slides);
     }
 }

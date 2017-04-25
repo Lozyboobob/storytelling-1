@@ -11,17 +11,17 @@ acl = new acl(new acl.memoryBackend());
 /**
  * Invoke slides Permissions
  */
-exports.invokeRolesPolicies = function () {
+exports.invokeRolesPolicies = function() {
   acl.allow([{
-    roles: ['admin'],
+    roles: ['admin', 'user', 'guest'],
     allows: [{
-      resources: '/api/images',
+      resources: '/api/imagesServer',
       permissions: '*'
     }, {
+      resources: '/api/images',
+      permissions: ['*']
+    }, {
       resources: '/api/images/:imageId',
-      permissions: '*'
-    },{
-      resources: '/uploads/:id',
       permissions: '*'
     }]
   }, {
@@ -32,9 +32,6 @@ exports.invokeRolesPolicies = function () {
     }, {
       resources: '/api/images/:imageId',
       permissions: ['*']
-    }, {
-      resources: '/uploads/:id',
-      permissions: ['*']
     }]
   }, {
     roles: ['guest'],
@@ -44,9 +41,6 @@ exports.invokeRolesPolicies = function () {
     }, {
       resources: '/api/images/:imageId',
       permissions: ['*']
-    }, {
-      resources: '/uploads/:id',
-      permissions: ['*']
     }]
   }]);
 };
@@ -54,7 +48,7 @@ exports.invokeRolesPolicies = function () {
 /**
  * Check If image Policy Allows
  */
-exports.isAllowed = function (req, res, next) {
+exports.isAllowed = function(req, res, next) {
   var roles = (req.user) ? req.user.roles : ['guest'];
 
   // If an slide is being processed and the current user created it then allow any manipulation
@@ -63,7 +57,7 @@ exports.isAllowed = function (req, res, next) {
   }
 
   // Check for user roles
-  acl.areAnyRolesAllowed(roles, req.route.path, req.method.toLowerCase(), function (err, isAllowed) {
+  acl.areAnyRolesAllowed(roles, req.route.path, req.method.toLowerCase(), function(err, isAllowed) {
     if (err) {
       // An authorization error occurred
       return res.status(500).send('Unexpected authorization error');

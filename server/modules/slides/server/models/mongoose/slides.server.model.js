@@ -23,11 +23,6 @@ var SlidesSchema = new Schema({
         default: '1',
         trim: true
       },
-      subTitle: {
-        type: String,
-        default: '',
-        trim: true
-      },
       text: {
         type: String,
         default: '',
@@ -38,15 +33,14 @@ var SlidesSchema = new Schema({
         default: '',
         trim: true
       },
+      pageLayout: {
+        type: String,
+        default: 'textInCenter',
+        trim: true
+      },
       data: {
         type: Array,
         default: {}
-      },
-      imgs: {
-        type: [{
-          data: Buffer,
-          contentType: String
-        }]
       }
     }],
     default: '',

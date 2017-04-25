@@ -28,9 +28,10 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
     charts: Array<any> = [];
     loadContentAni: Array<boolean> = []; //indicator for content load animation
     easeContentAni: Array<boolean> = []; //indicator for content ease(fade away) animation
+    pageLayoutConfig: Array<any> = [];
     inEaseProcess = false;
     @ViewChildren('chart') chartEle: any;
-
+    @ViewChild("img") img: ElementRef;
     constructor(
         private windowResizeService: WindowResizeService,
         private pageScrollService: PageScrollService,
@@ -80,15 +81,47 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
                         slide.text = this.sanitizer.bypassSecurityTrustHtml(slide.text);
                         this.loadContentAni.push(true);
                         this.easeContentAni.push(false);
+                        //initialize layout config
+                        switch (slide.pageLayout) {
+                            case "FullScreenGraph": this.pageLayoutConfig.push(
+                                {
+                                    pageCol: 1,
+                                    hasGraph: false,
+                                    isFullScreen: true
+                                }
+                            ); break;
+                            default: {
+                                this.pageLayoutConfig.push(
+                                    {
+                                        pageCol: 1,
+                                        hasGraph: false,
+                                        isFullScreen: false
+                                    }
+                                );
+                            }
+                        }
+
                     }
                 )
                 setTimeout(_ => this.initCharts());
+
             },
             error => {
                 console.log("fail to createSlides");
             });
         //  window.location.hash = '#slide-0';
         //  this.goToSlide(0);
+        this.slidesService.getImage("58ff17e45368b03900b8e2e3")
+            .subscribe(
+            res => {
+                console.log("get", res);
+                this.img.nativeElement.src = res.data;
+            },
+            error => {
+                console.log("fail to createSlides");
+            });
+
+
     }
     ngAfterViewInit() {
 
@@ -127,14 +160,14 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
     }
     loadContent(index) {
         this.loadContentAni[index] = false;
-        setTimeout(_ =>{this.easeContentAni[index] = false ;this.loadContentAni[index] = true}, 625);
+        setTimeout(_ => { this.easeContentAni[index] = false; this.loadContentAni[index] = true }, 625);
     }
     easeContent(index) {
-    //    if (this.inEaseProcess) return;
+        //    if (this.inEaseProcess) return;
         this.inEaseProcess = true;
         this.easeContentAni[index] = false;
         ;
-        setTimeout(_ =>{this.loadContentAni[index] = false;this.easeContentAni[index] = true}, 0);
+        setTimeout(_ => { this.loadContentAni[index] = false; this.easeContentAni[index] = true }, 0);
         setTimeout(_ => this.inEaseProcess = false, 50);
     }
     /*slide switch operation*/

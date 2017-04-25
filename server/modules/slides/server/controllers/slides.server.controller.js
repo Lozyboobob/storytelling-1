@@ -20,15 +20,10 @@ exports.create = function(req, res) {
 
 
   slide.user = req.user;
-  req.imgsPath.forEach(function(p) {
-    var img = {
-      data: fs.readFileSync(p),
-      contentType: 'image/png/jpge'
-    }
-    slide.imgs.push(img);
-  })
+
   slide.save(function(err) {
     if (err) {
+      console.log(err);
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)
       });
@@ -44,7 +39,7 @@ exports.create = function(req, res) {
 exports.read = function(req, res) {
   // convert mongoose document to JSON
   var slide = req.slide ? req.slide.toJSON() : {};
-
+console.log("cur img",req.slide);
   // Add a custom field to the slide, for determining if the current User is the "owner".
   // NOTE: This field is NOT persisted to the database, since it doesn't exist in the slide model.
   slide.isCurrentUserOwner = !!(req.user && slide.user && slide.user._id.toString() === req.user._id.toString());
