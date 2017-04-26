@@ -2,7 +2,9 @@ import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, ViewChil
 import { FormGroup, FormControl, FormBuilder, Validators, FormArray  } from '@angular/forms';
 
 import {MdDialog, MdDialogRef} from '@angular/material';
-import {JsonValidator } from '../json-validator.directive'
+import {JsonValidator } from '../json-validator.directive';
+
+import { Slide } from './slide';
 @Component({
     selector: 'app-slide-creator',
     templateUrl: './slide-creator.component.html',
@@ -11,9 +13,8 @@ import {JsonValidator } from '../json-validator.directive'
 export class SlideCreatorComponent implements OnInit, AfterViewInit {
     @Output() confirmSlideOpt: EventEmitter<Object> = new EventEmitter();
     @Input() slideIndex: string;
-
+    slide: Slide = new Slide();
     form: FormGroup;
-    slide: any = {};
     graphs: Array<any> = [
         {
             value: "barChart",
@@ -71,7 +72,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
     constructor(
         public dialog: MdDialog,
         private cdRef: ChangeDetectorRef,
-        private _fb: FormBuilder
+        private _fb: FormBuilder,
     ) {
 
     }
@@ -96,7 +97,8 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
     }
     confirmSlide() {
         /* to decide which data to take from tab*/
-        if (this.form.value.slideGraph != 'noGraph') {
+        console.log()
+        if (this.hasGraph && !(this.form.value.slideGraph == 'noGraph' || this.form.value.slideGraph == 'image')) {
             switch (this.dataInputTab.selectedIndex) {
                 case 0: {
                     if (this.form.value.slideGraph == 'barChart')
@@ -134,7 +136,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
         }
 
         this.slide.graph = this.form.value.slideGraph;
-        this.slide.pageLayout=this.form.value.pageLayout;
+        this.slide.pageLayout = this.form.value.pageLayout;
         this.slide.text = this.form.value.slideText;
         this.confirmSlideOpt.emit(this.slide);
 
@@ -165,7 +167,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
     }
     pageLayoutChange() {
         switch (this.form.value.pageLayout) {
-            case "FullScreenGraph": this.hasGraph = true; this.hasText = false; break;
+            case "FullScreenGraph": this.hasGraph = true; this.hasText = false; console.log(this.slide); break;
             case "textInCenter": this.hasGraph = false; this.hasText = true; break;
             case "textInCenterImageBackground": this.hasGraph = true; this.hasText = true; break;
             case "LeftGraphRightText": this.hasGraph = true; this.hasText = true; break;
@@ -176,8 +178,8 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
     getCsvJson(json) {
         this.csvJson = json;
     }
-    setImageHtml(html){
-       this.slide.fullScreenHtml=html;
+    setImageHtml(html) {
+        this.slide.fullScreenHtml = html;
     }
 
 

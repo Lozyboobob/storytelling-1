@@ -18,10 +18,14 @@
       <md-grid-tile [colspan]="1" align="center">
         <div [innerHTML]="slide.text" align="left"  [class.slideLeft]="loadContentAni[i]" [class.slideRightOut]="easeContentAni[i]"></div>
 
-
       </md-grid-tile>
     </md-grid-list>
+    <md-grid-list *ngIf="pageLayoutConfig[i].isFullScreen" cols="{{pageLayoutConfig[i].pageCol}}" >
 
+      <md-grid-tile [colspan]="1" align="center">
+        <div [innerHTML]="slide.fullScreenHtml"  #chart style="height:100%"></div>
+      </md-grid-tile>
+    </md-grid-list>
 
   </div>
 

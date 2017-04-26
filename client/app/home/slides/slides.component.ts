@@ -7,6 +7,7 @@ import {DOCUMENT, DomSanitizer} from '@angular/platform-browser';
 import {SlidesService} from '../slides.service';
 import { BarChartComponent, ForceDirectedGraphComponent} from '../../charts/index';
 
+import { PageConfig} from './pageConfig';
 @Component({
     selector: 'app-slides',
     templateUrl: './slides.component.html',
@@ -82,25 +83,38 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
                         this.loadContentAni.push(true);
                         this.easeContentAni.push(false);
                         //initialize layout config
+                        let config: PageConfig = new PageConfig(); //defual is fullscreen no graph no text
                         switch (slide.pageLayout) {
-                            case "FullScreenGraph": this.pageLayoutConfig.push(
-                                {
+                            case "FullScreenGraph":
+                                console.log("slide.fullScreenHtml.length", slide.fullScreenHtml.length);
+                                if (slide.fullScreenHtml.length) {
+                                    slide.fullScreenHtml = this.sanitizer.bypassSecurityTrustHtml(slide.fullScreenHtml);
+                                }
+                                else {
+                                    config.hasGraph = true;
+                                }
+                                break;
+                            case "textInCenter":
+
+                                config = {
                                     pageCol: 1,
                                     hasGraph: false,
+                                    hasText: true,
                                     isFullScreen: true
                                 }
-                            ); break;
+                                    ; break;
                             default: {
-                                this.pageLayoutConfig.push(
-                                    {
-                                        pageCol: 1,
-                                        hasGraph: false,
-                                        isFullScreen: false
-                                    }
-                                );
-                            }
-                        }
+                                config = {
+                                    pageCol: 1,
+                                    hasGraph: false,
+                                    hasText: false,
+                                    isFullScreen: false
+                                }
 
+                            }
+
+                        }
+                        this.pageLayoutConfig.push(config);
                     }
                 )
                 setTimeout(_ => this.initCharts());
@@ -111,16 +125,6 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
             });
         //  window.location.hash = '#slide-0';
         //  this.goToSlide(0);
-        this.slidesService.getImage("58ff17e45368b03900b8e2e3")
-            .subscribe(
-            res => {
-                console.log("get", res);
-                this.img.nativeElement.src = res.data;
-            },
-            error => {
-                console.log("fail to createSlides");
-            });
-
 
     }
     ngAfterViewInit() {
@@ -149,21 +153,23 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
 
     /*Chart operation*/
     loadChart(index) {
-        if (this.slides[index].graph != 'noGraph') {
+        if (this.pageLayoutConfig[index].hasGraph) {
             this.charts[index].load();
         }
     }
     easeChart(index) {
-        if (this.slides[index].graph != 'noGraph') {
+        if (this.pageLayoutConfig[index].hasGraph) {
             this.charts[index].ease();
         }
     }
     loadContent(index) {
+        if(! this.pageLayoutConfig[index].hasText) return false;
         this.loadContentAni[index] = false;
         setTimeout(_ => { this.easeContentAni[index] = false; this.loadContentAni[index] = true }, 625);
     }
     easeContent(index) {
         //    if (this.inEaseProcess) return;
+        if(! this.pageLayoutConfig[index].hasText) return false;
         this.inEaseProcess = true;
         this.easeContentAni[index] = false;
         ;

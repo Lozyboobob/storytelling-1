@@ -38,6 +38,11 @@ var SlidesSchema = new Schema({
         default: 'textInCenter',
         trim: true
       },
+      fullScreenHtml:{
+        type: String,
+        default: '',
+        trim: true
+      },
       data: {
         type: Array,
         default: {}
