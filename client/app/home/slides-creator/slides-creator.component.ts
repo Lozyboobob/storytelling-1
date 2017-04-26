@@ -2,8 +2,9 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {DomSanitizer} from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import {SlidesService} from '../slides.service'
-import {Slides} from '../models/index'
+import {SlidesService} from '../slides.service';
+import {Slides} from '../models/index';
+import {Slide} from './slide-creator/slide';
 @Component({
     selector: 'app-slides-creator',
     templateUrl: './slides-creator.component.html',
@@ -36,17 +37,21 @@ export class SlidesCreatorComponent implements OnInit {
     submitSlide(slide) {
         console.log(slide.text);
         this.curSlideIndex++;
-        let s = slide;
+        let s:Slide = Object.assign({}, slide);
+
         s.index = this.curSlideIndex;
 
         this.slides.push(s);
+
         this.slideTextTransformed.push(this.sanitizer.bypassSecurityTrustHtml(s.text));
-        console.log("get slide:", s);
+
+
     }
     /*for create a new slides*/
     createSlides(sliderData) {
         this.slider.title = sliderData.slidesName;
         this.slider.slides = this.slides;
+        console.log("slider creating..",this.slides);
         //console.log(this.router);
         this.slidesService.submitSlides(this.slider)
             .subscribe(

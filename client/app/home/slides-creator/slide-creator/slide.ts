@@ -1,14 +1,15 @@
 export class Slide {
-    index: Number = 1;
+    index: number = 1;
 
-    graph: String = 'noGraph'; //graph type
+    graph: string = 'noGraph'; //graph type
     data: any = undefined; //data for graph
-    text: String = ""; //content of slide
+    text: string = ""; //content of slide
 
-    pageLayout: String = 'textInCenter'; //pagelayout type
+    pageLayout: string = 'textInCenter'; //pagelayout type
 
-    fullScreenHtml: String = ""; //full screen img html
+    fullScreenHtml: string = ""; //full screen img html
     constructor() {
 
     }
+
 }

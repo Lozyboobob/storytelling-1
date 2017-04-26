@@ -144,6 +144,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
         this.confirmSlideOpt.emit(this.slide);
 
         this.form = this._buildForm();
+        this.slide=new Slide();
         console.log("confirm slide:", this.slide);
     }
 

@@ -168,6 +168,7 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
     /*init the charts*/
     initCharts() {
         let charts = this.chartEle.toArray();
+        console.log("charts length",charts);
         charts.forEach(e => {
             this.charts.push(e);
         });
@@ -184,6 +185,7 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
 
     /*Chart operation*/
     loadChart(index) {
+        console.log("charts",this.charts);
         if (this.pageLayoutConfig[index].hasChart) {
             console.log("chart" + index, this.charts[index])
             this.charts[index].load();
