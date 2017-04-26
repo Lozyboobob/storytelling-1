@@ -86,19 +86,18 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
                         let config: PageConfig = new PageConfig(); //defual is fullscreen no graph no text
                         switch (slide.pageLayout) {
                             case "FullScreenGraph":
-                                console.log("slide.fullScreenHtml.length", slide.fullScreenHtml.length);
-                                if (slide.fullScreenHtml.length) {
+                                if (slide.graph=='image') {
                                     slide.fullScreenHtml = this.sanitizer.bypassSecurityTrustHtml(slide.fullScreenHtml);
                                 }
                                 else {
-                                    config.hasGraph = true;
+                                    config.hasChart = true;
                                 }
                                 break;
                             case "textInCenter":
 
                                 config = {
                                     pageCol: 1,
-                                    hasGraph: false,
+                                    hasChart: false,
                                     hasText: true,
                                     isFullScreen: true
                                 }
@@ -106,7 +105,7 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
                             default: {
                                 config = {
                                     pageCol: 1,
-                                    hasGraph: false,
+                                    hasChart: false,
                                     hasText: false,
                                     isFullScreen: false
                                 }
@@ -153,12 +152,13 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
 
     /*Chart operation*/
     loadChart(index) {
-        if (this.pageLayoutConfig[index].hasGraph) {
+        if (this.pageLayoutConfig[index].hasChart) {
+            console.log("chart"+index,this.charts[index])
             this.charts[index].load();
         }
     }
     easeChart(index) {
-        if (this.pageLayoutConfig[index].hasGraph) {
+        if (this.pageLayoutConfig[index].hasChart) {
             this.charts[index].ease();
         }
     }
