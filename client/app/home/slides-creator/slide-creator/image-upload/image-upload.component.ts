@@ -41,7 +41,7 @@ export class ImageUploadComponent implements OnInit {
                 this.slidesService.uploadImage(file)
                     .subscribe(
                     res => {
-                        let imgHtml = "<img #img src='"+res.link+"' style='width:100%;height:100%'>"
+                        let imgHtml = "<img src='"+res.link+"' style='width:100%;height:100%'>"
                         this.setImage.emit(imgHtml);
                         //this.router.navigate(['/login']);
                         //this.router.navigate(['/slides']);

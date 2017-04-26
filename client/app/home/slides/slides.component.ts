@@ -32,7 +32,6 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
     pageLayoutConfig: Array<any> = [];
     inEaseProcess = false;
     @ViewChildren('chart') chartEle: any;
-    @ViewChild("img") img: ElementRef;
     constructor(
         private windowResizeService: WindowResizeService,
         private pageScrollService: PageScrollService,
@@ -77,6 +76,7 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
                 this.slides = slide.slides;
                 this.slideNum = this.slides.length;
                 this.slideTitle = slide.title;
+                console.log(this.slides);
                 this.slides.forEach(
                     (slide, index) => {
                         slide.text = this.sanitizer.bypassSecurityTrustHtml(slide.text);
@@ -86,7 +86,7 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
                         let config: PageConfig = new PageConfig(); //defual is fullscreen no graph no text
                         switch (slide.pageLayout) {
                             case "FullScreenGraph":
-                                if (slide.graph=='image') {
+                                if (slide.fullScreenHtml.length) {
                                     slide.fullScreenHtml = this.sanitizer.bypassSecurityTrustHtml(slide.fullScreenHtml);
                                 }
                                 else {
@@ -94,12 +94,44 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
                                 }
                                 break;
                             case "textInCenter":
-
                                 config = {
                                     pageCol: 1,
                                     hasChart: false,
                                     hasText: true,
                                     isFullScreen: true
+                                }
+                                    ; break;
+                            case "textInCenterImageBackground":
+                                if (slide.fullScreenHtml.length) {
+                                    slide.fullScreenHtml = this.sanitizer.bypassSecurityTrustHtml(slide.fullScreenHtml);
+                                }
+                                config = {
+                                    pageCol: 1,
+                                    hasChart: false,
+                                    hasText: true,
+                                    isFullScreen: true
+                                }
+                                    ; break;
+                            case "LeftGraphRightText":
+                                if (slide.fullScreenHtml.length) {
+                                    slide.fullScreenHtml = this.sanitizer.bypassSecurityTrustHtml(slide.fullScreenHtml);
+                                }
+                                config = {
+                                    pageCol: 2,
+                                    hasChart: true,
+                                    hasText: true,
+                                    isFullScreen: false
+                                }
+                                    ; break;
+                            case "LeftTextRightGraph":
+                                if (slide.fullScreenHtml.length) {
+                                    slide.fullScreenHtml = this.sanitizer.bypassSecurityTrustHtml(slide.fullScreenHtml);
+                                }
+                                config = {
+                                    pageCol: 2,
+                                    hasChart: true,
+                                    hasText: true,
+                                    isFullScreen: false
                                 }
                                     ; break;
                             default: {
@@ -153,7 +185,7 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
     /*Chart operation*/
     loadChart(index) {
         if (this.pageLayoutConfig[index].hasChart) {
-            console.log("chart"+index,this.charts[index])
+            console.log("chart" + index, this.charts[index])
             this.charts[index].load();
         }
     }
@@ -163,13 +195,13 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
         }
     }
     loadContent(index) {
-        if(! this.pageLayoutConfig[index].hasText) return false;
+        if (!this.pageLayoutConfig[index].hasText) return false;
         this.loadContentAni[index] = false;
         setTimeout(_ => { this.easeContentAni[index] = false; this.loadContentAni[index] = true }, 625);
     }
     easeContent(index) {
         //    if (this.inEaseProcess) return;
-        if(! this.pageLayoutConfig[index].hasText) return false;
+        if (!this.pageLayoutConfig[index].hasText) return false;
         this.inEaseProcess = true;
         this.easeContentAni[index] = false;
         ;

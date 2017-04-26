@@ -134,10 +134,13 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
                 default: this.slide.data = '';
             }
         }
-        console.log(" this.form.value.slideGraph", this.form.value.slideGraph);
-        this.slide.graph = this.form.value.slideGraph;
+        if (this.hasGraph)
+            this.slide.graph = this.form.value.slideGraph;
+        else this.slide.graph = "";
         this.slide.pageLayout = this.form.value.pageLayout;
-        this.slide.text = this.form.value.slideText;
+        if (this.hasText)
+            this.slide.text = this.form.value.slideText;
+        else this.slide.text = "";
         this.confirmSlideOpt.emit(this.slide);
 
         this.form = this._buildForm();
