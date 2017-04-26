@@ -6,7 +6,7 @@ import { Auth } from './users/services/auth.service';
  import { HomeComponent,  SlidesComponent,SlidesListComponent,SlidesCreatorComponent} from './home/index';
 
 const appRoutes: Routes = [
-    { path: '', component: HomeComponent },
+    { path: '', component: SlidesListComponent },
     { path: 'user', loadChildren: 'app/users/users.module#UsersModule' },
     { path: 'slides/:slidesId', component: SlidesComponent },
     { path: 'createSlides', component: SlidesCreatorComponent },

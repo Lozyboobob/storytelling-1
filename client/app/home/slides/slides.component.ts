@@ -7,6 +7,7 @@ import {DOCUMENT, DomSanitizer} from '@angular/platform-browser';
 import {SlidesService} from '../slides.service';
 import { BarChartComponent, ForceDirectedGraphComponent} from '../../charts/index';
 
+import { PageConfig} from './pageConfig';
 @Component({
     selector: 'app-slides',
     templateUrl: './slides.component.html',
@@ -28,9 +29,9 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
     charts: Array<any> = [];
     loadContentAni: Array<boolean> = []; //indicator for content load animation
     easeContentAni: Array<boolean> = []; //indicator for content ease(fade away) animation
+    pageLayoutConfig: Array<any> = [];
     inEaseProcess = false;
     @ViewChildren('chart') chartEle: any;
-
     constructor(
         private windowResizeService: WindowResizeService,
         private pageScrollService: PageScrollService,
@@ -75,20 +76,87 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
                 this.slides = slide.slides;
                 this.slideNum = this.slides.length;
                 this.slideTitle = slide.title;
+                console.log(this.slides);
                 this.slides.forEach(
                     (slide, index) => {
                         slide.text = this.sanitizer.bypassSecurityTrustHtml(slide.text);
                         this.loadContentAni.push(true);
                         this.easeContentAni.push(false);
+                        //initialize layout config
+                        let config: PageConfig = new PageConfig(); //defual is fullscreen no graph no text
+                        switch (slide.pageLayout) {
+                            case "FullScreenGraph":
+                                if (slide.fullScreenHtml.length) {
+                                    slide.fullScreenHtml = this.sanitizer.bypassSecurityTrustHtml(slide.fullScreenHtml);
+                                }
+                                else {
+                                    config.hasChart = true;
+                                }
+                                break;
+                            case "textInCenter":
+                                config = {
+                                    pageCol: 1,
+                                    hasChart: false,
+                                    hasText: true,
+                                    isFullScreen: true
+                                }
+                                    ; break;
+                            case "textInCenterImageBackground":
+                                if (slide.fullScreenHtml.length) {
+                                    slide.fullScreenHtml = this.sanitizer.bypassSecurityTrustHtml(slide.fullScreenHtml);
+                                }
+                                config = {
+                                    pageCol: 1,
+                                    hasChart: false,
+                                    hasText: true,
+                                    isFullScreen: true
+                                }
+                                    ; break;
+                            case "LeftGraphRightText":
+                                if (slide.fullScreenHtml.length) {
+                                    slide.fullScreenHtml = this.sanitizer.bypassSecurityTrustHtml(slide.fullScreenHtml);
+                                }
+                                config = {
+                                    pageCol: 2,
+                                    hasChart: true,
+                                    hasText: true,
+                                    isFullScreen: false
+                                }
+                                    ; break;
+                            case "LeftTextRightGraph":
+                                if (slide.fullScreenHtml.length) {
+                                    slide.fullScreenHtml = this.sanitizer.bypassSecurityTrustHtml(slide.fullScreenHtml);
+                                }
+                                config = {
+                                    pageCol: 2,
+                                    hasChart: true,
+                                    hasText: true,
+                                    isFullScreen: false
+                                }
+                                    ; break;
+                            default: {
+                                config = {
+                                    pageCol: 1,
+                                    hasChart: false,
+                                    hasText: false,
+                                    isFullScreen: false
+                                }
+
+                            }
+
+                        }
+                        this.pageLayoutConfig.push(config);
                     }
                 )
                 setTimeout(_ => this.initCharts());
+
             },
             error => {
                 console.log("fail to createSlides");
             });
         //  window.location.hash = '#slide-0';
         //  this.goToSlide(0);
+
     }
     ngAfterViewInit() {
 
@@ -116,25 +184,28 @@ export class SlidesComponent implements OnInit, AfterViewInit, AfterViewChecked 
 
     /*Chart operation*/
     loadChart(index) {
-        if (this.slides[index].graph != 'noGraph') {
+        if (this.pageLayoutConfig[index].hasChart) {
+            console.log("chart" + index, this.charts[index])
             this.charts[index].load();
         }
     }
     easeChart(index) {
-        if (this.slides[index].graph != 'noGraph') {
+        if (this.pageLayoutConfig[index].hasChart) {
             this.charts[index].ease();
         }
     }
     loadContent(index) {
+        if (!this.pageLayoutConfig[index].hasText) return false;
         this.loadContentAni[index] = false;
-        setTimeout(_ =>{this.easeContentAni[index] = false ;this.loadContentAni[index] = true}, 625);
+        setTimeout(_ => { this.easeContentAni[index] = false; this.loadContentAni[index] = true }, 625);
     }
     easeContent(index) {
-    //    if (this.inEaseProcess) return;
+        //    if (this.inEaseProcess) return;
+        if (!this.pageLayoutConfig[index].hasText) return false;
         this.inEaseProcess = true;
         this.easeContentAni[index] = false;
         ;
-        setTimeout(_ =>{this.loadContentAni[index] = false;this.easeContentAni[index] = true}, 0);
+        setTimeout(_ => { this.loadContentAni[index] = false; this.easeContentAni[index] = true }, 0);
         setTimeout(_ => this.inEaseProcess = false, 50);
     }
     /*slide switch operation*/

@@ -1,0 +1,5 @@
+<form  #form>
+  <label for="imgInput" class="label">Choose Image</label><br><br>
+  <input type="file" id="imgInput" (change)="newInput($event)"  #fileInput><br>
+  <img #fileDisplayArea  class="image-display">
+</form>

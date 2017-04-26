@@ -2,7 +2,9 @@ import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, ViewChil
 import { FormGroup, FormControl, FormBuilder, Validators, FormArray  } from '@angular/forms';
 
 import {MdDialog, MdDialogRef} from '@angular/material';
-import {JsonValidator } from '../json-validator.directive'
+import {JsonValidator } from '../json-validator.directive';
+
+import { Slide } from './slide';
 @Component({
     selector: 'app-slide-creator',
     templateUrl: './slide-creator.component.html',
@@ -11,9 +13,8 @@ import {JsonValidator } from '../json-validator.directive'
 export class SlideCreatorComponent implements OnInit, AfterViewInit {
     @Output() confirmSlideOpt: EventEmitter<Object> = new EventEmitter();
     @Input() slideIndex: string;
-
+    slide: Slide = new Slide();
     form: FormGroup;
-    slide: any = {};
     graphs: Array<any> = [
         {
             value: "barChart",
@@ -27,14 +28,43 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
             type: "Line Chart"
         },
         {
+            value: "image",
+            type: "Image"
+        },
+        {
             value: "noGraph",
             type: "No Graph"
         }];
+    pageLayout: Array<any> = [
+        {
+            value: "FullScreenGraph",
+            type: "Full Screen Graph"
+        }, {
+            value: "textInCenter",
+            type: "Text in Center"
+        },
+        {
+            value: "textInCenterImageBackground",
+            type: "Text in Center + Image Background"
+        },
+        {
+            value: "LeftGraphRightText",
+            type: "Graph on Left +  Text on Right"
+        },
+        {
+            value: "LeftTextRightGraph",
+            type: "Text on Left +  Graph on Right"
+        }
+    ];
     dataExample: any;
+    hasGraph: boolean = false;
+    hasText: boolean = false;
     editorOptions: Object = {
         heightMin: 200,
         heightMax: 400,
-        charCounterMax: 1000
+        charCounterMax: 1000,
+        imageUploadURL: 'http://127.0.0.1:3000/api/imagesServer',
+        imageManagerLoadURL: 'http://127.0.0.1:3000/api/imagesServer'
     }
     @ViewChild("dataInput") dataInputTab;
     @ViewChild("graphSelector") graphSelector;
@@ -42,7 +72,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
     constructor(
         public dialog: MdDialog,
         private cdRef: ChangeDetectorRef,
-        private _fb: FormBuilder
+        private _fb: FormBuilder,
     ) {
 
     }
@@ -58,6 +88,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
         return this._fb.group({
             slideText: new FormControl('', Validators.nullValidator),
             slideGraph: new FormControl('noGraph', Validators.nullValidator),
+            pageLayout: new FormControl('pageLayout', Validators.nullValidator),
             graphDataJson: new FormControl(this.dataExample, Validators.compose([JsonValidator()])),
             graphData: this._fb.array([
                 this.initData(),
@@ -66,7 +97,8 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
     }
     confirmSlide() {
         /* to decide which data to take from tab*/
-        if (this.form.value.slideGraph != 'noGraph') {
+        console.log()
+        if (this.hasGraph && !(this.form.value.slideGraph == 'noGraph' || this.form.value.slideGraph == 'image')) {
             switch (this.dataInputTab.selectedIndex) {
                 case 0: {
                     if (this.form.value.slideGraph == 'barChart')
@@ -94,7 +126,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
                         this.slide.data = data;
                     }
                     catch (e) {
-                        console.log("data format invalidate!!!!!");
+                        console.log("data format iImageBackgroundnvalidate!!!!!");
                     }
 
                     break;
@@ -102,12 +134,16 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
                 default: this.slide.data = '';
             }
         }
-
-        this.slide.graph = this.form.value.slideGraph;
-        this.slide.text = this.form.value.slideText;
+        if (this.hasGraph)
+            this.slide.graph = this.form.value.slideGraph;
+        else this.slide.graph = "";
+        this.slide.pageLayout = this.form.value.pageLayout;
+        if (this.hasText)
+            this.slide.text = this.form.value.slideText;
+        else this.slide.text = "";
         this.confirmSlideOpt.emit(this.slide);
+
         this.form = this._buildForm();
-        this.slide.graph = "";
         console.log("confirm slide:", this.slide);
     }
 
@@ -131,11 +167,21 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
             default: this.dataExample = "{}";
         }
     }
+    pageLayoutChange() {
+        switch (this.form.value.pageLayout) {
+            case "FullScreenGraph": this.hasGraph = true; this.hasText = false; console.log(this.slide); break;
+            case "textInCenter": this.hasGraph = false; this.hasText = true; break;
+            case "textInCenterImageBackground": this.hasGraph = true; this.hasText = true; break;
+            case "LeftGraphRightText": this.hasGraph = true; this.hasText = true; break;
+            case "LeftTextRightGraph": this.hasGraph = true; this.hasText = true; break;
+            default: ;
+        }
+    }
     getCsvJson(json) {
         this.csvJson = json;
     }
-    test() {
-        console.log(this.csvJson);
+    setImageHtml(html) {
+        this.slide.fullScreenHtml = html;
     }
 
 
