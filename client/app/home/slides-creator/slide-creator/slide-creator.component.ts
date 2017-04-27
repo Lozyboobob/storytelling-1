@@ -68,7 +68,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
     }
     @ViewChild("dataInput") dataInputTab;
     @ViewChild("graphSelector") graphSelector;
-    csvJson;
+    csvJson: any=[];
     constructor(
         public dialog: MdDialog,
         private cdRef: ChangeDetectorRef,
@@ -121,9 +121,9 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
                 case 2: {
                     let data;
                     try {
-                        data = JSON.parse(this.csvJson);
+                        //data = JSON.parse(this.csvJson);
                         //console.log(data);
-                        this.slide.data = data;
+                        this.slide.data = this.csvJson;
                     }
                     catch (e) {
                         console.log("data format iImageBackgroundnvalidate!!!!!");
@@ -144,7 +144,8 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
         this.confirmSlideOpt.emit(this.slide);
 
         this.form = this._buildForm();
-        this.slide=new Slide();
+        this.slide = new Slide();
+        this.csvJson = [];
         console.log("confirm slide:", this.slide);
     }
 
@@ -179,7 +180,16 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
         }
     }
     getCsvJson(json) {
-        this.csvJson = json;
+        try {
+            let j = JSON.parse(json);
+            if (this.form.value.slideGraph == "lineChart") {
+                this.csvJson.push(j)
+            }
+            else this.csvJson = j;
+        }
+        catch (e) {
+            console.error("unvalidate json");
+        }
     }
     setImageHtml(html) {
         this.slide.fullScreenHtml = html;
@@ -191,4 +201,4 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
 
 const barCharDataExample = '{"graphData":[{"index":"index1","value":"21"},{"index":"index2","value":"20"}]}';
 const forceDirectedGraphDataExample = '{"graphData":{ "nodes": [{ "id": "a", "group": 1 },{ "id": "b", "group": 1 },{ "id": "c", "group": 2 },  { "id": "d", "group": 2 } ], "links": [{ "source": "a", "target": "b", "value": 1 },  { "source": "a", "target": "d", "value": 2 },{ "source": "b", "target": "c", "value": 3 },  { "source": "c", "target": "a", "value": 4 }  ]}}';
-const lineChartExample = '{"graphData":[{"price" : "1394.46","date" : "Jan 2000",  "symbol" : "S&P 500"}, {"price" : "1366.42",  "date" : "Feb 2000","symbol" : "S&P 500"}, {  "price" : "1498.58","date" : "Mar 2000",  "symbol" : "S&P 500"}]}';
+const lineChartExample = '{"graphData":[[{"price" : "1394.46","date" : "Jan 2000",  "symbol" : "S&P 500"}, {"price" : "1366.42",  "date" : "Feb 2000","symbol" : "S&P 500"}, {  "price" : "1498.58","date" : "Mar 2000",  "symbol" : "S&P 500"}],[{"price" : "1285.36","date" : "Jan 2000",  "symbol" : "IBM"}, {"price" : "1299.98",  "date" : "Feb 2000","symbol" : "IBM"}, {  "price" : "1322.20","date" : "Mar 2000",  "symbol" : "IBM"}]]}';
