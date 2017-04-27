@@ -1,19 +1,35 @@
-<div class="slides-list-container">
-  <md-grid-list cols="4">
-    <md-grid-tile *ngFor="let s of slides" class="list-item slides-item ">
+<div class="slides-list-container container-fluid">
+  <div class="row">
+    <div *ngFor="let s of slides" class="list-item slides-item col-xs-12 col-sm-6  col-md-3">
+
       <md-card (click)="openSlides($event)" [attr.id]="s.id">
+        <md-card-header>
+          <md-card-title>{{s.title}}</md-card-title>
+        </md-card-header>
         <img md-card-image src="assets/svg.png">
-        <md-card-content>
-          {{s.title}}
+        <md-card-content class="description">
+          This is a description, don't double it, it's a description, i have tried to make it longer you know it's so boring to type so long a text but i have to make it looks like a description...
+
         </md-card-content>
+        <md-card-actions>
+          <button md-button class="accent">MANAGE</button>
+          <button md-button>PUBLISH</button>
+        </md-card-actions>
       </md-card>
-    </md-grid-tile>
-    <md-grid-tile class="list-item addBtn">
-      <md-card (click)="createSlides()">
-        <md-card-content>
-          <md-icon>add</md-icon>
-        </md-card-content>
-      </md-card>
-    </md-grid-tile>
-  </md-grid-list>
+
+    </div>
+    <div class="list-item col-xs-12 col-sm-6  col-md-3">
+      <md-grid-list cols="1" rowHeight="100%">
+        <md-grid-tile>
+          <md-card (click)="createSlides()" class="create-btn block-center">
+            <md-card-content>
+              <md-icon>add</md-icon>
+            </md-card-content>
+          </md-card>
+        </md-grid-tile>
+      </md-grid-list>
+
+    </div>
+  </div>
+
 </div>

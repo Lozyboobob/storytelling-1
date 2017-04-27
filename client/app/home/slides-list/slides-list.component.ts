@@ -11,10 +11,15 @@ import { Router } from '@angular/router';
 })
 export class SlidesListComponent implements OnInit {
     slides: Array<any> = [];
+    listHeight_style:any = {
+        'height': '350px'
+    };;
     constructor(
+        private windowResizeService: WindowResizeService,
         private slidesService: SlidesService,
         private router: Router
-    ) { }
+    ) {
+    }
 
     ngOnInit() {
         this.slidesService.getSlidesList()
@@ -29,7 +34,7 @@ export class SlidesListComponent implements OnInit {
             error => {
                 console.log("fail to get Slides list");
             });
-            console.log(this.slides)
+        console.log(this.slides)
     }
     /*open Slide*/
     openSlides(e) {
@@ -38,12 +43,12 @@ export class SlidesListComponent implements OnInit {
         if (target.tagName != "MD-CARD") {
             target = target.parentNode;
         }
-        this.router.navigate(['/slides',target.id]);
+        this.router.navigate(['/slides', target.id]);
     }
-    createSlides(){
-       this.router.navigate(['/createSlides']);
+    createSlides() {
+        this.router.navigate(['/createSlides']);
     }
-    test(){
-      console.log(this.slides);
+    test() {
+        console.log(this.slides);
     }
 }
