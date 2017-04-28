@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {WindowResizeService} from '../../window-resize.service';
 import {SlidesService} from '../slides.service';
 import { Router } from '@angular/router';
+import { select } from '@angular-redux/store';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
     selector: 'app-slides-list',
@@ -11,9 +13,10 @@ import { Router } from '@angular/router';
 })
 export class SlidesListComponent implements OnInit {
     slides: Array<any> = [];
-    listHeight_style:any = {
+    listHeight_style: any = {
         'height': '350px'
-    };;
+    };
+    @select(['session', 'token']) loggedIn$: Observable<string>;
     constructor(
         private windowResizeService: WindowResizeService,
         private slidesService: SlidesService,
@@ -28,8 +31,9 @@ export class SlidesListComponent implements OnInit {
                 console.log(slide);
                 slide.forEach(s => this.slides.push({
                     id: s._id,
-                    title: s.title
-                }))
+                    title: s.title,
+                    public : s.public
+                }));
             },
             error => {
                 console.log("fail to get Slides list");
@@ -47,6 +51,11 @@ export class SlidesListComponent implements OnInit {
     }
     createSlides() {
         this.router.navigate(['/createSlides']);
+    }
+    publish(e) {
+        e.public = !e.public;
+        this.slidesService.updateSlide(e, e.id )
+            .subscribe( elm => console.log(elm));
     }
     test() {
         console.log(this.slides);
