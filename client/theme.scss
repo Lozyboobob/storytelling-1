@@ -29,7 +29,9 @@ $lg: 26px;
         list-style-type: none;
         padding: 0;
     }
-
+    .secondery-text{
+      color: mat-color($primary,50);
+    }
     .section-title,
     h2 {
         color: mat-color($accent);
