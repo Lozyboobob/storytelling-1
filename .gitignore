@@ -22,7 +22,7 @@ coverage/
 dist
 public/dist/
 uploads
-server/public/
+server/public/images/
 modules/users/client/img/profile/uploads
 config/env/local.js
 *.pem
