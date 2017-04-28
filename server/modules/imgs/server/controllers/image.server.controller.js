@@ -10,9 +10,15 @@ var path = require('path'),
   Image = mongoose.model('Image'),
   FroalaEditor = require(path.resolve('../node_modules/wysiwyg-editor-node-sdk/lib/froalaEditor.js')),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
-var filesDir = path.join(path.dirname(require.main.filename), 'public/images');
-if (!fs.existsSync(filesDir)) {
-  fs.mkdirSync(filesDir);
+
+/* create new folder for image*/
+var publicDir = path.join(path.dirname(require.main.filename), 'public');
+if (!fs.existsSync(publicDir)) {
+  fs.mkdirSync(publicDir);
+}
+var imageDir = path.join(path.dirname(require.main.filename), 'public/images');
+if (!fs.existsSync(imageDir)) {
+  fs.mkdirSync(imageDir);
 }
 /**
  * Create an Image
@@ -24,7 +30,7 @@ exports.createServer = function(req, res) {
   FroalaEditor.Image.upload(req, 'public/images/', function(err, data) {
     // Return data.
     if (err) {
-      console.log("get error",err);
+      console.log("get error", err);
       return res.send(JSON.stringify(err));
     }
 
@@ -54,22 +60,22 @@ exports.createServer = function(req, res) {
 exports.create = function(req, res) {
   console.log("created!!!!");
   // Store image.
-    var image = new Image(req.body);
-    image.contentType='image/*';
-    console.log("image created");
-    image.user = req.user;
+  var image = new Image(req.body);
+  image.contentType = 'image/*';
+  console.log("image created");
+  image.user = req.user;
 
-    image.save(function(err) {
-      if (err) {
-        console.log("fail", err);
-        return res.status(422).send({
-          message: errorHandler.getErrorMessage(err)
-        });
-      } else {
-        console.log("success");
-        res.json(image);
-      }
-    });
+  image.save(function(err) {
+    if (err) {
+      console.log("fail", err);
+      return res.status(422).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    } else {
+      console.log("success");
+      res.json(image);
+    }
+  });
 };
 /**
  * Show the current image
