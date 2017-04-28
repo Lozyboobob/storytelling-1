@@ -16,6 +16,11 @@ var SlidesSchema = new Schema({
     trim: true,
     required: 'Title cannot be blank'
   },
+  public: {
+    type: Boolean,
+    default: false,
+    trim: true
+  },
   slides: {
     type: [{
       index: {
@@ -38,7 +43,7 @@ var SlidesSchema = new Schema({
         default: 'textInCenter',
         trim: true
       },
-      fullScreenHtml:{
+      fullScreenHtml: {
         type: String,
         default: '',
         trim: true
@@ -46,7 +51,7 @@ var SlidesSchema = new Schema({
       data: {
         type: Array,
         default: {}
-      }
+      },
     }],
     default: '',
     trim: true

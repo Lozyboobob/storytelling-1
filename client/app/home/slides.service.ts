@@ -72,6 +72,10 @@ export class SlidesService {
         //http://127.0.0.1:3000/api/slides
         return this.http.get(backendURL, this.jwt()).map((response: Response) => response.json());
     }
+    updateSlide(slide, id): Observable<any> {
+        let backendURL = 'http://127.0.0.1:3000/api/slides/' + id;
+        return this.http.put(backendURL, slide, this.jwt()).map((response: Response) => response.json());
+    }
     // private helper methods
     private jwt() {
         // create authorization header with jwt token
