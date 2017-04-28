@@ -5,7 +5,7 @@
   -o-transition: all 0.3s ease;
   transition: all 0.3s ease;
 }
-.container{
+.appcontainer{
   height: 100%;
   padding-top: 50px;
    padding-left: 60px;
@@ -13,7 +13,7 @@
       padding-left: 250px;
    }
    .wrap{
-     padding: 15px 20px;
+     padding-top : 15px;
    }
 }
 .toggle-mask{

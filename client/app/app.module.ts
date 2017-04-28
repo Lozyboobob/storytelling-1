@@ -20,6 +20,7 @@ import { AppComponent } from './app.component';
 import { CoreModule } from "./core";
 import { LoginComponent, RegisterComponent } from './users/index';
 import { UsersModule } from "./users";
+import { HomeModule } from "./home";
 import { HomeComponent } from './home/home.component';
 //import { HomeModule } from './home/index';
 
@@ -35,7 +36,7 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular2-froala-wysiwyg';
 import { JsonValidatorDirective } from './home/slides-creator/json-validator.directive';
 import { LineChartComponent } from './charts/line-chart/line-chart.component';
 import { CsvInputComponent } from './home/slides-creator/slide-creator/csv-input/csv-input.component';
-
+import { ImageUploadComponent } from './home/slides-creator/slide-creator/image-upload/image-upload.component';
 
 
 
@@ -43,7 +44,6 @@ import { CsvInputComponent } from './home/slides-creator/slide-creator/csv-input
     declarations: [
         AppComponent,
 
-        HomeComponent,
         SlidesCreatorComponent,
         SlideCreatorComponent,
         SlidesComponent,
@@ -54,11 +54,13 @@ import { CsvInputComponent } from './home/slides-creator/slide-creator/csv-input
         JsonValidatorDirective,
         LineChartComponent,
         CsvInputComponent,
+        ImageUploadComponent
     ],
     imports: [
         ReactiveFormsModule,
         FormsModule,
         HttpModule,
+        HomeModule,
         Angular2FontAwesomeModule,
         MaterialModule.forRoot(),
         BrowserAnimationsModule,
