@@ -1,0 +1,34 @@
+import { NgModule,CUSTOM_ELEMENTS_SCHEMA, APP_INITIALIZER, ModuleWithProviders } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+// MATERIAL DESIGN MODULES
+import { MaterialModule, OverlayContainer, TooltipPosition } from '@angular/material';
+import { Angular2FontAwesomeModule } from 'angular2-font-awesome/angular2-font-awesome';
+
+// ARTICLES COMPONENTS
+import { ArticlesComponent, ArticlesListComponent, ArticleDetailsComponent, ArticleComponent } from '.';
+
+// ARTICLES SERVICES
+import {ArticlesService} from '.';
+
+// ARTICLES ROUTES MODULE
+import { ArticlesRoutingModule } from ".";
+
+@NgModule({
+  imports: [
+    CommonModule,
+    MaterialModule,
+    ArticlesRoutingModule
+  ],
+  declarations: [
+    ArticlesComponent,
+    ArticlesListComponent,
+    ArticleDetailsComponent,
+    ArticleComponent
+  ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
+  providers: [OverlayContainer,ArticlesService],
+
+})
+export class ArticlesModule {
+}

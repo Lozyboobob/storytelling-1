@@ -1,20 +1,23 @@
 import { NgModule,CUSTOM_ELEMENTS_SCHEMA, APP_INITIALIZER, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 
 // MATERIAL DESIGN MODULES
 import { MaterialModule } from '@angular/material';
 import { Angular2FontAwesomeModule } from 'angular2-font-awesome/angular2-font-awesome';
 
-// CORE COMPONENTS
-import { AppToolbarComponent, AppSidenavComponent } from "./index";
-
 // REDUX
-import { NgReduxModule, DevToolsExtension } from '@angular-redux/store';
+import { NgReduxModule, DevToolsExtension, NgRedux } from '@angular-redux/store';
 import { NgReduxRouterModule } from '@angular-redux/router';
 
-// SERVICES
-import {SessionActions, SessionEpics, MenuService, ToggleNavService } from './index';
+// HTTP INTERCEPTOR
+import { HttpInterceptorModule, HttpInterceptorService } from "ng-http-interceptor";
+
+// CORE COMPONENTS
+import { AppToolbarComponent, AppSidenavComponent, NotFoundPageComponent, BadRequestPageComponent } from ".";
+
+// CORE SERVICES
+import { SessionActions, SessionEpics, MenuService, ToggleNavService, HttpInterceptableService } from '.';
 
 
 @NgModule({
@@ -22,21 +25,31 @@ import {SessionActions, SessionEpics, MenuService, ToggleNavService } from './in
     NgReduxModule,
     RouterModule,
     NgReduxRouterModule,
+    HttpInterceptorModule,
     Angular2FontAwesomeModule,
     MaterialModule.forRoot(),
     CommonModule
   ],
   declarations: [
     AppToolbarComponent,
-    AppSidenavComponent
+    AppSidenavComponent,
+    NotFoundPageComponent,
+    BadRequestPageComponent
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   providers: [
     SessionActions,
     SessionEpics,
     MenuService,
-    ToggleNavService
+    ToggleNavService,
+    { provide: HttpInterceptableService, useClass: HttpInterceptableService,
+       deps: [ HttpInterceptorService, NgRedux, Router, SessionActions ], multi: true }
   ], 
-  exports: [ AppToolbarComponent, AppSidenavComponent ]
+  exports: [ 
+    AppToolbarComponent,
+    AppSidenavComponent, 
+    NotFoundPageComponent, 
+    BadRequestPageComponent 
+  ]
 })
 export class CoreModule {}

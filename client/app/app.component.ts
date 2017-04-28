@@ -12,6 +12,7 @@ import {
   enhancers
 } from './core';
 import {SessionEpics} from './core';
+import { HttpInterceptableService } from "./core";
 import { ToggleNavService } from './core';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -22,7 +23,6 @@ import { Subscription } from 'rxjs/Subscription';
   providers: [ToggleNavService]
 })
 export class AppComponent {
-  title = 'app works!';
   isToggled: boolean;
   isNormalScreen:boolean=true;
   subscription: Subscription;
@@ -37,6 +37,7 @@ export class AppComponent {
     private ngRedux: NgRedux<IAppState>,
     private ngReduxRouter: NgReduxRouter,
     private epics: SessionEpics,
+    private httpInterceptableService: HttpInterceptableService,
     private ToggleNavService: ToggleNavService) {
     middleware.push(createEpicMiddleware(this.EPICS));
 
@@ -53,6 +54,5 @@ export class AppComponent {
     this.ToggleNavService.toggle().subscribe(toggled => {
       this.isToggled = toggled;
     });
-    console.log(this.subscription);
   }
 }
