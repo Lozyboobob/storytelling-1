@@ -31,7 +31,6 @@ export class LineChartComponent implements OnInit, Chart {
             })
         });
         this.data = data;
-
     }
     init() {
 
@@ -64,10 +63,10 @@ export class LineChartComponent implements OnInit, Chart {
         let yDomain = [0, d3.max(value, d => d.price)];
 
         // create scales
-        let xScale = d3.scaleLinear().domain(xDomain).rangeRound([0, this.width]);
-        let yScale = d3.scaleLinear().domain(yDomain).range([this.height, 0]);
+       x = d3.scaleTime().domain(xDomain).rangeRound([0, this.width]);
+        y = d3.scaleLinear().domain(yDomain).range([this.height, 0]);
 
-        console.log("end block");
+        console.log(xDomain,yDomain);
         let line = d3.line()
             .x((d) => x(d['date']))
             .y((d) => y(d['price']));
