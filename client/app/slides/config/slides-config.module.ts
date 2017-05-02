@@ -9,8 +9,8 @@ export class SlidesConfig {
     this.menuService.addMenuItem('sideNav',{
       state: 'slides',
       title: 'slides',
-      icon: 'fa-file',
-      roles: ['user', 'admin'],
+      icon: 'fa-desktop',
+      roles: ['*'],
     })
   }
 }

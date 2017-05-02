@@ -7,32 +7,32 @@ import { ArticlesComponent, ArticlesListComponent, ArticleDetailsComponent } fro
 import { Auth } from 'app/users';
 
 const articlesRoutes: Routes = [{
-        path: '', 
-        component: ArticlesComponent,
-        canActivate: [Auth],
-        data : {
-          roles : ['user', 'admin'], 
-          title : 'Articles'
-        }, 
-        children: [{
-            path: '',
-            component: ArticlesListComponent,
-            data : { title : 'Articles List'}
-          },
-          {
-          path: 'article/:id',
-          component: ArticleDetailsComponent,
-          data : { title : 'Article Detail'}
+    path: '',
+    component: ArticlesComponent,
+    canActivate: [Auth],
+    data: {
+        roles: ['user', 'admin'],
+        title: 'Articles'
+    },
+    children: [{
+        path: '',
+        component: ArticlesListComponent,
+        data: { title: 'Articles List' }
+    },
+        {
+            path: 'article/:id',
+            component: ArticleDetailsComponent,
+            data: { title: 'Article Detail' }
         }]
-      }
-    ];
-  
+}
+];
+
 @NgModule({
-  imports: [
-    RouterModule.forChild(articlesRoutes)
-  ],
-  exports: [
-    RouterModule
-  ]
+    imports: [
+        RouterModule.forChild(articlesRoutes)
+    ],
+    exports: [
+        RouterModule
+    ]
 })
 export class ArticlesRoutingModule { }

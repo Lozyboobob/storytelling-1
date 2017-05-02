@@ -2,7 +2,8 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {DomSanitizer} from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import {SlidesService, Slides} from 'app/slides';
+import {SlidesService} from '../../services/slides.service';
+import {Slides} from '../../models/slides'
 import {Slide} from './slide-creator/slide';
 @Component({
     selector: 'app-slides-creator',

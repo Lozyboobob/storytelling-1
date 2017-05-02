@@ -1,10 +1,10 @@
 import { Component, OnInit, Inject, ViewChild, ViewChildren, ElementRef, AfterViewInit, QueryList, AfterViewChecked, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { WindowResizeService } from 'app/core';
+import { WindowResizeService } from '../../services/window-resize.service';
 //import { ScrollDirective} from './scroll.directive';
 import {PageScrollInstance, PageScrollService, PageScrollConfig} from 'ng2-page-scroll';
 import {DOCUMENT, DomSanitizer} from '@angular/platform-browser';
-import {SlidesService} from 'app/slides';
+import {SlidesService} from '../../services/slides.service';
 import { BarChartComponent, ForceDirectedGraphComponent} from 'app/charts';
 
 import { PageConfig} from './pageConfig';
@@ -67,7 +67,7 @@ export class SlidesPresentationComponent implements OnInit, AfterViewInit, After
     ngOnInit() {
         let id;
         this.route.params.subscribe(params => {
-            id = params['slidesId'];
+            id = params['id'];
         });
         /* generate and initialize slides*/
         this.slidesService.getSlides(id)
@@ -152,7 +152,7 @@ export class SlidesPresentationComponent implements OnInit, AfterViewInit, After
 
             },
             error => {
-                console.log("fail to createSlides");
+                console.log("fail to get slides data");
             });
         //  window.location.hash = '#slide-0';
         //  this.goToSlide(0);

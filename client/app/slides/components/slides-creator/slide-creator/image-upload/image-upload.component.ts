@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
-import { SlidesService } from 'app/slides'
+import { SlidesService } from '../../../../services/slides.service'
 
 @Component({
     selector: 'app-image-upload',

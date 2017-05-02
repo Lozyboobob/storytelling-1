@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { WindowResizeService } from 'app/core';
-import {SlidesService} from 'app/slides';
+import { WindowResizeService } from '../../services/window-resize.service';
+import {SlidesService} from '../../services/slides.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -44,9 +44,6 @@ export class SlidesListComponent implements OnInit {
             target = target.parentNode;
         }
         this.router.navigate(['/slides', target.id]);
-    }
-    createSlides() {
-        this.router.navigate(['/createSlides']);
     }
     test() {
         console.log(this.slides);

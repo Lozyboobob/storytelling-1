@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SlidesPresentationComponent } from './slides.component';
+import { SlidesPresentationComponent } from './slides-presentation.component';
 
-describe('SlidesComponent', () => {
+describe('SlidesPresentationComponent', () => {
   let component: SlidesPresentationComponent;
   let fixture: ComponentFixture<SlidesPresentationComponent>;
 

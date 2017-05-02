@@ -11,7 +11,7 @@ const appRoutes: Routes = [
   { path: 'home', loadChildren:'app/home/home.module#HomeModule' },
   { path: 'user', loadChildren:'app/users/users.module#UsersModule' },
   { path: 'articles', loadChildren:'app/articles/articles.module#ArticlesModule' },
-
+  { path: 'slides', loadChildren:'app/slides/slides.module#SlidesModule' },
   // otherwise redirect to home
   { path: 'bad-request', component: BadRequestPageComponent, data: { title: 'Bad-request'} },
   { path: 'not-found', component: NotFoundPageComponent, data: { title: 'Not-Found'} },

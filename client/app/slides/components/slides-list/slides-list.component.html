@@ -2,7 +2,7 @@
   <div class="row">
     <div *ngFor="let s of slides" class="list-item slides-item col-xs-12 col-sm-6  col-md-3">
 
-      <md-card (click)="openSlides($event)" [attr.id]="s.id">
+      <md-card [routerLink]="['slidesPresentation', s.id]">
         <md-card-header>
           <md-card-title>{{s.title}}</md-card-title>
         </md-card-header>
@@ -21,7 +21,7 @@
     <div class="list-item col-xs-12 col-sm-6  col-md-3">
       <md-grid-list cols="1" rowHeight="100%">
         <md-grid-tile>
-          <md-card (click)="createSlides()" class="create-btn block-center">
+          <md-card [routerLink]="['createSlides']" class="create-btn block-center">
             <md-card-content>
               <md-icon>add</md-icon>
             </md-card-content>
