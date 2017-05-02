@@ -6,9 +6,9 @@
   -o-transition: all 0.3s ease;
   transition: all 0.3s ease;
 }
-.container{
-  margin-top:50px;
-  padding-top: 15px;
+.app-container{
+  //margin-top: 50px;
+  padding-top: 65px;
    padding-left: 60px;
    &.toggled{
       padding-left: 250px;

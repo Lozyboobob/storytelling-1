@@ -23,7 +23,7 @@ export class AppToolbarComponent implements OnInit {
   @Input() titleToolbar: string;
   @select(['session', 'token']) loggedIn$: Observable<string>;
   @select(['session', 'user']) user$: Observable<IUser>;
-  private 
+   
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
               private actions: SessionActions, 

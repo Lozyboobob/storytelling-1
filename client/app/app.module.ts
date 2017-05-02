@@ -1,8 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-import { RouterModule, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 // FONT AWESOME
 import { Angular2FontAwesomeModule } from 'angular2-font-awesome/angular2-font-awesome';
@@ -16,13 +15,14 @@ import 'hammerjs';
 import { AppRoutingModule } from './app-routing.module';
 
 // APP COMPONENTS
-import { AppComponent } from "./index";
+import { AppComponent } from ".";
 
-import { CoreModule } from "./core";
-import { HomeModule } from './home/index';
-import { ArticlesConfigModule } from './articles/config';
-import { SlidesConfigModule } from './slides/config';
-import { UsersModule } from "./users";
+import { CoreModule, StoreModule } from "app/core";
+import { HomeModule } from 'app/home';
+import { ArticlesConfigModule } from 'app/articles/config';
+import { SlidesConfigModule } from 'app/slides/config';
+import { UsersModule } from "app/users";
+
 @NgModule({
   declarations: [
     AppComponent
@@ -30,10 +30,10 @@ import { UsersModule } from "./users";
   imports: [
     ReactiveFormsModule,
     FormsModule,
-    HttpModule,
     Angular2FontAwesomeModule,
     MaterialModule.forRoot(),
     BrowserAnimationsModule,
+    StoreModule,
     CoreModule,
     UsersModule.forRoot(),
     ArticlesConfigModule.forRoot(),

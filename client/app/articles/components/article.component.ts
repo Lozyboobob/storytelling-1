@@ -7,7 +7,7 @@ import { IArticle } from "../services";
   styleUrls: ['./article.component.css']
 })
 export class ArticleComponent implements OnInit {
-//  @Input() article : IArticle;
+  @Input() article : IArticle;
 
   constructor() { }
 

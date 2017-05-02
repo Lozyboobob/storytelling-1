@@ -4,7 +4,7 @@ import { FormGroup, FormControl, FormBuilder, Validators, FormArray  } from '@an
 import {MdDialog, MdDialogRef} from '@angular/material';
 import {JsonValidator } from '../json-validator.directive';
 
-import { Slide } from './slide';
+import { Slide } from '../../../models/slide';
 @Component({
     selector: 'app-slide-creator',
     templateUrl: './slide-creator.component.html',

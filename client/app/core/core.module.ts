@@ -6,26 +6,24 @@ import { RouterModule, Router } from '@angular/router';
 import { MaterialModule } from '@angular/material';
 import { Angular2FontAwesomeModule } from 'angular2-font-awesome/angular2-font-awesome';
 
-// REDUX
-import { NgReduxModule, DevToolsExtension, NgRedux } from '@angular-redux/store';
-import { NgReduxRouterModule } from '@angular-redux/router';
-
-// HTTP INTERCEPTOR
-import { HttpInterceptorModule, HttpInterceptorService } from "ng-http-interceptor";
+// HTTP PROVIDER
+import { Http, XHRBackend, RequestOptions } from "@angular/http";
 
 // CORE COMPONENTS
 import { AppToolbarComponent, AppSidenavComponent, NotFoundPageComponent, BadRequestPageComponent } from ".";
 
 // CORE SERVICES
-import { SessionActions, SessionEpics, MenuService, ToggleNavService, HttpInterceptableService } from '.';
+import { SessionActions, MenuService, ToggleNavService, InterceptedHttp } from '.';
+
+export function httpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions,  router: Router, actions: SessionActions): Http {
+    return new InterceptedHttp(xhrBackend, requestOptions, router, actions);
+ }
+
 
 
 @NgModule({
   imports: [
-    NgReduxModule,
     RouterModule,
-    NgReduxRouterModule,
-    HttpInterceptorModule,
     Angular2FontAwesomeModule,
     MaterialModule.forRoot(),
     CommonModule
@@ -38,12 +36,9 @@ import { SessionActions, SessionEpics, MenuService, ToggleNavService, HttpInterc
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   providers: [
-    SessionActions,
-    SessionEpics,
     MenuService,
     ToggleNavService,
-    { provide: HttpInterceptableService, useClass: HttpInterceptableService,
-       deps: [ HttpInterceptorService, NgRedux, Router, SessionActions ], multi: true }
+    { provide: Http,  useFactory: httpFactory, deps: [XHRBackend, RequestOptions, Router, SessionActions]}
   ], 
   exports: [ 
     AppToolbarComponent,
@@ -52,4 +47,5 @@ import { SessionActions, SessionEpics, MenuService, ToggleNavService, HttpInterc
     BadRequestPageComponent 
   ]
 })
+
 export class CoreModule {}

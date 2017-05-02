@@ -13,11 +13,13 @@ import {ArticlesService} from '.';
 
 // ARTICLES ROUTES MODULE
 import { ArticlesRoutingModule } from ".";
+import { CoreModule } from "app/core";
 
 @NgModule({
   imports: [
     CommonModule,
     MaterialModule,
+    CoreModule,
     ArticlesRoutingModule
   ],
   declarations: [
@@ -30,5 +32,4 @@ import { ArticlesRoutingModule } from ".";
   providers: [OverlayContainer,ArticlesService],
 
 })
-export class ArticlesModule {
-}
+export class ArticlesModule {}
