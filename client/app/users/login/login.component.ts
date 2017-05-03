@@ -4,10 +4,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { SessionActions } from '../../core/actions';
 import { select } from '@angular-redux/store';
 import {Observable} from 'rxjs/Observable';
-import {NgReduxRouter} from '@angular-redux/router';
 import {  IAppState} from '../../core/store';
 import { NgRedux } from '@angular-redux/store';
 import { UsersService } from '../services/index';
+import { IMessage } from "../../core/store/session";
 
 
 @Component({
@@ -19,12 +19,12 @@ export class LoginComponent implements OnInit {
   returnUrl: string;
   @select(['session', 'isLoading']) isLoading$: Observable<boolean>;
   @select(['session', 'token']) loggedIn$: Observable<string>;
+  @select(['session', 'hasMessage']) hasMessage$: Observable<IMessage>;
 
   form: FormGroup;
 
   constructor(
     private route: ActivatedRoute,
-    private ngReduxRouter: NgReduxRouter,
     private router: Router,
     private actions: SessionActions,
     private ngRedux:NgRedux<IAppState>,
@@ -42,7 +42,6 @@ export class LoginComponent implements OnInit {
     this.loggedIn$.subscribe(
       isLoggedIn => {
         if (isLoggedIn) {
-          localStorage.setItem('token', JSON.stringify({'token': isLoggedIn}));
           this.router.navigate([this.returnUrl]);
         }
 

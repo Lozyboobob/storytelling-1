@@ -54,8 +54,8 @@ exports.update = function(req, res) {
   var slide = req.slide;
 
   slide.title = req.body.title;
-  slide.public = req.body.public;
   slide.content = req.body.content;
+
   slide.save(function(err) {
     if (err) {
       return res.status(422).send({

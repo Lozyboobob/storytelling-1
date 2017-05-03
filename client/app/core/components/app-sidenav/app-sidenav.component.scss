@@ -163,7 +163,14 @@
   color: #fff;
   text-decoration: none;
   padding:10px 20px;
+  
+  .active-link {
+    background-color: #24272d;
+    color: #fff;
+  }
+
 }
+
 .sidenav .sidebar-nav .user a md-icon {
   margin-right: 30px;
 }
@@ -177,8 +184,13 @@
   width: 36px;
 }
 
-.sidenav .sidebar-nav .user:hover {
-  background-color: #24272d;
+.sidenav .sidebar-nav  {
+  .active-link { 
+    background-color: #24272d; 
+  }
+  .user:hover {
+    background-color: #24272d; 
+  }
 }
 
 .dropdown-toggle {
@@ -245,9 +257,9 @@
   padding-left: 52px;
 }
 
-.sidenav .sidebar ul li a {
-  width: 250px;
-}
+// .sidenav .sidebar ul li a {
+//   width: 250px;
+// }
 
 .wrapper.toggled .sidebar ul li {
   width: 250px;

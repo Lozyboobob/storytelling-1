@@ -1,9 +1,11 @@
-<div class="toggle-mask" [class.toggled]="isToggled&&!isNormalScreen" (click)="toggleNav()"></div>
-<app-app-toolbar ></app-app-toolbar>
-<app-app-sidenav  ></app-app-sidenav>
-<div class="jumbotron" >
-    <div class="appcontainer" [class.toggled]="isToggled">
-        <div class="wrap">
+<!--<div class="toggle-mask" [class.toggled]="isToggled&&!isNormalScreen"></div>-->
+<div>
+  <app-app-toolbar></app-app-toolbar>
+  <app-app-sidenav></app-app-sidenav>
+</div>
+<div class="jumbotron">
+    <div class="app-container" [class.toggled]="isToggled">
+        <div>
         <router-outlet></router-outlet>
         </div>
     </div>

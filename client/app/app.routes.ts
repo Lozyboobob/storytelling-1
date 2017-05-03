@@ -1,22 +1,16 @@
 import { RouterModule, Routes } from '@angular/router';
 
 // APP COMPONENTS
-
- import { HomeComponent,  SlidesComponent,SlidesListComponent,SlidesCreatorComponent} from './home/index';
- import { LoginComponent, RegisterComponent } from './users/index';
- import { AuthInterceptor } from './users/index';
+import { Auth } from './users';
+import { HomeComponent } from "./home";
 
 const ROUTES: Routes = [
-    // { path: '', component: HomeComponent, canActivate: [AuthInterceptor]  },
-    { path: '', component: SlidesListComponent },
-     { path: '', component: HomeComponent },
-     { path: 'login', component: LoginComponent },
-     { path: 'register', component: RegisterComponent },
-     { path: 'slides/:slidesId', component: SlidesComponent },
-     { path: 'createSlides', component: SlidesCreatorComponent },
+     { path: 'home', component: HomeComponent, data : { title : 'Home' }},
+     { path: 'user', loadChildren:'app/users/users.module#UsersModule'},
+     { path: 'list-articles', loadChildren:'app/articles/articles.module#ArticlesModule' },
 
      // otherwise redirect to home
-     { path: '**', redirectTo: '' }
+     { path: '**', redirectTo: 'home' , pathMatch: 'full'}
 ];
 
 export const APP_ROUTES = RouterModule.forRoot(ROUTES);

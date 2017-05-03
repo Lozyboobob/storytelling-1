@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from '@angular-redux/router';
-import * as session from './session';
 import {mergePersistedState} from 'redux-localstorage';
+import * as session from './session';
 
 
 export interface IAppState {
