@@ -1,1 +1,2 @@
-export * from './window-resize.service';
+export * from './app.component';
+export * from './app.routes';

@@ -4,14 +4,17 @@ import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class ToggleNavService {
-    private toggled:boolean = true;
-    private subject = new Subject<any>();
-    constructor()  {
+  private toggled:boolean = false;
+  private subject = new Subject<boolean>();
+  public toggle$ ;
+  constructor() {
+    this.toggle$ = this.subject.asObservable();
   }
-    toggle(): Observable<any> {
-      console.log("observed");
-      this.toggled=!this.toggled;
-      this.subject.next(this.toggled);
-       return this.subject.asObservable();
-    }
+
+  toggle(): Observable<boolean> {
+    this.toggled=!this.toggled;
+    this.subject.next(this.toggled);
+    return this.toggle$;
+  }
+
 }

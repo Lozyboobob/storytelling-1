@@ -24,9 +24,12 @@
                 </table>
             </md-card-content>
             <md-card-actions align="center">
-                <button md-raised-button color="primary"  type="submit" >Login</button>
+                <button md-raised-button color="primary"  type="submit" [disabled]= "(isLoading$ | async)" >Login</button>
                 <a md-button [routerLink]="['../register']">Register</a>
             </md-card-actions>
+            <div type="danger" *ngIf="hasMessage$ | async" class="center-align text-danger">
+                <span>{{hasMessage$ | async}}</span>
+            </div>
         </form>
     </md-card>
 </div>

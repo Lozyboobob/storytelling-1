@@ -1,27 +1,26 @@
-  <form flex="100" class="base" name="userForm" novalidate autocomplete="off" #userForm="ngForm">
+  <form flex="100" class="base" [formGroup]="form" name="userForm" novalidate autocomplete="off" #userForm="ngForm">
     <md-input-container class="md-icon-float md-block" show-errors>
-      <input mdInput [(ngModel)]="state?.session.user.firstName" type="text" placeholder="First Name" id="firstName" name="firstName" required autofocus />
+      <input mdInput formControlName="firstName" type="text" placeholder="First Name" id="firstName" name="firstName" required autofocus />
     </md-input-container>
 
     <md-input-container class="md-icon-float md-block" show-errors>
-      <input mdInput [(ngModel)]="state?.session.user.lastName" type="text" placeholder="Last Name" id="lastName" name="lastName" required />
+      <input mdInput formControlName="lastName" type="text" placeholder="Last Name" id="lastName" name="lastName" required />
     </md-input-container>
 
     <md-input-container class="md-icon-float md-block" show-errors>
-      <input mdInput  [(ngModel)]="state?.session.user.email"  type="text" placeholder="Email" id="email" name="email" lowercase required />
+      <input mdInput  formControlName="email"  type="text" placeholder="Email" id="email"  name="email" lowercase required />
     </md-input-container>
    <div>
     <md-input-container class="md-icon-float md-block" show-errors>
-      <input mdInput [(ngModel)]="state?.session.user.username" type="text" id="username" placeholder="Username" name="username" lowercase required class="md2 md-input" />
+      <input mdInput formControlName="username" type="text" id="username"  placeholder="Username"  name="username" lowercase required class="md2 md-input"/>
     </md-input-container>
   </div>
       <div class="center-align">
-      <button (click)="saveProfile(userForm.value)" md-raised-button color="primary" type="button">Save Profile</button>
+      <button md-raised-button color="primary" type="submit" (click)="saveProfile(form.value)"  [disabled]="!form.valid || (isLoading$ | async)">Save Profile</button>
     </div>
-    <div *ngIf="state?.session.hasMessage?.get('type')==='success' && state?.session.actionType==='PUT_USER_SUCCESS'" class="center-align text-success">
-      <strong>{{state?.session.hasMessage?.get('message')}}</strong>
-    </div>
-    <div type="danger" *ngIf="state?.session.hasMessage?.get('type')==='echec' && state?.session.actionType==='PUT_USER_ERROR'" class="center-align text-danger">
-      <span>{{state?.session.hasMessage?.get('message')}}</span>
+    
+
+    <div type="danger" *ngIf="hasMessage$ | async" class="center-align text-danger">
+      <span>{{hasMessage$ | async}}</span>
     </div>
 </form>

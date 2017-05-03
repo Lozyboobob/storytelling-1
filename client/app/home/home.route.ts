@@ -4,6 +4,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 
 const HOMEROUTES: Routes = [
-     { path: 'home', component: HomeComponent}];
+     { path: '', component: HomeComponent, data: { title : 'Home' } }];
 
 export const HOME_ROUTES = RouterModule.forChild(HOMEROUTES);

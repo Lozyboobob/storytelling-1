@@ -1,8 +1,8 @@
-import { ConfirmDirective } from './confirm.directive';
+import { EqualValidator } from './equal-validator.directive';
 
-describe('ConfirmDirective', () => {
+describe('EqualValidator', () => {
   it('should create an instance', () => {
-    const directive = new ConfirmDirective();
+    const directive = new EqualValidator('', '');
     expect(directive).toBeTruthy();
   });
 });

@@ -1,43 +1,65 @@
 // Karma configuration file, see link for more information
 // https://karma-runner.github.io/0.13/config/configuration-file.html
 
-module.exports = function (config) {
-  config.set({
+// Karma configuration
+module.exports = function (karmaConfig) {
+  karmaConfig.set({
     basePath: '',
-    frameworks: ['jasmine', 'angular-cli'],
+    frameworks: ['jasmine', '@angular/cli'],
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
-      require('karma-remap-istanbul'),
-      require('angular-cli/plugins/karma')
+      require('karma-jasmine-html-reporter'),
+      require('karma-coverage-istanbul-reporter'),
+      require('@angular/cli/plugins/karma')
     ],
+    client:{
+      clearContext: false // leave Jasmine Spec Runner output visible in browser
+    },
+    // List of files / patterns to load in the browser
     files: [
-      { pattern: './src/test.ts', watched: false }
+      { pattern: './client/test.ts', watched: false }
     ],
     preprocessors: {
-      './src/test.ts': ['angular-cli']
+      './client/test.ts': ['@angular/cli']
     },
     mime: {
       'text/x-typescript': ['ts','tsx']
     },
-    remapIstanbulReporter: {
-      reports: {
-        html: 'coverage',
-        lcovonly: './coverage/coverage.lcov'
-      }
+    coverageIstanbulReporter: {
+      reports: [ 'html', 'lcovonly' ],
+      fixWebpackSourcePaths: true
     },
     angularCli: {
-      config: './angular-cli.json',
       environment: 'dev'
     },
-    reporters: config.angularCli && config.angularCli.codeCoverage
-              ? ['progress', 'karma-remap-istanbul']
-              : ['progress'],
+    // Test results reporter to use
+    // Possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
+    reporters: karmaConfig.angularCli && karmaConfig.angularCli.codeCoverage
+              ? ['progress', 'coverage-istanbul']
+              : ['progress', 'kjhtml'],
+    // Web server port
     port: 9876,
+    // Enable / disable colors in the output (reporters and logs)
     colors: true,
-    logLevel: config.LOG_INFO,
+    // Level of logging
+    // Possible values: karmaConfig.LOG_DISABLE || karmaConfig.LOG_ERROR || karmaConfig.LOG_WARN || karmaConfig.LOG_INFO || karmaConfig.LOG_DEBUG
+    logLevel: karmaConfig.LOG_INFO,
+    // Enable / disable watching file and executing tests whenever any file changes
     autoWatch: true,
+    // Start these browsers, currently available:
+    // - Chrome
+    // - ChromeCanary
+    // - Firefox
+    // - Opera
+    // - Safari (only Mac)
+    // - PhantomJS
+    // - IE (only Windows)
     browsers: ['Chrome'],
-    singleRun: false
+    // If browser does not capture in given timeout [ms], kill it
+    captureTimeout: 60000,
+    // Continuous Integration mode
+    // If true, it capture browsers, run tests and exit
+    singleRun: true
   });
 };

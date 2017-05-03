@@ -1,3 +1,4 @@
+import {actionTypes} from 'redux-localstorage'
 import { SessionActions, IPayloadAction } from '../../actions/session.actions';
 import { ISessionRecord } from './session.types';
 import {
@@ -5,7 +6,6 @@ import {
   INITIAL_USER_STATE,
   UserFactory,
 } from './session.initial-state';
-import {actionTypes} from 'redux-localstorage'
 
 export const sessionReducer = (
   state: ISessionRecord = INITIAL_STATE,
@@ -36,7 +36,7 @@ export const sessionReducer = (
         user: INITIAL_USER_STATE,
         hasError: true,
         isLoading: false,
-        hasMessage :null,
+        hasMessage : action.payload.hasMessage,
         actionType : action.type
       });
 
@@ -79,11 +79,9 @@ export const sessionReducer = (
 
         case SessionActions.PUT_USER_ERROR:
           return state.merge({
-            token: null,
-            user: INITIAL_USER_STATE,
             hasError: true,
             isLoading: false,
-            hasMessage:null,
+            hasMessage: action.payload.hasMessage,
             actionType : action.type
         });
 
@@ -118,19 +116,23 @@ export const sessionReducer = (
         });
         case SessionActions.CHANGE_PASSWORD_SUCCESS:
           return state.merge({
-            hasMessage : action.payload,
+            hasMessage : action.payload.hasMessage,
             hasError: false,
             isLoading: false,
             actionType : action.type
           });
           case SessionActions.CHANGE_PASSWORD_ERROR:
             return state.merge({
-              hasMessage : action.payload,
-              hasError: false,
+              hasMessage : action.payload.hasMessage,
+              hasError: true,
               isLoading: false,
               actionType : action.type
             });
     default:
-      return state;
+      return state.merge({
+        hasMessage: null,
+        hasError: false,
+        isLoading: false,
+      });
   }
 }
