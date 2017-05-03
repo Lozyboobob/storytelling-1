@@ -6,10 +6,10 @@ import { CommonModule } from '@angular/common';
 import { MaterialModule, OverlayContainer, TooltipPosition } from '@angular/material';
 import { Angular2FontAwesomeModule } from 'angular2-font-awesome/angular2-font-awesome';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import {XHRBackend, Http, RequestOptions} from "@angular/http";
-
+import {XHRBackend, Http, RequestOptions} from '@angular/http';
+import {SearchComponent} from './components/search/search.component';
 // SLIDES COMPONENTS
-import { SlidesPresentationComponent, SlidesListComponent, SlidesCreatorComponent,SlideCreatorComponent } from '.';
+import { SlidesPresentationComponent, SlidesListComponent, SlidesCreatorComponent, SlideCreatorComponent } from '.';
 // SLIDES SERVICES
 import {SlidesService} from '.';
 
@@ -52,7 +52,7 @@ import { ImageUploadComponent } from './components/slides-creator/slide-creator/
         SlideCreatorComponent,
         CsvInputComponent,
         ImageUploadComponent,
-
+        SearchComponent,
         BarChartComponent,
         ForceDirectedGraphComponent,
         LineChartComponent

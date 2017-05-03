@@ -16,6 +16,11 @@ var SlidesSchema = new Schema({
     trim: true,
     required: 'Title cannot be blank'
   },
+  public: {
+    type: Boolean,
+    default: false,
+    trim: true
+  },
   description:{
     type:String,
     defalut:'',
