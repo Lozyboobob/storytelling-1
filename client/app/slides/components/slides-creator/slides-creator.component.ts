@@ -3,8 +3,10 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {DomSanitizer} from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import {SlidesService} from '../../services/slides.service';
+
 import {Slides} from '../../models/slides';
 import {Slide} from '../../models/slide';
+
 @Component({
     selector: 'app-slides-creator',
     templateUrl: './slides-creator.component.html',
