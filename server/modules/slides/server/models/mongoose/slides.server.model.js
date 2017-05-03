@@ -16,6 +16,21 @@ var SlidesSchema = new Schema({
     trim: true,
     required: 'Title cannot be blank'
   },
+  description:{
+    type:String,
+    defalut:'',
+    trim: true
+  },
+  tags:{
+    type:[String],
+    defalut:'',
+    trim: true
+  },
+  bannerPath:{
+    type:String,
+    defalut:'',
+    trim: true
+  },
   slides: {
     type: [{
       index: {

@@ -192,7 +192,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
         }
     }
     setImageHtml(html) {
-        this.slide.fullScreenHtml = html;
+        this.slide.fullScreenHtml =  "<img src='"+html+"' style='width:100%;height:100%'>";
     }
 
 
