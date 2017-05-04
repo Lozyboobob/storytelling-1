@@ -75,8 +75,3 @@ export class SlidesCreatorComponent implements OnInit {
             });
     }
 }
-/*for select graph type*/
-const defineGraph = () => {
-
-}
-
