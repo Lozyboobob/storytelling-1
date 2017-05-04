@@ -1,85 +1,87 @@
 <md-card class="slide-creator secondery-theme">
-  <md-card-header class="section-title">
+  <md-card-header class="section-title" (click)="toggleForm()">
     Slide {{slideIndex}}
   </md-card-header>
-  <form novalidate [formGroup]="form" (ngSubmit)="f.form.valid" #f="ngForm">
-    <div class="full-frame">
-      <div class="margin-frame">
-        <table cellspacing="0" class="full-line">
-          <tr>
-            <td>
-              <md-select placeholder="Page layout" formControlName="pageLayout" name="pageLayout" (change)="pageLayoutChange()">
-                <md-option *ngFor="let layout of pageLayout" [value]="layout.value">
-                  {{ layout.type }}
-                </md-option>
-              </md-select>
-            </td>
-            <td>
-              <md-select *ngIf="hasGraph&&!(this.form.value.pageLayout=='textInCenterImageBackground')" placeholder="Select graph" formControlName="slideGraph" name="slideGraph" (change)="graphChange()">
-                <md-option *ngFor="let graph of graphs" [value]="graph.value">
-                  {{ graph.type }}
-                </md-option>
-              </md-select>
-            </td>
-          </tr>
-        </table>
+  <md-card-content *ngIf="showForm">
+    <form novalidate [formGroup]="form" (ngSubmit)="f.form.valid" #f="ngForm">
+      <div class="full-frame">
+        <div class="margin-frame">
+          <table cellspacing="0" class="full-line">
+            <tr>
+              <td>
+                <md-select placeholder="Page layout" formControlName="pageLayout" name="pageLayout" (change)="pageLayoutChange()">
+                  <md-option *ngFor="let layout of pageLayout" [value]="layout.value">
+                    {{ layout.type }}
+                  </md-option>
+                </md-select>
+              </td>
+              <td>
+                <md-select *ngIf="slide.hasGraph&&form.controls.pageLayout.value!='textInCenterImageBackground'" placeholder="Select graph" formControlName="slideGraph" name="slideGraph" (change)="graphChange()">
+                  <md-option *ngFor="let graph of graphs" [value]="graph.value">
+                    {{ graph.type }}
+                  </md-option>
+                </md-select>
+              </td>
+            </tr>
+          </table>
 
-        <div class="margin-ver-frame">
-          <md-tab-group *ngIf="!(form.controls.slideGraph.value=='noGraph'||form.controls.slideGraph.value=='image')" #dataInput>
-            <md-tab label="Input">
-              <div [ngSwitch]="form.controls.slideGraph.value">
-                <div *ngSwitchCase="'barChart'" class="margin-frame">
-                  <table cellspacing="0" #dataTable>
-                    <tr>
-                      <th>X Axis</th>
-                      <th>Y Axis</th>
-                    </tr>
-                    <tr *ngFor="let data of form.controls.graphData.controls;let i=index" [formGroup]="data">
-                      <td>
-                        <md-input-container>
-                          <input mdInput placeholder="String/Number" formControlName="index">
-                        </md-input-container>
-                      </td>
-                      <td>
-                        <md-input-container>
-                          <input mdInput placeholder="Number" formControlName="value">
-                        </md-input-container>
-                      </td>
-                    </tr>
-                  </table>
-                  <a md-mini-fab (click)="addData()">
-                    <md-icon>add</md-icon>
-                  </a>
+          <div class="margin-ver-frame">
+            <md-tab-group *ngIf="slide.hasGraph && !(form.controls.slideGraph.value=='image'||form.controls.slideGraph.value=='noGraph')" #dataInput>
+              <md-tab label="Input">
+                <div [ngSwitch]="form.controls.slideGraph.value">
+                  <div *ngSwitchCase="'barChart'" class="margin-frame">
+                    <table cellspacing="0" #dataTable>
+                      <tr>
+                        <th>X Axis</th>
+                        <th>Y Axis</th>
+                      </tr>
+                      <tr *ngFor="let data of form.controls.graphData.controls;let i=index" [formGroup]="data">
+                        <td>
+                          <md-input-container>
+                            <input mdInput placeholder="String/Number" formControlName="index">
+                          </md-input-container>
+                        </td>
+                        <td>
+                          <md-input-container>
+                            <input mdInput placeholder="Number" formControlName="value">
+                          </md-input-container>
+                        </td>
+                      </tr>
+                    </table>
+                    <a md-mini-fab (click)="addData()">
+                      <md-icon>add</md-icon>
+                    </a>
+                  </div>
+                  <div *ngSwitchCase="'forceDirectedGraph'" class="margin-frame">
+                    <h2>Use default data</h2>
+
+                  </div>
+                  <div *ngSwitchCase="'lineChart'" class="margin-frame">
+                    <h2>Use default data</h2>
+
+                  </div>
+                  <div *ngSwitchDefault></div>
                 </div>
-                <div *ngSwitchCase="'forceDirectedGraph'" class="margin-frame">
-                  <h2>Use default data</h2>
+              </md-tab>
+              <md-tab label="Json">
+                <textarea name="graphDataJson" formControlName="graphDataJson" [(ngModel)]="dataExample"></textarea>
+                <p class="error" *ngIf=" form.controls.graphDataJson.invalid">Invalidate json format</p>
+              </md-tab>
+              <md-tab label="CSV">
+                <app-csv-input (csv2json)="getCsvJson($event)"></app-csv-input>
+              </md-tab>
+            </md-tab-group>
+            <app-image-upload (setImage)="setImageHtml($event)" *ngIf="(slide.hasGraph&&form.controls.slideGraph.value=='image')||(this.form.value.pageLayout=='textInCenterImageBackground')"></app-image-upload>
 
-                </div>
-                <div *ngSwitchCase="'lineChart'" class="margin-frame">
-                  <h2>Use default data</h2>
-
-                </div>
-                <div *ngSwitchDefault></div>
-              </div>
-            </md-tab>
-            <md-tab label="Json">
-              <textarea name="graphDataJson" formControlName="graphDataJson" [(ngModel)]="dataExample"></textarea>
-              <p class="error" *ngIf=" form.controls.graphDataJson.invalid">Invalidate json format</p>
-            </md-tab>
-            <md-tab label="CSV">
-              <app-csv-input (csv2json)="getCsvJson($event)"></app-csv-input>
-            </md-tab>
-          </md-tab-group>
-          <app-image-upload (setImage)="setImageHtml($event)" *ngIf="(hasGraph&&form.controls.slideGraph.value=='image')||(this.form.value.pageLayout=='textInCenterImageBackground')"></app-image-upload>
-
-        </div>
-        <div class="margin-ver-frame" *ngIf="hasText">
-          <textarea [froalaEditor]='editorOptions' [(froalaModel)]="form.value.slideText"></textarea>
+          </div>
+          <div class="margin-ver-frame" *ngIf="slide.hasText">
+            <textarea [froalaEditor]='editorOptions' [(froalaModel)]="form.value.slideText"></textarea>
+          </div>
         </div>
       </div>
-    </div>
-    <br>
-    <button md-raised-button type="submit" (click)="confirmSlide()" [disabled]="!form.valid">OK</button>
+      <br>
+      <button md-raised-button type="button" (click)="confirmSlide()" [disabled]="!form.valid">OK</button>
 
-  </form>
+    </form>
+  </md-card-content>
 </md-card>

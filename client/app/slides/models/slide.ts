@@ -6,9 +6,12 @@ export class Slide {
     /* slide content*/
     text: string = ""; //content of slide
     /* slide layout*/
-    pageLayout: string = 'textInCenter'; //pagelayout type
+    pageLayout: string = ''; //pagelayout type
     /* full screen layout setting*/
     fullScreenHtml: string = ""; //full screen img html
+    /* indecator for text and graph*/
+    hasGraph:boolean=false;
+    hasText:boolean=false;
     constructor() {
 
     }
