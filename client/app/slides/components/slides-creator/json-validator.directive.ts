@@ -7,13 +7,11 @@ export function JsonValidator(): ValidatorFn {
         try {
             // parse it to json
             JSON.parse(control.value);
-            console.log("parsing",control.value);
         } catch (e) {
             console.log("error");
             // set parse error if it fails
             return { 'validate': false }
         }
-        console.log("validated");
         return null;
     }
 

@@ -12,7 +12,9 @@ import { Slide } from '../../../models/slide';
 })
 export class SlideCreatorComponent implements OnInit, AfterViewInit {
     @Output() confirmSlideOpt: EventEmitter<Object> = new EventEmitter();
-    @Input() slideIndex: string;
+    @Input() slideIndex: number;
+    @Input() slideSetting: Slide;
+    @Input() showForm: boolean; //indicator for showing slide setting
     slide: Slide = new Slide();
     form: FormGroup;
     graphs: Array<any> = [
@@ -57,8 +59,6 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
         }
     ];
     dataExample: any;
-    hasGraph: boolean = false;
-    hasText: boolean = false;
     editorOptions: Object = {
         heightMin: 200,
         heightMax: 400,
@@ -68,7 +68,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
     }
     @ViewChild("dataInput") dataInputTab;
     @ViewChild("graphSelector") graphSelector;
-    csvJson: any=[];
+    csvJson: any = [];
     constructor(
         public dialog: MdDialog,
         private cdRef: ChangeDetectorRef,
@@ -78,27 +78,37 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit() {
-        this.form = this._buildForm();
+        if (this.slideSetting) {
+            this.slide = this.slideSetting;
+        }
+        if (this.slideIndex) {
 
+            this.slide.index = this.slideIndex;
+        }
+        this.form = this._buildForm();
     }
     ngAfterViewInit() {
 
     }
     private _buildForm() {
         return this._fb.group({
-            slideText: new FormControl('', Validators.nullValidator),
-            slideGraph: new FormControl('noGraph', Validators.nullValidator),
-            pageLayout: new FormControl('pageLayout', Validators.nullValidator),
+            slideText: new FormControl(this.slide.text, Validators.nullValidator),
+            slideGraph: new FormControl(this.slide.graph, Validators.nullValidator),
+            pageLayout: new FormControl(this.slide.pageLayout, Validators.nullValidator),
             graphDataJson: new FormControl(this.dataExample, Validators.compose([JsonValidator()])),
             graphData: this._fb.array([
                 this.initData(),
             ])
         });
     }
+    /* toggle the slideSetting*/
+    toggleForm() {
+        this.showForm = !this.showForm;
+    }
     confirmSlide() {
         /* to decide which data to take from tab*/
         console.log()
-        if (this.hasGraph && !(this.form.value.slideGraph == 'noGraph' || this.form.value.slideGraph == 'image')) {
+        if (this.slide.hasGraph && !(this.form.value.slideGraph == 'noGraph' || this.form.value.slideGraph == 'image')) {
             switch (this.dataInputTab.selectedIndex) {
                 case 0: {
                     if (this.form.value.slideGraph == 'barChart')
@@ -134,19 +144,22 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
                 default: this.slide.data = '';
             }
         }
-        if (this.hasGraph)
+        if (this.slide.hasGraph)
             this.slide.graph = this.form.value.slideGraph;
         else this.slide.graph = "";
         this.slide.pageLayout = this.form.value.pageLayout;
-        if (this.hasText)
+        if (this.slide.hasText)
             this.slide.text = this.form.value.slideText;
         else this.slide.text = "";
+        if (this.slideIndex) {
+            this.slide.index = this.slideIndex;
+        }
         this.confirmSlideOpt.emit(this.slide);
-
-        this.form = this._buildForm();
         this.slide = new Slide();
+
         this.csvJson = [];
-        console.log("confirm slide:", this.slide);
+        this.form = this._buildForm();
+
     }
 
     initData() {
@@ -171,11 +184,14 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
     }
     pageLayoutChange() {
         switch (this.form.value.pageLayout) {
-            case "FullScreenGraph": this.hasGraph = true; this.hasText = false; console.log(this.slide); break;
-            case "textInCenter": this.hasGraph = false; this.hasText = true; break;
-            case "textInCenterImageBackground": this.hasGraph = true; this.hasText = true; break;
-            case "LeftGraphRightText": this.hasGraph = true; this.hasText = true; break;
-            case "LeftTextRightGraph": this.hasGraph = true; this.hasText = true; break;
+            case "FullScreenGraph":
+                this.slide.hasGraph = true;
+                this.slide.hasText = false;
+                break;
+            case "textInCenter": this.slide.hasGraph = false; this.slide.hasText = true; break;
+            case "textInCenterImageBackground": this.slide.hasGraph = true; this.slide.hasText = true; break;
+            case "LeftGraphRightText": this.slide.hasGraph = true; this.slide.hasText = true; break;
+            case "LeftTextRightGraph": this.slide.hasGraph = true; this.slide.hasText = true; break;
             default: ;
         }
     }
@@ -192,7 +208,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
         }
     }
     setImageHtml(html) {
-        this.slide.fullScreenHtml =  "<img src='"+html+"' style='width:100%;height:100%'>";
+        this.slide.fullScreenHtml = "<img src='" + html + "' style='width:100%;height:100%'>";
     }
 
 
