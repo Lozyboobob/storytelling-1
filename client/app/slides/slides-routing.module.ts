@@ -1,4 +1,4 @@
-import { NgModule }             from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 // SLIDES COMPONENTS
@@ -12,7 +12,7 @@ const slidesRoutes: Routes = [{
     component: SlidesListComponent,
     canActivate: [Auth],
     data: {
-        roles: ['user', 'admin'],
+        roles: ['*'],
         title: 'Slides'
     },
 },

@@ -1,3 +1,4 @@
+
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import {DomSanitizer} from '@angular/platform-browser';
@@ -78,3 +79,4 @@ export class SlidesCreatorComponent implements OnInit {
 const defineGraph = () => {
 
 }
+
