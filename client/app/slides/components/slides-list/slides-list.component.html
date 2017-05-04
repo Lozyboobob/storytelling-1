@@ -7,7 +7,7 @@
           <md-card-title>{{s.title}}</md-card-title>
         </md-card-header>
         <img md-card-image *ngIf="s.bannerPath.length" [src]="s.bannerPath">
-          <img md-card-image *ngIf="!s.bannerPath.length" [src]="'assets/svg.png'">
+        <img md-card-image *ngIf="!s.bannerPath.length" [src]="'assets/svg.png'">
         <md-card-content class="description">
           {{s.description}}
         </md-card-content>
