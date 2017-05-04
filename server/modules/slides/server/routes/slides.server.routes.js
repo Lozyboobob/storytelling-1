@@ -18,6 +18,11 @@ module.exports = function (app) {
     .put(slides.update)
     .delete(slides.delete);
 
+  app.route('/api/slides/search/:toSearch').all(slidesPolicy.isAllowed)
+    .get(slides.search);
+
   // Finish by binding the slide middleware
   app.param('slideId', slides.slideByID);
+  app.param('toSearch', slides.search);
+
 };

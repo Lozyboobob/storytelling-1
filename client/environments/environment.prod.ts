@@ -7,8 +7,12 @@ export const environment = {
         endpoints: {
           signup: '/api/auth/signup',
           signin: '/api/auth/signin',
-          articles :'/api/articles',
-          users : '/api/users'
+          articles : '/api/articles',
+          users : '/api/users',
+          slides: '/api/slides',
+          images: '/api/images',
+          imagesServer : '/api/imagesServer',
+          search : '/api/slides/search'
         }
     }
 };
