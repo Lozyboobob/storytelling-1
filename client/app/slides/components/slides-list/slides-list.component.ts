@@ -49,13 +49,13 @@ export class SlidesListComponent implements OnInit {
     shortText() {
         this.slidesService.getSlidesList()
             .subscribe(
-                slides => {
-                    this.slides = [];
-                    slides.forEach(s => this.slides.push(new SlidesListItem(s)));
-                },
-                error => {
-                    console.log('fail to get Slides list');
-                });
+            slides => {
+                this.slides = [];
+                slides.forEach(s => this.slides.push(new SlidesListItem(s)));
+            },
+            error => {
+                console.log('fail to get Slides list');
+            });
     }
     /*open Slide*/
     openSlides(e) {
@@ -69,8 +69,8 @@ export class SlidesListComponent implements OnInit {
     publish(e) {
         e.public = !e.public;
         console.log('e', e.public);
-        this.slidesService.updateSlide(e, e.id )
-            .subscribe( elm => console.log(elm.public));
+        this.slidesService.updateSlide(e, e.id)
+            .subscribe(elm => console.log(elm.public));
     }
     test() {
         console.log(this.slides);
