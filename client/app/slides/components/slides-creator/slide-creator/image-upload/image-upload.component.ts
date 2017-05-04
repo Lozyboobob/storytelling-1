@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, Input } from '@angular/core';
 import { SlidesService } from '../../../../services/slides.service'
 
 @Component({
@@ -11,6 +11,7 @@ export class ImageUploadComponent implements OnInit {
     @ViewChild('fileDisplayArea') fileDisplayArea: ElementRef;
     @ViewChild('form') form: ElementRef;
     @Output() setImage: EventEmitter<any> = new EventEmitter();
+    @Input() label="Choose Image";
     image: any = undefined;
     constructor(private slidesService: SlidesService) { }
 
@@ -41,8 +42,8 @@ export class ImageUploadComponent implements OnInit {
                 this.slidesService.uploadImage(file)
                     .subscribe(
                     res => {
-                        let imgHtml = "<img src='"+res.link+"' style='width:100%;height:100%'>"
-                        this.setImage.emit(imgHtml);
+
+                        this.setImage.emit(res.link);
                         //this.router.navigate(['/login']);
                         //this.router.navigate(['/slides']);
                     },

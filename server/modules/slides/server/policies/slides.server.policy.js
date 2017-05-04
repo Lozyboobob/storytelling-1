@@ -20,6 +20,9 @@ exports.invokeRolesPolicies = function () {
     }, {
       resources: '/api/slides/:slideId',
       permissions: '*'
+    }, {
+      resources: '/api/slides/search/:text',
+      permissions: ['*']
     }]
   }, {
     roles: ['user'],
@@ -29,6 +32,9 @@ exports.invokeRolesPolicies = function () {
     }, {
       resources: '/api/slides/:slideId',
       permissions: ['*']
+    }, {
+      resources: '/api/slides/search/:text',
+      permissions: ['*']
     }]
   }, {
     roles: ['guest'],
@@ -37,6 +43,9 @@ exports.invokeRolesPolicies = function () {
       permissions: ['*']
     }, {
       resources: '/api/slides/:slideId',
+      permissions: ['*']
+    }, {
+      resources: '/api/slides/search/:text',
       permissions: ['*']
     }]
   }]);

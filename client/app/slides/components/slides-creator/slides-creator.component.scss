@@ -7,13 +7,35 @@
         @include basic-frame-theme($theme);
     }
 }
-.slide-name{
-  margin-top: 15px;
-}
-.slides {
 
+.slides-setting-table {
+  width: 100%;
+    &.secondery-setting {
+        padding: 0 20px;
+    }
+
+    .slide-name {
+        margin-top: 15px;
+    }
+
+    .slide-description {
+        display: block;
+    }
+
+    .tag {
+        .tag-group {
+            display: inline-block;
+            md-chip:last-child{
+              margin-right: 15px;
+            }
+        }
+    }
+}
+
+.slides {
     .slide {
         padding-bottom: 15px;
+
         .graph-img {
             height: 100%;
             margin: 15px;
