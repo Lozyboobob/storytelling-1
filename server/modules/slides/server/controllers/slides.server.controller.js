@@ -39,7 +39,6 @@ exports.create = function(req, res) {
 exports.read = function(req, res) {
   // convert mongoose document to JSON
   var slide = req.slide ? req.slide.toJSON() : {};
-console.log("cur img",req.slide);
   // Add a custom field to the slide, for determining if the current User is the "owner".
   // NOTE: This field is NOT persisted to the database, since it doesn't exist in the slide model.
   slide.isCurrentUserOwner = !!(req.user && slide.user && slide.user._id.toString() === req.user._id.toString());
@@ -54,8 +53,9 @@ exports.update = function(req, res) {
   var slide = req.slide;
 
   slide.title = req.body.title;
-  slide.public = req.body.public;
   slide.content = req.body.content;
+  slide.public = req.body.public;
+
   slide.save(function(err) {
     if (err) {
       return res.status(422).send({
@@ -120,5 +120,17 @@ exports.slideByID = function(req, res, next, id) {
     }
     req.slide = slide;
     next();
+  });
+};
+exports.search = function (req, res) {
+  var regexS = new RegExp("^" + req.params.toSearch);
+  Slides.find({title: regexS}).exec(function (err, slides) {
+    if (err) {
+      return res.status(422).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    } else {
+      res.json(slides);
+    }
   });
 };

@@ -1,4 +1,4 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA, APP_INITIALIZER } from '@angular/core';
+import { NgModule,CUSTOM_ELEMENTS_SCHEMA, APP_INITIALIZER } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // MATERIAL DESIGN MODULES
@@ -9,25 +9,23 @@ import { HOME_ROUTES } from './index';
 import { HomeComponent } from './index';
 import { HomeConfig } from './index';
 
-import { ImageUploadComponent } from './slides-creator/slide-creator/image-upload/image-upload.component';
-
 export function homeFactory(config: HomeConfig) {
-    return () => config.addMenu();
+  return () => config.addMenu() ;
 }
 
 @NgModule({
-    imports: [
-        HOME_ROUTES,
-        MaterialModule.forRoot(),
-        CommonModule
-    ],
-    declarations: [
-        HomeComponent,
-    ],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    providers: [HomeConfig, OverlayContainer,
-        { provide: APP_INITIALIZER, useFactory: homeFactory, deps: [HomeConfig], multi: true }
-    ],
+  imports: [
+    HOME_ROUTES,
+    MaterialModule.forRoot(),
+    CommonModule
+  ],
+  declarations: [
+    HomeComponent
+  ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
+  providers: [ HomeConfig, OverlayContainer,
+  { provide: APP_INITIALIZER, useFactory: homeFactory, deps: [HomeConfig], multi: true }
+],
 
 })
-export class HomeModule { }
+export class HomeModule {}

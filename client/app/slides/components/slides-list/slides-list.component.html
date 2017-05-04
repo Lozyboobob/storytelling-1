@@ -1,0 +1,37 @@
+<div class="slides-list-container container-fluid">
+  <app-search (textSearch)="search($event)" (shortText)="shortText()"></app-search>
+  <div class="row" >
+    <div *ngFor="let s of slides" [ngClass]="{'display-div':!(loggedIn$|async)&& !s.public}"  class="list-item slides-item col-xs-12 col-sm-6  col-md-3">
+      <md-card *ngIf="(loggedIn$|async)||s.public">
+        <md-card-header>
+          <md-card-title>{{s.title}}</md-card-title>
+        </md-card-header>
+        <img md-card-image *ngIf="s.bannerPath.length" [src]="s.bannerPath">
+          <img md-card-image *ngIf="!s.bannerPath.length" [src]="'assets/svg.png'">
+        <md-card-content class="description">
+          {{s.description}}
+        </md-card-content>
+        <md-chip-list>
+          <md-chip *ngFor="let tag of s.tags">{{tag}}</md-chip>
+        </md-chip-list>
+        <md-card-actions>
+          <button md-button class="accent" [routerLink]="['slidesPresentation', s.id]">DISPLAY</button>
+          <md-checkbox *ngIf="loggedIn$|async" (change)="publish(s)" [checked]="s.public">PUBLIC</md-checkbox>
+        </md-card-actions>
+      </md-card>
+    </div>
+    <div *ngIf="loggedIn$|async" class="list-item col-xs-12 col-sm-6  col-md-3">
+      <md-grid-list cols="1" >
+        <md-grid-tile>
+          <md-card (click)="createSlides()" class="create-btn block-center">
+            <md-card-content>
+              <md-icon>add</md-icon>
+            </md-card-content>
+          </md-card>
+        </md-grid-tile>
+      </md-grid-list>
+
+    </div>
+  </div>
+
+</div>

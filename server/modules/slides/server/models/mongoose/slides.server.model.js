@@ -21,6 +21,21 @@ var SlidesSchema = new Schema({
     default: false,
     trim: true
   },
+  description:{
+    type:String,
+    defalut:'',
+    trim: true
+  },
+  tags:{
+    type:[String],
+    defalut:'',
+    trim: true
+  },
+  bannerPath:{
+    type:String,
+    defalut:'',
+    trim: true
+  },
   slides: {
     type: [{
       index: {
@@ -43,7 +58,7 @@ var SlidesSchema = new Schema({
         default: 'textInCenter',
         trim: true
       },
-      fullScreenHtml: {
+      fullScreenHtml:{
         type: String,
         default: '',
         trim: true
@@ -51,7 +66,7 @@ var SlidesSchema = new Schema({
       data: {
         type: Array,
         default: {}
-      },
+      }
     }],
     default: '',
     trim: true

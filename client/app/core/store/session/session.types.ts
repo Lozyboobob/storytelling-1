@@ -20,7 +20,7 @@ export interface ISession {
   user: IUser;
   hasError: boolean;
   isLoading: boolean;
-  hasMessage : IMessage,
+  hasMessage : string,
   actionType : string,
   };
 

@@ -49,9 +49,12 @@
             </table>
           </md-card-content>
           <md-card-actions align="center">
-            <button md-raised-button color="primary"  type="submit" >Register</button>
+            <button md-raised-button color="primary"  type="submit" [disabled]="loading || !f.form.valid" >Register</button>
             <a md-button [routerLink]="['../login']">Cancel</a>
           </md-card-actions>
+          <div type="danger" *ngIf="errMessage != null" class="center-align text-danger">
+            <span>{{errMessage}}</span>
+          </div>
         </form>
     </md-card>
 </div>

@@ -1,0 +1,64 @@
+<div class="slides-creator">
+  <md-card class="">
+    <form novalidate [formGroup]="form" (ngSubmit)="f.form.valid && createSlides(form.value)" #f="ngForm">
+      <md-toolbar color="primary">Create new slides</md-toolbar>
+      <md-card-content>
+        <table  cellspacing="0" class="slides-setting-table">
+          <tr>
+            <td colspan="2">
+              <md-input-container class="lg slide-name">
+                <input mdInput placeholder="Slides name" formControlName="title" name="title" required class="input ">
+              </md-input-container>
+              <span class="error" *ngIf=" form.controls.title.invalid">Slides Name is required</span>
+            </td>
+          </tr>
+          </table>
+          <table class=" slides-setting-table secondery-setting">
+          <tr >
+            <td class="tag">
+              <div class="tag-group">
+                <md-chip-list>
+                  <md-chip *ngFor="let tag of slider.tags">{{tag}}</md-chip>
+                </md-chip-list>
+              </div>
+              <md-input-container class="tag-input">
+                <input mdInput placeholder="Input Tag" formControlName="tag" name="tag" class="input ">
+              </md-input-container>
+              <a md-mini-fab (click)="addTag()">
+                <md-icon>add</md-icon>
+              </a>
+            </td>
+          </tr>
+          <tr class="secondery-setting">
+            <td>
+              <app-image-upload [label]="'Choose Image for Banner'" (setImage)="setBanner($event)"></app-image-upload>
+            </td>
+          </tr>
+          <tr class="secondery-setting">
+            <td colspan="2">
+              <md-input-container class="slide-description">
+                <input mdInput placeholder="Slides Description" formControlName="description" name="description" class="input ">
+              </md-input-container>
+            </td>
+          </tr>
+        </table>
+
+        <div class="slides" #slideBlock>
+          <md-grid-list cols="2" rowHeight="100px" *ngFor="let slide of slides;let i = index" class="slide">
+            <md-grid-tile [colspan]="1" [rowspan]="1">
+              <img [src]="'assets/'+slide.graph+'.png'" class="graph-img" *ngIf="slide.graph!='noGraph'">
+            </md-grid-tile>
+            <md-grid-tile [colspan]="1" [rowspan]="1" class="addText" [innerHtml]="slideTextTransformed[i]">
+              <p>{{slide.text}}</p>
+            </md-grid-tile>
+          </md-grid-list>
+        </div>
+        <app-slide-creator (confirmSlideOpt)="submitSlide($event)" [slideIndex]="curSlideIndex+1"></app-slide-creator>
+      </md-card-content>
+      <md-card-actions align="center">
+        <button md-raised-button color="primary" [disabled]="!form.valid" type="submit">CREATE</button>
+        <button md-raised-button class="secondery" [routerLink]="['home']">CANCEL</button>
+      </md-card-actions>
+    </form>
+  </md-card>
+</div>
