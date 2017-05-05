@@ -35,7 +35,6 @@ export class SlidesCreatorComponent implements OnInit {
     /* trigger when slides setting change*/
     SlidesSettingChange(setting){
         this.slider.slidesSetting=setting;
-        console.log("get setting",this.slider.slidesSetting);
     }
     /* validate submit*/
     validateSubmit(){

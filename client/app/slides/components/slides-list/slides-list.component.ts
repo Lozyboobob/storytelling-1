@@ -56,6 +56,7 @@ export class SlidesListComponent implements OnInit {
             slides => {
                 this.slides = [];
                 this.slides=slides;
+                console.log("get",this.slides)
                 /*slides.forEach(s => this.slides.push(new SlidesListItem(s)));*/
             },
             error => {
@@ -65,7 +66,6 @@ export class SlidesListComponent implements OnInit {
 
     publish(e) {
         e.slidesSetting.public = !e.slidesSetting.public;
-        console.log('e', e.slidesSetting.public);
         this.slidesService.updateSlide(e, e._id)
             .subscribe(elm => console.log(elm.slidesSetting.public));
     }
