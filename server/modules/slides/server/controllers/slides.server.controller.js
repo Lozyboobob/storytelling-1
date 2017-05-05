@@ -52,9 +52,7 @@ exports.read = function(req, res) {
 exports.update = function(req, res) {
   var slides = req.slide;
   slides.slidesSetting=req.body.slidesSetting;
-  console.log(req.body);
-  console.log(":::::::::::::::::");
-  console.log(slides);
+  slides.slides=req.body.slides;
   slides.save(function(err) {
     if (err) {
       return res.status(422).send({

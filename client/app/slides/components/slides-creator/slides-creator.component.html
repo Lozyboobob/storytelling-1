@@ -3,7 +3,7 @@
     <form >
       <md-toolbar color="primary">Create new slides</md-toolbar>
       <md-card-content>
-      <app-slides-setting #slidesSetting (onSettingChange)="SlidesSettingChange($event)" (onValidated)="validateSubmit()"></app-slides-setting>
+      <app-slides-setting #slidesSetting (onSettingChange)="slidesSettingChange($event)" (onValidated)="validateSubmit()"></app-slides-setting>
       <section>
           <div class="slides" #slideBlock>
             <app-slide-preview *ngFor="let slide of slides;let i=index" [curSlideIndex]="i" [slideSetting]="slide" (submitSlideOpt)="submitSlide($event)" ></app-slide-preview>
@@ -13,7 +13,7 @@
       </md-card-content>
       <md-card-actions align="center">
         <button md-raised-button color="primary" [disabled]="!isValidated" type="submit" (click)="createSlides()">CREATE</button>
-        <button md-raised-button class="secondery" [routerLink]="['home']">CANCEL</button>
+        <button md-raised-button class="secondery" [routerLink]="['/slides']">CANCEL</button>
       </md-card-actions>
     </form>
   </md-card>

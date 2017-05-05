@@ -33,7 +33,7 @@ export class SlidesCreatorComponent implements OnInit {
           });
       }*/
     /* trigger when slides setting change*/
-    SlidesSettingChange(setting){
+    slidesSettingChange(setting){
         this.slider.slidesSetting=setting;
     }
     /* validate submit*/
