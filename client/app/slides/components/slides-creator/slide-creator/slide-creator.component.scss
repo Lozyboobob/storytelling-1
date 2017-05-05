@@ -3,6 +3,9 @@
 .slide-creator {
     background: $accent;
     @include basic-frame-theme($theme);
+    .section-title{
+      cursor: pointer;
+    }
 }
 
 textarea {

@@ -66,6 +66,16 @@ var SlidesSchema = new Schema({
       data: {
         type: Array,
         default: {}
+      },
+      hasGraph:{
+        type:Boolean,
+        default:false,
+        trim: true
+      },
+      hasText:{
+        type:Boolean,
+        default:false,
+        trim: true
       }
     }],
     default: '',

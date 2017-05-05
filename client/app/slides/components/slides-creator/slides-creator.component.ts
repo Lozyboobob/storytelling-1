@@ -16,15 +16,14 @@ export class SlidesCreatorComponent implements OnInit {
     form: FormGroup;
     slider: Slides; // the whole slides
     slides: Array<Slide> = [];  //the slides pages
-    slideTextTransformed: Array<any> = [];
-    curSlideIndex: number = 0;
+    curSlideIndex: number = 1;// the slide that will be created
     constructor(private router: Router, private sanitizer: DomSanitizer, private slidesService: SlidesService, private _fb: FormBuilder) {
         this.form = this._buildForm();
     }
 
     ngOnInit() {
         this.slider = new Slides();
-        this.curSlideIndex = 0;
+        this.curSlideIndex = 1;
     }
     private _buildForm() {
         return this._fb.group({
@@ -44,15 +43,20 @@ export class SlidesCreatorComponent implements OnInit {
     }
     /*add a new slide*/
     submitSlide(slide) {
-        console.log(slide.text);
-        this.curSlideIndex++;
-        let s: Slide = Object.assign({}, slide);
+        /* modify slide*/
+        if (slide.index < this.curSlideIndex) {
+            this.slides[slide.index - 1] = Object.assign({}, slide);
+            console.log("slide existing");
+        }
+        /* create new slide*/
+        else {
+            this.curSlideIndex++;
+            let s: Slide = Object.assign({}, slide);
+            s.index = this.curSlideIndex;
+            this.slides.push(s);
+            console.log("slide new");
+        }
 
-        s.index = this.curSlideIndex;
-
-        this.slides.push(s);
-
-        this.slideTextTransformed.push(this.sanitizer.bypassSecurityTrustHtml(s.text));
 
 
     }
