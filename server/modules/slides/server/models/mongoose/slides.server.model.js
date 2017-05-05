@@ -39,8 +39,6 @@ var SlidesSchema = new Schema({
         trim: true
       },
     }
-    default: '',
-    trim: true
   },
 
   slides: {

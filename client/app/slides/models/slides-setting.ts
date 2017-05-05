@@ -3,6 +3,7 @@ export class SlidesSetting {
     description: string='';
     tags: Array<string>=[];
     bannerPath:String='';
+    public:boolean=false;
     constructor() {
 
     }

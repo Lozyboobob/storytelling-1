@@ -50,19 +50,19 @@ exports.read = function(req, res) {
  * Update an slide
  */
 exports.update = function(req, res) {
-  var slide = req.slide;
-
-  slide.title = req.body.title;
-  slide.content = req.body.content;
-  slide.public = req.body.public;
-
-  slide.save(function(err) {
+  var slides = req.slide;
+  slides.slidesSetting=req.body.slidesSetting;
+  console.log(req.body);
+  console.log(":::::::::::::::::");
+  console.log(slides);
+  slides.save(function(err) {
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      res.json(slide);
+      res.json(slides);
+      console.log("finish update");
     }
   });
 };
@@ -95,6 +95,7 @@ exports.list = function(req, res) {
       });
     } else {
       res.json(slides);
+
     }
   });
 };

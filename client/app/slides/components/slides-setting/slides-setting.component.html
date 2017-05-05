@@ -3,7 +3,7 @@
     <tr>
       <td colspan="2">
         <md-input-container class="lg slide-name">
-          <input mdInput placeholder="Slides name" formControlName="title" name="title" required class="input" (ngModelChange)="settingChange($event)">
+          <input mdInput placeholder="Slides name" formControlName="title" name="title" required class="input" (ngModelChange)="titleChange($event)">
         </md-input-container>
         <span class="error" *ngIf=" form.controls.title.invalid">Slides Name is required</span>
       </td>
@@ -33,7 +33,7 @@
     <tr class="secondery-setting">
       <td colspan="2">
         <md-input-container class="slide-description">
-          <input mdInput placeholder="Slides Description" formControlName="description" name="description" class="input ">
+          <input mdInput placeholder="Slides Description" formControlName="description" name="description" class="input " (ngModelChange)="descriptionChange($event)">
         </md-input-container>
       </td>
     </tr>

@@ -9,6 +9,7 @@ import { SlidesSetting } from '../../models/slides-setting';
 export class SlidesSettingComponent implements OnInit {
     @Input() SlidesSettingIpt: SlidesSetting;
     @Output() onSettingChange: EventEmitter<SlidesSetting> = new EventEmitter();
+    @Output() onValidated = new EventEmitter();
     form: FormGroup;
     slidesSetting: SlidesSetting;
     constructor(private _fb: FormBuilder) {
@@ -16,9 +17,9 @@ export class SlidesSettingComponent implements OnInit {
     }
 
     ngOnInit() {
-        if(this.SlidesSettingIpt)
-        this.slidesSetting=this.SlidesSettingIpt;
-        else this.slidesSetting=new SlidesSetting();
+        if (this.SlidesSettingIpt)
+            this.slidesSetting = this.SlidesSettingIpt;
+        else this.slidesSetting = new SlidesSetting();
 
     }
 
@@ -29,16 +30,25 @@ export class SlidesSettingComponent implements OnInit {
             tag: new FormControl('', Validators.nullValidator)
         });
     }
-    settingChange() {
+    titleChange(title) {
+        this.slidesSetting.title = title;
         this.onSettingChange.emit(this.slidesSetting);
+        if (this.form.valid) this.onValidated.emit();
+    }
+    descriptionChange(description) {
+        this.slidesSetting.description = description;
+        this.onSettingChange.emit(this.slidesSetting);
+        if (this.form.valid) this.onValidated.emit();
     }
     /* add tages for slides*/
     addTag() {
         this.slidesSetting.tags.push(this.form.value.tag);
+        this.onSettingChange.emit(this.slidesSetting);
         this.form.controls.tag.reset();
     }
     /* set banner image*/
     setBanner(path) {
         this.slidesSetting.bannerPath = path;
+        this.onSettingChange.emit(this.slidesSetting);
     }
 }
