@@ -2,7 +2,7 @@
   <app-search (textSearch)="search($event)" (shortText)="shortText()"></app-search>
   <div class="row" >
     <div *ngFor="let s of slides" [ngClass]="{'display-div':!(loggedIn$|async)&& !s.public}"  class="list-item slides-item col-xs-12 col-sm-6  col-md-3">
-      <md-card *ngIf="(loggedIn$|async)||s.public">
+      <md-card *ngIf="(loggedIn$|async)||s.public" [routerLink]="['slides', s.id]" >
         <md-card-header>
           <md-card-title>{{s.title}}</md-card-title>
         </md-card-header>

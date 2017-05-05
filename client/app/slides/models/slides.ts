@@ -1,10 +1,7 @@
 import {Slide} from './slide';
-
+import {SlidesSetting} from './slides-setting';
 export class Slides {
-    title: string='';
-    description: string='';
-    tags: Array<string>=[];
-    bannerPath:String='';
+    slidesSetting: SlidesSetting;
     slides: Array<Slide> = [];
     constructor() {
 

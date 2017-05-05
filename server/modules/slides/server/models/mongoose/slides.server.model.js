@@ -10,32 +10,39 @@ var mongoose = require('mongoose'),
  * Slides Schema
  */
 var SlidesSchema = new Schema({
-  title: {
-    type: String,
+  slidesSetting: {
+    type: {
+      title: {
+        type: String,
+        default: '',
+        trim: true,
+        required: 'Title cannot be blank'
+      },
+      public: {
+        type: Boolean,
+        default: false,
+        trim: true
+      },
+      description: {
+        type: String,
+        defalut: '',
+        trim: true
+      },
+      tags: {
+        type: [String],
+        defalut: '',
+        trim: true
+      },
+      bannerPath: {
+        type: String,
+        defalut: '',
+        trim: true
+      },
+    }
     default: '',
-    trim: true,
-    required: 'Title cannot be blank'
-  },
-  public: {
-    type: Boolean,
-    default: false,
     trim: true
   },
-  description:{
-    type:String,
-    defalut:'',
-    trim: true
-  },
-  tags:{
-    type:[String],
-    defalut:'',
-    trim: true
-  },
-  bannerPath:{
-    type:String,
-    defalut:'',
-    trim: true
-  },
+
   slides: {
     type: [{
       index: {
@@ -58,7 +65,7 @@ var SlidesSchema = new Schema({
         default: 'textInCenter',
         trim: true
       },
-      fullScreenHtml:{
+      fullScreenHtml: {
         type: String,
         default: '',
         trim: true
@@ -67,14 +74,14 @@ var SlidesSchema = new Schema({
         type: Array,
         default: {}
       },
-      hasGraph:{
-        type:Boolean,
-        default:false,
+      hasGraph: {
+        type: Boolean,
+        default: false,
         trim: true
       },
-      hasText:{
-        type:Boolean,
-        default:false,
+      hasText: {
+        type: Boolean,
+        default: false,
         trim: true
       }
     }],
