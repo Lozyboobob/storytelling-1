@@ -1,0 +1,9 @@
+<app-slides-setting #slidesSetting (onSettingChange)="slidesSettingChange($event)" (formValidateChange)="submitValidateChange($event)" [setting]="slider.slidesSetting"></app-slides-setting>
+<section>
+  <div class="slides" #slideBlock>
+    <app-slide-preview *ngFor="let slide of slider.slides;let i=index" [curSlideIndex]="i" [slideSetting]="slide" (submitSlideOpt)="submitSlide($event)" (deleteSlideOpt)="deleteSlide($event)"></app-slide-preview>
+  </div>
+</section>
+<a md-fab (click)="addSlide()" mdTooltip="add a new slide">
+  <md-icon>add</md-icon>
+</a>

@@ -1,11 +1,12 @@
 
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import {DomSanitizer} from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import {SlidesService} from '../../services/slides.service';
 import {Slides} from '../../models/slides';
 import {Slide} from '../../models/slide';
+import { EditorComponent} from '../editor/editor.component'
 @Component({
     selector: 'app-slides-creator',
     templateUrl: './slides-creator.component.html',
@@ -14,76 +15,24 @@ import {Slide} from '../../models/slide';
 })
 export class SlidesCreatorComponent implements OnInit {
 
-    isValidated: boolean=false;
+    isValidated: boolean = false;
     slider: Slides; // the whole slides
-    slides: Array<Slide> = [];  //the slides pages
-    curSlideIndex: number = 1;// the slide that will be created
+    @ViewChild("editor") _editor: EditorComponent;
     constructor(private router: Router, private sanitizer: DomSanitizer, private slidesService: SlidesService) {
     }
 
     ngOnInit() {
         this.slider = new Slides();
-        this.curSlideIndex = 1;
     }
-    /*  private _buildForm() {
-          return this._fb.group({
-              title: new FormControl('', Validators.required),
-              description: new FormControl('', Validators.nullValidator),
-              tag: new FormControl('', Validators.nullValidator)
-          });
-      }*/
-    /* trigger when slides setting change*/
-    slidesSettingChange(setting){
-        this.slider.slidesSetting=setting;
-    }
-    /* validate submit*/
-    validateSubmit(){
-      this.isValidated=true;
-    }
-    /*add a new slide*/
-    submitSlide(slide) {
-        /* modify slide*/
-        if (slide.index < this.curSlideIndex) {
-            this.slides[slide.index - 1] = Object.assign({}, slide);
-            console.log("slide existing");
-        }
-        /* create new slide*/
-        else {
-            this.curSlideIndex++;
-            let s: Slide = Object.assign({}, slide);
-            s.index = this.curSlideIndex;
-            this.slides.push(s);
-            console.log("slide new");
-        }
-
-
-
-    }
-    /* delete a page of slide*/
-    deleteSlide(index){
-
-       try{
-         if (index < this.curSlideIndex) {
-              this.slides.splice(index-1,1);
-             /*change slide index*/
-             this.slides.forEach(
-               s=>{
-                 if(s.index>index-1)
-                 s.index--;
-               }
-             )
-             this.curSlideIndex--;
-             console.log("slide deleted in local");
-         }
-       }
-       catch(err){
-         console.log("slide cannot be deleted");
-       }
+    /* validate status change*/
+    formValidateChange(status) {
+      console.log("creator detect status;",status);
+        this.isValidated=status;
     }
     /*create a new slides*/
     createSlides() {
-        this.slider.slides = this.slides;
-        console.log("slider creating..", this.slider);
+       this.slider = this._editor.slider;
+        console.log("get slier from editor", this.slider);
         //console.log(this.router);
         this.slidesService.submitSlides(this.slider)
             .subscribe(

@@ -1,5 +1,6 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit, Output,ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { EditorComponent} from '../editor/editor.component'
 import {SlidesService} from '../../services/slides.service';
 import { Slides} from '../../models/slides';
 @Component({
@@ -9,7 +10,7 @@ import { Slides} from '../../models/slides';
 })
 export class SlidesEditorComponent implements OnInit {
     slider: Slides = new Slides();
-    isValidated: boolean = false;
+    @ViewChild("editor") _editor: EditorComponent;
     constructor(private slidesService: SlidesService, private router: Router, private route: ActivatedRoute) { }
 
     ngOnInit() {
@@ -28,20 +29,6 @@ export class SlidesEditorComponent implements OnInit {
             });
     }
 
-    slidesSettingChange(setting) {
-        this.slider.slidesSetting = setting;
-    }
-    validateSubmit() {
-        this.isValidated = true;
-    }
-    saveSlide(slide) {
-        try {
-            this.slider.slides[slide.index - 1] = Object.assign({}, slide);
-        }
-        catch (err) {
-            console.log(err);
-        }
-    }
     saveSlides() {
         this.slidesService.updateSlide(this.slider, this.slider._id)
             .subscribe(res => {
@@ -50,25 +37,7 @@ export class SlidesEditorComponent implements OnInit {
             },
             error => console.log(error));
     }
-    /*delete a page of slide*/
-    deleteSlide(index) {
 
-        try {
-            this.slider.slides.splice(index - 1, 1);
-            /*change slide index*/
-            this.slider.slides.forEach(
-                s => {
-                    if (s.index > index - 1)
-                        s.index--;
-                }
-            )
-            console.log("slide deleted in local");
-
-        }
-        catch (err) {
-            console.log("slide cannot be deleted");
-        }
-    }
     /*delete the whole slides*/
     deleteSlides() {
         this.slidesService.deleteSlides(this.slider._id)
