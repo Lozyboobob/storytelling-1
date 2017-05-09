@@ -3,8 +3,18 @@
 .slide-creator {
     background: $accent;
     @include basic-frame-theme($theme);
-    .section-title{
-      cursor: pointer;
+
+    .section-title {
+        cursor: pointer;
+        background-color: transparent !important;
+
+        .spacer {
+            flex: 1 1 auto;
+        }
+
+        .icon {
+            padding: 0 14px;
+        }
     }
 }
 

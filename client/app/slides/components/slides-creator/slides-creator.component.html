@@ -6,10 +6,11 @@
       <app-slides-setting #slidesSetting (onSettingChange)="slidesSettingChange($event)" (onValidated)="validateSubmit()"></app-slides-setting>
       <section>
           <div class="slides" #slideBlock>
-            <app-slide-preview *ngFor="let slide of slides;let i=index" [curSlideIndex]="i" [slideSetting]="slide" (submitSlideOpt)="submitSlide($event)" ></app-slide-preview>
+            <app-slide-preview *ngFor="let slide of slides;let i=index" [curSlideIndex]="i" [slideSetting]="slide" (submitSlideOpt)="submitSlide($event)"
+            (deleteSlideOpt)="deleteSlide($event)" ></app-slide-preview>
           </div>
         </section>
-        <app-slide-creator (confirmSlideOpt)="submitSlide($event)" [slideIndex]="curSlideIndex" [showForm]="true"></app-slide-creator>
+        <app-slide-creator (confirmSlideOpt)="submitSlide($event)"(deleteSlideOpt)="deleteSlide($event)" [slideIndex]="curSlideIndex" [showForm]="true"></app-slide-creator>
       </md-card-content>
       <md-card-actions align="center">
         <button md-raised-button color="primary" [disabled]="!isValidated" type="submit" (click)="createSlides()">CREATE</button>
