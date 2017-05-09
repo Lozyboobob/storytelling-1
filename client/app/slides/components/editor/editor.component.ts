@@ -24,6 +24,7 @@ export class EditorComponent implements OnInit, OnChanges {
     ngOnChanges() {
         if (this.sliderIpt) {
           this.slider = this.sliderIpt;
+          this.curSlideIndex=this.slider.slides.length+1;
           this.isValidated=true;
         }
     }
