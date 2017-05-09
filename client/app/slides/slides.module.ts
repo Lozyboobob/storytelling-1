@@ -32,6 +32,7 @@ import { ImageUploadComponent } from './components/slides-creator/slide-creator/
 import { SlidePreviewComponent } from './components/slides-creator/slide-preview/slide-preview.component';
 import { SlidesEditorComponent } from './components/slides-editor/slides-editor.component';
 import { SlidesSettingComponent } from './components/slides-setting/slides-setting.component';
+import { EditorComponent } from './components/editor/editor.component';
 
 
 
@@ -61,7 +62,8 @@ import { SlidesSettingComponent } from './components/slides-setting/slides-setti
         LineChartComponent,
         SlidePreviewComponent,
         SlidesEditorComponent,
-        SlidesSettingComponent
+        SlidesSettingComponent,
+        EditorComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     providers: [OverlayContainer, SlidesService]

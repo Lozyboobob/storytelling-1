@@ -9,7 +9,7 @@ import { SlidesSetting } from '../../models/slides-setting';
 export class SlidesSettingComponent implements OnInit, OnChanges {
     @Input() setting: SlidesSetting;
     @Output() onSettingChange: EventEmitter<SlidesSetting> = new EventEmitter();
-    @Output() onValidated = new EventEmitter();
+    @Output() formValidateChange = new EventEmitter();
     form: FormGroup;
     slidesSetting: SlidesSetting = new SlidesSetting();
     constructor(private _fb: FormBuilder) {
@@ -22,8 +22,11 @@ export class SlidesSettingComponent implements OnInit, OnChanges {
         if (this.setting) {
             this.slidesSetting = this.setting;
             this.form = this._buildForm();
+            this.form.valueChanges.subscribe(data => {
+                if (this.form.valid) this.formValidateChange.emit(true);
+                else this.formValidateChange.emit(false);
+            })
         }
-        if (this.form.valid) this.onValidated.emit();
     }
     private _buildForm() {
         return this._fb.group({
@@ -35,12 +38,11 @@ export class SlidesSettingComponent implements OnInit, OnChanges {
     titleChange(title) {
         this.slidesSetting.title = title;
         this.onSettingChange.emit(this.slidesSetting);
-        if (this.form.valid) this.onValidated.emit();
+
     }
     descriptionChange(description) {
         this.slidesSetting.description = description;
         this.onSettingChange.emit(this.slidesSetting);
-        if (this.form.valid) this.onValidated.emit();
     }
     /* add tages for slides*/
     addTag() {
