@@ -12,6 +12,7 @@ import { Slide } from '../../../models/slide';
 })
 export class SlideCreatorComponent implements OnInit, AfterViewInit {
     @Output() confirmSlideOpt: EventEmitter<Object> = new EventEmitter();
+    @Output() deleteSlideOpt: EventEmitter<number> = new EventEmitter();
     @Input() slideIndex: number;
     @Input() slideSetting: Slide;
     @Input() showForm: boolean; //indicator for showing slide setting
@@ -58,7 +59,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
             type: "Text on Left +  Graph on Right"
         }
     ];
-    dataExample: any;
+    dataExample: string = '{}';
     editorOptions: Object = {
         heightMin: 200,
         heightMax: 400,
@@ -70,8 +71,6 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
     @ViewChild("graphSelector") graphSelector;
     csvJson: any = [];
     constructor(
-        public dialog: MdDialog,
-        private cdRef: ChangeDetectorRef,
         private _fb: FormBuilder,
     ) {
 
@@ -103,6 +102,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
     }
     /* toggle the slideSetting*/
     toggleForm() {
+        console.log("toggle");
         this.showForm = !this.showForm;
     }
     confirmSlide() {
@@ -161,7 +161,10 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
         this.form = this._buildForm();
 
     }
-
+    deleteSlide(e) {
+      console.log("delete detect");
+      this.deleteSlideOpt.emit(this.slideIndex);
+    }
     initData() {
         let dataForm = {
             index: [''],

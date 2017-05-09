@@ -72,6 +72,10 @@ export class SlidesService {
         const backendURL = `${this._baseUrl}${environment.backend.endpoints.slides}/${id}`;
         return this.http.put(backendURL, slide).map((response: Response) => response.json());
     }
+    deleteSlides(id):Observable<any> {
+        const backendURL = `${this._baseUrl}${environment.backend.endpoints.slides}/${id}`;
+        return this.http.delete(backendURL).map((response: Response) => response.json());
+    }
     getSlideToSearch(textToSearch): Observable<any> {
         const backendURL = `${this._baseUrl}${environment.backend.endpoints.search}/${textToSearch}`;
         return this.http.get(backendURL).map((response: Response) => response.json());

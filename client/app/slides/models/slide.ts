@@ -12,8 +12,8 @@ export class Slide {
     /* indecator for text and graph*/
     hasGraph:boolean=false;
     hasText:boolean=false;
-    constructor() {
-
+    constructor(index ? :number) {
+      if(index) this.index=index;
     }
 
 }
