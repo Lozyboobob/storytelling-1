@@ -59,6 +59,27 @@ export class SlidesCreatorComponent implements OnInit {
 
 
     }
+    /* delete a page of slide*/
+    deleteSlide(index){
+
+       try{
+         if (index < this.curSlideIndex) {
+              this.slides.splice(index-1,1);
+             /*change slide index*/
+             this.slides.forEach(
+               s=>{
+                 if(s.index>index-1)
+                 s.index--;
+               }
+             )
+             this.curSlideIndex--;
+             console.log("slide deleted in local");
+         }
+       }
+       catch(err){
+         console.log("slide cannot be deleted");
+       }
+    }
     /*create a new slides*/
     createSlides() {
         this.slider.slides = this.slides;

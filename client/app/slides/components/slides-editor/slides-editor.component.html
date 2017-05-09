@@ -6,13 +6,16 @@
         <app-slides-setting #slidesSetting (onSettingChange)="slidesSettingChange($event)" (onValidated)="validateSubmit()" [setting]="slider.slidesSetting"></app-slides-setting>
         <section>
           <div class="slides" #slideBlock>
-            <app-slide-preview *ngFor="let slide of slider.slides;let i=index" [curSlideIndex]="i" [slideSetting]="slide" (submitSlideOpt)="saveSlide($event)"></app-slide-preview>
+            <app-slide-preview *ngFor="let slide of slider.slides;let i=index" [curSlideIndex]="i" [slideSetting]="slide"
+            (deleteSlideOpt)="deleteSlide($event)" (submitSlideOpt)="saveSlide($event)"></app-slide-preview>
           </div>
         </section>
       </md-card-content>
       <md-card-actions align="center">
-        <button md-raised-button color="primary" [disabled]="!isValidated" type="submit" (click)="saveSlides()">SAVE</button>
-        <button md-raised-button class="secondery" [routerLink]="['/slides']">CANCEL</button>
+        <button md-raised-button
+        type="button" color="primary" [disabled]="!isValidated" type="submit" (click)="saveSlides()">SAVE</button>
+        <button md-raised-button type="button" class="secondery" [routerLink]="['/slides']">CANCEL</button>
+        <button md-raised-button  color="warn" type="button" (click)="deleteSlides()">DELETE</button>
       </md-card-actions>
     </form>
   </md-card>

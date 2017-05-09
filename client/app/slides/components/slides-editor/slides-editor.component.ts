@@ -50,4 +50,32 @@ export class SlidesEditorComponent implements OnInit {
             },
             error => console.log(error));
     }
+    /*delete a page of slide*/
+    deleteSlide(index) {
+
+        try {
+            this.slider.slides.splice(index - 1, 1);
+            /*change slide index*/
+            this.slider.slides.forEach(
+                s => {
+                    if (s.index > index - 1)
+                        s.index--;
+                }
+            )
+            console.log("slide deleted in local");
+
+        }
+        catch (err) {
+            console.log("slide cannot be deleted");
+        }
+    }
+    /*delete the whole slides*/
+    deleteSlides() {
+        this.slidesService.deleteSlides(this.slider._id)
+            .subscribe(res => {
+                console.log("update succesfully");
+                this.router.navigate(['/slides']);
+            },
+            error => console.log(error));
+    }
 }

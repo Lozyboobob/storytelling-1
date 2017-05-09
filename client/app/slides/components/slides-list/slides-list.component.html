@@ -6,7 +6,7 @@
         <md-card-header >
           <md-card-title>{{s.slidesSetting.title}}</md-card-title>
         </md-card-header>
-        <img md-card-image *ngIf="s.slidesSetting.bannerPath.length" [src]="s.slidesSetting.bannerPath" [routerLink]="['slides', s._id]">
+        <img md-card-image *ngIf="s.slidesSetting.bannerPath.length" [src]="s.slidesSetting.bannerPath">
         <img md-card-image *ngIf="!s.slidesSetting.bannerPath.length" [src]="'assets/svg.png'" >
         <md-card-content class="description" >
           {{s.slidesSetting.description}}

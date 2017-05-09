@@ -9,12 +9,16 @@ export class SlidePreviewComponent implements OnInit {
   @Input() curSlideIndex:number;
   @Input() slideSetting:Slide;
   @Output() submitSlideOpt:EventEmitter<Object>=new EventEmitter();
+  @Output() deleteSlideOpt:EventEmitter<Object>=new EventEmitter();
   constructor() { }
 
   ngOnInit() {
   }
   submitSlide(slide) {
     this.submitSlideOpt.emit(slide);
+  }
+  deleteSlide(index){
+    this.deleteSlideOpt.emit(index);
   }
 
 }

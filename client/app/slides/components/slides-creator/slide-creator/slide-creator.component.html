@@ -1,7 +1,9 @@
 <md-card class="slide-creator secondery-theme">
-  <md-card-header class="section-title" (click)="toggleForm()">
-    Slide {{slideIndex}}
-  </md-card-header>
+
+  <md-toolbar class="section-title" (click)="toggleForm()">
+    <span>Slide {{slideIndex}}</span>
+    <span class="spacer"></span>
+  </md-toolbar>
   <md-card-content *ngIf="showForm">
     <form novalidate [formGroup]="form" (ngSubmit)="f.form.valid" #f="ngForm">
       <div class="full-frame">
@@ -81,7 +83,7 @@
       </div>
       <br>
       <button md-raised-button type="button" (click)="confirmSlide()" [disabled]="!form.valid">OK</button>
-
+      <button md-raised-button type="button" (click)="deleteSlide($event)" color="warn">DELETE</button>
     </form>
   </md-card-content>
 </md-card>
