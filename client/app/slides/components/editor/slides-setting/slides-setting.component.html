@@ -14,7 +14,7 @@
       <td class="tag">
         <div class="tag-group">
           <md-chip-list>
-            <md-chip *ngFor="let tag of slidesSetting.tags">{{tag}}</md-chip>
+            <md-chip *ngFor="let tag of slidesSetting.tags;let i=index">{{tag}} <i class="fa fa-times close-tag" (click)="deleteTag(i)" ></i></md-chip>
           </md-chip-list>
         </div>
         <md-input-container class="tag-input">
