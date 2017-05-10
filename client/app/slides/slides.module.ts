@@ -31,7 +31,7 @@ import { CsvInputComponent } from './components/editor/slide-creator/csv-input/c
 import { ImageUploadComponent } from './components/editor/slide-creator/image-upload/image-upload.component';
 import { SlidePreviewComponent } from './components/editor/slide-preview/slide-preview.component';
 import { SlidesEditorComponent } from './components/slides-editor/slides-editor.component';
-import { SlidesSettingComponent } from './components/slides-setting/slides-setting.component';
+import { SlidesSettingComponent } from './components/editor/slides-setting/slides-setting.component';
 import { EditorComponent } from './components/editor/editor.component';
 
 
