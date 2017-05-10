@@ -81,7 +81,6 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
         if (this.slideSetting) {
 
             this.slide = this.slideSetting;
-            console.log("get setting", this.slide)
         }
         if (this.slideIndex) {
 
@@ -89,17 +88,14 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
         }
         this.form = this._buildForm();
         this.form.valueChanges.subscribe(data => {
-            console.log("sent valid", data);
             if (this.form.valid) this.formValidateChange.emit(true);
             else this.formValidateChange.emit(false);
         })
         this.showForm = !this.form.valid;
-        console.log("form value", this.form.value);
 
     }
     ngAfterViewInit() {
 
-        console.log("show", this.form.valid);
     }
     private _buildForm() {
         return this._fb.group({
@@ -114,7 +110,6 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
     }
     /* toggle the slideSetting*/
     toggleForm() {
-        console.log("toggle");
         this.showForm = !this.showForm;
     }
     confirmSlide() {

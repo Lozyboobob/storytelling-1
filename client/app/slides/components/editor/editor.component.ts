@@ -105,4 +105,8 @@ export class EditorComponent implements OnInit, OnChanges {
             console.log("slide cannot be deleted");
         }
     }
+    /*change slide order*/
+    orderSlide(){
+
+    }
 }
