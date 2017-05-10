@@ -10,7 +10,7 @@ import { Slides} from '../../models/slides';
 })
 export class SlidesEditorComponent implements OnInit {
     slider: Slides = new Slides();
-    @ViewChild("editor") _editor: EditorComponent;
+    @ViewChild('editor') _editor: EditorComponent;
     constructor(private slidesService: SlidesService, private router: Router, private route: ActivatedRoute) { }
 
     ngOnInit() {

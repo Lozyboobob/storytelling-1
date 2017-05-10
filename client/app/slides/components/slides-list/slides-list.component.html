@@ -1,5 +1,8 @@
 <div class="slides-list-container container-fluid">
-  <app-search (textSearch)="search($event)" (shortText)="shortText()"></app-search>
+  <div class="row space">
+    <app-search (textSearch)="search($event)"></app-search>
+    <app-filter *ngIf="loggedIn$|async" (filterState)="filterState($event)" [states]="states"></app-filter>
+  </div>
   <div class="row" >
     <div *ngFor="let s of slides" [ngClass]="{'display-div':!(loggedIn$|async)&& !s.slidesSetting.public}"  class="list-item slides-item col-xs-12 col-sm-6  col-md-3">
       <md-card *ngIf="(loggedIn$|async)||s.slidesSetting.public"  >
@@ -17,7 +20,7 @@
         <md-card-actions>
           <button md-button class="accent" [routerLink]="['slidesPresentation', s._id]">DISPLAY</button>
           <button md-button class="accent" [routerLink]="['slides', s._id]">EDIT</button>
-          <md-checkbox *ngIf="loggedIn$|async" (change)="publish(s)" [checked]="s.slidesSetting.public">PUBLIC</md-checkbox>
+          <md-checkbox *ngIf="loggedIn$|async" (change)="publish(s)" [disabled]="(username$|async) !== s.slidesSetting.author" [checked]="s.slidesSetting.public">PUBLIC</md-checkbox>
         </md-card-actions>
       </md-card>
     </div>

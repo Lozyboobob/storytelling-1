@@ -17,7 +17,7 @@ export class SlidesCreatorComponent implements OnInit {
 
     isValidated: boolean = false;
     slider: Slides; // the whole slides
-    @ViewChild("editor") _editor: EditorComponent;
+    @ViewChild('editor') _editor: EditorComponent;
     constructor(private router: Router, private sanitizer: DomSanitizer, private slidesService: SlidesService) {
     }
 
@@ -27,7 +27,7 @@ export class SlidesCreatorComponent implements OnInit {
     /* validate status change*/
     formValidateChange(status) {
       console.log("creator detect status;",status);
-        this.isValidated=status;
+        this.isValidated = status;
     }
     /*create a new slides*/
     createSlides() {
