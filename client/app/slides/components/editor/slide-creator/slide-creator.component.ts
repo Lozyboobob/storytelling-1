@@ -79,7 +79,9 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         if (this.slideSetting) {
+
             this.slide = this.slideSetting;
+            console.log("get setting", this.slide)
         }
         if (this.slideIndex) {
 
@@ -87,10 +89,13 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
         }
         this.form = this._buildForm();
         this.form.valueChanges.subscribe(data => {
+            console.log("sent valid", data);
             if (this.form.valid) this.formValidateChange.emit(true);
             else this.formValidateChange.emit(false);
         })
         this.showForm = !this.form.valid;
+        console.log("form value", this.form.value);
+
     }
     ngAfterViewInit() {
 
@@ -185,12 +190,15 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
         console.log(this.form.value);
     }
     graphChange() {
-        switch (this.form.value.slideGraph) {
-            case "barChart": this.dataExample = barCharDataExample; break;
-            case "forceDirectedGraph": this.dataExample = forceDirectedGraphDataExample; break;
-            case "lineChart": this.dataExample = lineChartExample; break;
-            default: this.dataExample = "{}";
-        }
+
+        //change json sample
+        if (this.form.value.graphDataJson == '{}')
+            switch (this.form.value.slideGraph) {
+                case "barChart": this.form.controls['graphDataJson'].setValue(barCharDataExample); break;
+                case "forceDirectedGraph": this.form.controls['graphDataJson'].setValue(forceDirectedGraphDataExample); break;
+                case "lineChart": this.form.controls['graphDataJson'].setValue(lineChartExample); break;
+                default: ;
+            }
     }
     pageLayoutChange() {
         switch (this.form.value.pageLayout) {

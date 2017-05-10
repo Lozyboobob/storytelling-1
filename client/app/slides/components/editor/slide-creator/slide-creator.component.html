@@ -33,6 +33,7 @@
               <md-tab label="Input">
                 <div [ngSwitch]="form.controls.slideGraph.value">
                   <div *ngSwitchCase="'barChart'" class="margin-frame">
+
                     <table cellspacing="0" #dataTable>
                       <tr>
                         <th>X Axis</th>
@@ -54,7 +55,9 @@
                     <a md-mini-fab (click)="addData()">
                       <md-icon>add</md-icon>
                     </a>
+
                   </div>
+
                   <div *ngSwitchCase="'forceDirectedGraph'" class="margin-frame">
                     <h2>Use default data</h2>
 
@@ -67,8 +70,9 @@
                 </div>
               </md-tab>
               <md-tab label="Json">
-                <textarea name="graphDataJson" formControlName="graphDataJson" [(ngModel)]="dataExample"></textarea>
+                <textarea name="graphDataJson" formControlName="graphDataJson"></textarea>
                 <p class="error" *ngIf=" form.controls.graphDataJson.invalid">Invalidate json format</p>
+
               </md-tab>
               <md-tab label="CSV">
                 <app-csv-input (csv2json)="getCsvJson($event)"></app-csv-input>
