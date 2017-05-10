@@ -1,8 +1,9 @@
 <md-card class="slide-creator secondery-theme">
 
-  <md-toolbar class="section-title" (click)="toggleForm()">
-    <span>Slide {{slideIndex}}</span>
+  <md-toolbar class="title-bar" (click)="toggleForm()">
+    <span class="section-title">Slide {{slideIndex}}</span>
     <span class="spacer"></span>
+    <span class="error" *ngIf=" !form.valid">Please complete the slide setting</span>
   </md-toolbar>
   <md-card-content *ngIf="showForm">
     <form novalidate [formGroup]="form" (ngSubmit)="f.form.valid" #f="ngForm">
