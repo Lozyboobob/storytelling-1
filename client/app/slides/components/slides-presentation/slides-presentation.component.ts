@@ -96,6 +96,7 @@ export class SlidesPresentationComponent implements OnInit, AfterViewInit, After
                             case "textInCenter":
                                 config = {
                                     pageCol: 1,
+                                    hasImage:false,
                                     hasChart: false,
                                     hasText: true,
                                     isFullScreen: true
@@ -107,6 +108,7 @@ export class SlidesPresentationComponent implements OnInit, AfterViewInit, After
                                 }
                                 config = {
                                     pageCol: 1,
+                                    hasImage:false,
                                     hasChart: false,
                                     hasText: true,
                                     isFullScreen: true
@@ -118,7 +120,8 @@ export class SlidesPresentationComponent implements OnInit, AfterViewInit, After
                                 }
                                 config = {
                                     pageCol: 2,
-                                    hasChart: true,
+                                    hasImage:true,
+                                    hasChart: false,
                                     hasText: true,
                                     isFullScreen: false
                                 }
@@ -129,18 +132,13 @@ export class SlidesPresentationComponent implements OnInit, AfterViewInit, After
                                 }
                                 config = {
                                     pageCol: 2,
-                                    hasChart: true,
+                                    hasImage:true,
+                                    hasChart: false,
                                     hasText: true,
                                     isFullScreen: false
                                 }
                                     ; break;
                             default: {
-                                config = {
-                                    pageCol: 1,
-                                    hasChart: false,
-                                    hasText: false,
-                                    isFullScreen: false
-                                }
 
                             }
 

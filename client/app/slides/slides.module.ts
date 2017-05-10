@@ -25,13 +25,13 @@ import { BarChartComponent } from '../charts';
 import { ForceDirectedGraphComponent } from '../charts/force-directed-graph/force-directed-graph.component';
 import { LineChartComponent } from '../charts/line-chart/line-chart.component';
 import { FroalaEditorModule, FroalaViewModule } from 'angular2-froala-wysiwyg';
-import { JsonValidatorDirective } from './components/slides-creator/json-validator.directive';
 
-import { CsvInputComponent } from './components/slides-creator/slide-creator/csv-input/csv-input.component';
-import { ImageUploadComponent } from './components/slides-creator/slide-creator/image-upload/image-upload.component';
-import { SlidePreviewComponent } from './components/slides-creator/slide-preview/slide-preview.component';
+
+import { CsvInputComponent } from './components/editor/slide-creator/csv-input/csv-input.component';
+import { ImageUploadComponent } from './components/editor/slide-creator/image-upload/image-upload.component';
+import { SlidePreviewComponent } from './components/editor/slide-preview/slide-preview.component';
 import { SlidesEditorComponent } from './components/slides-editor/slides-editor.component';
-import { SlidesSettingComponent } from './components/slides-setting/slides-setting.component';
+import { SlidesSettingComponent } from './components/editor/slides-setting/slides-setting.component';
 import { EditorComponent } from './components/editor/editor.component';
 
 
