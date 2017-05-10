@@ -20,7 +20,7 @@
         <md-card-actions>
           <button md-button class="accent" [routerLink]="['slidesPresentation', s._id]">DISPLAY</button>
           <button md-button class="accent" [routerLink]="['slides', s._id]">EDIT</button>
-          <md-checkbox *ngIf="loggedIn$|async" (change)="publish(s)" [disabled]="(username$|async) !== s.slidesSetting.author" [checked]="s.slidesSetting.public">PUBLIC</md-checkbox>
+          <md-checkbox *ngIf="(loggedIn$|async) && ((username$|async) === s.slidesSetting.author)" (change)="publish(s)" [checked]="s.slidesSetting.public">PUBLIC</md-checkbox>
         </md-card-actions>
       </md-card>
     </div>

@@ -48,8 +48,7 @@ export class SlidesListComponent implements OnInit {
 
     search(paramsTosearch) {
         this.toSearch.title = paramsTosearch || '';
-
-        this.slidesService.getSlideToSearch(paramsTosearch)
+        this.slidesService.getSlideToSearch(this.toSearch)
                 .subscribe(slides => {
                     this.slides = [];
                     this.slides = slides;
