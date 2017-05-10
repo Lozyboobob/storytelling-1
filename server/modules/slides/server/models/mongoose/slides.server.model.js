@@ -38,6 +38,11 @@ var SlidesSchema = new Schema({
         defalut: '',
         trim: true
       },
+      author: {
+        type: String,
+        default: '',
+        trim: true
+      }
     }
   },
 

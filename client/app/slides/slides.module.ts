@@ -34,6 +34,7 @@ import { SlidesEditorComponent } from './components/slides-editor/slides-editor.
 import { SlidesSettingComponent } from './components/editor/slides-setting/slides-setting.component';
 import { EditorComponent } from './components/editor/editor.component';
 
+import { FilterComponent } from './components/filter/filter.component';
 
 
 
@@ -63,7 +64,8 @@ import { EditorComponent } from './components/editor/editor.component';
         SlidePreviewComponent,
         SlidesEditorComponent,
         SlidesSettingComponent,
-        EditorComponent
+        EditorComponent,
+        FilterComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     providers: [OverlayContainer, SlidesService]

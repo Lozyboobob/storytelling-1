@@ -6,6 +6,7 @@
     padding-bottom: 20px;
     background-color: transparent;
     .list-item md-card {
+        cursor: pointer;
         margin-bottom:15px;
         width: 100%;
 
@@ -29,6 +30,9 @@
             -webkit-box-orient: vertical;
         }
     }
+  .space {
+    margin-left : 0%
+  }
 }
 .display-div{
   display :none;

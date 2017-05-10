@@ -3,15 +3,15 @@ import { MenuService } from 'app/core';
 
 @Injectable()
 export class SlidesConfig {
-  constructor(private menuService : MenuService){
+  constructor(private menuService: MenuService) {
   }
-  addMenu(){
-    this.menuService.addMenuItem('sideNav',{
+  addMenu() {
+    this.menuService.addMenuItem('sideNav', {
       state: 'slides',
       title: 'slides',
       icon: 'fa-desktop',
       roles: ['*'],
-    })
+    });
   }
 }
 

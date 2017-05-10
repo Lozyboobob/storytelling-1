@@ -12,7 +12,7 @@ export const environment = {
           slides: '/api/slides',
           images: '/api/images',
           imagesServer : '/api/imagesServer',
-          search : '/api/slides/search'
+          search : '/api/search/slides'
         }
     }
 };
