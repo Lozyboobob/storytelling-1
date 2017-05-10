@@ -11,11 +11,11 @@
 
     <!--left graph right text-->
     <md-grid-list *ngIf="!((pageLayoutConfig[i].isFullScreen&&!pageLayoutConfig[i].hasChart&&!pageLayoutConfig[i].hasText)||slide.pageLayout=='textInCenterImageBackground')&&slide.pageLayout!='LeftTextRightGraph'" cols="{{pageLayoutConfig[i].pageCol}}" class="firstcase">
-      <md-grid-tile [colspan]="1" *ngIf="pageLayoutConfig[i].hasChart" [attr.id]="slide.graph" [ngSwitch]="slide.graph">
+      <md-grid-tile [colspan]="1" *ngIf="pageLayoutConfig[i].hasChart||pageLayoutConfig[i].hasImage" [attr.id]="slide.graph" [ngSwitch]="slide.graph">
         <app-force-directed-graph class="chart" #chart *ngSwitchCase="'forceDirectedGraph'"></app-force-directed-graph>
         <app-bar-chart class="chart" #chart *ngSwitchCase="'barChart'"></app-bar-chart>
         <app-line-chart class="chart" #chart *ngSwitchCase="'lineChart'"></app-line-chart>
-        <div class="chart" #chart *ngSwitchDefault></div>
+        <div class="chart" [innerHTML]="slide.fullScreenHtml" #chart *ngSwitchDefault></div>
       </md-grid-tile>
       <md-grid-tile [colspan]="1" align="center" *ngIf="pageLayoutConfig[i].hasText&&slide.pageLayout!='textInCenter'">
         <div [innerHTML]="slide.text" align="left" [class.slideLeft]="loadContentAni[i]" [class.slideRightOut]="easeContentAni[i]"></div>
@@ -32,7 +32,7 @@
       <md-grid-tile [colspan]="1" align="center" *ngIf="pageLayoutConfig[i].hasText">
         <div [innerHTML]="slide.text" align="left" [class.slideRight]="loadContentAni[i]" [class.slideLeftOut]="easeContentAni[i]"></div>
       </md-grid-tile>
-      <md-grid-tile [colspan]="1" *ngIf="pageLayoutConfig[i].hasChart" [attr.id]="slide.graph" [ngSwitch]="slide.graph">
+      <md-grid-tile [colspan]="1" *ngIf="pageLayoutConfig[i].hasChart||pageLayoutConfig[i].hasImage" [attr.id]="slide.graph" [ngSwitch]="slide.graph">
         <app-force-directed-graph class="chart" #chart *ngSwitchCase="'forceDirectedGraph'"></app-force-directed-graph>
         <app-bar-chart class="chart" #chart *ngSwitchCase="'barChart'"></app-bar-chart>
         <app-line-chart class="chart" #chart *ngSwitchCase="'lineChart'"></app-line-chart>

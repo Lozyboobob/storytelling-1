@@ -10,6 +10,7 @@ export class SlidePreviewComponent implements OnInit {
   @Input() slideSetting:Slide;
   @Output() submitSlideOpt:EventEmitter<Object>=new EventEmitter();
   @Output() deleteSlideOpt:EventEmitter<Object>=new EventEmitter();
+  @Output() formValidateChange:EventEmitter<Object>=new EventEmitter();
   constructor() { }
 
   ngOnInit() {
@@ -19,6 +20,9 @@ export class SlidePreviewComponent implements OnInit {
   }
   deleteSlide(index){
     this.deleteSlideOpt.emit(index);
+  }
+  validateChange(status){
+    this.formValidateChange.emit(status);
   }
 
 }

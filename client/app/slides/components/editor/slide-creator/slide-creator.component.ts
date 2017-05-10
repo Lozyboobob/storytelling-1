@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, ViewChil
 import { FormGroup, FormControl, FormBuilder, Validators, FormArray  } from '@angular/forms';
 
 import {MdDialog, MdDialogRef} from '@angular/material';
-import {JsonValidator } from '../json-validator.directive';
+import {JsonValidator } from '../json-validator';
 
 import { Slide } from '../../../models/slide';
 @Component({
@@ -13,6 +13,7 @@ import { Slide } from '../../../models/slide';
 export class SlideCreatorComponent implements OnInit, AfterViewInit {
     @Output() confirmSlideOpt: EventEmitter<Object> = new EventEmitter();
     @Output() deleteSlideOpt: EventEmitter<number> = new EventEmitter();
+    @Output() formValidateChange = new EventEmitter();
     @Input() slideIndex: number;
     @Input() slideSetting: Slide;
     @Input() showForm: boolean; //indicator for showing slide setting
@@ -85,15 +86,21 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
             this.slide.index = this.slideIndex;
         }
         this.form = this._buildForm();
+        this.form.valueChanges.subscribe(data => {
+            if (this.form.valid) this.formValidateChange.emit(true);
+            else this.formValidateChange.emit(false);
+        })
+        this.showForm = !this.form.valid;
     }
     ngAfterViewInit() {
 
+        console.log("show", this.form.valid);
     }
     private _buildForm() {
         return this._fb.group({
             slideText: new FormControl(this.slide.text, Validators.nullValidator),
             slideGraph: new FormControl(this.slide.graph, Validators.nullValidator),
-            pageLayout: new FormControl(this.slide.pageLayout, Validators.nullValidator),
+            pageLayout: new FormControl(this.slide.pageLayout, Validators.required),
             graphDataJson: new FormControl(this.dataExample, Validators.compose([JsonValidator()])),
             graphData: this._fb.array([
                 this.initData(),
@@ -162,8 +169,8 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
 
     }
     deleteSlide(e) {
-      console.log("delete detect");
-      this.deleteSlideOpt.emit(this.slideIndex);
+        console.log("delete detect");
+        this.deleteSlideOpt.emit(this.slideIndex);
     }
     initData() {
         let dataForm = {
@@ -210,6 +217,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
             console.error("unvalidate json");
         }
     }
+    /* image background*/
     setImageHtml(html) {
         this.slide.fullScreenHtml = "<img src='" + html + "' style='width:100%;height:100%'>";
     }
