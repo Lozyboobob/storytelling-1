@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectorRef,OnChanges  } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectorRef, OnChanges  } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators, FormArray  } from '@angular/forms';
 
 import {JsonValidator } from '../json-validator';
@@ -9,7 +9,7 @@ import { Slide } from '../../../models/slide';
     templateUrl: './slide-creator.component.html',
     styleUrls: ['./slide-creator.component.scss']
 })
-export class SlideCreatorComponent implements OnInit, AfterViewInit,OnChanges {
+export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
     @Output() confirmSlideOpt: EventEmitter<Object> = new EventEmitter();
     @Output() deleteSlideOpt: EventEmitter<number> = new EventEmitter();
     @Output() formValidateChange = new EventEmitter();
@@ -87,6 +87,8 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit,OnChanges {
             this.slide.index = this.slideIndex;
         }
         this.form = this._buildForm();
+        if (this.form.valid) this.formValidateChange.emit(true);
+        else this.formValidateChange.emit(false);
         this.form.valueChanges.subscribe(data => {
             if (this.form.valid) this.formValidateChange.emit(true);
             else this.formValidateChange.emit(false);
@@ -97,7 +99,9 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit,OnChanges {
     ngAfterViewInit() {
 
     }
-    ngOnChanges(){}
+    ngOnChanges() {
+
+    }
     private _buildForm() {
         return this._fb.group({
             slideText: new FormControl(this.slide.text, Validators.nullValidator),

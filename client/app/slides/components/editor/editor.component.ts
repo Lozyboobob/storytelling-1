@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, QueryList, OnChanges, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, QueryList, OnChanges, ViewEncapsulation, ViewChildren } from '@angular/core';
 import {Slides} from '../../models/slides';
 import {Slide} from '../../models/slide';
 import { DragulaService } from 'ng2-dragula';
@@ -21,6 +21,7 @@ export class EditorComponent implements OnInit, OnChanges {
         drag: 0,
         drop: 0
     }
+    @ViewChildren("creator") _creatorEle: any;
     @Input() sliderIpt: Slides;
     @Output() submit = new EventEmitter();
     //  @Output() validate= new EventEmitter();
@@ -118,7 +119,6 @@ export class EditorComponent implements OnInit, OnChanges {
         //this.validate.emit(status);
     }
     slideValidateChange(status) {
-        console.log("recieve");
         this.isValidatedSlide = status;
         this.checkValid();
         //this.validate.emit(status);
@@ -178,10 +178,22 @@ export class EditorComponent implements OnInit, OnChanges {
                 this.curSlideIndex--;
                 console.log("slide deleted in local");
             }
+            if(this.checkCreator(index)) this.isValidatedSlide=true;
+            this.checkValid();
         }
         catch (err) {
             console.log("slide cannot be deleted");
         }
+    }
+    /* check creator valid*/
+    checkCreator(index): boolean {
+        let creator = this._creatorEle.toArray();
+        let valid = true;
+        console.log(creator);
+        creator.forEach(c => {
+            if (!c.form.valid&&c.slideIndex!=index) valid = false
+        })
+        return valid;
     }
     /*change slide order*/
     shuffleSlide() {

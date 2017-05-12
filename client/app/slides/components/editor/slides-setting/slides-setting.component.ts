@@ -20,8 +20,11 @@ export class SlidesSettingComponent implements OnInit, OnChanges {
     }
     ngOnChanges() {
         if (this.setting) {
+            console.log("get setting");
             this.slidesSetting = this.setting;
             this.form = this._buildForm();
+            if (this.form.valid) this.formValidateChange.emit(true);
+            else this.formValidateChange.emit(false);
             this.form.valueChanges.subscribe(data => {
                 if (this.form.valid) this.formValidateChange.emit(true);
                 else this.formValidateChange.emit(false);
@@ -50,8 +53,8 @@ export class SlidesSettingComponent implements OnInit, OnChanges {
         this.onSettingChange.emit(this.slidesSetting);
         this.form.controls.tag.reset();
     }
-    deleteTag(index){
-      this.slidesSetting.tags.splice(index,1);
+    deleteTag(index) {
+        this.slidesSetting.tags.splice(index, 1);
     }
     /* set banner image*/
     setBanner(path) {
