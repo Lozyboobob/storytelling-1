@@ -1,22 +1,22 @@
-import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectorRef  } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectorRef,OnChanges  } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators, FormArray  } from '@angular/forms';
 
-import {MdDialog, MdDialogRef} from '@angular/material';
 import {JsonValidator } from '../json-validator';
 
 import { Slide } from '../../../models/slide';
 @Component({
     selector: 'app-slide-creator',
     templateUrl: './slide-creator.component.html',
-    styleUrls: ['./slide-creator.component.scss'],
+    styleUrls: ['./slide-creator.component.scss']
 })
-export class SlideCreatorComponent implements OnInit, AfterViewInit {
+export class SlideCreatorComponent implements OnInit, AfterViewInit,OnChanges {
     @Output() confirmSlideOpt: EventEmitter<Object> = new EventEmitter();
     @Output() deleteSlideOpt: EventEmitter<number> = new EventEmitter();
     @Output() formValidateChange = new EventEmitter();
     @Input() slideIndex: number;
     @Input() slideSetting: Slide;
     @Input() showForm: boolean; //indicator for showing slide setting
+    @Input() isInShuffle: boolean;
     slide: Slide = new Slide();
     form: FormGroup;
     graphs: Array<any> = [
@@ -97,6 +97,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
     ngAfterViewInit() {
 
     }
+    ngOnChanges(){}
     private _buildForm() {
         return this._fb.group({
             slideText: new FormControl(this.slide.text, Validators.nullValidator),
