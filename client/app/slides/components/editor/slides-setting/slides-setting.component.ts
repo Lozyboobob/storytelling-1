@@ -44,11 +44,14 @@ export class SlidesSettingComponent implements OnInit, OnChanges {
         this.slidesSetting.description = description;
         this.onSettingChange.emit(this.slidesSetting);
     }
-    /* add tages for slides*/
+    /* tag operation*/
     addTag() {
         this.slidesSetting.tags.push(this.form.value.tag);
         this.onSettingChange.emit(this.slidesSetting);
         this.form.controls.tag.reset();
+    }
+    deleteTag(index){
+      this.slidesSetting.tags.splice(index,1);
     }
     /* set banner image*/
     setBanner(path) {

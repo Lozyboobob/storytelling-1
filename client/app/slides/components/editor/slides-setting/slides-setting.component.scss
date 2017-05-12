@@ -21,6 +21,12 @@
             md-chip:last-child{
               margin-right: 15px;
             }
+            .close-tag{
+              cursor: pointer;
+              &:hover{
+                color:white;
+              }
+            }
         }
     }
 }
