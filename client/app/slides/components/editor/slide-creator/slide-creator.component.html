@@ -19,7 +19,7 @@
                 </md-select>
               </td>
               <td>
-                <md-select *ngIf="slide.hasGraph&&form.controls.pageLayout.value!='textInCenterImageBackground'" placeholder="Select graph" formControlName="slideGraph" name="slideGraph" (change)="graphChange()">
+                <md-select *ngIf="slide.hasGraph&&form.controls.pageLayout.value!='textInCenterImageBackground'" placeholder="Select graph" formControlName="slideGraph" name="slideGraph" (change)="initJson()">
                   <md-option *ngFor="let graph of graphs" [value]="graph.value">
                     {{ graph.type }}
                   </md-option>
@@ -29,7 +29,7 @@
           </table>
 
           <div class="margin-ver-frame">
-            <md-tab-group *ngIf="slide.hasGraph &&(form.controls.slideGraph.value)&& !(form.controls.slideGraph.value=='image'||form.controls.slideGraph.value=='noGraph')" #dataInput>
+            <md-tab-group *ngIf="slide.hasGraph &&(form.controls.slideGraph.value)&& !(form.controls.slideGraph.value=='image'||form.controls.slideGraph.value=='noGraph')" [selectedIndex]="curTab" #dataInput>
               <md-tab label="Input">
                 <div [ngSwitch]="form.controls.slideGraph.value">
                   <div *ngSwitchCase="'barChart'" class="margin-frame">
