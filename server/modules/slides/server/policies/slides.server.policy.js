@@ -21,7 +21,13 @@ exports.invokeRolesPolicies = function () {
       resources: '/api/slides/:slideId',
       permissions: '*'
     }, {
-      resources: '/api/slides/search/:text',
+      resources: '/api/search/slides',
+      permissions: ['*']
+    }, {
+      resources: '/api/slides/me',
+      permissions: ['*']
+    }, {
+      resources: '/api/slides/banner',
       permissions: ['*']
     }]
   }, {
@@ -33,7 +39,13 @@ exports.invokeRolesPolicies = function () {
       resources: '/api/slides/:slideId',
       permissions: ['*']
     }, {
-      resources: '/api/slides/search/:text',
+      resources: '/api/search/slides',
+      permissions: ['*']
+    }, {
+      resources: '/api/slides/me',
+      permissions: ['*']
+    }, {
+      resources: '/api/banner',
       permissions: ['*']
     }]
   }, {
@@ -45,7 +57,13 @@ exports.invokeRolesPolicies = function () {
       resources: '/api/slides/:slideId',
       permissions: ['*']
     }, {
-      resources: '/api/slides/search/:text',
+      resources: '/api/search/slides',
+      permissions: ['*']
+    }, {
+      resources: '/api/slides/me',
+      permissions: ['*']
+    }, {
+      resources: '/api/banner',
       permissions: ['*']
     }]
   }]);
@@ -56,7 +74,6 @@ exports.invokeRolesPolicies = function () {
  */
 exports.isAllowed = function (req, res, next) {
   var roles = (req.user) ? req.user.roles : ['guest'];
-
   // If an slide is being processed and the current user created it then allow any manipulation
   if (req.slide && req.user && req.slide.user && req.slide.user.id === req.user.id) {
     return next();

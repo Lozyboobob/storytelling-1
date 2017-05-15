@@ -16,6 +16,8 @@ import {SlidesService,ValidService} from '.';
 // SLIDES ROUTES MODULE
 import { SlidesRoutingModule } from '.';
 import { CoreModule } from "app/core";
+import { FileUploadModule } from 'ng2-file-upload';
+
 
 
 
@@ -35,6 +37,7 @@ import { SlidesEditorComponent } from './components/slides-editor/slides-editor.
 import { SlidesSettingComponent } from './components/editor/slides-setting/slides-setting.component';
 import { EditorComponent } from './components/editor/editor.component';
 
+import { FilterComponent } from './components/filter/filter.component';
 
 
 
@@ -48,7 +51,8 @@ import { EditorComponent } from './components/editor/editor.component';
         DragulaModule,
         Ng2PageScrollModule.forRoot(),
         FroalaEditorModule.forRoot(),
-        FroalaViewModule.forRoot()
+        FroalaViewModule.forRoot(),
+        FileUploadModule
     ],
     declarations: [
         ScrollDirective,
@@ -64,7 +68,8 @@ import { EditorComponent } from './components/editor/editor.component';
         LineChartComponent,
         SlidesEditorComponent,
         SlidesSettingComponent,
-        EditorComponent
+        EditorComponent,
+        FilterComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     providers: [OverlayContainer, SlidesService]

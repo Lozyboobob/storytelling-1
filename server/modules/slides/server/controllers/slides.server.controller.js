@@ -5,31 +5,31 @@
  */
 var path = require('path'),
   mongoose = require('mongoose'),
+  http = require('http'),
   fs = require('fs'),
   Slides = mongoose.model('Slides'),
-  errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
-
+  Image = mongoose.model('Image'),
+  errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
+  user = require(path.resolve('./modules/users/server/controllers/users/users.profile.server.controller'));
 /**
  * Create an slide
  */
 exports.create = function(req, res) {
-  console.log("created!!!!");
-  console.log(req.body);
   var slide = new Slides(req.body);
-  console.log("slide created");
-
-
   slide.user = req.user;
-
-  slide.save(function(err) {
-    if (err) {
-      console.log(err);
-      return res.status(422).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    } else {
-      res.json(slide);
-    }
+  Image.find({ '_id': slide.slidesSetting.imageId }).exec(function (err, image) {
+    slide.slidesSetting.banner.data = image[0].data;
+    slide.slidesSetting.banner.contentType = image[0].contentType;
+    slide.slidesSetting.bannerPath = 'data:' + slide.slidesSetting.banner.contentType + ';base64,' + slide.slidesSetting.banner.data.toString('base64');
+    slide.save(function(err) {
+      if (err) {
+        return res.status(422).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      } else {
+        res.json(slide);
+      }
+    });
   });
 };
 
@@ -37,12 +37,8 @@ exports.create = function(req, res) {
  * Show the current slide
  */
 exports.read = function(req, res) {
-  // convert mongoose document to JSON
   var slide = req.slide ? req.slide.toJSON() : {};
-  // Add a custom field to the slide, for determining if the current User is the "owner".
-  // NOTE: This field is NOT persisted to the database, since it doesn't exist in the slide model.
   slide.isCurrentUserOwner = !!(req.user && slide.user && slide.user._id.toString() === req.user._id.toString());
-
   res.json(slide);
 };
 
@@ -51,8 +47,8 @@ exports.read = function(req, res) {
  */
 exports.update = function(req, res) {
   var slides = req.slide;
-  slides.slidesSetting=req.body.slidesSetting;
-  slides.slides=req.body.slides;
+  slides.slidesSetting = req.body.slidesSetting;
+  slides.slides = req.body.slides;
   slides.save(function(err) {
     if (err) {
       return res.status(422).send({
@@ -60,7 +56,6 @@ exports.update = function(req, res) {
       });
     } else {
       res.json(slides);
-      console.log("finish update");
     }
   });
 };
@@ -86,30 +81,39 @@ exports.delete = function(req, res) {
  * List of slides
  */
 exports.list = function(req, res) {
-  Slides.find().sort('-created').populate('user', 'displayName').exec(function(err, slides) {
+  Slides.find().sort('-created').populate('user', 'displayName').exec(function (err, slides) {
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
       res.json(slides);
-
     }
   });
 };
 
+exports.myList = function(req, res) {
+  Slides.find({ $or: [{ 'slidesSetting.author': req.query.username }, { 'slidesSetting.public': true }] }).sort('-created').populate('user', 'displayName').exec(function(err, slides) {
+    if (err) {
+      return res.status(422).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    } else {
+      res.json(slides);
+    }
+  });
+};
 /**
  * slide middleware
  */
 exports.slideByID = function(req, res, next, id) {
-
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).send({
       message: 'slide is invalid'
     });
   }
 
-  Slides.findById(id).populate('user', 'displayName').exec(function(err, slide) {
+  Slides.findById(id).populate('user', 'displayName').exec(function (err, slide) {
     if (err) {
       return next(err);
     } else if (!slide) {
@@ -122,14 +126,36 @@ exports.slideByID = function(req, res, next, id) {
   });
 };
 exports.search = function (req, res) {
-  var regexS = new RegExp("^" + req.params.toSearch);
-  Slides.find({title: regexS}).exec(function (err, slides) {
-    if (err) {
-      return res.status(422).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    } else {
-      res.json(slides);
-    }
-  });
+  var regexS = new RegExp((req.query.title) || '');
+  if (req.query.state === 'Public') {
+    Slides.find({ $and: [{ $or: [{ 'slidesSetting.title': regexS }, { 'slidesSetting.tags': regexS }] }, { 'slidesSetting.public': true }] }).exec(function (err, slides) {
+      if (err) {
+        return res.status(422).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      } else {
+        res.json(slides);
+      }
+    });
+  } else if (req.query.state === 'Private') {
+    Slides.find({ $and: [{ $or: [{ 'slidesSetting.title': regexS }, { 'slidesSetting.tags': regexS }] }, { 'slidesSetting.author': req.query.username }, { 'slidesSetting.public': false }] }).exec(function (err, slides) {
+      if (err) {
+        return res.status(422).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      } else {
+        res.json(slides);
+      }
+    });
+  } else {
+    Slides.find({ $and: [{ $or: [{ 'slidesSetting.title': regexS }, { 'slidesSetting.tags': regexS }] }, { $or: [{ 'slidesSetting.author': req.query.username }, { 'slidesSetting.public': true }] }] }).exec(function (err, slides) {
+      if (err) {
+        return res.status(422).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      } else {
+        res.json(slides);
+      }
+    });
+  }
 };

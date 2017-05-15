@@ -13,10 +13,12 @@ import { Slides} from '../../models/slides';
 })
 export class SlidesEditorComponent implements OnInit,AfterViewChecked {
     slider: Slides = new Slides();
+
     isValidated: boolean = false;
     editorValid: Subscription;
     @ViewChild("editor") _editor: EditorComponent;
     constructor(private slidesService: SlidesService, private validService: ValidService,     private cdRef: ChangeDetectorRef,private router: Router, private route: ActivatedRoute) { }
+
 
     ngOnInit() {
         let id;

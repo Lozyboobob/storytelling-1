@@ -1,4 +1,5 @@
 
+
 import { Component, OnInit, Output, EventEmitter, Input, ViewChild, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import {DomSanitizer} from '@angular/platform-browser';
@@ -48,16 +49,20 @@ export class SlidesCreatorComponent implements OnInit, AfterViewChecked {
     createSlides() {
         this.slider = this._editor.slider;
         console.log("get slier from editor", this.slider);
-        //console.log(this.router);
-        this.editorValid = this.slidesService.submitSlides(this.slider)
-            .subscribe(
-            data => {
-                console.log("created");
-                //this.router.navigate(['/login']);
-                this.router.navigate(['/slides']);
-            },
-            error => {
-                console.log("fail to createSlides");
-            });
-    }
+        // console.log(this.router);
+        this.slidesService.uploadImage(this.slider.slidesSetting.banner).subscribe( id => {
+            console.log('id',id);
+           this.slider.slidesSetting.imageId = id;
+            this.editorValid = this.slidesService.submitSlides(this.slider)
+              .subscribe(
+                  data => {
+                      console.log("created");
+                      // this.router.navigate(['/login']);
+                      this.router.navigate(['/slides']);
+                  },
+                  error => {
+                      console.log("fail to createSlides");
+                  });
+        });
+    };
 }
