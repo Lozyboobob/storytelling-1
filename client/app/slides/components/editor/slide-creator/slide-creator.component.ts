@@ -95,7 +95,8 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
 
             this.slide.index = this.slideIndex;
         }
-        this.form = this._buildForm(); this.validService.changeSlideValid(this.form.valid, this.slideIndex);
+        this.form = this._buildForm();
+        this.validService.changeSlideValid(this.form.valid, this.slideIndex);
         this.form.valueChanges.subscribe(data => {
             this.validService.changeSlideValid(this.form.valid, this.slideIndex);
         })
@@ -234,7 +235,9 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
     setImageHtml(html) {
         this.slide.fullScreenHtml = "<img src='" + html + "' style='width:100%;height:100%'>";
     }
-
+    upload(inputEl) {
+        console.log('etape 2');
+    }
 
 
 }

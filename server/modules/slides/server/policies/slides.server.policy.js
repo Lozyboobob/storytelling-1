@@ -26,6 +26,9 @@ exports.invokeRolesPolicies = function () {
     }, {
       resources: '/api/slides/me',
       permissions: ['*']
+    }, {
+      resources: '/api/slides/banner',
+      permissions: ['*']
     }]
   }, {
     roles: ['user'],
@@ -41,6 +44,9 @@ exports.invokeRolesPolicies = function () {
     }, {
       resources: '/api/slides/me',
       permissions: ['*']
+    }, {
+      resources: '/api/banner',
+      permissions: ['*']
     }]
   }, {
     roles: ['guest'],
@@ -55,6 +61,9 @@ exports.invokeRolesPolicies = function () {
       permissions: ['*']
     }, {
       resources: '/api/slides/me',
+      permissions: ['*']
+    }, {
+      resources: '/api/banner',
       permissions: ['*']
     }]
   }]);
