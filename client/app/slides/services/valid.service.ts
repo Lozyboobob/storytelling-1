@@ -6,7 +6,7 @@ export class ValidService {
     validAllSource = new BehaviorSubject<boolean>(false);
     validAll$ = this.validAllSource.asObservable();
     //validation for all page of slide
-    validSlideSource = new BehaviorSubject<boolean>(false);
+    validSlideSource = new BehaviorSubject<boolean>(true);
     validSlide$ = this.validAllSource.asObservable();
     //validation for slides setting
     validSettingSource = new BehaviorSubject<boolean>(false);
