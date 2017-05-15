@@ -16,7 +16,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
     @Output() formValidateChange = new EventEmitter();
     @Input() slideIndex: number;
     @Input() slideSetting: Slide;
-    @Input() showForm: boolean; //indicator for showing slide setting
+    @Input() showForm: boolean; // indicator for showing slide setting
     slide: Slide = new Slide();
     form: FormGroup;
     graphs: Array<any> = [
@@ -221,7 +221,9 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
     setImageHtml(html) {
         this.slide.fullScreenHtml = "<img src='" + html + "' style='width:100%;height:100%'>";
     }
-
+    upload(inputEl) {
+        console.log('etape 2');
+    }
 
 
 }

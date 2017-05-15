@@ -14,6 +14,7 @@ export class EditorComponent implements OnInit, OnChanges {
     isValidatedSlide: boolean = true;
     @Input() sliderIpt: Slides;
     @Output() submit = new EventEmitter();
+    @Output() bannerImageUpload = new EventEmitter();
     //  @Output() validate= new EventEmitter();
 
 

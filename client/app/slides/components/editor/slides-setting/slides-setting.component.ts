@@ -55,4 +55,13 @@ export class SlidesSettingComponent implements OnInit, OnChanges {
         this.slidesSetting.bannerPath = path;
         this.onSettingChange.emit(this.slidesSetting);
     }
+    upload(inputEl) {
+        const fileCount: number = inputEl.files.length;
+        const formData = new FormData(inputEl);
+        if (fileCount > 0) { // a file was selected
+            formData.append('banner', inputEl.files[0]);
+            this.slidesSetting.banner = formData;
+        }
+       this.onSettingChange.emit(this.slidesSetting);
+    }
 }

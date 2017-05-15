@@ -1,5 +1,7 @@
 <form  #form>
-  <label for="imgInput" class="label">{{label}}</label><br><br>
-  <input type="file" id="imgInput" (change)="newInput($event)"  #fileInput><br>
+  <label class="label">{{label}}</label><br><br>
+  <input id="banner" type="file" [(ngModel)]="fileUpload" name="fileUpload" (change)="onChange()" />
+  --{{fileUpload}}
+  <!-- button to trigger the file upload when submitted -->
   <img #fileDisplayArea  class="image-display">
 </form>
