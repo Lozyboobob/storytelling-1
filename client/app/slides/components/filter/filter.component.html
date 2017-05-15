@@ -1,0 +1,7 @@
+<form autocomplete="off" #f="ngForm" class="filter">
+  <md-select  (change)="onChange(selectedValue)" [(ngModel)]="selectedValue" name="state">
+    <md-option *ngFor="let state of states" [value]="state" >
+      {{state}}
+    </md-option>
+  </md-select>
+</form>

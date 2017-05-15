@@ -6,8 +6,8 @@ import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter } from '
     styleUrls: ['./csv-input.component.scss']
 })
 export class CsvInputComponent implements OnInit {
-    @ViewChild('fileInput') fileInput: ElementRef
-    @ViewChild('fileDisplayArea') fileDisplayArea: ElementRef
+    @ViewChild('fileInput') fileInput: ElementRef;
+    @ViewChild('fileDisplayArea') fileDisplayArea: ElementRef;
     constructor() { }
     @Output() csv2json: EventEmitter<any> = new EventEmitter();
     ngOnInit() {
@@ -117,13 +117,13 @@ export class CsvInputComponent implements OnInit {
         if (file.type.match(textType)) {
             var reader = new FileReader();
 
-            reader.onload = (e) => {
+            reader.onload = () => {
                 //transfer to json
                 console.log(reader.result);
                 let json = this.csvJSON(reader.result);
                 this.csv2json.emit(json);
                 fileDisplayArea.innerText = reader.result;
-            }
+            };
 
             reader.readAsText(file);
         } else {

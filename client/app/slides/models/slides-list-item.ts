@@ -7,6 +7,7 @@ export class SlidesListItem {
     tags: Array<string>=[];
     bannerPath:String='';
     public:boolean=false;
+    author: String='';
     constructor(slides?) {
       this.id=slides && slides._id || '';
       this.title= slides && slides.title|| '';
@@ -14,5 +15,6 @@ export class SlidesListItem {
       this.tags=slides && slides.tags|| [];
       this.public = slides && slides.public;
       this.bannerPath=slides && slides.bannerPath|| '';
+      this.author = slides && slides.author|| '';
     }
 }
