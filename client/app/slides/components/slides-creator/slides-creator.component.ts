@@ -1,5 +1,5 @@
 
-import { Component, OnInit, Output, EventEmitter, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, ViewChild, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import {DomSanitizer} from '@angular/platform-browser';
 import {Subscription} from 'rxjs/Subscription';
@@ -15,25 +15,29 @@ import { EditorComponent} from '../editor/editor.component'
     styleUrls: ['./slides-creator.component.scss'],
     providers: [SlidesService, ValidService]
 })
-export class SlidesCreatorComponent implements OnInit {
+export class SlidesCreatorComponent implements OnInit, AfterViewChecked {
 
     isValidated: boolean = false;
     slider: Slides; // the whole slides
     @ViewChild("editor") _editor: EditorComponent;
     editorValid: Subscription;
-    constructor(private router: Router, private sanitizer: DomSanitizer, private slidesService: SlidesService, private validService: ValidService) {
+    constructor(private router: Router, private sanitizer: DomSanitizer, private slidesService: SlidesService, private validService: ValidService,
+        private cdRef: ChangeDetectorRef) {
     }
 
     ngOnInit() {
         this.slider = new Slides();
         this.editorValid = this.validService.validAll$.subscribe(
-            valid => { console.log("valid", valid);
-          //  if(valid)
-          //  this.isValidated = true;
-          //  else this.isValidated=false;
-        },
-        error => console.log(error),
-            () =>console.log("finish"))
+            valid => {
+                console.log("valid", valid);
+                if (valid)
+                    this.isValidated = true;
+                else this.isValidated = false;
+                //  this.cdRef.detectChanges();
+            })
+    }
+    ngAfterViewChecked() {
+        this.cdRef.detectChanges();
     }
     /* validate status change*/
     formValidateChange(status) {
@@ -45,7 +49,7 @@ export class SlidesCreatorComponent implements OnInit {
         this.slider = this._editor.slider;
         console.log("get slier from editor", this.slider);
         //console.log(this.router);
-        this.editorValid=this.slidesService.submitSlides(this.slider)
+        this.editorValid = this.slidesService.submitSlides(this.slider)
             .subscribe(
             data => {
                 console.log("created");

@@ -79,6 +79,13 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
     }
 
     ngOnInit() {
+
+
+    }
+    ngAfterViewInit() {
+
+    }
+    ngOnChanges() {
         if (this.slideSetting) {
 
             this.slide = this.slideSetting;
@@ -87,17 +94,11 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
 
             this.slide.index = this.slideIndex;
         }
-        this.form = this._buildForm(); this.validService.changeSlideValid(this.form.valid,this.slideIndex);
-        this.form.valueChanges.subscribe(data => { this.validService.changeSlideValid(this.form.valid,this.slideIndex);
+        this.form = this._buildForm(); this.validService.changeSlideValid(this.form.valid, this.slideIndex);
+        this.form.valueChanges.subscribe(data => {
+            this.validService.changeSlideValid(this.form.valid, this.slideIndex);
         })
         this.showForm = !this.form.valid;
-
-    }
-    ngAfterViewInit() {
-
-    }
-    ngOnChanges() {
-
     }
     private _buildForm() {
         return this._fb.group({

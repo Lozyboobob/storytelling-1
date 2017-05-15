@@ -7,7 +7,7 @@
 
       </md-card-content>
       <md-card-actions align="center">
-        <button md-raised-button color="primary" [disabled]="(!isValidated)||_editor.isInShuffle" type="submit" (click)="createSlides()">CREATE</button>
+        <button md-raised-button color="primary" [disabled]= "!isValidated||_editor.isInShuffle" (click)="createSlides()">CREATE</button>
         <button md-raised-button class="secondery" [routerLink]="['/slides']">CANCEL</button>
       </md-card-actions>
     </form>

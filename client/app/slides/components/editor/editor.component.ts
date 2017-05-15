@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, QueryList, OnChanges, V
 import {Slides} from '../../models/slides';
 import {Slide} from '../../models/slide';
 import { DragulaService } from 'ng2-dragula';
+import {ValidService} from '../../services/valid.service';
 @Component({
     selector: 'app-editor',
     templateUrl: './editor.component.html',
@@ -26,7 +27,7 @@ export class EditorComponent implements OnInit, OnChanges {
     @Output() submit = new EventEmitter();
     //  @Output() validate= new EventEmitter();
 
-    constructor(private dragulaService: DragulaService) {
+    constructor(private dragulaService: DragulaService,private validService: ValidService) {
         dragulaService.drag.subscribe(value => {
             // value[0] will always be bag name
             this.onDrag(value.slice(1));
@@ -180,8 +181,7 @@ export class EditorComponent implements OnInit, OnChanges {
                 this.curSlideIndex--;
                 console.log("slide deleted in local");
             }
-            if(this.checkCreator(index)) this.isValidatedSlide=true;
-            this.checkValid();
+            this.validService.changeSlideValid(true,index,"DELETE");
         }
         catch (err) {
             console.log("slide cannot be deleted");
