@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, Output, EventEmitter, QueryList, OnChanges, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, QueryList, OnChanges, ViewEncapsulation, ViewChildren } from '@angular/core';
 import {Slides} from '../../models/slides';
 import {Slide} from '../../models/slide';
 import { DragulaService } from 'ng2-dragula';
+import {ValidService} from '../../services/valid.service';
 @Component({
     selector: 'app-editor',
     templateUrl: './editor.component.html',
@@ -21,11 +22,12 @@ export class EditorComponent implements OnInit, OnChanges {
         drag: 0,
         drop: 0
     }
+    @ViewChildren("creator") _creatorEle: any;
     @Input() sliderIpt: Slides;
     @Output() submit = new EventEmitter();
     //  @Output() validate= new EventEmitter();
 
-    constructor(private dragulaService: DragulaService) {
+    constructor(private dragulaService: DragulaService,private validService: ValidService) {
         dragulaService.drag.subscribe(value => {
             // value[0] will always be bag name
             this.onDrag(value.slice(1));
@@ -109,16 +111,17 @@ export class EditorComponent implements OnInit, OnChanges {
     }
     /* trigger when slides setting change*/
     slidesSettingChange(setting) {
+
         this.slider.slidesSetting = setting;
     }
     /* validate status change*/
     settingValidateChange(status) {
         this.isValidatedSetting = status;
         this.checkValid();
+        console.log("is valid",this.isValidated)
         //this.validate.emit(status);
     }
     slideValidateChange(status) {
-        console.log("recieve");
         this.isValidatedSlide = status;
         this.checkValid();
         //this.validate.emit(status);
@@ -178,10 +181,21 @@ export class EditorComponent implements OnInit, OnChanges {
                 this.curSlideIndex--;
                 console.log("slide deleted in local");
             }
+            this.validService.changeSlideValid(true,index,"DELETE");
         }
         catch (err) {
             console.log("slide cannot be deleted");
         }
+    }
+    /* check creator valid*/
+    checkCreator(index): boolean {
+        let creator = this._creatorEle.toArray();
+        let valid = true;
+        console.log(creator);
+        creator.forEach(c => {
+            if (!c.form.valid&&c.slideIndex!=index) valid = false
+        })
+        return valid;
     }
     /*change slide order*/
     shuffleSlide() {

@@ -1,7 +1,7 @@
 <app-slides-setting #slidesSetting (onSettingChange)="slidesSettingChange($event)" (formValidateChange)="settingValidateChange($event)" [setting]="slider.slidesSetting"></app-slides-setting>
 <section *ngIf="!isInShuffle">
   <div class="slides" #slideBlock>
-    <app-slide-creator *ngFor="let slide of slider.slides;let i=index" [slideIndex]="i+1" [slideSetting]="slide" (confirmSlideOpt)="submitSlide($event)" (deleteSlideOpt)="deleteSlide($event)" (formValidateChange)="slideValidateChange($event)"></app-slide-creator>
+    <app-slide-creator *ngFor="let slide of slider.slides;let i=index" [slideIndex]="i+1" [slideSetting]="slide" (confirmSlideOpt)="submitSlide($event)" (deleteSlideOpt)="deleteSlide($event)" (formValidateChange)="slideValidateChange($event)" #creator></app-slide-creator>
   </div>
 </section>
 <section *ngIf="isInShuffle">

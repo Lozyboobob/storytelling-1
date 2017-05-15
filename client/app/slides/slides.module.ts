@@ -11,7 +11,7 @@ import {SearchComponent} from './components/search/search.component';
 // SLIDES COMPONENTS
 import { SlidesPresentationComponent, SlidesListComponent, SlidesCreatorComponent, SlideCreatorComponent } from '.';
 // SLIDES SERVICES
-import {SlidesService} from '.';
+import {SlidesService,ValidService} from '.';
 
 // SLIDES ROUTES MODULE
 import { SlidesRoutingModule } from '.';

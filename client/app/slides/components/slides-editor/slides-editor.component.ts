@@ -1,17 +1,22 @@
-import { Component, OnInit, Output,ViewChild } from '@angular/core';
+import { Component, OnInit, Output, ViewChild,AfterViewChecked,ChangeDetectorRef } from '@angular/core';
+import {Subscription} from 'rxjs/Subscription';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EditorComponent} from '../editor/editor.component'
 import {SlidesService} from '../../services/slides.service';
+import {ValidService} from '../../services/valid.service';
 import { Slides} from '../../models/slides';
 @Component({
     selector: 'app-slides-editor',
     templateUrl: './slides-editor.component.html',
-    styleUrls: ['./slides-editor.component.scss']
+    styleUrls: ['./slides-editor.component.scss'],
+    providers: [SlidesService, ValidService]
 })
-export class SlidesEditorComponent implements OnInit {
+export class SlidesEditorComponent implements OnInit,AfterViewChecked {
     slider: Slides = new Slides();
+    isValidated: boolean = false;
+    editorValid: Subscription;
     @ViewChild("editor") _editor: EditorComponent;
-    constructor(private slidesService: SlidesService, private router: Router, private route: ActivatedRoute) { }
+    constructor(private slidesService: SlidesService, private validService: ValidService,     private cdRef: ChangeDetectorRef,private router: Router, private route: ActivatedRoute) { }
 
     ngOnInit() {
         let id;
@@ -27,8 +32,17 @@ export class SlidesEditorComponent implements OnInit {
             error => {
                 console.log("fail to get slides data");
             });
+        this.editorValid=this.validService.validAll$.subscribe(
+            valid =>{
+                if (valid)
+                    this.isValidated = true;
+                else this.isValidated = false;
+                //  this.cdRef.detectChanges();
+            })
     }
-
+    ngAfterViewChecked() {
+        this.cdRef.detectChanges();
+    }
     saveSlides() {
         this.slidesService.updateSlide(this.slider, this.slider._id)
             .subscribe(res => {
