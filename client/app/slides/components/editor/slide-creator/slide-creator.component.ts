@@ -191,7 +191,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
     }
     initJson() {
         //change json sample
-        if (this.slide.data != [] && this.form.value.slideGraph == this.slide.graph ) {
+        if (this.slide.data.length && this.form.value.slideGraph == this.slide.graph ) {
             this.curTab=1;
             let data = { "graphData": this.slide.data };
             console.log(data);
