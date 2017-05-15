@@ -71,6 +71,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
     @ViewChild("dataInput") dataInputTab;
     @ViewChild("graphSelector") graphSelector;
     csvJson: any = [];
+    curTab:number=0;
     constructor(
         private _fb: FormBuilder,
         private validService: ValidService
@@ -98,6 +99,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
         this.form.valueChanges.subscribe(data => {
             this.validService.changeSlideValid(this.form.valid, this.slideIndex);
         })
+        this.initJson();
         this.showForm = !this.form.valid;
     }
     private _buildForm() {
@@ -187,16 +189,21 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
         control.push(this.initData());
         console.log(this.form.value);
     }
-    graphChange() {
-
+    initJson() {
         //change json sample
-        if (this.form.value.graphDataJson == '{}')
+        if (this.slide.data.length && this.form.value.slideGraph == this.slide.graph ) {
+            this.curTab=1;
+            let data = { "graphData": this.slide.data };
+            console.log(data);
+            this.form.controls['graphDataJson'].setValue(JSON.stringify(data));
+        } else {
             switch (this.form.value.slideGraph) {
                 case "barChart": this.form.controls['graphDataJson'].setValue(barCharDataExample); break;
                 case "forceDirectedGraph": this.form.controls['graphDataJson'].setValue(forceDirectedGraphDataExample); break;
                 case "lineChart": this.form.controls['graphDataJson'].setValue(lineChartExample); break;
                 default: ;
             }
+        }
     }
     pageLayoutChange() {
         switch (this.form.value.pageLayout) {
