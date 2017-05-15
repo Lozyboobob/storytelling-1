@@ -29,7 +29,7 @@
           </table>
 
           <div class="margin-ver-frame">
-            <md-tab-group *ngIf="slide.hasGraph && !(form.controls.slideGraph.value=='image'||form.controls.slideGraph.value=='noGraph')" #dataInput>
+            <md-tab-group *ngIf="slide.hasGraph &&(form.controls.slideGraph.value)&& !(form.controls.slideGraph.value=='image'||form.controls.slideGraph.value=='noGraph')" #dataInput>
               <md-tab label="Input">
                 <div [ngSwitch]="form.controls.slideGraph.value">
                   <div *ngSwitchCase="'barChart'" class="margin-frame">

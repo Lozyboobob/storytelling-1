@@ -1,18 +1,18 @@
-import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectorRef,OnChanges  } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectorRef, OnChanges  } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators, FormArray  } from '@angular/forms';
-
+import {ValidService} from '../../../services/valid.service';
 import {JsonValidator } from '../json-validator';
 
 import { Slide } from '../../../models/slide';
 @Component({
     selector: 'app-slide-creator',
     templateUrl: './slide-creator.component.html',
-    styleUrls: ['./slide-creator.component.scss']
+    styleUrls: ['./slide-creator.component.scss'],
+    providers: []
 })
-export class SlideCreatorComponent implements OnInit, AfterViewInit,OnChanges {
+export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
     @Output() confirmSlideOpt: EventEmitter<Object> = new EventEmitter();
     @Output() deleteSlideOpt: EventEmitter<number> = new EventEmitter();
-    @Output() formValidateChange = new EventEmitter();
     @Input() slideIndex: number;
     @Input() slideSetting: Slide;
     @Input() showForm: boolean; //indicator for showing slide setting
@@ -73,11 +73,19 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit,OnChanges {
     csvJson: any = [];
     constructor(
         private _fb: FormBuilder,
+        private validService: ValidService
     ) {
 
     }
 
     ngOnInit() {
+
+
+    }
+    ngAfterViewInit() {
+
+    }
+    ngOnChanges() {
         if (this.slideSetting) {
 
             this.slide = this.slideSetting;
@@ -86,18 +94,12 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit,OnChanges {
 
             this.slide.index = this.slideIndex;
         }
-        this.form = this._buildForm();
+        this.form = this._buildForm(); this.validService.changeSlideValid(this.form.valid, this.slideIndex);
         this.form.valueChanges.subscribe(data => {
-            if (this.form.valid) this.formValidateChange.emit(true);
-            else this.formValidateChange.emit(false);
+            this.validService.changeSlideValid(this.form.valid, this.slideIndex);
         })
         this.showForm = !this.form.valid;
-
     }
-    ngAfterViewInit() {
-
-    }
-    ngOnChanges(){}
     private _buildForm() {
         return this._fb.group({
             slideText: new FormControl(this.slide.text, Validators.nullValidator),
