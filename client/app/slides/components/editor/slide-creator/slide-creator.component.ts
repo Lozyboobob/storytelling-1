@@ -1,7 +1,6 @@
-import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectorRef  } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectorRef, OnChanges  } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators, FormArray  } from '@angular/forms';
-
-import {MdDialog, MdDialogRef} from '@angular/material';
+import {ValidService} from '../../../services/valid.service';
 import {JsonValidator } from '../json-validator';
 
 import { Slide } from '../../../models/slide';
@@ -9,14 +8,15 @@ import { Slide } from '../../../models/slide';
     selector: 'app-slide-creator',
     templateUrl: './slide-creator.component.html',
     styleUrls: ['./slide-creator.component.scss'],
+    providers: []
 })
-export class SlideCreatorComponent implements OnInit, AfterViewInit {
+export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
     @Output() confirmSlideOpt: EventEmitter<Object> = new EventEmitter();
     @Output() deleteSlideOpt: EventEmitter<number> = new EventEmitter();
-    @Output() formValidateChange = new EventEmitter();
     @Input() slideIndex: number;
     @Input() slideSetting: Slide;
-    @Input() showForm: boolean; // indicator for showing slide setting
+    @Input() showForm: boolean; //indicator for showing slide setting
+    @Input() isInShuffle: boolean;
     slide: Slide = new Slide();
     form: FormGroup;
     graphs: Array<any> = [
@@ -73,12 +73,21 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
     csvJson: any = [];
     constructor(
         private _fb: FormBuilder,
+        private validService: ValidService
     ) {
 
     }
 
     ngOnInit() {
+
+
+    }
+    ngAfterViewInit() {
+
+    }
+    ngOnChanges() {
         if (this.slideSetting) {
+
             this.slide = this.slideSetting;
         }
         if (this.slideIndex) {
@@ -86,15 +95,11 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
             this.slide.index = this.slideIndex;
         }
         this.form = this._buildForm();
+        this.validService.changeSlideValid(this.form.valid, this.slideIndex);
         this.form.valueChanges.subscribe(data => {
-            if (this.form.valid) this.formValidateChange.emit(true);
-            else this.formValidateChange.emit(false);
+            this.validService.changeSlideValid(this.form.valid, this.slideIndex);
         })
         this.showForm = !this.form.valid;
-    }
-    ngAfterViewInit() {
-
-        console.log("show", this.form.valid);
     }
     private _buildForm() {
         return this._fb.group({
@@ -109,7 +114,6 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
     }
     /* toggle the slideSetting*/
     toggleForm() {
-        console.log("toggle");
         this.showForm = !this.showForm;
     }
     confirmSlide() {
@@ -185,12 +189,15 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit {
         console.log(this.form.value);
     }
     graphChange() {
-        switch (this.form.value.slideGraph) {
-            case "barChart": this.dataExample = barCharDataExample; break;
-            case "forceDirectedGraph": this.dataExample = forceDirectedGraphDataExample; break;
-            case "lineChart": this.dataExample = lineChartExample; break;
-            default: this.dataExample = "{}";
-        }
+
+        //change json sample
+        if (this.form.value.graphDataJson == '{}')
+            switch (this.form.value.slideGraph) {
+                case "barChart": this.form.controls['graphDataJson'].setValue(barCharDataExample); break;
+                case "forceDirectedGraph": this.form.controls['graphDataJson'].setValue(forceDirectedGraphDataExample); break;
+                case "lineChart": this.form.controls['graphDataJson'].setValue(lineChartExample); break;
+                default: ;
+            }
     }
     pageLayoutChange() {
         switch (this.form.value.pageLayout) {

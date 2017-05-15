@@ -1,30 +1,33 @@
 import { Component, OnInit, OnChanges, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { SlidesSetting } from '../../../models/slides-setting';
+import {ValidService} from '../../../services/valid.service';
 @Component({
     selector: 'app-slides-setting',
     templateUrl: './slides-setting.component.html',
-    styleUrls: ['./slides-setting.component.scss']
+    styleUrls: ['./slides-setting.component.scss'],
+    providers: [ ]
 })
 export class SlidesSettingComponent implements OnInit, OnChanges {
     @Input() setting: SlidesSetting;
     @Output() onSettingChange: EventEmitter<SlidesSetting> = new EventEmitter();
-    @Output() formValidateChange = new EventEmitter();
     form: FormGroup;
     slidesSetting: SlidesSetting = new SlidesSetting();
-    constructor(private _fb: FormBuilder) {
+    constructor(private _fb: FormBuilder, private validService: ValidService) {
         this.form = this._buildForm();
     }
 
     ngOnInit() {
+        console.log("setting", this.setting);
     }
     ngOnChanges() {
         if (this.setting) {
+            console.log("get setting", this.setting);
             this.slidesSetting = this.setting;
             this.form = this._buildForm();
+            this.validService.changeSettingValid(this.form.valid)
             this.form.valueChanges.subscribe(data => {
-                if (this.form.valid) this.formValidateChange.emit(true);
-                else this.formValidateChange.emit(false);
+                this.validService.changeSettingValid(this.form.valid)
             })
         }
     }
@@ -44,11 +47,14 @@ export class SlidesSettingComponent implements OnInit, OnChanges {
         this.slidesSetting.description = description;
         this.onSettingChange.emit(this.slidesSetting);
     }
-    /* add tages for slides*/
+    /* tag operation*/
     addTag() {
         this.slidesSetting.tags.push(this.form.value.tag);
         this.onSettingChange.emit(this.slidesSetting);
         this.form.controls.tag.reset();
+    }
+    deleteTag(index) {
+        this.slidesSetting.tags.splice(index, 1);
     }
     /* set banner image*/
     setBanner(path) {

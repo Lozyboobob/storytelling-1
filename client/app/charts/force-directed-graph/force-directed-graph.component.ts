@@ -126,8 +126,8 @@ export class ForceDirectedGraphComponent implements OnInit, Chart {
                 .on("drag", (d) => { return this.dragged(d) })
                 .on("end", (d) => { return this.dragended(d) }))
 
-        /*    this.node.append("title")
-                .text(function(d) { return d.id; });*/
+           this.node.append("title")
+                .text(function(d) { return d.id; });
         this.simulation
             .nodes(this.data.nodes)
 

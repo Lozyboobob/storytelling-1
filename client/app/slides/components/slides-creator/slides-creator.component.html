@@ -3,22 +3,11 @@
     <form>
       <md-toolbar color="primary">Create new slides</md-toolbar>
       <md-card-content>
-        <app-editor  #editor ></app-editor>
-        <!--    <app-slides-setting #slidesSetting (onSettingChange)="slidesSettingChange($event)" (onValidated)="validateSubmit()"></app-slides-setting>
-        <section>
-          <div class="slides" #slideBlock>
-            <app-slide-preview *ngFor="let slide of slides;let i=index" [curSlideIndex]="i" [slideSetting]="slide" (submitSlideOpt)="submitSlide($event)" (deleteSlideOpt)="deleteSlide($event)"></app-slide-preview>
-          </div>
-        </section>
-        <a md-fab (click)="addSlide()" mdTooltip="add a new slide">
-          <md-icon>add</md-icon>
-        </a>
+        <app-editor #editor></app-editor>
 
-<app-slide-creator (confirmSlideOpt)="submitSlide($event)" (deleteSlideOpt)="deleteSlide($event)" [slideIndex]="curSlideIndex" [showForm]="true"></app-slide-creator>
-      -->
       </md-card-content>
       <md-card-actions align="center">
-        <button md-raised-button color="primary" [disabled]="!_editor.isValidated" type="submit" (click)="createSlides()">CREATE</button>
+        <button md-raised-button color="primary" [disabled]= "!isValidated||_editor.isInShuffle" (click)="createSlides()">CREATE</button>
         <button md-raised-button class="secondery" [routerLink]="['/slides']">CANCEL</button>
       </md-card-actions>
     </form>
