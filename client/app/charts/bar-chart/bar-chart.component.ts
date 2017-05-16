@@ -42,7 +42,9 @@ export class BarChartComponent implements OnInit, Chart {
             .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`);
 
         // define X & Y domains
+        console.log("index-1",this.data);
         let xDomain = this.data.map(d => d.index);
+        console.log("index-1");
         let yDomain = [0, d3.max(this.data, d => d.value)];
 
         // create scales
@@ -105,13 +107,16 @@ export class BarChartComponent implements OnInit, Chart {
     }
     setData(data) {
         if (data.length == 0) return;
+        console.log("data",data);
         this.data = data;
     }
     init() {
+        console.log("start init")
         this.createChart();
         if (this.data.length) {
             this.updateChart();
         }
+        console.log("finish init");
     }
     load() {
         this.loaded = true;

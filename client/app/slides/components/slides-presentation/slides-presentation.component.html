@@ -7,22 +7,20 @@
     </md-grid-list>
   </div>
   <div [ngStyle]="slideHeight_style" class="slide" [attr.id]="'slide-'+slide.index" *ngFor="let slide of slides; let i =index">
-    <!--full screen :chart-->
-
+    <!--full screen :chart -->
+    <!--full screen :text-->
     <!--left graph right text-->
-    <md-grid-list *ngIf="!((pageLayoutConfig[i].isFullScreen&&!pageLayoutConfig[i].hasChart&&!pageLayoutConfig[i].hasText)||slide.pageLayout=='textInCenterImageBackground')&&slide.pageLayout!='LeftTextRightGraph'" cols="{{pageLayoutConfig[i].pageCol}}" class="firstcase">
+    <md-grid-list *ngIf="(slide.pageLayout=='FullScreenGraph'&&slide.graph!='image')||slide.pageLayout=='textInCenter'||slide.pageLayout=='LeftGraphRightText'" cols="{{pageLayoutConfig[i].pageCol}}" class="firstcase">
+      <!--chart || image-->
       <md-grid-tile [colspan]="1" *ngIf="pageLayoutConfig[i].hasChart||pageLayoutConfig[i].hasImage" [attr.id]="slide.graph" [ngSwitch]="slide.graph">
         <app-force-directed-graph class="chart" #chart *ngSwitchCase="'forceDirectedGraph'"></app-force-directed-graph>
         <app-bar-chart class="chart" #chart *ngSwitchCase="'barChart'"></app-bar-chart>
         <app-line-chart class="chart" #chart *ngSwitchCase="'lineChart'"></app-line-chart>
         <div class="chart" [innerHTML]="slide.fullScreenHtml" #chart *ngSwitchDefault></div>
       </md-grid-tile>
-      <md-grid-tile [colspan]="1" align="center" *ngIf="pageLayoutConfig[i].hasText&&slide.pageLayout!='textInCenter'">
+      <!-- text -->
+      <md-grid-tile [colspan]="1" align="center" *ngIf="pageLayoutConfig[i].hasText">
         <div [innerHTML]="slide.text" align="left" [class.slideLeft]="loadContentAni[i]" [class.slideRightOut]="easeContentAni[i]"></div>
-      </md-grid-tile>
-      <!--full screen :text-->
-      <md-grid-tile [colspan]="1" align="center" *ngIf="pageLayoutConfig[i].hasText&&slide.pageLayout=='textInCenter'">
-        <div [innerHTML]="slide.text" align="left" [class.slideLeft]="loadContentAni[i]" [class.slideRightOut]="easeContentAni[i]" #chart></div>
       </md-grid-tile>
     </md-grid-list>
 

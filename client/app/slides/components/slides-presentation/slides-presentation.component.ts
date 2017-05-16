@@ -5,9 +5,9 @@ import { WindowResizeService } from '../../services/window-resize.service';
 import {PageScrollInstance, PageScrollService, PageScrollConfig} from 'ng2-page-scroll';
 import {DOCUMENT, DomSanitizer} from '@angular/platform-browser';
 import {SlidesService} from '../../services/slides.service';
-import { BarChartComponent, ForceDirectedGraphComponent,LineChartComponent} from 'app/charts';
+import { BarChartComponent, ForceDirectedGraphComponent, LineChartComponent} from 'app/charts';
 
-import { PageConfig} from './pageConfig';
+import { PageConfig, HALF_HALF_LAYOUT, FULL_LAYOUT} from './pageConfig';
 @Component({
     selector: 'app-slides-presentation',
     templateUrl: './slides-presentation.component.html',
@@ -76,7 +76,7 @@ export class SlidesPresentationComponent implements OnInit, AfterViewInit, After
                 this.slides = slide.slides;
                 this.slideNum = this.slides.length;
                 this.slideTitle = slide.slidesSetting.title;
-                console.log(this.slides);
+                console.log("get slides", this.slides);
                 this.slides.forEach(
                     (slide, index) => {
                         slide.text = this.sanitizer.bypassSecurityTrustHtml(slide.text);
@@ -85,59 +85,40 @@ export class SlidesPresentationComponent implements OnInit, AfterViewInit, After
                         //initialize layout config
                         let config: PageConfig = new PageConfig(); //defual is fullscreen no graph no text
                         switch (slide.pageLayout) {
-                            case "FullScreenGraph":
-                                if (slide.fullScreenHtml.length) {
-                                    slide.fullScreenHtml = this.sanitizer.bypassSecurityTrustHtml(slide.fullScreenHtml);
+                            case "FullScreenGraph": Object.assign(config,FULL_LAYOUT);
+                                if (slide.graph == "image") {
+                                    if (slide.fullScreenHtml.length)
+                                        slide.fullScreenHtml = this.sanitizer.bypassSecurityTrustHtml(slide.fullScreenHtml);
+                                    config.hasImage = true;
                                 }
                                 else {
                                     config.hasChart = true;
+
                                 }
                                 break;
-                            case "textInCenter":
-                                config = {
-                                    pageCol: 1,
-                                    hasImage:false,
-                                    hasChart: false,
-                                    hasText: true,
-                                    isFullScreen: true
-                                }
-                                    ; break;
-                            case "textInCenterImageBackground":
+                            case "textInCenter": Object.assign(config,FULL_LAYOUT);
+                                config.hasText = true;
+                                ; break;
+                            case "textInCenterImageBackground": Object.assign(config,FULL_LAYOUT);
+                                config.hasText = true;
+                                config.hasImage = true;
                                 if (slide.fullScreenHtml.length) {
                                     slide.fullScreenHtml = this.sanitizer.bypassSecurityTrustHtml(slide.fullScreenHtml);
-                                }
-                                config = {
-                                    pageCol: 1,
-                                    hasImage:false,
-                                    hasChart: false,
-                                    hasText: true,
-                                    isFullScreen: true
-                                }
-                                    ; break;
+                                };
+                                break;
                             case "LeftGraphRightText":
-                                if (slide.fullScreenHtml.length) {
-                                    slide.fullScreenHtml = this.sanitizer.bypassSecurityTrustHtml(slide.fullScreenHtml);
-                                }
-                                config = {
-                                    pageCol: 2,
-                                    hasImage:true,
-                                    hasChart: false,
-                                    hasText: true,
-                                    isFullScreen: false
-                                }
-                                    ; break;
                             case "LeftTextRightGraph":
-                                if (slide.fullScreenHtml.length) {
-                                    slide.fullScreenHtml = this.sanitizer.bypassSecurityTrustHtml(slide.fullScreenHtml);
+                                Object.assign(config,HALF_HALF_LAYOUT);
+                                if (slide.graph == "image") {
+                                    if (slide.fullScreenHtml.length)
+                                        slide.fullScreenHtml = this.sanitizer.bypassSecurityTrustHtml(slide.fullScreenHtml);
+                                    config.hasImage = true;
                                 }
-                                config = {
-                                    pageCol: 2,
-                                    hasImage:true,
-                                    hasChart: false,
-                                    hasText: true,
-                                    isFullScreen: false
-                                }
-                                    ; break;
+                                else {
+                                    config.hasChart = true;
+                                    console.log(config);
+                                };
+                                break;
                             default: {
 
                             }
@@ -146,14 +127,14 @@ export class SlidesPresentationComponent implements OnInit, AfterViewInit, After
                         this.pageLayoutConfig.push(config);
                     }
                 )
+                console.log(this.pageLayoutConfig);
                 setTimeout(_ => this.initCharts());
 
             },
             error => {
                 console.log("fail to get slides data");
             });
-        //  window.location.hash = '#slide-0';
-        //  this.goToSlide(0);
+          window.scrollTo(0,0);//scroll to top everytime open the slides
 
     }
     ngAfterViewInit() {
@@ -166,26 +147,32 @@ export class SlidesPresentationComponent implements OnInit, AfterViewInit, After
     /*init the charts*/
     initCharts() {
         let charts = this.chartEle.toArray();
-        console.log("charts length", charts);
-        charts.forEach(e => {
-            this.charts.push(e);
+        let chartCounter = 0;
+        //if there is no graph on the i-th slide, then store  chart[i] as null
+        this.slides.forEach(s => {
+            if (s.hasGraph)
+                this.charts.push(charts[chartCounter++]);
+            else
+                this.charts.push(null);
         });
-        charts.forEach((e, i) => {
-            if (e.constructor.name != 'ElementRef') {
-                let data = this.slides[i].data;
-                e.setData(data);
-                e.init();
+        console.log(this.charts);
+        this.charts.forEach((e, i) => {
+            if (e != null) {
+                if (e.constructor.name != 'ElementRef') {
+                    console.log(this.pageLayoutConfig[i].pageCol)
+                    let data = this.slides[i].data;
+                    e.setData(data);
+                    e.init();
+                }
             }
-
         });
+
 
     }
 
     /*Chart operation*/
     loadChart(index) {
-        console.log("charts", this.charts);
         if (this.pageLayoutConfig[index].hasChart) {
-            console.log("chart" + index, this.charts[index])
             this.charts[index].load();
         }
     }
