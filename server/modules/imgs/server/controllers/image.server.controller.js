@@ -5,25 +5,12 @@
  */
 var path = require('path'),
   mongoose = require('mongoose'),
+
   fs = require('fs'),
   Image = mongoose.model('Image'),
-  multer = require('multer'),
   FroalaEditor = require(path.resolve('../node_modules/wysiwyg-editor-node-sdk/lib/froalaEditor.js')),
-  errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
-  DIR = './uploads/',
-  upload = multer({ dest: DIR }).single('banner');
+  errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
-var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, './uploads/');
-  },
-  filename: function (req, file, cb) {
-    var originalname = file.originalname;
-    var extension = originalname.split(".");
-    var filename = Date.now() + '.' + extension[extension.length - 1];
-    cb(null, filename);
-  }
-});
 /* create new folder for image*/
 var publicDir = path.join(path.dirname(require.main.filename), 'public');
 if (!fs.existsSync(publicDir)) {
@@ -38,32 +25,19 @@ if (!fs.existsSync(imageDir)) {
  */
 
 exports.createServer = function(req, res) {
-  console.log("created!!!!", req);
-  var image = new Image({
-    data: req,
-    contentType: 'img/png'
-  });
-
-  image.save(function(err) {
+  console.log("created!!!!");
+  // Store image.
+  FroalaEditor.Image.upload(req, 'public/images/', function(err, data) {
+    // Return data.
     if (err) {
-      console.log(err);
-    } else {
-      res.redirect('/');
+      console.log("get error", err);
+      return res.send(JSON.stringify(err));
     }
+
+    data.link = 'http://127.0.0.1:3000/' + data.link.slice(6); //delete '/public' in the beginning of the string
+    console.log("data", data);
+    res.send(data);
   });
-  // FroalaEditor.Image.upload(req, function(err, data) {
-  //   if (err) {
-  //     console.log("get error", err);
-  //     return res.send(JSON.stringify(err));
-  //   }
-  //
-  //   console.log(data);
-  //   // data.link = 'http://127.0.0.1:3000/' + data.link.slice(6); // delete '/public' in the beginning of the string
-  //   console.log("data", data);
-  //   res.send(data);
-  // });
-
-
   /*  var image = new Image;
     console.log("image created");
 
@@ -86,28 +60,21 @@ exports.createServer = function(req, res) {
 exports.create = function(req, res) {
   console.log("created!!!!");
   // Store image.
-  var path = '';
-  upload(req, res, function (err, data) {
+  var image = new Image(req.body);
+  image.contentType = 'image/*';
+  console.log("image created");
+  image.user = req.user;
+
+  image.save(function(err) {
     if (err) {
-      // An error occurred when uploading
-      console.log(err);
-      return res.status(422).send("an Error occured");
+      console.log("fail", err);
+      return res.status(422).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    } else {
+      console.log("success");
+      res.json(image);
     }
-    console.log(req.file);
-    // No error occured.
-    path = req.file.path;
-    var image = new Image({
-      data: fs.readFileSync(req.file.path),
-      contentType: req.file.mimetype
-    });
-
-    image.save(function(err) {
-      if (err) {
-        console.log(err);
-      }
-    });
-    return res.send(image._id);
-
   });
 };
 /**

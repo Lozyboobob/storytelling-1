@@ -25,7 +25,6 @@ export class EditorComponent implements OnInit, OnChanges {
     @ViewChildren("creator") _creatorEle: any;
     @Input() sliderIpt: Slides;
     @Output() submit = new EventEmitter();
-    @Output() bannerImageUpload = new EventEmitter();
     //  @Output() validate= new EventEmitter();
 
     constructor(private dragulaService: DragulaService,private validService: ValidService) {
