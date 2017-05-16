@@ -11,15 +11,12 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class AppComponent {
   isToggled: boolean;
-  isNormalScreen:boolean=true;
-  
+  isNormalScreen = true;
   constructor(
     private ToggleNavService: ToggleNavService) {
-
-    //subscribe toggle service
+    // subscribe toggle service
     this.ToggleNavService.toggle().subscribe(toggled => {
       this.isToggled = toggled;
     });
-
   }
 }

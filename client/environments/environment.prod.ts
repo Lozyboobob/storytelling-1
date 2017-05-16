@@ -12,7 +12,9 @@ export const environment = {
           slides: '/api/slides',
           images: '/api/images',
           imagesServer : '/api/imagesServer',
-          search : '/api/search/slides'
+          search : '/api/search/slides',
+          banner : '/api/banner'
+
         }
     }
 };
