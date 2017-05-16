@@ -2,11 +2,9 @@ export class SlidesSetting {
     title: String = '';
     description: String = '';
     tags: Array<string> = [];
-    bannerPath: any;
+    bannerPath: String = '';
     public: Boolean = false;
     author: String = '';
-    banner: Object;
-    imageId: any;
     constructor() {
 
     }

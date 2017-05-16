@@ -36,7 +36,7 @@ export class SlidesService {
 
     }
     me(): Observable<any> {
-      const backendURL = `${this._baseUrl}${environment.backend.endpoints.users}/me`;
+      const backendURL = `${this._baseUrl}${environment.backend.endpoints.users}/me` ;
       return this.http.get(backendURL).map((response: Response) => response.json());
     }
 
@@ -55,10 +55,33 @@ export class SlidesService {
         const backendURL = `${this._baseUrl}${environment.backend.endpoints.slides}/${id}`;
         return this.http.get(backendURL).map((response: Response) => response.json());
     }
-    uploadImage(img) {
-        console.log('iùg', img);
-        const backendURL = `${this._baseUrl}${environment.backend.endpoints.images}`;
-        return this.http.post(backendURL, img).map((response: Response) => response.json());
+    uploadImage(img: File): Observable<any> {
+        return Observable.create(observer => {
+            const backendURL = `${this._baseUrl}${environment.backend.endpoints.imagesServer}`;
+            const xhr: XMLHttpRequest = new XMLHttpRequest();
+            const formData: any = new FormData();
+            console.log('formdata', formData.entries());
+            formData.append('file', img);
+            console.log('formdata', formData);
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        observer.next(JSON.parse(xhr.response));
+                        observer.complete();
+                    } else {
+                        observer.error(xhr.response);
+                    }
+                }
+            };
+
+            xhr.upload.onprogress = (event) => {
+                this.progress = Math.round(event.loaded / event.total * 100);
+                //  this.progressObserver.next(this.progress);
+            };
+
+            xhr.open('POST', backendURL, true);
+            xhr.send(formData);
+        });
     }
     getImage(id): Observable<any> {
         const backendURL = `${this._baseUrl}${environment.backend.endpoints.images}/${id}`;

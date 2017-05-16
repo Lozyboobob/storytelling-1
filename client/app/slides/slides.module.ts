@@ -16,8 +16,6 @@ import {SlidesService,ValidService} from '.';
 // SLIDES ROUTES MODULE
 import { SlidesRoutingModule } from '.';
 import { CoreModule } from "app/core";
-import { FileUploadModule } from 'ng2-file-upload';
-
 
 
 
@@ -51,8 +49,7 @@ import { FilterComponent } from './components/filter/filter.component';
         DragulaModule,
         Ng2PageScrollModule.forRoot(),
         FroalaEditorModule.forRoot(),
-        FroalaViewModule.forRoot(),
-        FileUploadModule
+        FroalaViewModule.forRoot()
     ],
     declarations: [
         ScrollDirective,

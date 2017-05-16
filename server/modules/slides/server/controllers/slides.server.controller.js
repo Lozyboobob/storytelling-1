@@ -8,7 +8,6 @@ var path = require('path'),
   http = require('http'),
   fs = require('fs'),
   Slides = mongoose.model('Slides'),
-  Image = mongoose.model('Image'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
   user = require(path.resolve('./modules/users/server/controllers/users/users.profile.server.controller'));
 /**
@@ -17,19 +16,14 @@ var path = require('path'),
 exports.create = function(req, res) {
   var slide = new Slides(req.body);
   slide.user = req.user;
-  Image.find({ '_id': slide.slidesSetting.imageId }).exec(function (err, image) {
-    slide.slidesSetting.banner.data = image[0].data;
-    slide.slidesSetting.banner.contentType = image[0].contentType;
-    slide.slidesSetting.bannerPath = 'data:' + slide.slidesSetting.banner.contentType + ';base64,' + slide.slidesSetting.banner.data.toString('base64');
-    slide.save(function(err) {
-      if (err) {
-        return res.status(422).send({
-          message: errorHandler.getErrorMessage(err)
-        });
-      } else {
-        res.json(slide);
-      }
-    });
+  slide.save(function(err) {
+    if (err) {
+      return res.status(422).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    } else {
+      res.json(slide);
+    }
   });
 };
 
@@ -90,10 +84,11 @@ exports.list = function(req, res) {
       res.json(slides);
     }
   });
-};
+}
 
 exports.myList = function(req, res) {
   Slides.find({ $or: [{ 'slidesSetting.author': req.query.username }, { 'slidesSetting.public': true }] }).sort('-created').populate('user', 'displayName').exec(function(err, slides) {
+    console.log('slides', slides);
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)
@@ -124,7 +119,7 @@ exports.slideByID = function(req, res, next, id) {
     req.slide = slide;
     next();
   });
-};
+}
 exports.search = function (req, res) {
   var regexS = new RegExp((req.query.title) || '');
   if (req.query.state === 'Public') {
@@ -138,6 +133,7 @@ exports.search = function (req, res) {
       }
     });
   } else if (req.query.state === 'Private') {
+    console.log('private', req.query.state);
     Slides.find({ $and: [{ $or: [{ 'slidesSetting.title': regexS }, { 'slidesSetting.tags': regexS }] }, { 'slidesSetting.author': req.query.username }, { 'slidesSetting.public': false }] }).exec(function (err, slides) {
       if (err) {
         return res.status(422).send({

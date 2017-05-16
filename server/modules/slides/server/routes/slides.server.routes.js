@@ -26,7 +26,6 @@ module.exports = function (app) {
     .delete(slides.delete);
 
 
-
   // Finish by binding the slide middleware
   app.param('slideId', slides.slideByID);
 };

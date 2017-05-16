@@ -10,10 +10,14 @@ var mongoose = require('mongoose'),
  * Images Schema
  */
 var ImageSchema = new Schema({
+
   data: Buffer,
-  contentType: String
+  contentType: String,
+
+  user: {
+    type: Schema.ObjectId,
+    ref: 'User'
+  }
 });
 
-
 mongoose.model('Image', ImageSchema);
-exports.ImageSchema = ImageSchema;
