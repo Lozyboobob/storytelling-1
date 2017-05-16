@@ -1,7 +1,7 @@
 import { Component, OnInit, OnChanges, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
-import {ValidService} from '../../../services/valid.service';
 import { SlidesSetting } from '../../../models/slides-setting';
+import {ValidService} from '../../../services/valid.service';
 @Component({
     selector: 'app-slides-setting',
     templateUrl: './slides-setting.component.html',
@@ -60,5 +60,14 @@ export class SlidesSettingComponent implements OnInit, OnChanges {
     setBanner(path) {
         this.slidesSetting.bannerPath = path;
         this.onSettingChange.emit(this.slidesSetting);
+    }
+    upload(inputEl) {
+        const fileCount: number = inputEl.files.length;
+        const formData = new FormData(inputEl);
+        if (fileCount > 0) { // a file was selected
+            formData.append('banner', inputEl.files[0]);
+            this.slidesSetting.banner = formData;
+        }
+       this.onSettingChange.emit(this.slidesSetting);
     }
 }
