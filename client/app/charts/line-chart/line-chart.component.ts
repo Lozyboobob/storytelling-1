@@ -9,7 +9,7 @@ import {Chart} from '../chart.interface';
 })
 export class LineChartComponent implements OnInit, Chart {
     @ViewChild('chart') private chartContainer: ElementRef;
-    private data: Array<any>;
+    private data: Array<any>=[];
     private width: number;
     private height: number;
     private curtain: any; //for animation
@@ -21,8 +21,15 @@ export class LineChartComponent implements OnInit, Chart {
     }
     setData(data: any) {
 
-        if (data.length == 0) data = sample;
+        if (data.length == 0) {
+           data=[];
+          sample.forEach((series,i)=>{
+            let s=[];
+            series.forEach(d=>s.push(Object.assign({}, d)))
+            data.push(s);
+          })
 
+        }
         let parseDate = d3.timeParse("%b %Y");
         data.forEach((d) => {
             d.forEach((d) => {
@@ -63,10 +70,10 @@ export class LineChartComponent implements OnInit, Chart {
         let yDomain = [0, d3.max(value, d => d.price)];
 
         // create scales
-       x = d3.scaleTime().domain(xDomain).rangeRound([0, this.width]);
+        x = d3.scaleTime().domain(xDomain).rangeRound([0, this.width]);
         y = d3.scaleLinear().domain(yDomain).range([this.height, 0]);
 
-        console.log(xDomain,yDomain);
+        console.log(xDomain, yDomain);
         let line = d3.line()
             .x((d) => x(d['date']))
             .y((d) => y(d['price']));
