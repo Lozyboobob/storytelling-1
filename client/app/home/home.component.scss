@@ -1,10 +1,10 @@
 /* animation */
 * {
-  -webkit-transition: all 0.3s ease;
-  -moz-transition: all 0.3s ease;
-  -ms-transition: all 0.3s ease;
-  -o-transition: all 0.3s ease;
-  transition: all 0.3s ease;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
 }
 .space {
     margin-left: 0;
@@ -12,18 +12,21 @@
 
 .logo {
     width: 50%;
-    max-width: 80%;
     margin-left: auto;
     margin-right: auto;
     left: 0;
     right: 0;
-    max-height: 80vh;
-    transition: max-height 0.3s ease-in;
+    margin-top:0;
+    //max-height: 80vh;
+    //transition: max-height 1s ease-in;
+    img{
+      //max-height: 80vh;
+    }
     &.hide{
-      max-height: 0vh;
-      transition: max-height 0.3s ease-in;
+      //max-height: 0vh;
+      //transition: max-height 1s ease-in;
       img{
-        display: none;
+        margin-top:-100%;
       }
     }
 }
@@ -57,5 +60,9 @@
             .filter {
             }
         }
+    }
+    .get-all{
+      color:#c5401a;
+      cursor: pointer;
     }
 }

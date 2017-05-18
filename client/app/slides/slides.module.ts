@@ -38,6 +38,7 @@ import { SlidesSettingComponent } from './components/editor/slides-setting/slide
 import { EditorComponent } from './components/editor/editor.component';
 
 import { FilterComponent } from './components/filter/filter.component';
+import { SlidesManagerComponent } from './components/slides-manager/slides-manager.component';
 
 
 
@@ -69,7 +70,8 @@ import { FilterComponent } from './components/filter/filter.component';
         SlidesEditorComponent,
         SlidesSettingComponent,
         EditorComponent,
-        FilterComponent
+        FilterComponent,
+        SlidesManagerComponent,
     ],
     exports:[
       FilterComponent,

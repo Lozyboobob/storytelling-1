@@ -6,7 +6,9 @@
   <div class="row space search-wrap">
     <app-search (textSearch)="search($event)" class="search"></app-search>
     <app-filter class="filter" *ngIf="loggedIn$|async" (filterState)="filterState($event)" [states]="states"></app-filter>
+
   </div>
+  <p align="center" class="get-all center-mode "  *ngIf="!showSlidesList" (click)="getAllslides()">Discover All</p>
 </div>
-<p align="center">Discover All</p>
-<app-slides-list *ngIf="showSlidesList"></app-slides-list>
+
+<app-slides-list *ngIf="showSlidesList" [slides]="slides" [editable]="false"></app-slides-list>
