@@ -3,30 +3,28 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 // MATERIAL DESIGN MODULES
 import { MaterialModule, OverlayContainer } from '@angular/material';
-import { HOME_ROUTES } from './index';
 
 // HOME COMPONENT
-import { HomeComponent } from './index';
-import { HomeConfig } from './index';
-import { FilterComponent, SlidesListComponent, SearchComponent } from '../slides/components';
-import { SlidesModule } from '../slides/slides.module';
+import { HomeComponent } from '.';
+// HOME CONFIG
+import { HomeConfig } from '.';
+
+// SLIDES MODULE
+import { SlidesModule } from 'app/slides';
+
 export function homeFactory(config: HomeConfig) {
     return () => config.addMenu();
 }
 
 @NgModule({
     imports: [
-        HOME_ROUTES,
         FormsModule,
         MaterialModule.forRoot(),
         CommonModule,
         SlidesModule
     ],
     declarations: [
-        HomeComponent,
-        //FilterComponent,
-        //SlidesListComponent,
-        //SearchComponent
+        HomeComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     providers: [HomeConfig, OverlayContainer,
