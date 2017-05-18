@@ -50,7 +50,7 @@ export class SlidesEditorComponent implements OnInit, AfterViewChecked {
         this.slidesService.updateSlide(this.slider, this.slider._id)
             .subscribe(res => {
                 console.log("update succesfully");
-                this.router.navigate(['/slides']);
+                this.router.navigate(['/slides/manager']);
             },
             error => console.log(error));
     }
@@ -60,7 +60,7 @@ export class SlidesEditorComponent implements OnInit, AfterViewChecked {
         this.slidesService.deleteSlides(this.slider._id)
             .subscribe(res => {
                 console.log("update succesfully");
-                this.router.navigate(['/slides']);
+                this.router.navigate(['/slides/manager']);
             },
             error => console.log(error));
     }

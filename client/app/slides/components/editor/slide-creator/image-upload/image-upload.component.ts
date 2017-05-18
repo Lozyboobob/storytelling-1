@@ -22,20 +22,15 @@ export class ImageUploadComponent implements OnInit {
     image: any = undefined;
     constructor(private el: ElementRef, private slidesService: SlidesService) {
     }
-    ngOnInit() {
-        this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
-        this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-            console.log( 'ImageUpload:uploaded:', item, status, response);
-        };
-    }
+    ngOnInit() {}
     onChange () {
         const inputEl = this.el.nativeElement.querySelector('#banner');
         const fileCount: number = inputEl.files.length;
         const formData = new FormData(inputEl);
         if (fileCount > 0) { // a file was selected
             formData.append('banner', inputEl.files[0]);
-            this.slidesService.uploadImage(formData).subscribe( image => {
-                this.uploadImage.emit(image);
+            this.slidesService.uploadImage(formData).subscribe( id => {
+                this.uploadImage.emit(id);
             });
         }
     }

@@ -19,9 +19,6 @@ var path = require('path'),
 exports.create = function(req, res) {
   var slide = new Slides(req.body);
   slide.user = req.user;
-  if (slide.slidesSetting.imageId) {
-    slide.slidesSetting.banner = new ObjectId(slide.slidesSetting.imageId);
-  }
   slide.save(function(err) {
     if (err) {
       return res.status(422).send({

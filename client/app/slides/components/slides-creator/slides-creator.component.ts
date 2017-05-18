@@ -58,7 +58,7 @@ export class SlidesCreatorComponent implements OnInit, AfterViewChecked {
                 data => {
                     console.log('created');
                     // this.router.navigate(['/login']);
-                    this.router.navigate(['/slides']);
+                    this.router.navigate(['/slides/manager']);
                 },
                 error => {
                     console.log('fail to createSlides');

@@ -62,7 +62,7 @@ export class SlidesSettingComponent implements OnInit, OnChanges {
         this.onSettingChange.emit(this.slidesSetting);
     }
     upload(image) {
-        console.log('etape 3', image)
+        console.log('image',image);
        this.slidesSetting.banner = image;
        this.onSettingChange.emit(this.slidesSetting);
     }
