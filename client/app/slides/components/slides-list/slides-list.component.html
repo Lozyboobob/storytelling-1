@@ -1,8 +1,8 @@
 <div class="slides-list-container container-fluid">
-  <div class="row space">
+  <!--<div class="row space">
     <app-search (textSearch)="search($event)"></app-search>
     <app-filter *ngIf="loggedIn$|async" (filterState)="filterState($event)" [states]="states"></app-filter>
-  </div>
+  </div>-->
   <div class="row" >
     <div *ngFor="let s of slides" [ngClass]="{'display-div':!(loggedIn$|async)&& !s.slidesSetting.public}"  class="list-item slides-item col-xs-12 col-sm-6  col-md-3">
       <md-card *ngIf="(loggedIn$|async)||s.slidesSetting.public"  >

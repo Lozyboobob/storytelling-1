@@ -71,6 +71,11 @@ import { FilterComponent } from './components/filter/filter.component';
         EditorComponent,
         FilterComponent
     ],
+    exports:[
+      FilterComponent,
+      SlidesListComponent,
+      SearchComponent
+    ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     providers: [OverlayContainer, SlidesService]
 

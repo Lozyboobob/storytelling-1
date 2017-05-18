@@ -1,0 +1,61 @@
+/* animation */
+* {
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.space {
+    margin-left: 0;
+}
+
+.logo {
+    width: 50%;
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    max-height: 80vh;
+    transition: max-height 0.3s ease-in;
+    &.hide{
+      max-height: 0vh;
+      transition: max-height 0.3s ease-in;
+      img{
+        display: none;
+      }
+    }
+}
+
+.search-block {
+    &.center-mode {
+        width: 80%;
+        padding-left: 15px;
+        padding-right: 15px;
+
+        .search-wrap {
+            display: flex;
+            width: 100%;
+
+            .search {
+                flex: 1;
+            }
+
+            .filter {
+                flex: 0 0 100px;
+            }
+        }
+    }
+
+    &.side-mode {
+        .search-wrap {
+
+            .search {
+            }
+
+            .filter {
+            }
+        }
+    }
+}

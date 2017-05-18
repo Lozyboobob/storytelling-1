@@ -8,12 +8,12 @@ import { Auth } from 'app/users';
 
 
 const slidesRoutes: Routes = [{
-    path: '',
+    path: 'list',
     component: SlidesListComponent,
     canActivate: [Auth],
     data: {
         roles: ['*'],
-        title: 'Slides'
+        title: 'Strorytelling'
     },
 },
     {
