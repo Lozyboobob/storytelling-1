@@ -7,7 +7,7 @@ export class SlidesConfig {
   }
   addMenu() {
     this.menuService.addMenuItem('sideNav', {
-      state: 'slides',
+      state: 'slides/manager',
       title: 'slides',
       icon: 'fa-desktop',
       roles: ['*'],

@@ -1,9 +1,14 @@
-<div class="demo-tooltip">
-
-  <div class="centered">
-    <h1>Mean 2 Demo</h1>
-
-    <img src="assets/logo-archi.png" width="50%" class="archi">
-  </div>
-
+<div class="logo" [class.hide]="showSlidesList">
+  <img src="assets/logo.png" width="100%">
 </div>
+<br>
+<div class="container-fluid search-block" [class.center-mode]="!showSlidesList" [class.side-mode]="showSlidesList">
+  <div class="row space search-wrap">
+    <app-search (textSearch)="search($event)" class="search"></app-search>
+    <app-filter class="filter" *ngIf="loggedIn$|async" (filterState)="filterState($event)" [states]="states"></app-filter>
+
+  </div>
+  <p align="center" class="get-all center-mode "  *ngIf="!showSlidesList" (click)="getAllslides()">Discover All</p>
+</div>
+
+<app-slides-list *ngIf="showSlidesList" [slides]="slides" [editable]="false"></app-slides-list>
