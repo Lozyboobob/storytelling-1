@@ -7,8 +7,8 @@ import {Slides} from '../slides/index'
     selector: 'app-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush, // make sure tooltip also works OnPush
-    providers:[SlidesService]
+    changeDetection: ChangeDetectionStrategy.OnPush // make sure tooltip also works OnPush
+    
 })
 export class HomeComponent implements OnInit,AfterViewChecked {
     @select(['session', 'token']) loggedIn$: Observable<string>;
