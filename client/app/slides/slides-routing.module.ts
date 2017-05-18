@@ -8,13 +8,14 @@ import { Auth } from 'app/users';
 
 
 const slidesRoutes: Routes = [{
-    path: 'manager',
+    path: '',
     component: SlidesManagerComponent,
     canActivate: [Auth],
     data: {
         roles: ['*'],
         title: 'slides Manager'
     },
+    pathMatch: 'full'
 },
     {
         path: 'manager/createSlides',
