@@ -2,11 +2,19 @@ export const environment = {
     production: true,
     backend: {
         protocol: 'http',
-        host: '127.0.0.1',
-        port: '3000',
+        host: 'localhost',
+        port: '3010',
         endpoints: {
-            signup: '/api/auth/signup',
-            signin: '/api/auth/signin'
+          signup: '/api/auth/signup',
+          signin: '/api/auth/signin',
+          articles : '/api/articles',
+          users : '/api/users',
+          slides: '/api/slides',
+          images: '/api/images',
+          imagesServer : '/api/imagesServer',
+          search : '/api/search/slides',
+          banner : '/api/banner'
+
         }
     }
 };

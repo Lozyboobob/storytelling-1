@@ -1,3 +1,4 @@
+import {actionTypes} from 'redux-localstorage'
 import { SessionActions, IPayloadAction } from '../../actions/session.actions';
 import { ISessionRecord } from './session.types';
 import {
@@ -5,13 +6,10 @@ import {
   INITIAL_USER_STATE,
   UserFactory,
 } from './session.initial-state';
-import {actionTypes} from 'redux-localstorage'
 
 export const sessionReducer = (
   state: ISessionRecord = INITIAL_STATE,
   action: IPayloadAction) => {
-  console.log("action", action);
-  console.log("state", state);
   switch (action.type) {
     case SessionActions.LOGIN_USER:
       return state.merge({
@@ -22,12 +20,14 @@ export const sessionReducer = (
       });
 
     case SessionActions.LOGIN_USER_SUCCESS:
-      console.log('state:', state);
+
       return state.merge({
         token: action.payload.token,
         user: UserFactory(action.payload.user),
         hasError: false,
         isLoading: false,
+        hasMessage :null,
+        actionType : action.type
       });
 
     case SessionActions.LOGIN_USER_ERROR:
@@ -36,12 +36,19 @@ export const sessionReducer = (
         user: INITIAL_USER_STATE,
         hasError: true,
         isLoading: false,
+        hasMessage : action.payload.hasMessage,
+        actionType : action.type
       });
 
     case SessionActions.LOGOUT_USER:
-      console.log("logout user state", action, state);
-      console.log(INITIAL_STATE);
-      return INITIAL_STATE;
+      return state.merge({
+        token: null,
+        user: INITIAL_USER_STATE,
+        hasError: false,
+        isLoading: false,
+        hasMessage : null,
+        actionType : null
+      });
 
     case actionTypes.INIT:
       const persistedState = action.payload;
@@ -53,10 +60,79 @@ export const sessionReducer = (
           isLoading: persistedState.session.isLoading,
         });
       }
+      case SessionActions.PUT_USER :
+       {
+        return state.merge({
+          hasMessage: null,
+          hasError: false,
+          isLoading: true
+        });
+      }
+        case SessionActions.PUT_USER_SUCCESS:
+          return state.merge({
+            user: UserFactory(action.payload.user),
+            hasMessage : action.payload.hasMessage,
+            hasError: false,
+            isLoading: false,
+            actionType : action.type
+          });
 
+        case SessionActions.PUT_USER_ERROR:
+          return state.merge({
+            hasError: true,
+            isLoading: false,
+            hasMessage: action.payload.hasMessage,
+            actionType : action.type
+        });
 
+        case SessionActions.GET_USER:
+          return state.merge({
+            hasError: false,
+            isLoading: false,
+            hasMessage:null
+        });
+        case SessionActions.GET_USER_SUCCESS:
+          return state.merge({
+            user: UserFactory(action.payload),
+            hasError: false,
+            isLoading: false,
+            hasMessage:null
+        });
+        case SessionActions.GET_USER_ERROR:
+          return state.merge({
+            token: null,
+            user: INITIAL_USER_STATE,
+            hasError: true,
+            isLoading: false,
+            hasMessage:null,
+        });
 
+        case SessionActions.CHANGE_PASSWORD:
+          return state.merge({
+            hasError: false,
+            isLoading: false,
+            hasMessage:null,
+            actionType : action.type
+        });
+        case SessionActions.CHANGE_PASSWORD_SUCCESS:
+          return state.merge({
+            hasMessage : action.payload.hasMessage,
+            hasError: false,
+            isLoading: false,
+            actionType : action.type
+          });
+          case SessionActions.CHANGE_PASSWORD_ERROR:
+            return state.merge({
+              hasMessage : action.payload.hasMessage,
+              hasError: true,
+              isLoading: false,
+              actionType : action.type
+            });
     default:
-      return state;
+      return state.merge({
+        hasMessage: null,
+        hasError: false,
+        isLoading: false,
+      });
   }
 }

@@ -1,35 +1,24 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, } from '@angular/core';
 import * as d3 from 'd3';
+import {Chart} from '../chart.interface';
 @Component({
     selector: 'app-force-directed-graph',
     templateUrl: './force-directed-graph.component.html',
     styleUrls: ['./force-directed-graph.component.scss']
 })
-export class ForceDirectedGraphComponent implements OnInit, AfterViewInit {
+export class ForceDirectedGraphComponent implements OnInit, Chart {
     @ViewChild('chart') private chartContainer: ElementRef;
     private chart: any;
     private width: number;
     private height: number;
-    private data:any;
-    name: string;
-    svg;
-    color;
-    simulation;
-    link;
-    node;
+    private data: any=sample;
+    private simulation: any;
+    private link: any;
+    private node: any;
 
-    constructor() {
-        this.name = 'Angular2'
-    }
+    constructor() { }
 
-    ngOnInit() {
-
-    }
-
-    ngAfterViewInit() {
-
-
-    }
+    ngOnInit() { }
 
     ticked() {
         this.link
@@ -44,8 +33,6 @@ export class ForceDirectedGraphComponent implements OnInit, AfterViewInit {
             .attr("cx", function(d) { return d.x; })
             .attr("cy", function(d) { return d.y; });
     }
-
-
 
     dragged(d) {
         d.fx = d3.event.x;
@@ -62,73 +49,6 @@ export class ForceDirectedGraphComponent implements OnInit, AfterViewInit {
         if (!d3.event.active) this.simulation.alphaTarget(0.3).restart();
         d.fx = d.x;
         d.fy = d.y;
-    }
-    public setData(data){
-    //  this.data=data[0];
-      this.data=graph;
-    }
-    public init() {
-        let element = this.chartContainer.nativeElement;
-        this.width = element.offsetWidth;
-        this.height = element.offsetHeight;
-        console.log(element.offsetHeight, this.height);
-        this.svg = d3.select(element).append('svg')
-            //    .attr('width', element.offsetWidth)
-            //  .attr('height', element.offsetHeight);
-            //    .atrr("overflow", "visible")
-            .attr("preserveAspectRatio", "xMidYMid meet")
-            .attr("viewBox", "0 0 " + element.offsetWidth + " " + element.offsetHeight)
-            .classed("allow-overflow", true);
-
-        //var width = +this.svg.attr("width");
-        //var height = +this.svg.attr("height");
-
-        this.color = d3.scaleOrdinal(d3.schemeCategory20);
-
-        this.simulation = d3.forceSimulation()
-            .force("link", d3.forceLink().id(function(d: { id: string, group: number }) { return d.id; }).distance(30))
-            .force("charge", d3.forceManyBody().strength(-30))
-            .force("center", d3.forceCenter(element.offsetWidth / 2, element.offsetHeight / 2))
-            .force("x", d3.forceX().strength(0).x(this.width / 2))
-            .force("y", d3.forceY().strength(0).y(this.height / 2))
-
-        //      .force("center", d3.forceCenter(width / 2, height / 2))
-
-
-
-        this.link = this.svg.append("g")
-            .attr("class", "links")
-            .selectAll("line")
-            .data(this.data.links)
-            .enter().append("line")
-            .attr("stroke-width", function(d) { return Math.sqrt(d.value); })
-            .attr("stroke", "#999")
-
-
-        this.node = this.svg.append("g")
-            .attr("class", "nodes")
-            .selectAll("circle")
-            .data(this.data.nodes)
-            .enter().append("circle")
-            .attr("r", 5)
-            .attr("fill", (d) => { return this.color(d.group); })
-            .call(d3.drag()
-                .on("start", (d) => { return this.dragstarted(d) })
-                .on("drag", (d) => { return this.dragged(d) })
-                .on("end", (d) => { return this.dragended(d) }))
-
-        /*    this.node.append("title")
-                .text(function(d) { return d.id; });*/
-        this.simulation
-            .nodes(this.data.nodes)
-
-            .on("tick", () => { return this.ticked() });
-
-        this.simulation.force("link")
-            .links(this.data.links)
-
-
-        //this.load();
     }
     shrink() {
         this.simulation
@@ -151,17 +71,84 @@ export class ForceDirectedGraphComponent implements OnInit, AfterViewInit {
             this.expand()
         }, 800);
     }
-    public load() {
+    setData(data) {
+        //  this.data=data[0];
+        if (data.length == 0) return;
+        this.data = sample;
+    }
+    init() {
+        let element = this.chartContainer.nativeElement;
+        this.width = element.offsetWidth;
+        this.height = element.offsetHeight;
+        console.log(element.offsetHeight, this.height);
+        let svg = d3.select(element).append('svg')
+            //    .attr('width', element.offsetWidth)
+            //  .attr('height', element.offsetHeight);
+            //    .atrr("overflow", "visible")
+            .attr("preserveAspectRatio", "xMidYMid meet")
+            .attr("viewBox", "0 0 " + element.offsetWidth + " " + element.offsetHeight)
+            .classed("allow-overflow", true);
+
+        //var width = +this.svg.attr("width");
+        //var height = +this.svg.attr("height");
+
+        let color = d3.scaleOrdinal(d3.schemeCategory20);
+
+        this.simulation = d3.forceSimulation()
+            .force("link", d3.forceLink().id(function(d: { id: string, group: number }) { return d.id; }).distance(30))
+            .force("charge", d3.forceManyBody().strength(-30))
+            .force("center", d3.forceCenter(element.offsetWidth / 2, element.offsetHeight / 2))
+            .force("x", d3.forceX().strength(0).x(this.width / 2))
+            .force("y", d3.forceY().strength(0).y(this.height / 2))
+
+        //      .force("center", d3.forceCenter(width / 2, height / 2))
+
+
+
+        this.link = svg.append("g")
+            .attr("class", "links")
+            .selectAll("line")
+            .data(this.data.links)
+            .enter().append("line")
+            .attr("stroke-width", function(d) { return Math.sqrt(d['value']); })
+            .attr("stroke", "#999")
+
+
+        this.node = svg.append("g")
+            .attr("class", "nodes")
+            .selectAll("circle")
+            .data(this.data.nodes)
+            .enter().append("circle")
+            .attr("r", 5)
+            .attr("fill", (d) => { return color(d['group']); })
+            .call(d3.drag()
+                .on("start", (d) => { return this.dragstarted(d) })
+                .on("drag", (d) => { return this.dragged(d) })
+                .on("end", (d) => { return this.dragended(d) }))
+
+           this.node.append("title")
+                .text(function(d) { return d.id; });
+        this.simulation
+            .nodes(this.data.nodes)
+
+            .on("tick", () => { return this.ticked() });
+
+        this.simulation.force("link")
+            .links(this.data.links)
+
+    }
+
+    load() {
         this.transition();
 
     }
-    public ease() {
+    ease() {
         this.transition();
 
-    }
+    }graph
 
 }
-const graph = {
+const sample = {
     "nodes": [
         { "id": "Myriel", "group": 1 },
         { "id": "Napoleon", "group": 1 },

@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-
+import { SessionActions } from '../../core/actions';
 import { UsersService } from '../services/index';
 import { User } from '../models/index';
+
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -12,12 +14,14 @@ import { User } from '../models/index';
 export class RegisterComponent implements OnInit {
     form: FormGroup;
     model: any = {};
+    errMessage : string;
     loading = false;
 
     constructor(
         private router: Router,
-        private usersService: UsersService) {
+        private usersService: UsersService, private actions: SessionActions) {
             this.form = this._buildForm();
+
         }
 
   ngOnInit() {
@@ -30,15 +34,17 @@ export class RegisterComponent implements OnInit {
       console.log('record:', record);
   }
 
-  register() {
+  register(model) {
         this.loading = true;
-        this.usersService.signup(this.model)
+        this.usersService.signup(model)
             .subscribe(
                 data => {
-                  console.log("registered");
-                    //this.router.navigate(['/login']);
+                    this.actions.loginUser({password :model.password ,'usernameOrEmail':model.username });
+                    this.router.navigate(['/']);
                 },
                 error => {
+                    console.log(error);
+                    this.errMessage = error.json().message;
                     this.loading = false;
                 });
   }

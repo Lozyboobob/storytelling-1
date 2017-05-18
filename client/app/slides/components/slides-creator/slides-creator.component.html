@@ -1,0 +1,15 @@
+<div class="slides-creator">
+  <md-card class="">
+    <form>
+      <md-toolbar color="primary">Create new slides</md-toolbar>
+      <md-card-content>
+        <app-editor #editor></app-editor>
+
+      </md-card-content>
+      <md-card-actions align="center">
+        <button md-raised-button color="primary" [disabled]= "!isValidated||_editor.isInShuffle" (click)="createSlides()">CREATE</button>
+        <button md-raised-button class="secondery" [routerLink]="['/slides']">CANCEL</button>
+      </md-card-actions>
+    </form>
+  </md-card>
+</div>

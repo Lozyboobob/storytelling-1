@@ -1,0 +1,15 @@
+<div>
+  <md-card>
+    <form>
+      <md-toolbar color="primary">Edit Slides</md-toolbar>
+      <md-card-content>
+        <app-editor #editor [sliderIpt]="slider" ></app-editor>
+      </md-card-content>
+      <md-card-actions align="center">
+        <button md-raised-button type="button" color="primary" [disabled]="!isValidated||_editor.isInShuffle" type="submit" (click)="saveSlides()">SAVE</button>
+        <button md-raised-button type="button" class="secondery" [routerLink]="['/slides']">CANCEL</button>
+        <button md-raised-button color="warn" type="button" (click)="deleteSlides()">DELETE</button>
+      </md-card-actions>
+    </form>
+  </md-card>
+</div>
