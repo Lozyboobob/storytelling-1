@@ -11,13 +11,13 @@ import { Slides} from '../../models/slides';
     styleUrls: ['./slides-editor.component.scss'],
     providers: [SlidesService, ValidService]
 })
-export class SlidesEditorComponent implements OnInit,AfterViewChecked {
+export class SlidesEditorComponent implements OnInit, AfterViewChecked {
     slider: Slides = new Slides();
 
     isValidated: boolean = false;
     editorValid: Subscription;
     @ViewChild("editor") _editor: EditorComponent;
-    constructor(private slidesService: SlidesService, private validService: ValidService,     private cdRef: ChangeDetectorRef,private router: Router, private route: ActivatedRoute) { }
+    constructor(private slidesService: SlidesService, private validService: ValidService,     private cdRef: ChangeDetectorRef, private router: Router, private route: ActivatedRoute) { }
 
 
     ngOnInit() {
@@ -46,6 +46,7 @@ export class SlidesEditorComponent implements OnInit,AfterViewChecked {
         this.cdRef.detectChanges();
     }
     saveSlides() {
+        console.log(this.slider)
         this.slidesService.updateSlide(this.slider, this.slider._id)
             .subscribe(res => {
                 console.log("update succesfully");

@@ -20,7 +20,7 @@ export class ImageUploadComponent implements OnInit {
     public uploader: FileUploader = new FileUploader({url: URL, itemAlias: 'banner'});
 
     image: any = undefined;
-    constructor(private el: ElementRef) {
+    constructor(private el: ElementRef, private slidesService: SlidesService) {
     }
     ngOnInit() {
         this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
@@ -30,7 +30,13 @@ export class ImageUploadComponent implements OnInit {
     }
     onChange () {
         const inputEl = this.el.nativeElement.querySelector('#banner');
-        console.log('étape 1');
-        this.uploadImage.emit(inputEl);
+        const fileCount: number = inputEl.files.length;
+        const formData = new FormData(inputEl);
+        if (fileCount > 0) { // a file was selected
+            formData.append('banner', inputEl.files[0]);
+            this.slidesService.uploadImage(formData).subscribe( image => {
+                this.uploadImage.emit(image);
+            });
+        }
     }
 }
