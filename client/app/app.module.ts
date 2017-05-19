@@ -13,14 +13,17 @@ import 'hammerjs';
 
 // APP ROUTING
 import { AppRoutingModule } from './app-routing.module';
-
 // APP COMPONENTS
 import { AppComponent } from ".";
-
+// CORE MODULE
 import { CoreModule, StoreModule } from "app/core";
+// HOME MODULE
 import { HomeModule } from 'app/home';
+// ARTICLES CONFIG
 import { ArticlesConfigModule } from 'app/articles/config';
-import { SlidesConfigModule } from 'app/slides/config';
+// SLIDES CONFIG
+import { SlidesConfigModule } from 'app/slides';
+// USER MODULE
 import { UsersModule } from "app/users";
 
 @NgModule({
