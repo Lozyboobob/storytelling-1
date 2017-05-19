@@ -51,6 +51,37 @@ exports.createServer = function(req, res) {
       res.redirect('/');
     }
   });
+  // FroalaEditor.Image.upload(req, function(err, data) {
+  //   if (err) {
+  //     console.log("get error", err);
+  //     return res.send(JSON.stringify(err));
+  //   }
+  //
+  //   console.log(data);
+  //   // data.link = 'http://127.0.0.1:3000/' + data.link.slice(6); // delete '/public' in the beginning of the string
+  //   console.log("data", data);
+  //   res.send(data);
+  // });
+
+
+  /*  var image = new Image;
+    console.log("image created");
+
+    image.user = req.user;
+    image.data = fs.readFileSync(p);
+    image.contentType = 'image/png/jpge/jpg'
+
+    image.save(function(err) {
+      if (err) {
+        console.log("fail", err);
+        return res.status(422).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      } else {
+        console.log("success");
+        res.json(image);
+      }
+    });*/
 };
 exports.create = function(req, res) {
   console.log("created!!!!");
@@ -64,10 +95,10 @@ exports.create = function(req, res) {
     }
     console.log(req.file);
     // No error occured.
-    path = fs.readFileSync(req.file.path);
+    path = req.file.path;
     var image = new Image({
-      data: path,
-      path: 'data:' + req.file.mimetype + ';base64,' + path.toString('base64')
+      data: fs.readFileSync(req.file.path),
+      contentType: req.file.mimetype
     });
 
     image.save(function(err) {
