@@ -38,6 +38,7 @@ export class LineChartComponent implements OnInit, Chart {
             })
         });
         this.data = data;
+        console.log("data key",Object.keys(this.data[0][0]));
     }
     init() {
 
