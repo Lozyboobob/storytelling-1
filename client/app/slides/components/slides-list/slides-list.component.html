@@ -20,7 +20,7 @@
           <md-chip *ngFor="let tag of s.slidesSetting.tags">{{tag}}</md-chip>
         </md-chip-list>
         <md-card-actions>
-          <button md-button class="accent"  [routerLink]="['slidesPresentation', s._id]">DISPLAY</button>
+          <button md-button class="accent"  [routerLink]="['/slides/slidesPresentation', s._id]">DISPLAY</button>
           <button md-button class="accent" *ngIf="(loggedIn$|async) && ((username$|async) === s.slidesSetting.author)&&editable" [routerLink]="['slides', s._id]">EDIT</button>
           <md-checkbox *ngIf="(loggedIn$|async) && ((username$|async) === s.slidesSetting.author)&&editable" (change)="publish(s)" [checked]="s.slidesSetting.public">PUBLIC</md-checkbox>
         </md-card-actions>
