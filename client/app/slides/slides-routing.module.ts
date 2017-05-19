@@ -18,17 +18,17 @@ const slidesRoutes: Routes = [{
     pathMatch: 'full'
 },
     {
-        path: 'manager/createSlides',
+        path: 'createSlides',
         component: SlidesCreatorComponent,
         data: { title: 'Slides Creator' }
     },
     {
-        path: 'manager/slidesPresentation/:id',
+        path: 'slidesPresentation/:id',
         component: SlidesPresentationComponent,
         data: { title: 'Presentation' }
     },
     {
-        path: 'manager/slides/:id',
+        path: 'slides/:id',
         component: SlidesEditorComponent,
         data: {
             roles: ['user'],

@@ -5,7 +5,7 @@ export class SlidesSetting {
     bannerPath: any;
     public: Boolean = false;
     author: String = '';
-    banner: Object;
+    banner: any;
     imageId: any;
     constructor() {
 

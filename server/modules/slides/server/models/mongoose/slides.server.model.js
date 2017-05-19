@@ -4,8 +4,7 @@
  * Module dependencies
  */
 var mongoose = require('mongoose'),
-  Schema = mongoose.Schema,
-  Images = require('../../../../imgs/server/models/mongoose/image.server.model').ImageSchema;
+  Schema = mongoose.Schema;
 
 /**
  * Slides Schema
@@ -45,8 +44,8 @@ var SlidesSchema = new Schema({
         trim: true
       },
       banner: {
-        data: Buffer,
-        contentType: String
+        type: Schema.ObjectId,
+        ref: 'Image'
       }
     }
   },
@@ -97,13 +96,5 @@ var SlidesSchema = new Schema({
     trim: true
   }
 });
-
-var autoPopulateLead = function (next) {
-  this.populate('Image.thumbnail64');
-  next();
-};
-
-SlidesSchema.pre('findOne', autoPopulateLead)
-  .pre('find', autoPopulateLead);
 
 mongoose.model('Slides', SlidesSchema);
