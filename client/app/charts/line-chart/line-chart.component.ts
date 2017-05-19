@@ -9,36 +9,42 @@ import {Chart} from '../chart.interface';
 })
 export class LineChartComponent implements OnInit, Chart {
     @ViewChild('chart') private chartContainer: ElementRef;
-    private data: Array<any>=[];
+    private data: Array<any> = [];
     private width: number;
     private height: number;
     private curtain: any; //for animation
+    private dateMode: boolean;
     constructor() { }
 
     ngOnInit() {
         this.data = [];
+        this.dateMode = false;
 
     }
     setData(data: any) {
 
         if (data.length == 0) {
-           data=[];
-          sample.forEach((series,i)=>{
-            let s=[];
-            series.forEach(d=>s.push(Object.assign({}, d)))
-            data.push(s);
-          })
+            data = [];
+            sample.forEach((series, i) => {
+                let s = [];
+                series.forEach(d => s.push(Object.assign({}, d)))
+                data.push(s);
+            })
 
         }
+
         let parseDate = d3.timeParse("%b %Y");
+        if (parseDate(data[0][0].date) != null) this.dateMode = true;
         data.forEach((d) => {
             d.forEach((d) => {
-                d.date = parseDate(d.date);
+                if (this.dateMode) {
+                    d.date = parseDate(d.date);
+                }
                 d.price = parseFloat(d.price);
             })
         });
         this.data = data;
-        console.log("data key",Object.keys(this.data[0][0]));
+        console.log("data key", Object.keys(this.data[0][0]));
     }
     init() {
 
@@ -51,10 +57,7 @@ export class LineChartComponent implements OnInit, Chart {
             .attr('height', element.offsetHeight);
         let g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        // define X & Y domains
-        let x = d3.scaleTime().rangeRound([0, this.width]);
-        let y = d3.scaleLinear().rangeRound([this.height, 0]);
-        console.log("here");
+
         console.log(this.data[0]);
         //concat array inside data
         let value: Array<{ date: Date, price: number }> = [];
@@ -67,12 +70,19 @@ export class LineChartComponent implements OnInit, Chart {
         //  y.domain(d3.extent(value, function(d) { return d.price; }));
 
         // define X & Y domains
-        let xDomain = [d3.min(value, d => d.date), d3.max(value, d => d.date)];
+        console.log(this.data);
+        let xDomain;
+        if (this.dateMode)
+        xDomain = [d3.min(value, d => d.date), d3.max(value, d => d.date)];
+        else xDomain = value.map(d => d.date);
         let yDomain = [0, d3.max(value, d => d.price)];
 
         // create scales
-        x = d3.scaleTime().domain(xDomain).rangeRound([0, this.width]);
-        y = d3.scaleLinear().domain(yDomain).range([this.height, 0]);
+        let x;
+        if (this.dateMode)
+            x = d3.scaleTime().domain(xDomain).rangeRound([0, this.width]);
+        else x = d3.scaleBand().padding(0.1).domain(xDomain).rangeRound([0, this.width]);
+        let y = d3.scaleLinear().domain(yDomain).range([this.height, 0]);
 
         console.log(xDomain, yDomain);
         let line = d3.line()

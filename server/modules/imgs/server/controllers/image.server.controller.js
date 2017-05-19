@@ -11,13 +11,15 @@ var path = require('path'),
   FroalaEditor = require(path.resolve('../node_modules/wysiwyg-editor-node-sdk/lib/froalaEditor.js')),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
   DIR = './uploads/',
-  upload = multer({ dest: DIR }).single('banner');
+  upload = multer({
+    dest: DIR
+  }).single('banner');
 
 var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
+  destination: function(req, file, cb) {
     cb(null, './uploads/');
   },
-  filename: function (req, file, cb) {
+  filename: function(req, file, cb) {
     var originalname = file.originalname;
     var extension = originalname.split(".");
     var filename = Date.now() + '.' + extension[extension.length - 1];
@@ -38,25 +40,42 @@ if (!fs.existsSync(imageDir)) {
  */
 
 exports.createServer = function(req, res) {
-  console.log("created!!!!", req);
-  var image = new Image({
-    data: req,
-    contentType: 'img/png'
-  });
-
-  image.save(function(err) {
+  console.log("created!!!!");
+  // Store image.
+  FroalaEditor.Image.upload(req, DIR, function(err, data) {
+    // Return data.
+    console.log(req);
     if (err) {
+      // An error occurred when uploading
       console.log(err);
-    } else {
-      res.redirect('/');
+      return res.status(422).send("an Error occured");
     }
+    // No error occured.
+    console.log(data);
+    path = fs.readFileSync(data.link);
+    let filePath=data.link;
+    var image = new Image({
+      data: path,
+      path: 'data:image/png;base64,' + path.toString('base64')
+    });
+
+    image.save(function(err) {
+      if (err) {
+        console.log(err);
+      }
+      else{
+        fs.unlinkSync(filePath);//delete the image in server
+        console.log("deleted");
+      }
+    });
+    return res.send({link:image.path});
   });
-};
+}
 exports.create = function(req, res) {
   console.log("created!!!!");
   // Store image.
   var path = '';
-  upload(req, res, function (err, data) {
+  upload(req, res, function(err, data) {
     if (err) {
       // An error occurred when uploading
       console.log(err);
