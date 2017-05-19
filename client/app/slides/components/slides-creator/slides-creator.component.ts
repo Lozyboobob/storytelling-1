@@ -9,9 +9,7 @@ import {SlidesService} from '../../services/slides.service';
 import {ValidService} from '../../services/valid.service';
 import {Slides} from '../../models/slides';
 import {Slide} from '../../models/slide';
-import { EditorComponent} from '../editor/editor.component';
-import { Observable } from 'rxjs/Observable';
-
+import { EditorComponent} from '../editor/editor.component'
 @Component({
     selector: 'app-slides-creator',
     templateUrl: './slides-creator.component.html',
@@ -20,9 +18,9 @@ import { Observable } from 'rxjs/Observable';
 })
 export class SlidesCreatorComponent implements OnInit, AfterViewChecked {
 
-    isValidated: Boolean = false;
+    isValidated: boolean = false;
     slider: Slides; // the whole slides
-    @ViewChild('editor') _editor: EditorComponent;
+    @ViewChild("editor") _editor: EditorComponent;
     editorValid: Subscription;
     constructor(private router: Router, private sanitizer: DomSanitizer, private slidesService: SlidesService, private validService: ValidService,
         private cdRef: ChangeDetectorRef) {
@@ -32,37 +30,39 @@ export class SlidesCreatorComponent implements OnInit, AfterViewChecked {
         this.slider = new Slides();
         this.editorValid = this.validService.validAll$.subscribe(
             valid => {
-               console.log('valid', valid);
-               if (valid)
+                console.log("valid", valid);
+                if (valid)
                     this.isValidated = true;
-               else this.isValidated = false;
+                else this.isValidated = false;
                 //  this.cdRef.detectChanges();
-            });
+            })
     }
     ngAfterViewChecked() {
         this.cdRef.detectChanges();
     }
     /* validate status change*/
     formValidateChange(status) {
-        console.log('creator detect status;', status);
+        console.log("creator detect status;", status);
         this.isValidated = status;
     }
     /*create a new slides*/
     createSlides() {
         this.slider = this._editor.slider;
-        console.log(this.slider);
-        console.log('get slier from editor', this.slider);
+        console.log("get slier from editor", this.slider);
         // console.log(this.router);
-        this.editorValid = this.slidesService.submitSlides(this.slider)
-            .subscribe(
-                data => {
-                    console.log('created');
-                    // this.router.navigate(['/login']);
-                    this.router.navigate(['/slides/manager']);
-                },
-                error => {
-                    console.log('fail to createSlides');
-                });
+        this.slidesService.uploadImage(this.slider.slidesSetting.banner).subscribe( id => {
+            console.log('id',id);
+           this.slider.slidesSetting.imageId = id;
+            this.editorValid = this.slidesService.submitSlides(this.slider)
+              .subscribe(
+                  data => {
+                      console.log("created");
+                      // this.router.navigate(['/login']);
+                      this.router.navigate(['/slides']);
+                  },
+                  error => {
+                      console.log("fail to createSlides");
+                  });
+        });
     };
-
 }

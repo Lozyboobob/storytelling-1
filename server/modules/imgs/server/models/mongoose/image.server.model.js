@@ -9,11 +9,11 @@ var mongoose = require('mongoose'),
 /**
  * Images Schema
  */
-var ImagesSchema = new Schema({
+var ImageSchema = new Schema({
   data: Buffer,
-  path: String
+  contentType: String
 });
 
 
-mongoose.model('Image', ImagesSchema);
-exports.ImagesSchema = ImagesSchema;
+mongoose.model('Image', ImageSchema);
+exports.ImageSchema = ImageSchema;
