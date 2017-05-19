@@ -10,8 +10,6 @@ var path = require('path'),
   Slides = mongoose.model('Slides'),
   Image = mongoose.model('Image'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
-  ObjectId = mongoose.Schema.ObjectId,
-
   user = require(path.resolve('./modules/users/server/controllers/users/users.profile.server.controller'));
 /**
  * Create an slide
@@ -19,14 +17,19 @@ var path = require('path'),
 exports.create = function(req, res) {
   var slide = new Slides(req.body);
   slide.user = req.user;
-  slide.save(function(err) {
-    if (err) {
-      return res.status(422).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    } else {
-      res.json(slide);
-    }
+  Image.find({ '_id': slide.slidesSetting.imageId }).exec(function (err, image) {
+    slide.slidesSetting.banner.data = image[0].data;
+    slide.slidesSetting.banner.contentType = image[0].contentType;
+    slide.slidesSetting.bannerPath = 'data:' + slide.slidesSetting.banner.contentType + ';base64,' + slide.slidesSetting.banner.data.toString('base64');
+    slide.save(function(err) {
+      if (err) {
+        return res.status(422).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      } else {
+        res.json(slide);
+      }
+    });
   });
 };
 
@@ -90,8 +93,7 @@ exports.list = function(req, res) {
 };
 
 exports.myList = function(req, res) {
-  Slides.find({ $or: [{ 'slidesSetting.author': req.query.username }, { 'slidesSetting.public': true }] }).sort('-created')
-    .populate({ path: 'slidesSetting.banner', model: 'Image' }).exec(function(err, slides) {
+  Slides.find({ $or: [{ 'slidesSetting.author': req.query.username }, { 'slidesSetting.public': true }] }).sort('-created').populate('user', 'displayName').exec(function(err, slides) {
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)
