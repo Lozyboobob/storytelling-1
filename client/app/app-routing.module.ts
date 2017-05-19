@@ -8,7 +8,7 @@ import { BadRequestPageComponent, NotFoundPageComponent } from "./core";
 
 const appRoutes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
-    { path: 'home', loadChildren: 'app/home/home.module#HomeModule' },
+    { path: 'home', component: HomeComponent },
     { path: 'user', loadChildren: 'app/users/users.module#UsersModule' },
     { path: 'articles', loadChildren: 'app/articles/articles.module#ArticlesModule' },
     { path: 'slides', loadChildren: 'app/slides/slides.module#SlidesModule' },
