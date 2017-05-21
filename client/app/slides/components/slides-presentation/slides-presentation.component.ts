@@ -1,5 +1,7 @@
 import { Component, OnInit, Inject, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
+
 import { WindowResizeService } from '../../services/window-resize.service';
 import { PageScrollInstance, PageScrollService, PageScrollConfig } from 'ng2-page-scroll';
 import {DOCUMENT, DomSanitizer} from '@angular/platform-browser';
@@ -29,8 +31,10 @@ export class SlidesPresentationComponent implements OnInit {
     easeContentAni: Array<boolean> = []; //indicator for content ease(fade away) animation
     pageLayoutConfig: Array<any> = [];
     inEaseProcess = false;
-    @ViewChildren('chart') chartEle: any;
 
+    slideload$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+
+    @ViewChildren('chart') chartEle: any;
 
     constructor(
         private windowResizeService: WindowResizeService,
@@ -42,7 +46,7 @@ export class SlidesPresentationComponent implements OnInit {
         private route: ActivatedRoute
     ) {
         /* config of scroll*/
-        // PageScrollConfig.defaultScrollOffset = 50;
+        PageScrollConfig.defaultScrollOffset = 50;
         PageScrollConfig.defaultInterruptible = false;
         PageScrollConfig.defaultDuration = 800;
         // PageScrollConfig.defaultEasingLogic = {
@@ -57,9 +61,9 @@ export class SlidesPresentationComponent implements OnInit {
         /*set the slide size to fit window size*/
         this.windowResizeService.height$.subscribe(height => {
             this.slideHeight_style = {
-                'height': (height - 50) + 'px' //50 is the height of header
+                'height': ( height -50 )  + 'px' //50 is the height of header
             };
-            this.slideHeight = height - 50;
+            this.slideHeight = ( height - 50 ) ;
         })
 
     }
@@ -105,19 +109,19 @@ export class SlidesPresentationComponent implements OnInit {
                                     slide.fullScreenHtml = this.sanitizer.bypassSecurityTrustHtml(slide.fullScreenHtml);
                                 };
                                 break;
-                            case "LeftGraphRightText":
-                            case "LeftTextRightGraph":
-                                Object.assign(config,HALF_HALF_LAYOUT);
-                                if (slide.graph == "image") {
-                                    if (slide.fullScreenHtml.length)
-                                        slide.fullScreenHtml = this.sanitizer.bypassSecurityTrustHtml(slide.fullScreenHtml);
-                                    config.hasImage = true;
-                                }
-                                else {
-                                    config.hasChart = true;
-                                    console.log(config);
-                                };
-                                break;
+                            // case "LeftGraphRightText":
+                            // case "LeftTextRightGraph":
+                            //     Object.assign(config,HALF_HALF_LAYOUT);
+                            //     if (slide.graph == "image") {
+                            //         if (slide.fullScreenHtml.length)
+                            //             slide.fullScreenHtml = this.sanitizer.bypassSecurityTrustHtml(slide.fullScreenHtml);
+                            //         config.hasImage = true;
+                            //     }
+                            //     else {
+                            //         config.hasChart = true;
+                            //         console.log(config);
+                            //     };
+                            //     break;
                             default: {
 
                             }
@@ -126,8 +130,7 @@ export class SlidesPresentationComponent implements OnInit {
                         this.pageLayoutConfig.push(config);
                     }
                 )
-                console.log(this.pageLayoutConfig);
-                setTimeout(_ => this.initCharts());
+                // setTimeout(_ => this.initCharts());
 
             },
             error => {
@@ -136,6 +139,7 @@ export class SlidesPresentationComponent implements OnInit {
           window.scrollTo(0,0);//scroll to top everytime open the slides
 
     }
+
     /*init the charts*/
     private initCharts() {
         let charts = this.chartEle.toArray();
@@ -147,7 +151,6 @@ export class SlidesPresentationComponent implements OnInit {
             else
                 this.charts.push(null);
         });
-        console.log(this.charts);
         this.charts.forEach((e, i) => {
             if (e != null) {
                 if (e.constructor.name != 'ElementRef') {
@@ -158,8 +161,6 @@ export class SlidesPresentationComponent implements OnInit {
                 }
             }
         });
-
-
     }
 
     /*Chart operation*/
@@ -198,16 +199,17 @@ export class SlidesPresentationComponent implements OnInit {
           }*/
         this.curSlideIndex = this.getCurSlideIndex();
         if (this.curSlideIndex > 0) {
-            this.easeChart(this.curSlideIndex - 1);
-            this.easeContent(this.curSlideIndex - 1);
+            // this.easeChart(this.curSlideIndex - 1);
+            // this.easeContent(this.curSlideIndex - 1);
             this.curSlideIndex--;
             this.goToSlide(this.curSlideIndex);
 
-            if (this.curSlideIndex != 0) {
-                this.loadChart(this.curSlideIndex - 1);
-                this.loadContent(this.curSlideIndex - 1);
-            }
+            // if (this.curSlideIndex != 0) {
+            //     this.loadChart(this.curSlideIndex - 1);
+            //     this.loadContent(this.curSlideIndex - 1);
+            // }
 
+            this.slideload$.next(this.curSlideIndex);
 
         }
     }
@@ -219,15 +221,16 @@ export class SlidesPresentationComponent implements OnInit {
 
         this.curSlideIndex = this.getCurSlideIndex();
         if (this.curSlideIndex < this.slideNum) {
-            if (this.curSlideIndex != 0) {
-                this.easeChart(this.curSlideIndex - 1);
-                this.easeContent(this.curSlideIndex - 1);
-            }
+            // if (this.curSlideIndex != 0) {
+            //     this.easeChart(this.curSlideIndex - 1);
+            //     this.easeContent(this.curSlideIndex - 1);
+            // }
             this.curSlideIndex++;
             this.goToSlide(this.curSlideIndex);
-            this.loadChart(this.curSlideIndex - 1);
+            this.slideload$.next(this.curSlideIndex);
+            // this.loadChart(this.curSlideIndex - 1);
             /*add animation to text content*/
-            this.loadContent(this.curSlideIndex - 1);
+            // this.loadContent(this.curSlideIndex - 1);
         }
         else {
             /*this.snackBar.openFromComponent(ScrollToEndComponent, {

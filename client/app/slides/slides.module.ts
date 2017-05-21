@@ -11,7 +11,7 @@ import {SearchComponent} from './components/search/search.component';
 // SLIDES COMPONENTS
 import { SlidesPresentationComponent, SlidesListComponent, SlidesCreatorComponent, SlideCreatorComponent } from '.';
 // SLIDES SERVICES
-import {SlidesService,ValidService} from '.';
+import {SlidesService,ValidService, ChartsService} from '.';
 
 // SLIDES ROUTES MODULE
 import { SlidesRoutingModule } from '.';
@@ -39,6 +39,9 @@ import { EditorComponent } from './components/editor/editor.component';
 
 import { FilterComponent } from './components/filter/filter.component';
 import { SlidesManagerComponent } from './components/slides-manager/slides-manager.component';
+import { FullScreenGraphSlideComponent } from './components/slides-presentation/slide-types/full-screen-graph-slide/full-screen-graph-slide.component';
+import { TitleSlideComponent } from './components/slides-presentation/slide-types/title-slide/title-slide.component';
+import { GraphTextSlideComponent } from './components/slides-presentation/slide-types/graph-text-slide/graph-text-slide.component';
 
 
 
@@ -55,6 +58,7 @@ import { SlidesManagerComponent } from './components/slides-manager/slides-manag
         FroalaViewModule.forRoot(),
         FileUploadModule
     ],
+    entryComponents: [BarChartComponent, LineChartComponent, ForceDirectedGraphComponent, FullScreenGraphSlideComponent],
     declarations: [
         ScrollDirective,
         SlidesPresentationComponent,
@@ -72,6 +76,9 @@ import { SlidesManagerComponent } from './components/slides-manager/slides-manag
         EditorComponent,
         FilterComponent,
         SlidesManagerComponent,
+        FullScreenGraphSlideComponent,
+        TitleSlideComponent,
+        GraphTextSlideComponent,
     ],
     exports:[
       FilterComponent,
@@ -79,7 +86,7 @@ import { SlidesManagerComponent } from './components/slides-manager/slides-manag
       SearchComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    providers: [OverlayContainer, SlidesService]
+    providers: [OverlayContainer, SlidesService, ChartsService]
 
 })
 export class SlidesModule {
