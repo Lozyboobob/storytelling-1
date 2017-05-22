@@ -1,14 +1,17 @@
-.d3-chart {
+:host {
   width: 100%;
-  height:80vh;
+  .d3-chart {
+    width: 100%;
+    height:80vh;
 
-}
-.links line {
-  stroke: #999 ;
-  stroke-opacity: 0.6;
-}
+  }
+  .links line {
+    stroke: #999 ;
+    stroke-opacity: 0.6;
+  }
 
-.nodes circle {
-  stroke: #fff;
-  stroke-width: 1.5px;
+  .nodes circle {
+    stroke: #fff;
+    stroke-width: 1.5px;
+  }
 }

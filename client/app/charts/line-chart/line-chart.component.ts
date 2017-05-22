@@ -23,7 +23,6 @@ export class LineChartComponent implements OnInit, Chart {
 
     }
     setData(data: any) {
-
         if (data.length == 0) {
             data = [];
             sample.forEach((series, i) => {

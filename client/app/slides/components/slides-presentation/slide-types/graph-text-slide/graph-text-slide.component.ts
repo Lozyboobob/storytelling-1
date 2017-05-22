@@ -1,29 +1,41 @@
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { Component, OnInit, Input, ViewChild, ViewChildren } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, ViewChild, ViewChildren, ComponentFactoryResolver, ViewContainerRef, ComponentRef } from '@angular/core';
 import { Observable } from "rxjs/Observable";
 import { Slide } from "../../../../models";
 import { PageConfig, HALF_HALF_LAYOUT } from "../../pageConfig";
 import { Chart } from "../../../../../charts/chart.interface";
+import { ChartsService } from "../../../../services";
 
 @Component({
   selector: 'app-graph-text-slide',
   templateUrl: './graph-text-slide.component.html',
   styleUrls: ['./graph-text-slide.component.scss']
 })
-export class GraphTextSlideComponent implements OnInit {
+export class GraphTextSlideComponent implements OnInit, AfterViewInit {
 
   @Input() slide: Slide;
   @Input() pos: number;
   @Input() slideload$: Observable<number>;
-  @ViewChild('chart') chartEle: Chart;
+
+  @ViewChild('parent', {read: ViewContainerRef})
+  parent: ViewContainerRef;
+  private componentRef: ComponentRef<Chart>;
+
   config: PageConfig;
   loadContentAni: boolean;
   easeContentAni: boolean;
 
-  constructor(private sanitizer: DomSanitizer) { }
+  constructor(private _componentFactoryResolver: ComponentFactoryResolver,
+    private chartsService: ChartsService,
+    private sanitizer: DomSanitizer) { }
 
-  ngOnInit() {
+  ngOnInit(){
     this.setConfig();
+  }
+
+  ngAfterViewInit() {
+    let cmpType : string = this.slide.graph.charAt(0).toUpperCase() + this.slide.graph.slice(1) + 'Component';
+    this.setChart(cmpType);
     setTimeout(_ => this.initChart());
     this.slideload$.filter(n => n === this.pos).subscribe(() => {
       this.easeChart();
@@ -31,6 +43,12 @@ export class GraphTextSlideComponent implements OnInit {
       this.easeContent();
       this.loadContent();
     })
+  }
+
+  private setChart(chartType: string) {
+    let componentFactory = this._componentFactoryResolver.resolveComponentFactory(this.chartsService.getChartType(chartType));
+    this.parent.clear();
+    this.componentRef = this.parent.createComponent(componentFactory);
   }
 
   private setConfig() {
@@ -50,20 +68,20 @@ export class GraphTextSlideComponent implements OnInit {
 
   private initChart() {
     if (this.config.hasChart) {
-      this.chartEle.setData(this.slide.data);
-      this.chartEle.init();
+      (<Chart>this.componentRef.instance).setData(this.slide.data);
+      (<Chart>this.componentRef.instance).init();
     }
   }
 
   private loadChart() {
     if (this.config.hasChart) {
-      this.chartEle.load();
+      (<Chart>this.componentRef.instance).load();
     }
   }
 
   private easeChart() {
     if (this.config.hasChart) {
-      this.chartEle.ease();
+      (<Chart>this.componentRef.instance).ease();
     }
   }
 
