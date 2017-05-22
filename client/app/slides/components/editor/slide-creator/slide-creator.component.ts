@@ -122,17 +122,19 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
         console.log()
         if (this.slide.hasGraph && !(this.form.value.slideGraph == 'noGraph' || this.form.value.slideGraph == 'image')) {
             switch (this.dataInputTab.selectedIndex) {
+              // default data
                 case 0: {
                     if (this.form.value.slideGraph == 'barChart')
                         this.slide.data = this.form.value.graphData;
                     else this.slide.data = [];
                     break;
                 }
+                //json input
                 case 1: {
                     let data;
                     try {
                         data = JSON.parse(this.form.value.graphDataJson);
-                        console.log(data);
+                        console.log("data here",this.form.value.graphDataJson);
                         this.slide.data = data.graphData;
                     }
                     catch (e) {
@@ -140,6 +142,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
                     }
                     break;
                 }
+                //csv input
                 case 2: {
                     let data;
                     try {
@@ -225,6 +228,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
         try {
             let j = JSON.parse(json);
             if (this.form.value.slideGraph == "lineChart") {
+                console.log("json",j);
                 this.csvJson.push(j)
             }
             else this.csvJson = j;
@@ -244,4 +248,4 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
 
 const barCharDataExample = '{"graphData":[{"index":"index1","value":"21"},{"index":"index2","value":"20"}]}';
 const forceDirectedGraphDataExample = '{"graphData":{ "nodes": [{ "id": "a", "group": 1 },{ "id": "b", "group": 1 },{ "id": "c", "group": 2 },  { "id": "d", "group": 2 } ], "links": [{ "source": "a", "target": "b", "value": 1 },  { "source": "a", "target": "d", "value": 2 },{ "source": "b", "target": "c", "value": 3 },  { "source": "c", "target": "a", "value": 4 }  ]}}';
-const lineChartExample = '{"graphData":[[{"price" : "1394.46","date" : "Jan 2000",  "symbol" : "S&P 500"}, {"price" : "1366.42",  "date" : "Feb 2000","symbol" : "S&P 500"}, {  "price" : "1498.58","date" : "Mar 2000",  "symbol" : "S&P 500"}],[{"price" : "1285.36","date" : "Jan 2000",  "symbol" : "IBM"}, {"price" : "1299.98",  "date" : "Feb 2000","symbol" : "IBM"}, {  "price" : "1322.20","date" : "Mar 2000",  "symbol" : "IBM"}]]}';
+const lineChartExample = '{"graphData":[[{"yAxis" : "1394.46","xAxis" : "Jan 2000",  "series" : "S&P 500"}, {"yAxis" : "1366.42",  "xAxis" : "Feb 2000","series" : "S&P 500"}, {  "yAxis" : "1498.58","xAxis" : "Mar 2000",  "series" : "S&P 500"}],[{"yAxis" : "1285.36","xAxis" : "Jan 2000",  "series" : "IBM"}, {"yAxis" : "1299.98",  "xAxis" : "Feb 2000","series" : "IBM"}, {  "yAxis" : "1322.20","xAxis" : "Mar 2000",  "series" : "IBM"}]]}';
