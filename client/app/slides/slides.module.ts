@@ -9,7 +9,16 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {XHRBackend, Http, RequestOptions} from '@angular/http';
 import {SearchComponent} from './components/search/search.component';
 // SLIDES COMPONENTS
-import { SlidesPresentationComponent, SlidesListComponent, SlidesCreatorComponent, SlideCreatorComponent } from '.';
+import { SlidesPresentationComponent, 
+    FullScreenGraphSlideComponent,
+    TitleSlideComponent,
+    GraphTextSlideComponent,
+    TextSlideComponent,
+    SlidesListComponent, 
+    SlidesCreatorComponent, 
+    SlideCreatorComponent 
+} from '.';
+
 // SLIDES SERVICES
 import {SlidesService,ValidService, ChartsService} from '.';
 
@@ -39,9 +48,6 @@ import { EditorComponent } from './components/editor/editor.component';
 
 import { FilterComponent } from './components/filter/filter.component';
 import { SlidesManagerComponent } from './components/slides-manager/slides-manager.component';
-import { FullScreenGraphSlideComponent } from './components/slides-presentation/slide-types/full-screen-graph-slide/full-screen-graph-slide.component';
-import { TitleSlideComponent } from './components/slides-presentation/slide-types/title-slide/title-slide.component';
-import { GraphTextSlideComponent } from './components/slides-presentation/slide-types/graph-text-slide/graph-text-slide.component';
 
 
 
@@ -79,6 +85,7 @@ import { GraphTextSlideComponent } from './components/slides-presentation/slide-
         FullScreenGraphSlideComponent,
         TitleSlideComponent,
         GraphTextSlideComponent,
+        TextSlideComponent,
     ],
     exports:[
       FilterComponent,

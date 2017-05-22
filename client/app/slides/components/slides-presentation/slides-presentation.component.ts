@@ -80,56 +80,56 @@ export class SlidesPresentationComponent implements OnInit {
                 this.slideNum = this.slides.length;
                 this.slideTitle = slide.slidesSetting.title;
                 console.log("get slides", this.slides);
-                this.slides.forEach(
-                    (slide, index) => {
-                        slide.text = this.sanitizer.bypassSecurityTrustHtml(slide.text);
-                        this.loadContentAni.push(true);
-                        this.easeContentAni.push(false);
-                        //initialize layout config
-                        let config: PageConfig = new PageConfig(); //defual is fullscreen no graph no text
-                        switch (slide.pageLayout) {
-                            case "FullScreenGraph": Object.assign(config,FULL_LAYOUT);
-                                if (slide.graph == "image") {
-                                    if (slide.fullScreenHtml.length)
-                                        slide.fullScreenHtml = this.sanitizer.bypassSecurityTrustHtml(slide.fullScreenHtml);
-                                    config.hasImage = true;
-                                }
-                                else {
-                                    config.hasChart = true;
+                // this.slides.forEach(
+                //     (slide, index) => {
+                //         slide.text = this.sanitizer.bypassSecurityTrustHtml(slide.text);
+                //         this.loadContentAni.push(true);
+                //         this.easeContentAni.push(false);
+                //         //initialize layout config
+                //         let config: PageConfig = new PageConfig(); //defual is fullscreen no graph no text
+                //         switch (slide.pageLayout) {
+                //             case "FullScreenGraph": Object.assign(config,FULL_LAYOUT);
+                //                 if (slide.graph == "image") {
+                //                     if (slide.fullScreenHtml.length)
+                //                         slide.fullScreenHtml = this.sanitizer.bypassSecurityTrustHtml(slide.fullScreenHtml);
+                //                     config.hasImage = true;
+                //                 }
+                //                 else {
+                //                     config.hasChart = true;
 
-                                }
-                                break;
-                            case "textInCenter": Object.assign(config,FULL_LAYOUT);
-                                config.hasText = true;
-                                ; break;
-                            case "textInCenterImageBackground": Object.assign(config,FULL_LAYOUT);
-                                config.hasText = true;
-                                config.hasImage = true;
-                                if (slide.fullScreenHtml.length) {
-                                    slide.fullScreenHtml = this.sanitizer.bypassSecurityTrustHtml(slide.fullScreenHtml);
-                                };
-                                break;
-                            // case "LeftGraphRightText":
-                            // case "LeftTextRightGraph":
-                            //     Object.assign(config,HALF_HALF_LAYOUT);
-                            //     if (slide.graph == "image") {
-                            //         if (slide.fullScreenHtml.length)
-                            //             slide.fullScreenHtml = this.sanitizer.bypassSecurityTrustHtml(slide.fullScreenHtml);
-                            //         config.hasImage = true;
-                            //     }
-                            //     else {
-                            //         config.hasChart = true;
-                            //         console.log(config);
-                            //     };
-                            //     break;
-                            default: {
+                //                 }
+                //                 break;
+                //             case "textInCenter": Object.assign(config,FULL_LAYOUT);
+                //                 config.hasText = true;
+                //                 ; break;
+                //             case "textInCenterImageBackground": Object.assign(config,FULL_LAYOUT);
+                //                 config.hasText = true;
+                //                 config.hasImage = true;
+                //                 if (slide.fullScreenHtml.length) {
+                //                     slide.fullScreenHtml = this.sanitizer.bypassSecurityTrustHtml(slide.fullScreenHtml);
+                //                 };
+                //                 break;
+                //             // case "LeftGraphRightText":
+                //             // case "LeftTextRightGraph":
+                //             //     Object.assign(config,HALF_HALF_LAYOUT);
+                //             //     if (slide.graph == "image") {
+                //             //         if (slide.fullScreenHtml.length)
+                //             //             slide.fullScreenHtml = this.sanitizer.bypassSecurityTrustHtml(slide.fullScreenHtml);
+                //             //         config.hasImage = true;
+                //             //     }
+                //             //     else {
+                //             //         config.hasChart = true;
+                //             //         console.log(config);
+                //             //     };
+                //             //     break;
+                //             default: {
 
-                            }
+                //             }
 
-                        }
-                        this.pageLayoutConfig.push(config);
-                    }
-                )
+                //         }
+                //         this.pageLayoutConfig.push(config);
+                //     }
+                // )
                 // setTimeout(_ => this.initCharts());
 
             },
@@ -141,55 +141,55 @@ export class SlidesPresentationComponent implements OnInit {
     }
 
     /*init the charts*/
-    private initCharts() {
-        let charts = this.chartEle.toArray();
-        let chartCounter = 0;
-        //if there is no graph on the i-th slide, then store  chart[i] as null
-        this.slides.forEach(s => {
-            if (s.hasGraph)
-                this.charts.push(charts[chartCounter++]);
-            else
-                this.charts.push(null);
-        });
-        this.charts.forEach((e, i) => {
-            if (e != null) {
-                if (e.constructor.name != 'ElementRef') {
-                    console.log(this.pageLayoutConfig[i].pageCol)
-                    let data = this.slides[i].data;
-                    e.setData(data);
-                    e.init();
-                }
-            }
-        });
-    }
+    // private initCharts() {
+    //     let charts = this.chartEle.toArray();
+    //     let chartCounter = 0;
+    //     //if there is no graph on the i-th slide, then store  chart[i] as null
+    //     this.slides.forEach(s => {
+    //         if (s.hasGraph)
+    //             this.charts.push(charts[chartCounter++]);
+    //         else
+    //             this.charts.push(null);
+    //     });
+    //     this.charts.forEach((e, i) => {
+    //         if (e != null) {
+    //             if (e.constructor.name != 'ElementRef') {
+    //                 console.log(this.pageLayoutConfig[i].pageCol)
+    //                 let data = this.slides[i].data;
+    //                 e.setData(data);
+    //                 e.init();
+    //             }
+    //         }
+    //     });
+    // }
 
     /*Chart operation*/
-    loadChart(index) {
-        if (this.pageLayoutConfig[index].hasChart) {
-            this.charts[index].load();
-        }
-    }
-    easeChart(index) {
-        if (this.pageLayoutConfig[index].hasChart) {
-            this.charts[index].ease();
-        }
-    }
-    loadContent(index) {
-        if (!this.pageLayoutConfig[index].hasText) return false;
-        this.loadContentAni[index] = false;
-        // setTimeout(_ => { 
-            this.easeContentAni[index] = false; this.loadContentAni[index] = true 
-        // }, 625);
-    }
-    easeContent(index) {
-        //    if (this.inEaseProcess) return;
-        if (!this.pageLayoutConfig[index].hasText) return false;
-        this.inEaseProcess = true;
-        this.easeContentAni[index] = false;
-        ;
-        setTimeout(_ => { this.loadContentAni[index] = false; this.easeContentAni[index] = true }, 0);
-        setTimeout(_ => this.inEaseProcess = false, 50);
-    }
+    // loadChart(index) {
+    //     if (this.pageLayoutConfig[index].hasChart) {
+    //         this.charts[index].load();
+    //     }
+    // }
+    // easeChart(index) {
+    //     if (this.pageLayoutConfig[index].hasChart) {
+    //         this.charts[index].ease();
+    //     }
+    // }
+    // loadContent(index) {
+    //     if (!this.pageLayoutConfig[index].hasText) return false;
+    //     this.loadContentAni[index] = false;
+    //     // setTimeout(_ => { 
+    //         this.easeContentAni[index] = false; this.loadContentAni[index] = true 
+    //     // }, 625);
+    // }
+    // easeContent(index) {
+    //     //    if (this.inEaseProcess) return;
+    //     if (!this.pageLayoutConfig[index].hasText) return false;
+    //     this.inEaseProcess = true;
+    //     this.easeContentAni[index] = false;
+    //     ;
+    //     setTimeout(_ => { this.loadContentAni[index] = false; this.easeContentAni[index] = true }, 0);
+    //     setTimeout(_ => this.inEaseProcess = false, 50);
+    // }
     // slide switch operation
 
 

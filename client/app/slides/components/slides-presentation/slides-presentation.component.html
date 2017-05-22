@@ -11,7 +11,6 @@
        [slide] = "slide" [pos]="i+1"  [slideload$]="slideload$" >
     </app-full-screen-graph-slide>
   
-
     <!--left text right grah-->
     <!--left graph right text-->
     <app-graph-text-slide *ngIf="slide.pageLayout=='LeftTextRightGraph'||slide.pageLayout=='LeftGraphRightText'"
@@ -19,33 +18,11 @@
     </app-graph-text-slide>
 
     <!--full screen :text-->
-    <md-grid-list *ngIf="slide.pageLayout=='textInCenter'" cols="{{pageLayoutConfig[i].pageCol}}" class="firstcase">
-      <!--image-->
-      <md-grid-tile [colspan]="1" *ngIf="pageLayoutConfig[i].hasChart||pageLayoutConfig[i].hasImage" [attr.id]="slide.graph" [ngSwitch]="slide.graph">
-        <app-force-directed-graph class="chart" #chart *ngSwitchCase="'forceDirectedGraph'"></app-force-directed-graph>
-        <app-bar-chart class="chart" #chart *ngSwitchCase="'barChart'"></app-bar-chart>
-        <app-line-chart class="chart" #chart *ngSwitchCase="'lineChart'"></app-line-chart>
-        <div class="chart" [innerHTML]="slide.fullScreenHtml" #chart *ngSwitchDefault></div>
-      </md-grid-tile>
-      <!-- text -->
-      <md-grid-tile [colspan]="1" align="center" *ngIf="pageLayoutConfig[i].hasText">
-        <div [innerHTML]="slide.text" align="left" [class.slideLeft]="loadContentAni[i]" [class.slideRightOut]="easeContentAni[i]"></div>
-      </md-grid-tile>
-    </md-grid-list>
-
-
-  
-
     <!--full screen :img-->
     <!--full screen :imgback + text-->
-    <md-grid-list *ngIf="(pageLayoutConfig[i].isFullScreen&&!pageLayoutConfig[i].hasChart&&!pageLayoutConfig[i].hasText)||slide.pageLayout=='textInCenterImageBackground'" cols="{{pageLayoutConfig[i].pageCol}}" class="secondecase">
-
-      <md-grid-tile [colspan]="1" align="center">
-        <div [innerHTML]="slide.fullScreenHtml" #chart style="height:100%;width:100%"> </div>
-        <div [innerHTML]="slide.text" style="position:absolute" *ngIf="pageLayoutConfig[i].hasText" [class.expandUp]="loadContentAni[i]"></div>
-      </md-grid-tile>
-
-    </md-grid-list>
+    <app-text-slide *ngIf="slide.pageLayout=='textInCenter'||slide.pageLayout=='textInCenterImageBackground'"
+       [slide] = "slide" [pos]="i+1"  [slideload$]="slideload$" >
+    </app-text-slide>
 
 
   </div>
