@@ -9,9 +9,18 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {XHRBackend, Http, RequestOptions} from '@angular/http';
 import {SearchComponent} from './components/search/search.component';
 // SLIDES COMPONENTS
-import { SlidesPresentationComponent, SlidesListComponent, SlidesCreatorComponent, SlideCreatorComponent } from '.';
+import { SlidesPresentationComponent, 
+    FullScreenGraphSlideComponent,
+    TitleSlideComponent,
+    GraphTextSlideComponent,
+    TextSlideComponent,
+    SlidesListComponent, 
+    SlidesCreatorComponent, 
+    SlideCreatorComponent 
+} from '.';
+
 // SLIDES SERVICES
-import {SlidesService,ValidService} from '.';
+import {SlidesService,ValidService, ChartsService} from '.';
 
 // SLIDES ROUTES MODULE
 import { SlidesRoutingModule } from '.';
@@ -55,6 +64,7 @@ import { SlidesManagerComponent } from './components/slides-manager/slides-manag
         FroalaViewModule.forRoot(),
         FileUploadModule
     ],
+    entryComponents: [BarChartComponent, LineChartComponent, ForceDirectedGraphComponent, FullScreenGraphSlideComponent],
     declarations: [
         ScrollDirective,
         SlidesPresentationComponent,
@@ -72,6 +82,10 @@ import { SlidesManagerComponent } from './components/slides-manager/slides-manag
         EditorComponent,
         FilterComponent,
         SlidesManagerComponent,
+        FullScreenGraphSlideComponent,
+        TitleSlideComponent,
+        GraphTextSlideComponent,
+        TextSlideComponent,
     ],
     exports:[
       FilterComponent,
@@ -79,7 +93,7 @@ import { SlidesManagerComponent } from './components/slides-manager/slides-manag
       SearchComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    providers: [OverlayContainer, SlidesService]
+    providers: [OverlayContainer, SlidesService, ChartsService]
 
 })
 export class SlidesModule {
