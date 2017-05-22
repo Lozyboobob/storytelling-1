@@ -41,7 +41,6 @@ if (!fs.existsSync(imageDir)) {
 
 exports.createServer = function(req, res) {
   console.log("created!!!!");
-  // Store image.
   FroalaEditor.Image.upload(req, DIR, function(err, data) {
     // Return data.
     console.log(req);
@@ -104,8 +103,6 @@ exports.create = function(req, res) {
 exports.read = function(req, res) {
   // convert mongoose document to JSON
   var image = req.image ? req.image : {};
-
-
   // Add a custom field to the image, for determining if the current User is the "owner".
   // NOTE: This field is NOT persisted to the database, since it doesn't exist in the image model.
   image.isCurrentUserOwner = !!(req.user && image.user && image.user._id.toString() === req.user._id.toString());
