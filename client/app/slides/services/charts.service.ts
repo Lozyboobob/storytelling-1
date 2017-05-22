@@ -1,17 +1,15 @@
-import { Injectable, Type } from '@angular/core';
-import { BarChartComponent, ForceDirectedGraphComponent, LineChartComponent} from 'app/charts';
+import { Injectable, Type, ComponentFactoryResolver } from '@angular/core';
 
 @Injectable()
 export class ChartsService {
   private listWidget;
 
-  constructor() {
-    this.listWidget = { 'LineChartComponent': LineChartComponent, 'BarChartComponent': BarChartComponent, 'ForceDirectedGraphComponent': ForceDirectedGraphComponent };
-
-   }
+  constructor(private _resolver : ComponentFactoryResolver) {
+    this.listWidget = Array.from(this._resolver['_factories'].keys());
+  }
 
   getChartType(widgetType: string): Type<any> {
-    return this.listWidget[widgetType];
+    return <Type<any>>this.listWidget.find((x: any) => x.name === widgetType);
   }
 
 

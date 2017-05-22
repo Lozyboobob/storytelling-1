@@ -3,11 +3,11 @@
 <!--left graph right text-->
 <md-grid-list cols="{{config.pageCol}}" class="slide">
   <!--chart || image-->
-  <md-grid-tile [colspan]="1" *ngIf="config.hasChart||config.hasImage" [attr.id]="slide.graph" [ngSwitch]="slide.graph">
-    <app-force-directed-graph class="chart" #chart *ngSwitchCase="'forceDirectedGraph'"></app-force-directed-graph>
-    <app-bar-chart class="chart" #chart *ngSwitchCase="'barChart'"></app-bar-chart>
-    <app-line-chart class="chart" #chart *ngSwitchCase="'lineChart'"></app-line-chart>
-    <div class="chart" [innerHTML]="slide.fullScreenHtml" #chart *ngSwitchDefault></div>
+  <!--<md-grid-tile [colspan]="1">
+  </md-grid-tile>-->
+
+  <md-grid-tile [colspan]="1" [attr.id]="slide.graph">
+    <ng-template id="parent" class="chart" #parent></ng-template>
   </md-grid-tile>
   <!-- text -->
   <md-grid-tile [colspan]="1" align="center" *ngIf="config.hasText">
