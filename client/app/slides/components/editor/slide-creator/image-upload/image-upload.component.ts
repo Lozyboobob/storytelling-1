@@ -34,6 +34,8 @@ export class ImageUploadComponent implements OnInit {
             this.slidesService.uploadImage(formData).subscribe( image => {
                 this.uploadImage.emit(image._id);
                 this.imgPreview = image.path;
+                console.log("get image");
+                this.setImage.emit(image.path);
             });
         }
     }

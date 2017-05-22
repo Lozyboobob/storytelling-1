@@ -243,8 +243,9 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
         }
     }
     /* image background*/
-    setImageHtml(html) {
-        this.slide.fullScreenHtml = "<img src='" + html + "' style='width:100%;height:100%'>";
+    setImageHtml(path) {
+        console.log("image html");
+        this.slide.fullScreenHtml = "<img src='" + path + "' style='width:100%;height:100%'>";
     }
 
 
@@ -627,4 +628,3 @@ const treemapChartExample = `{"graphData":[
  ]
 }
 ]}`;
-

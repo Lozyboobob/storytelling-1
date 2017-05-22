@@ -19,7 +19,7 @@
     <app-bar-chart class="chart" #chart *ngSwitchCase="'barChart'"></app-bar-chart>
     <app-line-chart class="chart" #chart *ngSwitchCase="'lineChart'"></app-line-chart>
     <app-treemap-chart class="chart" #chart *ngSwitchCase="'treemapChart'"></app-treemap-chart>
-    <div class="chart" #chart *ngSwitchDefault></div>
+    <div class="chart" #chart [innerHTML]="slide.fullScreenHtml" *ngSwitchDefault></div>
   </md-grid-tile>
   <!-- text -->
   <md-grid-tile [colspan]="1" align="center" *ngIf="config.hasText">
