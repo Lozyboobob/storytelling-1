@@ -36,6 +36,7 @@ import {DragulaModule} from 'ng2-dragula';
 import { BarChartComponent } from '../charts';
 import { ForceDirectedGraphComponent } from '../charts/force-directed-graph/force-directed-graph.component';
 import { LineChartComponent } from '../charts/line-chart/line-chart.component';
+import { TreemapChartComponent } from '../charts/treemap-chart/treemap-chart.component';
 import { FroalaEditorModule, FroalaViewModule } from 'angular2-froala-wysiwyg';
 
 
@@ -64,7 +65,7 @@ import { SlidesManagerComponent } from './components/slides-manager/slides-manag
         FroalaViewModule.forRoot(),
         FileUploadModule
     ],
-    entryComponents: [BarChartComponent, LineChartComponent, ForceDirectedGraphComponent, FullScreenGraphSlideComponent],
+    entryComponents: [BarChartComponent, LineChartComponent, ForceDirectedGraphComponent,TreemapChartComponent, FullScreenGraphSlideComponent],
     declarations: [
         ScrollDirective,
         SlidesPresentationComponent,
@@ -77,6 +78,7 @@ import { SlidesManagerComponent } from './components/slides-manager/slides-manag
         BarChartComponent,
         ForceDirectedGraphComponent,
         LineChartComponent,
+        TreemapChartComponent,
         SlidesEditorComponent,
         SlidesSettingComponent,
         EditorComponent,

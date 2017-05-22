@@ -12,7 +12,7 @@
           <md-card-title>{{s.slidesSetting.title}}</md-card-title>
         </md-card-header>
         <img md-card-image *ngIf="s.slidesSetting.banner && s.slidesSetting.banner.path" [src]="s.slidesSetting.banner.path">
-        <img md-card-image *ngIf="!s.slidesSetting.banner || !s.slidesSetting.banner.path " [src]="'assets/svg.png'" >
+        <img md-card-image *ngIf="!s.slidesSetting.banner || !s.slidesSetting.banner.path " [src]="'assets/svg.png'" >
         <md-card-content class="description" >
           {{s.slidesSetting.description}}
         </md-card-content>
