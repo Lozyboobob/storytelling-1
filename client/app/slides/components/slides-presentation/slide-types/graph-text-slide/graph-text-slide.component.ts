@@ -44,6 +44,7 @@ export class GraphTextSlideComponent implements OnInit {
     else {
       this.config.hasChart = true;
     };
+    console.log("config is",this.slide.fullScreenHtml);
   }
 
 
