@@ -14,8 +14,7 @@ export class LineChartComponent implements OnInit, Chart {
     private height: number;
     private curtain: any; //for animation
     private dateMode: boolean;//date data in xAxis
-    private obKey:Array<string>; //the ele key for data object
-    /*keys: first for the Y axis, seconde for the x axis, third for hte series*/
+
     constructor() { }
 
     ngOnInit() {
@@ -34,12 +33,9 @@ export class LineChartComponent implements OnInit, Chart {
             })
 
         }
-        //get data key
-        this.obKey= Object.keys(data[0][0]);
-        for(var k in data[0][0]) console.log(k);
-        console.log("data key",this.obKey);
+
         let parseDate = d3.timeParse("%b %Y");
-        if (parseDate(data[0][0].date) != null) this.dateMode = true;
+        if (parseDate(data[0][0].xAxis) != null) this.dateMode = true;
         data.forEach((d) => {
             d.forEach((d) => {
                 if (this.dateMode) {
@@ -157,17 +153,17 @@ const sample = [
     [
         {
             "yAxis": "39.81",
-            "date": "Jan 2000",
+            "xAxis": "Jan 2000",
             "symbol": "MSFT"
         },
         {
             "yAxis": "36.35",
-            "date": "Feb 2000",
+            "xAxis": "Feb 2000",
             "symbol": "MSFT"
         },
         {
             "yAxis": "43.22",
-            "date": "Mar 2000",
+            "xAxis": "Mar 2000",
             "symbol": "MSFT"
         },
         {
