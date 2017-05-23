@@ -197,7 +197,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
     }
     initJson() {
         //change json sample
-        
+
         //the slide data is already set
         if (this.slide.data != undefined) {
             if (this.slide.data.length && this.form.value.slideGraph == this.slide.graph) {
@@ -248,7 +248,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
     /* image background*/
     setImageHtml(path) {
         console.log("image html");
-        this.slide.fullScreenHtml = "<img src]='" + path + "' style='width:100%;height:100%'>";
+        this.slide.fullScreenHtml = "<img src='" + path + "' style='width:100%;height:100%'>";
     }
 
 
