@@ -5,24 +5,39 @@
     <app-filter *ngIf="loggedIn$|async" (filterState)="filterState($event)" [states]="states"></app-filter>
   </div>
 -->
-  <div class="row" >
-    <div *ngFor="let s of slides" [ngClass]="{'display-div':!(loggedIn$|async)&& !s.slidesSetting.public}"  class="list-item slides-item col-xs-12 col-sm-6  col-md-3">
-      <md-card *ngIf="(loggedIn$|async)||s.slidesSetting.public"  >
-        <md-card-header >
+  <div class="row">
+    <div *ngFor="let s of slides" [ngClass]="{'display-div':!(loggedIn$|async)&& !s.slidesSetting.public}" class="list-item slides-item col-xs-12 col-sm-6  col-md-4 col-lg-3">
+      <md-card *ngIf="(loggedIn$|async)||s.slidesSetting.public">
+        <md-card-header class="card-header">
+          <div md-card-avatar class="user-logo">
+            <img src="assets/logo_simple_250.png" width="100%" height="100%">
+          </div>
           <md-card-title>{{s.slidesSetting.title}}</md-card-title>
+          <md-card-subtitle>submitted by {{s.slidesSetting.author}}</md-card-subtitle>
         </md-card-header>
-        <img md-card-image *ngIf="s.slidesSetting.banner && s.slidesSetting.banner.path" [src]="s.slidesSetting.banner.path">
-        <img md-card-image *ngIf="!s.slidesSetting.banner || !s.slidesSetting.banner.path " [src]="'assets/svg.png'" >
-        <md-card-content class="description" >
-          {{s.slidesSetting.description}}
+        <div md-card-image class="banner-container">
+          <img *ngIf="s.slidesSetting.banner && s.slidesSetting.banner.path" [src]="s.slidesSetting.banner.path">
+          <img *ngIf="!s.slidesSetting.banner || !s.slidesSetting.banner.path " [src]="'assets/svg.png'">
+          <md-chip-list class="tag-container">
+            <md-chip class="tip" *ngFor="let tag of s.slidesSetting.tags">{{tag}}</md-chip>
+          </md-chip-list>
+        </div>
+
+        <md-card-content class="content">
+          <div class="description left">{{s.slidesSetting.description}}</div>
+          <div class="right"  *ngIf="(loggedIn$|async) && ((username$|async) === s.slidesSetting.author)&&editable" [class.published]="s.slidesSetting.public" [class.unpublished]="!s.slidesSetting.public" mdTooltip="publish">
+            <md-icon md-ripple mdRippleColor="rgba(0, 172, 193, 0.3)" mdRippleCentered="true" mdRippleUnbounded="true" (click)="publish(s)">publish</md-icon>
+          </div>
+          <div class="right" [class.favorite]="isFavorite" [class.unfavorite]="!isFavorite" mdTooltip="favoirte">
+            <md-icon>favorite</md-icon>
+          </div>
+
         </md-card-content>
-        <md-chip-list>
-          <md-chip *ngFor="let tag of s.slidesSetting.tags">{{tag}}</md-chip>
-        </md-chip-list>
+
         <md-card-actions>
-          <button md-button class="accent"  [routerLink]="['/slides/slidesPresentation', s._id]">DISPLAY</button>
+          <button md-button class="accent" [routerLink]="['/slides/slidesPresentation', s._id]">DISPLAY</button>
           <button md-button class="accent" *ngIf="(loggedIn$|async) && ((username$|async) === s.slidesSetting.author)&&editable" [routerLink]="['slides', s._id]">EDIT</button>
-          <md-checkbox *ngIf="(loggedIn$|async) && ((username$|async) === s.slidesSetting.author)&&editable" (change)="publish(s)" [checked]="s.slidesSetting.public">PUBLIC</md-checkbox>
+
         </md-card-actions>
       </md-card>
     </div>
