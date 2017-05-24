@@ -95,7 +95,7 @@ export class GraphTextSlideComponent implements OnInit, AfterViewInit {
       setTimeout(_ => {
         this.easeContentAni = false;
         this.loadContentAni = true
-      }, 625);
+      }, 150);
     }
   }
 

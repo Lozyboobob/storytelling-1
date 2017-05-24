@@ -38,13 +38,13 @@ export class FullScreenGraphSlideComponent implements OnInit, AfterViewInit {
     this.setChart(cmpType)
     this.setConfig();
     setTimeout(_ => this.initChart());
-    this.slideload$.filter(n => n === 1).subscribe(() => {
+    this.slideload$.filter(n => n === this.pos).subscribe(() => {
       this.loadChart();
-      this.loadContent();
+      //this.loadContent();
     })
-    this.slideease$.filter(n => n === 1).subscribe(() => {
+    this.slideease$.filter(n => n === this.pos).subscribe(() => {
       this.easeChart();
-      this.easeContent();
+      //this.easeContent();
     })
   }
 
