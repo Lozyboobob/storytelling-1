@@ -37,6 +37,7 @@ import { BarChartComponent } from '../charts';
 import { ForceDirectedGraphComponent } from '../charts/force-directed-graph/force-directed-graph.component';
 import { LineChartComponent } from '../charts/line-chart/line-chart.component';
 import { TreemapChartComponent } from '../charts/treemap-chart/treemap-chart.component';
+import { SunburstChartComponent } from '../charts/sunburst-chart/sunburst-chart.component';
 import { FroalaEditorModule, FroalaViewModule } from 'angular2-froala-wysiwyg';
 
 
@@ -65,7 +66,7 @@ import { SlidesManagerComponent } from './components/slides-manager/slides-manag
         FroalaViewModule.forRoot(),
         FileUploadModule
     ],
-    entryComponents: [BarChartComponent, LineChartComponent, ForceDirectedGraphComponent,TreemapChartComponent, FullScreenGraphSlideComponent],
+    entryComponents: [BarChartComponent, LineChartComponent, ForceDirectedGraphComponent,TreemapChartComponent, SunburstChartComponent, FullScreenGraphSlideComponent],
     declarations: [
         ScrollDirective,
         SlidesPresentationComponent,
@@ -79,6 +80,7 @@ import { SlidesManagerComponent } from './components/slides-manager/slides-manag
         ForceDirectedGraphComponent,
         LineChartComponent,
         TreemapChartComponent,
+        SunburstChartComponent,
         SlidesEditorComponent,
         SlidesSettingComponent,
         EditorComponent,
