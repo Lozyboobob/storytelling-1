@@ -58,6 +58,37 @@ export class TreemapChartComponent implements OnInit, Chart {
             .tile(d3.treemapResquarify)
             .size([this.width, this.height])
             .round(true);
+            
+/*
+    d3.csv("./client/app/charts/treemap-chart/flare.csv", (error, flatData) => {
+        if (error) throw error;
+
+        // assign null correctly
+        flatData.forEach(function(d) {
+            if (d.size == "null") { d.size = null};
+        });
+
+        // convert the flat data into a hierarchy (treeData = json to record)
+        let treeData = d3.stratify()
+                        .id(function(d: any) { return d.name; })
+                        .parentId(function(d: any) { 
+                var i = d.name.lastIndexOf("."); 
+                return i >= 0 ? d.name.slice(0, i) : null; 
+            })(flatData);
+
+        // assign the name to each node
+        treeData.each(function(d: any) {
+            var i = d.id.lastIndexOf("."); 
+             d.name =  i >= 0 ? d.id.slice(i+1, d.id.length) : d.id;
+        });
+        
+        //  assigns the data to a hierarchy using parent-child relationships
+        this.root = d3.hierarchy(treeData
+            .eachBefore(function(d: any) { d.data.id = (d.parent ? d.parent.data.id + "." : "") + d.data.name })
+            .sum(function(d: any) {return d.size})
+            .sort((a, b) =>  b.height - a.height || b.value - a.value));
+    });
+*/
 
         this.root = d3.hierarchy(this.data[0])
             .eachBefore(d => { d.data.id = (d.parent ? d.parent.data.id + "." : "") + d.data.name })
@@ -92,8 +123,8 @@ export class TreemapChartComponent implements OnInit, Chart {
                 return (d['x1'] - d['x0']) > stringLength ? 1 : 0;
             });
 
-            /* Add 'curtain' rectangle to hide entire graph */
-            this.curtain = this.chart.append("g").append('rect')
+        /* Add 'curtain' rectangle to hide entire graph */
+        this.curtain = this.chart.append("g").append('rect')
             .attr('x', -1 * this.width)
             .attr('y', -1 * this.height)
             .attr('height', this.height)
@@ -106,9 +137,8 @@ export class TreemapChartComponent implements OnInit, Chart {
             .text(d => d.data.id + "\n" + format(d.value));
 
         // When we click outside the graph, we reinit it
-        d3.select(window).on("click", () => this.zoom(this.root, this.xScale, this.yScale));
+        d3.select(window).on("click", () => this.zoom(this.root, this.xScale, this.yScale));  
     }
-    
     
     private zoom(d, x, y) {
         // Ratio
