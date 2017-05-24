@@ -42,6 +42,7 @@ export class SlidesManagerComponent implements OnInit {
             .subscribe(slides => {
                 this.slides = [];
                 this.slides = slides;
+                console.log(slides);
             });
     }
 

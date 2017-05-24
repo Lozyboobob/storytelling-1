@@ -7,8 +7,9 @@
     <md-card-subtitle>submitted by {{slides.slidesSetting.author}}</md-card-subtitle>
   </md-card-header>
   <div md-card-image class="banner-container">
-    <img *ngIf="slides.slidesSetting.banner && slides.slidesSetting.banner.path" [src]="slides.slidesSetting.banner.path">
-    <img *ngIf="!slides.slidesSetting.banner || !slides.slidesSetting.banner.path " [src]="'assets/svg.png'">
+    <img *ngIf="slides.slidesSetting.banner && slides.slidesSetting.banner.path;else useDefaultBanner" [src]="slides.slidesSetting.banner.path">
+    <ng-template #useDefaultBanner>  <img [src]="'assets/svg.png'"></ng-template>
+
     <md-chip-list class="tag-container">
       <md-chip class="tip" *ngFor="let tag of slides.slidesSetting.tags">{{tag}}</md-chip>
     </md-chip-list>
