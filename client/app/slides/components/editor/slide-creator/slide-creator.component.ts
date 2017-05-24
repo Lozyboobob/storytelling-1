@@ -29,6 +29,9 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
         }, {
             value: "forceDirectedGraph",
             type: "Force Directed Graph"
+        }, {
+            value: "pieChart",
+            type: "Pie chart"
         },
         {
             value: "lineChart",
@@ -141,7 +144,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
                 case 0: {
                     if (this.form.value.slideGraph == 'barChart')
                         this.slide.data = this.form.value.graphData;
-                    else 
+                    else
                         this.slide.data = [];
                     break;
                 }
@@ -230,8 +233,10 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
             case "forceDirectedGraph": this.form.controls['graphDataJson'].setValue(forceDirectedGraphDataExample); break;
             case "lineChart": this.form.controls['graphDataJson'].setValue(lineChartExample); break;
             case "treemapChart": this.form.controls['graphDataJson'].setValue(treemapChartExample); break;
+
             default: ;
         }
+
     }
     pageLayoutChange() {
         switch (this.form.value.pageLayout) {

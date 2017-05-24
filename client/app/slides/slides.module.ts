@@ -32,6 +32,7 @@ import {SlidesService,ValidService, ChartsService} from '.';
 import { SlidesRoutingModule } from '.';
 import { CoreModule } from "app/core";
 import { FileUploadModule } from 'ng2-file-upload';
+import { PieChartComponent } from '../charts/pie-chart/pie-chart.component';
 
 
 
@@ -77,7 +78,7 @@ import { SlidesCardComponent } from './components/slides-card/slides-card.compon
         FroalaViewModule.forRoot(),
         FileUploadModule
     ],
-    entryComponents: [BarChartComponent, LineChartComponent, ForceDirectedGraphComponent,TreemapChartComponent, FullScreenGraphSlideComponent, GaugeChartComponent, AdvancedPieChartComponent],
+    entryComponents: [BarChartComponent, LineChartComponent, ForceDirectedGraphComponent,TreemapChartComponent,PieChartComponent, FullScreenGraphSlideComponent, GaugeChartComponent, AdvancedPieChartComponent],
     declarations: [
         ScrollDirective,
         SlidesPresentationComponent,
@@ -101,6 +102,7 @@ import { SlidesCardComponent } from './components/slides-card/slides-card.compon
         TitleSlideComponent,
         GraphTextSlideComponent,
         TextSlideComponent,
+        PieChartComponent
         SlidesCardComponent,
     ],
     exports:[
