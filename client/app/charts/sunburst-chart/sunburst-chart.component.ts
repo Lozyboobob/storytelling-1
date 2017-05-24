@@ -36,291 +36,229 @@ export class SunburstChartComponent implements OnInit, Chart {
     
     init() {
         let element = this.chartContainer.nativeElement;
-        this.width = element.offsetWidth - this.margin.left - this.margin.right;
+        let width  = this.width = element.offsetWidth - this.margin.left - this.margin.right;
         this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
-
+        let chart: any;
+        let colorScale = d3.scaleOrdinal(d3.schemeCategory20);
         let radius = Math.min(this.width, this.height) / 2;
+        let partition = d3.partition()
+            .size([2 * Math.PI, radius * radius]);
+        let arc = d3.arc()
+            .startAngle(function(d: any) { return d.x0; })
+            .endAngle(function(d: any) { return d.x1; })
+            .innerRadius(function(d: any) { return Math.sqrt(d.y0); })
+            .outerRadius(function(d: any) { return Math.sqrt(d.y1); });
+        let explanationElmnt = d3.select('#explanation').node() as HTMLElement;
+        let explanationWidth = explanationElmnt.offsetWidth;
+        let explanationHeight = explanationElmnt.offsetHeight;
 
         // Breadcrumb dimensions: width, height, spacing, width of tip/tail.
         let b = {
             w: 85, h: 30, s: 3, t: 10
         };
 
-
-        let colorScale = d3.scaleOrdinal(d3.schemeCategory20)
-
-
         // Total size of all segments; we set this later, after loading the data.
-        let totalSize = 0; 
+        let totalSize = 0;
 
-    this.chart = d3.select(element).append('svg')
+        // Place the explanation inside the graph
+        d3.select('#explanation')
+            .style("top", this.height / 2 + explanationHeight / 2 + 'px')
+            .style("left", this.width / 2 - explanationWidth / 2 + 'px');
+
+        // Center the breadcrumb trail at the top of the graph
+        d3.select('#sequence')
+            .select('svg')
+            .attr("transform", d => "translate(" + 0 + "," + explanationHeight / 2 + ")");
+
+        // Basic setup of page elements.
+        this.initializeBreadcrumbTrail();
+
+        chart = d3.select(element).append('svg')
             .attr('width', this.width)
             .attr('height', this.height)
             .append("g")
             .attr("id", "container")
             .attr("transform", "translate(" + this.width / 2 + "," + this.height / 2 + ")");
 
-    let chart = this.chart;
-    let width = this.width;
-    let d = this.data[0]
-    
-    let partition = d3.partition()
-    .size([2 * Math.PI, radius * radius]);
+        // Bounding circle underneath the sunburst, to make it easier to detect
+        // when the mouse leaves the parent g.
+        chart.append("circle")
+            .attr("r", radius)
+            .style("opacity", 0);
 
-    let arc = d3.arc()
-    .startAngle(function(d: any) { return d.x0; })
-    .endAngle(function(d: any) { return d.x1; })
-    .innerRadius(function(d: any) { return Math.sqrt(d.y0); })
-    .outerRadius(function(d: any) { return Math.sqrt(d.y1); });
-
-    let explanationElmnt = d3.select('#explanation').node() as HTMLElement;
-let explanationWidth = explanationElmnt.offsetWidth;
-let explanationHeight = explanationElmnt.offsetHeight;
-
-    d3.text("./client/app/charts/sunburst-chart/sunBurstSample.csv", function(text) {
-        let csv = d3.csvParseRows(text);
-        let json = buildHierarchy(csv);
-        createVisualization(d);
-    });
-
-
-
-d3.select('#explanation').style("top", this.height/2 + explanationHeight/2 + 'px');
-d3.select('#explanation').style("left", this.width/2 - explanationWidth/2 + 'px');
-
-d3.select('#sequence').select('svg').attr("transform", d => "translate(" + 0 + "," + explanationHeight/2 + ")");
-
-
-    // Main function to draw and set up the visualization, once we have the data.
-function createVisualization(json) {
-
-  // Basic setup of page elements.
-  initializeBreadcrumbTrail();
-
-  // Bounding circle underneath the sunburst, to make it easier to detect
-  // when the mouse leaves the parent g.
-  chart.append("circle")
-      .attr("r", radius)
-      .style("opacity", 0);
-
-  // Turn the data into a d3 hierarchy and calculate the sums.
-  let root = d3.hierarchy(json)
-      .sum(function(d) { return d.size; })
-      .sort(function(a, b) { return b.value - a.value; });
+        // Turn the data into a d3 hierarchy and calculate the sums.
+        let root = d3.hierarchy(this.data[0])
+            .sum(function(d) { return d.size; })
+            .sort(function(a, b) { return b.value - a.value; });
   
-  // For efficiency, filter nodes to keep only those large enough to see.
-  let nodes = partition(root).descendants()
-      .filter(function(d) {
-          return (d.x1 - d.x0 > 0.005); // 0.005 radians = 0.29 degrees
-      });
-
-  let path = chart.data([json]).selectAll("path")
-      .data(nodes)
-      .enter().append("path")
-      .attr("display", function(d) { return d.depth ? null : "none"; })
-      .attr("d", arc)
-      .attr("fill-rule", "evenodd")
-      .style("fill", function(d) { return colorScale(d.data.name); })
-      .style("opacity", 1)
-      .on("mouseover", mouseover);
-
-  // Add the mouseleave handler to the bounding circle.
-  d3.select("#container").on("mouseleave", mouseleave);
-
-  // Get total size of the tree = value of root node from partition.
-  totalSize = path.datum().value;
- };
-
- // Fade all but the current sequence, and show it in the breadcrumb trail.
-function mouseover(d) {
-  let percentage = Number((100 * d.value / totalSize).toPrecision(3));
-  let percentageString = percentage + "%";
-  if (percentage < 0.1) {
-    percentageString = "< 0.1%";
-  }
-
-  d3.select("#percentage")
-      .text(percentageString);
-
-  d3.select("#explanation")
-      .style("visibility", "");
-
-  var sequenceArray = d.ancestors().reverse();
-  sequenceArray.shift(); // remove root node from the array
-  updateBreadcrumbs(sequenceArray, percentageString);
-
-  // Fade all the segments.
-  d3.selectAll("path")
-      .style("opacity", 0.3);
-
-  // Then highlight only those that are an ancestor of the current segment.
-  chart.selectAll("path")
-      .filter(function(node) {
-                return (sequenceArray.indexOf(node) >= 0);
-              })
-      .style("opacity", 1);
-}
-
-// Restore everything to full opacity when moving off the visualization.
-function mouseleave(d) {
-
-  // Hide the breadcrumb trail
-  d3.select("#trail")
-      .style("visibility", "hidden");
-
-  // Deactivate all segments during transition.
-  d3.selectAll("path").on("mouseover", null);
-
-  // Transition each segment to full opacity and then reactivate it.
-  d3.selectAll("path")
-      .transition()
-      .duration(500)
-      .style("opacity", 1)
-      .on("end", function() {
-              d3.select(this).on("mouseover", mouseover);
+        // For efficiency, filter nodes to keep only those large enough to see.
+        let nodes = partition(root)
+            .descendants()
+            .filter(function(d) {
+                return (d.x1 - d.x0 > 0.005); // 0.005 radians = 0.29 degrees
             });
 
-  d3.select("#explanation")
-      .style("visibility", "hidden");
-}
+        let path = chart.data([this.data[0]]).selectAll("path")
+            .data(nodes)
+            .enter().append("path")
+            .attr("display", (d) => d.depth ? null : "none")
+            .attr("d", arc)
+            .attr("fill-rule", "evenodd")
+            .style("fill", (d) => colorScale(d.data.name))
+            .style("opacity", 1)
+            .on("mouseover", mouseover);
 
-function initializeBreadcrumbTrail() {
-  // Add the svg area.
-  var trail = d3.select("#sequence").append("svg")
-      .attr("height", 50)
-      .attr("id", "trail")
-      .style("width", 'auto');
-  // Add the label at the end, for the percentage.
-  trail.append("svg:text")
-    .attr("id", "endlabel")
-    .style("fill", "#000");
-}
+        // Add the mouseleave handler to the bounding circle.
+        d3.select("#container").on("mouseleave", mouseleave);
 
-// Generate a string that describes the points of a breadcrumb polygon.
-function breadcrumbPoints(d, i) {
-  var points = [];
-  points.push("0,0");
-  points.push(b.w + ",0");
-  points.push(b.w + b.t + "," + (b.h / 2));
-  points.push(b.w + "," + b.h);
-  points.push("0," + b.h);
-  if (i > 0) { // Leftmost breadcrumb; don't include 6th vertex.
-    points.push(b.t + "," + (b.h / 2));
-  }
-  return points.join(" ");
-}
+        // Get total size of the tree = value of root node from partition.
+        totalSize = path.datum().value;
 
-// Update the breadcrumb trail to show the current sequence and percentage.
-function updateBreadcrumbs(nodeArray, percentageString) {
+        this.chart = chart;
 
-  // Data join; key function combines name and depth (= position in sequence).
-  var trail = d3.select("#trail")
-      .selectAll("g")
-      .data(nodeArray, function(d: any) { return d.data.name + d.depth; });
-
-  // Remove exiting nodes.
-  trail.exit().remove();
-
-  // Add breadcrumb and label for entering nodes.
-  var entering = trail.enter().append("g");
-
-  entering.append("polygon")
-      .attr("points", breadcrumbPoints)
-      .style("fill", function(d) { return colorScale(d.data.name); });
-
-  entering.append("text")
-      .attr("x", (b.w + b.t) / 2)
-      .attr("y", b.h / 2)
-      .attr("dy", "0.35em")
-      .attr("text-anchor", "middle")
-      .text(function(d) { return d.data.name; });
-
-  // Merge enter and update selections; set position for all nodes and we calculate the size of the sequence
-  let sequenceSize = 0;
-  entering.merge(trail).attr("transform", function(d, i) {
-      sequenceSize += (b.w + b.s);
-    return "translate(" + i * (b.w + b.s) + ", 0)";
-  });
-
-
-
-  // Now move and update the percentage at the end.
-  d3.select("#trail").select("#endlabel")
-      .attr("x", (nodeArray.length + 0.5) * (b.w + b.s))
-      .attr("y", b.h / 2)
-      .attr("dy", "0.35em")
-      .attr("text-anchor", "middle")
-      .text(percentageString);
-
-// We add the size of the text of the sequence to the calculation
-sequenceSize += (d3.select("#sequence").select('svg').select('text').node() as SVGTSpanElement).getComputedTextLength();
-
-// Position of the sequence
-d3.select('#sequence').select('svg').attr("transform", d => "translate(" + (width /2 - sequenceSize/2) + "," + explanationHeight/2 + ")");
-
-  // Make the breadcrumb trail visible, if it's hidden.
-  d3.select("#trail")
-      .style("visibility", "");
-
-
-
-}
-
-
-function buildHierarchy(csv) {
-  var root = {"name": "root", "children": []};
-  for (var i = 0; i < csv.length; i++) {
-    var sequence = csv[i][0];
-    var size = +csv[i][1];
-    if (isNaN(size)) { // e.g. if this is a header row
-      continue;
-    }
-    var parts = sequence.split("-");
-    var currentNode = root;
-    for (var j = 0; j < parts.length; j++) {
-      var children = currentNode["children"];
-      var nodeName = parts[j];
-      var childNode;
-      if (j + 1 < parts.length) {
-   // Not yet at the end of the sequence; move down the tree.
- 	var foundChild = false;
- 	for (var k = 0; k < children.length; k++) {
- 	  if (children[k]["name"] == nodeName) {
- 	    childNode = children[k];
- 	    foundChild = true;
- 	    break;
- 	  }
- 	}
-  // If we don't already have a child node for this branch, create it.
- 	if (!foundChild) {
- 	  childNode = {"name": nodeName, "children": []};
- 	  children.push(childNode);
- 	}
- 	currentNode = childNode;
-      } else {
- 	// Reached the end of the sequence; create a leaf node.
- 	childNode = {"name": nodeName, "size": size};
- 	children.push(childNode);
-      }
-    }
-  }
-  return root;
-};
-
-
-
-
-
-
+        /*
+         * INTERNAL FUNCTIONS
+         */        
         
+        // Fade all but the current sequence, and show it in the breadcrumb trail.
+        function mouseover(d) {
+            let percentage = Number((100 * d.value / totalSize).toPrecision(3));
+            let percentageString = percentage + "%";
+            
+            if (percentage < 0.1) {
+                percentageString = "< 0.1%";
+            }
+
+            // Update of the percentage of the explanation
+            d3.select("#percentage")
+                .text(percentageString);
+
+            // Show the explanation
+            d3.select("#explanation")
+                .style("visibility", "");
+
+            let sequenceArray = d.ancestors().reverse();
+            sequenceArray.shift(); // remove root node from the array
+            updateBreadcrumbs(sequenceArray, percentageString); // Update of the breadcrumb trail
+
+            // Fade all the segments.
+            d3.selectAll("path")
+                .style("opacity", 0.3);
+
+            // Then highlight only those that are an ancestor of the current segment.
+            chart.selectAll("path")
+                .filter(function(node) {
+                    return (sequenceArray.indexOf(node) >= 0);
+                })
+                .style("opacity", 1);
+        }
+
+        // Restore everything to full opacity when moving off the visualization.
+        function mouseleave(d) {
+            // Hide the breadcrumb trail
+            d3.select("#trail")
+                .style("visibility", "hidden");
+
+            // Deactivate all segments during transition.
+            d3.selectAll("path")
+                .on("mouseover", null);
+
+            // Transition each segment to full opacity and then reactivate it.
+            d3.selectAll("path")
+                .transition()
+                .duration(500)
+                .style("opacity", 1)
+                .on("end", function() {
+                    d3.select(this).on("mouseover", mouseover);
+                });
+
+            // Hide explanation
+            d3.select("#explanation")
+                .style("visibility", "hidden");
+        }
+        
+        // Generate a string that describes the points of a breadcrumb polygon.
+        function breadcrumbPoints(d, i) {
+            let points = [];
+            points.push("0,0");
+            points.push(b.w + ",0");
+            points.push(b.w + b.t + "," + (b.h / 2));
+            points.push(b.w + "," + b.h);
+            points.push("0," + b.h);
+
+            // For the leftmost breadcrumb we don't include 6th vertex
+            if (i > 0) {
+                points.push(b.t + "," + (b.h / 2));
+            }
+            
+            return points.join(" ");
+        }
+        
+        // Update the breadcrumb trail to show the current sequence and percentage.
+        function updateBreadcrumbs(nodeArray, percentageString) {
+            // Data join; key function combines name and depth (= position in sequence).
+            let trail = d3.select("#trail")
+                .selectAll("g")
+                .data(nodeArray, (d: any) =>  d.data.name + d.depth);
+
+            // Remove exiting nodes.
+            trail.exit().remove();
+
+            // Add breadcrumb and label for entering nodes.
+            let entering = trail.enter().append("g");
+
+            entering.append("polygon")
+                .attr("points", breadcrumbPoints)
+                .style("fill", function(d) { return colorScale(d.data.name); });
+
+            entering.append("text")
+                .attr("x", (b.w + b.t) / 2)
+                .attr("y", b.h / 2)
+                .attr("dy", "0.35em")
+                .attr("text-anchor", "middle")
+                .text(function(d) { return d.data.name; });
+
+            // Merge enter and update selections; set position for all nodes and we calculate the size of the sequence
+            let sequenceSize = 0;
+            entering.merge(trail).attr("transform", function(d, i) {
+                sequenceSize += (b.w + b.s);
+                return "translate(" + i * (b.w + b.s) + ", 0)";
+            });
+
+            // Now move and update the percentage at the end.
+            d3.select("#trail").select("#endlabel")
+                .attr("x", (nodeArray.length + 0.5) * (b.w + b.s))
+                .attr("y", b.h / 2)
+                .attr("dy", "0.35em")
+                .attr("text-anchor", "middle")
+                .text(percentageString);
+
+            // We add the size of the text of the sequence to the calculation
+            sequenceSize += (d3.select("#sequence").select('svg').select('text').node() as SVGTSpanElement).getComputedTextLength();
+
+            // Position of the sequence
+            d3.select('#sequence').select('svg').attr("transform", d => "translate(" + (width / 2 - sequenceSize / 2) + "," + explanationHeight / 2 + ")");
+
+            // Make the breadcrumb trail visible, if it's hidden.
+            d3.select("#trail")
+                .style("visibility", "");
+        } 
+    }
+
+    private initializeBreadcrumbTrail() {
+        // Add the svg area.
+        let trail = d3.select("#sequence").append("svg")
+            .attr("height", 50)
+            .attr("id", "trail")
+            .style("width", 'auto');
+        // Add the label at the end, for the percentage.
+        trail.append("text")
+            .attr("id", "endlabel")
+            .style("fill", "#000");
     }
     
-    
-   
-
     load() {
-        
-       
+         
      }
 
     ease() { 
@@ -699,3 +637,63 @@ const sample = [
  ]
 }
 ]
+
+
+
+/*
+// Functions enabling parsinf of csv and the construction of the json
+
+d3.text("./client/app/charts/sunburst-chart/sunBurstSample.csv", function(text) {
+    let csv = d3.csvParseRows(text);
+    let json = buildHierarchy(csv);
+});
+
+function buildHierarchy(csv) {
+    let root = {"name": "root", "children": []};
+    
+    for (let i = 0; i < csv.length; i++) {
+        let sequence = csv[i][0];
+        let size = +csv[i][1];
+        
+        if (isNaN(size)) { // e.g. if this is a header row
+            continue;
+        }
+
+        let parts = sequence.split("-");
+        let currentNode = root;
+    
+        for (let j = 0; j < parts.length; j++) {
+            let children = currentNode["children"];
+            let nodeName = parts[j];
+            let childNode;
+
+            if (j + 1 < parts.length) {
+                // Not yet at the end of the sequence; move down the tree.
+ 	            let foundChild = false;
+
+ 	            for (let k = 0; k < children.length; k++) {
+ 	                if (children[k]["name"] == nodeName) {
+ 	                    childNode = children[k];
+ 	                    foundChild = true;
+ 	                    break;
+ 	                }
+ 	            }
+                
+                // If we don't already have a child node for this branch, create it.
+ 	            if (!foundChild) {
+ 	                childNode = {"name": nodeName, "children": []};
+ 	                children.push(childNode);
+ 	            }
+ 	
+                currentNode = childNode;
+            } else {
+ 	            // Reached the end of the sequence; create a leaf node.
+ 	            childNode = {"name": nodeName, "size": size};
+ 	            children.push(childNode);
+            }
+        }
+    }
+
+    return root;
+};
+*/
