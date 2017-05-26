@@ -248,10 +248,12 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
     }
     getCsvJson(json) {
         try {
-            let j = JSON.parse(json);
+            console.log(json);
+            let j = json;
+            //for the chars has many series
             if (this.form.value.slideGraph == "lineChart") {
-                console.log("json", j);
-                this.csvJson.push(j)
+                this.csvJson=this.sortSeries(json);
+                //this.csvJson.push(j)
             }
             else this.csvJson = j;
         }
@@ -263,6 +265,39 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
     setImageHtml(path) {
         console.log("image html");
         this.slide.fullScreenHtml = "<img src='" + path + "' style='width:100%;height:100%'>";
+    }
+    /* sort and group series of json data*/
+    sortSeries(data) {
+        let newJson = [];
+        let series = [];
+        let isInSeries = (name) => {
+            let index = -1;
+            for (let i = 0; i < series.length; i++) {
+
+                if (name == series[i]) {
+                    index = i;
+                    break;
+                }
+            }
+            return index;
+        };
+        data.forEach(obj => {
+            let seriesIndex = isInSeries(obj["series"]);
+            if (seriesIndex != -1) {
+                newJson[seriesIndex].push(obj)
+                console.log("add to series", obj["series"]);
+            }
+            else {
+                series.push(obj["series"])
+                console.log(series);
+                let newSeries: Array<any> = [];
+                newSeries.push(obj);
+                newJson.push(newSeries);
+                console.log("create new series", obj["series"]);
+            }
+        })
+        console.log(newJson);
+        return newJson;
     }
 
 
