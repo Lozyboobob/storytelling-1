@@ -35,6 +35,10 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
             type: "Line Chart"
         },
         {
+            value: "advancedPieChart",
+            type: "Advanced Pie Chart"
+        },
+        {
             value: "gaugeChart",
             type: "Gauge Chart"
         },
@@ -221,7 +225,8 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
         // the slide data has not been set
         switch (this.form.value.slideGraph) {
             case "barChart": this.form.controls['graphDataJson'].setValue(barCharDataExample); break;
-            case "gaugeChart": this.form.controls['graphDataJson'].setValue(gaugeChartDataExample); break;
+            case "gaugeChart": this.form.controls['graphDataJson'].setValue(ngxSingleChartDataExample); break;
+            case "advancedPieChart": this.form.controls['graphDataJson'].setValue(ngxSingleChartDataExample); break;
             case "forceDirectedGraph": this.form.controls['graphDataJson'].setValue(forceDirectedGraphDataExample); break;
             case "lineChart": this.form.controls['graphDataJson'].setValue(lineChartExample); break;
             case "treemapChart": this.form.controls['graphDataJson'].setValue(treemapChartExample); break;
@@ -299,7 +304,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
 
 }
 
-const gaugeChartDataExample = JSON.stringify(single) ;
+const ngxSingleChartDataExample = JSON.stringify(single) ;
 const barCharDataExample = '{"graphData":[{"index":"index1","value":"21"},{"index":"index2","value":"20"}]}';
 const forceDirectedGraphDataExample = '{"graphData":{ "nodes": [{ "id": "a", "group": 1 },{ "id": "b", "group": 1 },{ "id": "c", "group": 2 },  { "id": "d", "group": 2 } ], "links": [{ "source": "a", "target": "b", "value": 1 },  { "source": "a", "target": "d", "value": 2 },{ "source": "b", "target": "c", "value": 3 },  { "source": "c", "target": "a", "value": 4 }  ]}}';
 const lineChartExample = '{"graphData":[[{"yAxis" : "1394.46","xAxis" : "Jan 2000",  "series" : "S&P 500"}, {"yAxis" : "1366.42",  "xAxis" : "Feb 2000","series" : "S&P 500"}, {  "yAxis" : "1498.58","xAxis" : "Mar 2000",  "series" : "S&P 500"}],[{"yAxis" : "1285.36","xAxis" : "Jan 2000",  "series" : "IBM"}, {"yAxis" : "1299.98",  "xAxis" : "Feb 2000","series" : "IBM"}, {  "yAxis" : "1322.20","xAxis" : "Mar 2000",  "series" : "IBM"}]]}';

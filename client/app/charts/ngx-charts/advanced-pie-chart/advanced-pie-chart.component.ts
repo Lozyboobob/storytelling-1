@@ -1,12 +1,12 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {Chart} from '../../chart.interface';
-
+import { formatLabel } from "@swimlane/ngx-charts";
 @Component({
-  selector: 'app-gauge-chart',
-  templateUrl: './gauge-chart.component.html',
-  styleUrls: ['./gauge-chart.component.scss']
+  selector: 'app-advanced-pie-chart',
+  templateUrl: './advanced-pie-chart.component.html',
+  styleUrls: ['./advanced-pie-chart.component.scss']
 })
-export class GaugeChartComponent implements OnInit, Chart {
+export class AdvancedPieChartComponent implements OnInit, Chart {
 
   private data: Array<any> = [];
   private width: number;
@@ -14,18 +14,11 @@ export class GaugeChartComponent implements OnInit, Chart {
 
   view: any[];
   activated: boolean = false;
-  showLegend: boolean = true;
-  legendTitle: string = 'Legend';
-  gaugeTextValue: string = '';
+
   colorScheme: any;
-  gaugeMin: number = 0;
-  gaugeMax: number = 100;
-  gaugeUnits: string ;
-  gaugeAngleSpan: number = 240;
-  gaugeStartAngle: number = -120;
-  gaugeShowAxis: boolean = true;
-  gaugeLargeSegments: number = 10;
-  gaugeSmallSegments: number = 5;
+  gradient = false;
+  tooltipDisabled = false;
+
 
   // margin
   margin: boolean = false;
@@ -34,13 +27,11 @@ export class GaugeChartComponent implements OnInit, Chart {
   marginBottom: number = 40;
   marginLeft: number = 40;
 
-  tooltipDisabled = false;
-
   constructor() { }
 
-  ngOnInit() {
+   ngOnInit() {
     this.colorScheme = {
-      name: 'gauge',
+      name: 'pie',
       selectable: true,
       group: 'Ordinal',
       domain: [
@@ -50,16 +41,15 @@ export class GaugeChartComponent implements OnInit, Chart {
   }
 
   setData(data) {
-    this.gaugeUnits = data[0].unit;
     this.data =  data[0].results;
   }
-
 
   init() {
     // this.width = 700;
     // this.height = 300;
     // this.view = [this.width, this.height];
   }
+
 
   load() {
     this.activated = false;
@@ -75,8 +65,15 @@ export class GaugeChartComponent implements OnInit, Chart {
     console.log('Item clicked', data);
   }
 
-  onLegendLabelClick(entry) {
-    console.log('Legend clicked', entry);
+  pieTooltipText({data}) {
+    const label = formatLabel(data.name);
+    const val = formatLabel(data.value);
+
+    return `
+      <span class="tooltip-label">${label}</span>
+      <span class="tooltip-val">$${val}</span>
+    `;
   }
+
 
 }
