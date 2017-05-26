@@ -19,9 +19,16 @@
   position: relative;
   width: 140px;
   height: 100px;
+  line-height: 100px;
   text-align: center;
   color: #666;
   z-index: -1;
+
+  div {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+  }
 }
 
 #percentage {
