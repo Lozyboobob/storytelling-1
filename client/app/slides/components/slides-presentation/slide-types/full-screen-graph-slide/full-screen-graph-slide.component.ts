@@ -34,7 +34,6 @@ export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit {
 
   }
 
-
   ngOnInit() {
     this.setConfig();
   }
