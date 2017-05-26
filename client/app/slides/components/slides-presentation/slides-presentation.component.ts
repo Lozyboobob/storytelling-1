@@ -33,6 +33,7 @@ export class SlidesPresentationComponent implements OnInit {
     inEaseProcess = false;
 
     slideload$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+    slideease$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
     @ViewChildren('chart') chartEle: any;
 
@@ -68,7 +69,6 @@ export class SlidesPresentationComponent implements OnInit {
 
     }
     ngOnInit() {
-
         let id;
         this.route.params.subscribe(params => {
             id = params['id'];
@@ -177,8 +177,8 @@ export class SlidesPresentationComponent implements OnInit {
     // loadContent(index) {
     //     if (!this.pageLayoutConfig[index].hasText) return false;
     //     this.loadContentAni[index] = false;
-    //     // setTimeout(_ => { 
-    //         this.easeContentAni[index] = false; this.loadContentAni[index] = true 
+    //     // setTimeout(_ => {
+    //         this.easeContentAni[index] = false; this.loadContentAni[index] = true
     //     // }, 625);
     // }
     // easeContent(index) {
@@ -201,6 +201,7 @@ export class SlidesPresentationComponent implements OnInit {
         if (this.curSlideIndex > 0) {
             // this.easeChart(this.curSlideIndex - 1);
             // this.easeContent(this.curSlideIndex - 1);
+            this.slideease$.next(this.curSlideIndex);
             this.curSlideIndex--;
             this.goToSlide(this.curSlideIndex);
 
@@ -225,6 +226,7 @@ export class SlidesPresentationComponent implements OnInit {
             //     this.easeChart(this.curSlideIndex - 1);
             //     this.easeContent(this.curSlideIndex - 1);
             // }
+            this.slideease$.next(this.curSlideIndex);
             this.curSlideIndex++;
             this.goToSlide(this.curSlideIndex);
             this.slideload$.next(this.curSlideIndex);
