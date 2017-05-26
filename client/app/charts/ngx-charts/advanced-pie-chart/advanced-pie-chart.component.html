@@ -1,0 +1,13 @@
+
+<ngx-charts-advanced-pie-chart
+  class="chart-container"
+  *ngIf="activated"
+  [view]="view"
+  [scheme]="colorScheme"
+  [results]="data"
+  (legendLabelClick)="onLegendLabelClick($event)"
+  [gradient]="gradient"
+  [tooltipDisabled]="tooltipDisabled"
+  [tooltipText]="pieTooltipText"
+  (select)="select($event)">
+</ngx-charts-advanced-pie-chart>

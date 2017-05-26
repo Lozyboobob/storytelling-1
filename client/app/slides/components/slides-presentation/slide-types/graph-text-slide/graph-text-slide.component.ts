@@ -1,5 +1,5 @@
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { Component, OnInit, AfterContentInit, Input, ViewChild, ViewChildren, ComponentFactoryResolver, ViewContainerRef, ComponentRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, ViewChild, ViewChildren, ComponentFactoryResolver, ViewContainerRef, ComponentRef } from '@angular/core';
 import { Observable } from "rxjs/Observable";
 import { Slide } from "../../../../models";
 import { PageConfig, HALF_HALF_LAYOUT } from "../../pageConfig";
@@ -11,7 +11,7 @@ import { ChartsService } from "../../../../services";
   templateUrl: './graph-text-slide.component.html',
   styleUrls: ['./graph-text-slide.component.scss']
 })
-export class GraphTextSlideComponent implements OnInit, AfterContentInit {
+export class GraphTextSlideComponent implements OnInit, AfterViewInit {
 
   @Input() slide: Slide;
   @Input() pos: number;
@@ -21,6 +21,7 @@ export class GraphTextSlideComponent implements OnInit, AfterContentInit {
   @ViewChild('parent', {read: ViewContainerRef})
   parent: ViewContainerRef;
   private componentRef: ComponentRef<Chart>;
+  private cmpType: string;
 
   config: PageConfig;
   loadContentAni: boolean;
@@ -30,9 +31,8 @@ export class GraphTextSlideComponent implements OnInit, AfterContentInit {
     private chartsService: ChartsService,
     private sanitizer: DomSanitizer) { }
 
-  ngAfterContentInit(){
-    let cmpType : string = this.slide.graph.charAt(0).toUpperCase() + this.slide.graph.slice(1) + 'Component';
-    this.setChart(cmpType);
+  ngAfterViewInit(){
+    this.cmpType = this.slide.graph.charAt(0).toUpperCase() + this.slide.graph.slice(1) + 'Component';
     setTimeout(_ => this.initChart());
     this.slideload$.filter(n => n === this.pos).subscribe(() => {
       this.loadChart();
@@ -70,6 +70,7 @@ export class GraphTextSlideComponent implements OnInit, AfterContentInit {
 
 
   private initChart() {
+    this.setChart(this.cmpType);
     if (this.config.hasChart) {
       (<Chart>this.componentRef.instance).setData(this.slide.data);
       (<Chart>this.componentRef.instance).init();

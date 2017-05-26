@@ -41,6 +41,7 @@ import {Ng2PageScrollModule} from 'ng2-page-scroll';
 import {DragulaModule} from 'ng2-dragula';
 import { BarChartComponent } from '../charts';
 import { GaugeChartComponent } from "../charts";
+import { AdvancedPieChartComponent } from "../charts";
 import { ForceDirectedGraphComponent } from '../charts/force-directed-graph/force-directed-graph.component';
 import { LineChartComponent } from '../charts/line-chart/line-chart.component';
 import { TreemapChartComponent } from '../charts/treemap-chart/treemap-chart.component';
@@ -76,7 +77,7 @@ import { SlidesCardComponent } from './components/slides-card/slides-card.compon
         FroalaViewModule.forRoot(),
         FileUploadModule
     ],
-    entryComponents: [BarChartComponent, LineChartComponent, ForceDirectedGraphComponent,TreemapChartComponent, FullScreenGraphSlideComponent, GaugeChartComponent],
+    entryComponents: [BarChartComponent, LineChartComponent, ForceDirectedGraphComponent,TreemapChartComponent, FullScreenGraphSlideComponent, GaugeChartComponent, AdvancedPieChartComponent],
     declarations: [
         ScrollDirective,
         SlidesPresentationComponent,
@@ -96,6 +97,7 @@ import { SlidesCardComponent } from './components/slides-card/slides-card.compon
         SlidesManagerComponent,
         FullScreenGraphSlideComponent,
         GaugeChartComponent,
+        AdvancedPieChartComponent,
         TitleSlideComponent,
         GraphTextSlideComponent,
         TextSlideComponent,
