@@ -15,6 +15,7 @@ export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit {
   @Input() slide: Slide;
   @Input() pos: number;
   @Input() slideload$: Observable<number>;
+  @Input() slideease$: Observable<number>;
 
   @ViewChild('parent', {read: ViewContainerRef})
   parent: ViewContainerRef;
@@ -29,7 +30,11 @@ export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit {
     private sanitizer: DomSanitizer) { }
 
 
-  
+  ngAfterViewInit() {
+
+  }
+
+
   ngOnInit() {
     this.setConfig();
   }
@@ -40,11 +45,13 @@ export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit {
     this.setChart(cmpType)
     setTimeout(_ => this.initChart());
     this.slideload$.filter(n => n === this.pos).subscribe(() => {
-      this.easeChart();
       this.loadChart();
-      this.easeContent();
-      this.loadContent();
-    });
+      //this.loadContent();
+    })
+    this.slideease$.filter(n => n === this.pos).subscribe(() => {
+      this.easeChart();
+      //this.easeContent();
+    })
   }
 
   private setChart(chartType: string) {
