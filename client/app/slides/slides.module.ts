@@ -9,14 +9,13 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {XHRBackend, Http, RequestOptions} from '@angular/http';
 import {SearchComponent} from './components/search/search.component';
 // SLIDES COMPONENTS
-import { SlidesPresentationComponent, 
+import { SlidesPresentationComponent,
     FullScreenGraphSlideComponent,
     TitleSlideComponent,
     GraphTextSlideComponent,
     TextSlideComponent,
-    SlidesListComponent, 
-    SlidesCreatorComponent, 
-    SlideCreatorComponent 
+    SlidesCreatorComponent,
+    SlideCreatorComponent
 } from '.';
 
 // SLIDES SERVICES
@@ -50,6 +49,7 @@ import { EditorComponent } from './components/editor/editor.component';
 
 import { FilterComponent } from './components/filter/filter.component';
 import { SlidesManagerComponent } from './components/slides-manager/slides-manager.component';
+import { SlidesCardComponent } from './components/slides-card/slides-card.component';
 
 
 
@@ -70,7 +70,6 @@ import { SlidesManagerComponent } from './components/slides-manager/slides-manag
     declarations: [
         ScrollDirective,
         SlidesPresentationComponent,
-        SlidesListComponent,
         SlidesCreatorComponent,
         SlideCreatorComponent,
         CsvInputComponent,
@@ -90,10 +89,11 @@ import { SlidesManagerComponent } from './components/slides-manager/slides-manag
         TitleSlideComponent,
         GraphTextSlideComponent,
         TextSlideComponent,
+        SlidesCardComponent,
     ],
     exports:[
       FilterComponent,
-      SlidesListComponent,
+      SlidesCardComponent,
       SearchComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
