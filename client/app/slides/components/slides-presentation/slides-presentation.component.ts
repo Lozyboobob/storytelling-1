@@ -228,6 +228,7 @@ export class SlidesPresentationComponent implements OnInit {
             // }
             this.slideease$.next(this.curSlideIndex);
             this.curSlideIndex++;
+            console.log('curSlideIndex : ', this.curSlideIndex);
             this.goToSlide(this.curSlideIndex);
             this.slideload$.next(this.curSlideIndex);
             // this.loadChart(this.curSlideIndex - 1);

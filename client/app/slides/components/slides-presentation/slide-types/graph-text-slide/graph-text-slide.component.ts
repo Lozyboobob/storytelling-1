@@ -1,5 +1,5 @@
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { Component, OnInit, AfterViewInit, Input, ViewChild, ViewChildren, ComponentFactoryResolver, ViewContainerRef, ComponentRef } from '@angular/core';
+import { Component, OnInit, AfterContentInit, Input, ViewChild, ViewChildren, ComponentFactoryResolver, ViewContainerRef, ComponentRef } from '@angular/core';
 import { Observable } from "rxjs/Observable";
 import { Slide } from "../../../../models";
 import { PageConfig, HALF_HALF_LAYOUT } from "../../pageConfig";
@@ -11,7 +11,7 @@ import { ChartsService } from "../../../../services";
   templateUrl: './graph-text-slide.component.html',
   styleUrls: ['./graph-text-slide.component.scss']
 })
-export class GraphTextSlideComponent implements OnInit, AfterViewInit {
+export class GraphTextSlideComponent implements OnInit, AfterContentInit {
 
   @Input() slide: Slide;
   @Input() pos: number;
@@ -30,11 +30,7 @@ export class GraphTextSlideComponent implements OnInit, AfterViewInit {
     private chartsService: ChartsService,
     private sanitizer: DomSanitizer) { }
 
-  ngOnInit(){
-    this.setConfig();
-  }
-
-  ngAfterViewInit() {
+  ngAfterContentInit(){
     let cmpType : string = this.slide.graph.charAt(0).toUpperCase() + this.slide.graph.slice(1) + 'Component';
     this.setChart(cmpType);
     setTimeout(_ => this.initChart());
@@ -48,6 +44,10 @@ export class GraphTextSlideComponent implements OnInit, AfterViewInit {
     })
   }
 
+  ngOnInit() {
+    this.setConfig();
+  }
+  
   private setChart(chartType: string) {
     let componentFactory = this._componentFactoryResolver.resolveComponentFactory(this.chartsService.getChartType(chartType));
     this.parent.clear();

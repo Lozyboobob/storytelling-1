@@ -7,7 +7,7 @@
   </md-grid-tile>-->
 
   <md-grid-tile [colspan]="1" [attr.id]="slide.graph">
-    <ng-template id="parent" class="chart" #parent></ng-template>
+    <div id="parent" #parent></div>
   </md-grid-tile>
   <!-- text -->
   <md-grid-tile [colspan]="1" align="center" *ngIf="config.hasText">
