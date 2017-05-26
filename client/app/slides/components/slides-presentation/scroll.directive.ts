@@ -6,7 +6,7 @@ import { Observable } from "rxjs";
 export class ScrollDirective implements OnInit {
     scrollPose: number = 1250; // scroll in same direction won't be triggered repeatedly inside <number> second
     private enableScroll: boolean = true;
-    private delayDuration: number = 200;
+    private delayDuration: number = 100;
     @Output() mouseWheelUp = new EventEmitter();
     @Output() mouseWheelDown = new EventEmitter();
 

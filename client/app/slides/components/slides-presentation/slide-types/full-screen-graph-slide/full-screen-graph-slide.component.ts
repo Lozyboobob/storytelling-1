@@ -1,5 +1,5 @@
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { Component, OnInit, AfterViewInit, Input, ViewChild, ViewChildren, ComponentFactoryResolver, ViewContainerRef, ComponentRef } from '@angular/core';
+import { Component, OnInit, AfterContentInit, Input, ViewChild, ViewChildren, ComponentFactoryResolver, ViewContainerRef, ComponentRef } from '@angular/core';
 import { Observable } from "rxjs/Observable";
 import { Slide } from "../../../../models";
 import { PageConfig, FULL_LAYOUT } from "../../pageConfig";
@@ -10,7 +10,7 @@ import { ChartsService } from "../../../../services";
   templateUrl: './full-screen-graph-slide.component.html',
   styleUrls: ['./full-screen-graph-slide.component.scss']
 })
-export class FullScreenGraphSlideComponent implements OnInit, AfterViewInit {
+export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit {
 
   @Input() slide: Slide;
   @Input() pos: number;
@@ -28,23 +28,24 @@ export class FullScreenGraphSlideComponent implements OnInit, AfterViewInit {
     private chartsService: ChartsService,
     private sanitizer: DomSanitizer) { }
 
-  ngAfterViewInit() {
-  
-  }
+
   
   ngOnInit() {
+    this.setConfig();
+  }
+
+
+  ngAfterContentInit() {
     let cmpType : string = this.slide.graph.charAt(0).toUpperCase() + this.slide.graph.slice(1) + 'Component';
     this.setChart(cmpType)
-    this.setConfig();
     setTimeout(_ => this.initChart());
-    this.slideload$.filter(n => n === 1).subscribe(() => {
+    this.slideload$.filter(n => n === this.pos).subscribe(() => {
       this.easeChart();
       this.loadChart();
       this.easeContent();
       this.loadContent();
-    })
+    });
   }
-
 
   private setChart(chartType: string) {
     let componentFactory = this._componentFactoryResolver.resolveComponentFactory(this.chartsService.getChartType(chartType));
