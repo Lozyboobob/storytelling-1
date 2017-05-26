@@ -13,7 +13,8 @@ export class PieChartComponent implements OnInit, Chart {
     private width: number;
     private height: number;
     private radius: number;
-    private curtain: any; //for animation
+    private _current: any; // for animation
+    private pieColor = d3.scaleOrdinal(['#98abc5', '#8a89a6', '#7b6888', '#6b486b', '#a05d56', '#d0743c', '#ff8c00']);
 
     constructor() { }
 
@@ -38,56 +39,77 @@ export class PieChartComponent implements OnInit, Chart {
     arcSelection.append('text');
     };
     setData(data) {
-        this.data = [
-        {
-            label: 'data1',
-            value: 1,
-        },
-        {
-            label: 'data2',
-            value: 2,
-        },
-        {
-            label: 'data3',
-            value: 3,
-        },
-        {
-            label: 'data4',
-            value: 4,
-        }];
+        if (data.length === 0) {
+            this.data = [{
+                label: 'data1',
+                value: 1,
+            },
+            {
+                label: 'data2',
+                value: 2,
+            },
+            {
+                label: 'data3',
+                value: 3,
+            },
+            {
+                label: 'data4',
+                value: 4,
+            }, {
+                label: 'data5',
+                value: 7,
+            }];
+            return this.data;
+        }
+        this.data = data;
     };
     load() {
         const  outerRadius = this.radius - 10;
         const  arc = d3.arc()
             .innerRadius(0)
             .outerRadius(outerRadius);
-        const pieColor = d3.scaleOrdinal(['#98abc5', '#8a89a6', '#7b6888', '#6b486b', '#a05d56', '#d0743c', '#ff8c00']);
-        d3.selectAll('path')
+
+        d3.selectAll('.arc').selectAll('path')
             .attr('fill', (datum, index) => {
-                return pieColor(this.data[index].label);
+                return this.pieColor(this.data[index].label);
             })
             .transition()
-            .duration(2000)
+            .duration(1500)
             .attrTween('d', tweenPie);
 
+        d3.selectAll('text')
+            .transition()
+            .duration(1500)
+            .attrTween('transform', tweenText)
+            .text((datum, index) => this.data[index].label)
+            .styleTween('text-anchor', d => {
+                this._current = this._current || d;
+                const interpolate = d3.interpolate(this._current, d);
+                this._current = interpolate(0);
+                return function(t) {
+                    const d2 = interpolate(t);
+                    return midAngle(d2) < Math.PI ? 'start' : 'end';
+                };
+            });
+
+        function midAngle(d) {
+            return d.startAngle + (d.endAngle - d.startAngle) / 2;
+        }
+        function tweenText(b) {
+            const i = d3.interpolate({startAngle: 0, endAngle:  0}, b);
+            return function(t) { return 'translate(' + arc.centroid(i(t)) + ')rotate(' + angle(i(t)) + ')'; };
+        }
         function tweenPie(b) {
             b.innerRadius = 0;
             const i = d3.interpolate({startAngle: 0, endAngle: 0}, b);
             return function(t) { return arc(i(t)); };
         }
 
-
-        d3.selectAll('text')
-            .transition()
-            .duration(2000)
-            .attr('transform', (datum: any) => {
-             datum.innerRadius = this.radius - 40;
-                datum.outerRadius = this.radius - 40;
-                return 'translate(' + arc.centroid(datum) + ')';
-            })
-            .text((datum, index) => this.data[index].label)
-            .style('text-anchor', 'middle');
+        function angle(d) {
+            const a = (d.startAngle + d.endAngle) * 90 / Math.PI - 90;
+            return a > 90 ? a - 180 : a;
+        }
 
     }
-    ease(){};
+    ease() { };
 }
