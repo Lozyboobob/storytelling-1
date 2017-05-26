@@ -238,8 +238,7 @@ export class SunburstChartComponent implements OnInit, Chart {
 
         // Merge enter and update selections; set position for all nodes and we calculate the size of the sequence
         let translation = 0;
-        let sequenceSize = 0;
-        console.log('thisClass.stringsLength', thisClass.stringsLength)
+        let sequenceSize = 0;        
 
         entering.merge(trail).attr("transform", function(d, i) {
             translation += ((i == 0) ? 0 : (bw + bs + thisClass.stringsLength[i-1]));
@@ -250,12 +249,11 @@ export class SunburstChartComponent implements OnInit, Chart {
         });
 
         // Now move and update the percentage at the end.
-        let textSpacing = 30;
+        let textSpacing = 10;
         d3.select("#trail").select("#endlabel")
             .attr("x", sequenceSize + textSpacing)
             .attr("y", this.b.h / 2)
             .attr("dy", "0.35em")
-            .attr("text-anchor", "middle")
             .text(percentageString);
 
         // We add the size of the text of the sequence to the calculation
