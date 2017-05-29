@@ -15,16 +15,19 @@ export class PieChartComponent implements OnInit, Chart {
     private radius: number;
     private _current: any; // for animation
     private pieColor = d3.scaleOrdinal(['#98abc5', '#8a89a6', '#7b6888', '#6b486b', '#a05d56', '#d0743c', '#ff8c00']);
+    constructor() {
 
-    constructor() { }
+    }
 
   ngOnInit() {
   }
   init() {
-    const element = this.chartContainer.nativeElement;
-      this.width = element.offsetWidth;
-      this.height = element.offsetHeight;
-      const svg = d3.select(element).append('svg')
+      const element = this.chartContainer.nativeElement;
+      console.log('eleme', element)
+        this.width = element.offsetWidth;
+        this.height = element.offsetHeight;
+        const svg = d3.select(element)
+          .append('svg')
           .append('g')
           .attr('transform', `translate(${this.width / 2},${this.height / 2})`);
     this.radius = Math.min(this.width, this.height) / 2;
@@ -39,28 +42,6 @@ export class PieChartComponent implements OnInit, Chart {
     arcSelection.append('text');
     };
     setData(data) {
-        if (data.length === 0) {
-            this.data = [{
-                label: 'data1',
-                value: 1,
-            },
-            {
-                label: 'data2',
-                value: 2,
-            },
-            {
-                label: 'data3',
-                value: 3,
-            },
-            {
-                label: 'data4',
-                value: 4,
-            }, {
-                label: 'data5',
-                value: 7,
-            }];
-            return this.data;
-        }
         this.data = data;
     };
     load() {
@@ -69,7 +50,7 @@ export class PieChartComponent implements OnInit, Chart {
             .innerRadius(0)
             .outerRadius(outerRadius);
 
-        d3.selectAll('.arc').selectAll('path')
+        d3.selectAll('.arc').select('path')
             .attr('fill', (datum, index) => {
                 return this.pieColor(this.data[index].label);
             })
@@ -77,7 +58,7 @@ export class PieChartComponent implements OnInit, Chart {
             .duration(1500)
             .attrTween('d', tweenPie);
 
-        d3.selectAll('text')
+        d3.selectAll('.arc').select('text')
             .transition()
             .duration(1500)
             .attrTween('transform', tweenText)
