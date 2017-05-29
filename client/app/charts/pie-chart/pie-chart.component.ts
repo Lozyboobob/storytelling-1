@@ -23,7 +23,6 @@ export class PieChartComponent implements OnInit, Chart {
   }
   init() {
       const element = this.chartContainer.nativeElement;
-      console.log('eleme', element)
         this.width = element.offsetWidth;
         this.height = element.offsetHeight;
         const svg = d3.select(element)
