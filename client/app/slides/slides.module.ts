@@ -7,6 +7,13 @@ import { MaterialModule, OverlayContainer, TooltipPosition } from '@angular/mate
 import { Angular2FontAwesomeModule } from 'angular2-font-awesome/angular2-font-awesome';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {XHRBackend, Http, RequestOptions} from '@angular/http';
+
+// NGX-CHARTS MODULE
+import { NgxChartsModule } from "@swimlane/ngx-charts";
+import { NgxUIModule } from "@swimlane/ngx-ui";
+
+
+
 import {SearchComponent} from './components/search/search.component';
 // SLIDES COMPONENTS
 import { SlidesPresentationComponent,
@@ -33,6 +40,8 @@ import { ScrollDirective } from './components/slides-presentation/scroll.directi
 import {Ng2PageScrollModule} from 'ng2-page-scroll';
 import {DragulaModule} from 'ng2-dragula';
 import { BarChartComponent } from '../charts';
+import { GaugeChartComponent } from "../charts";
+import { AdvancedPieChartComponent } from "../charts";
 import { ForceDirectedGraphComponent } from '../charts/force-directed-graph/force-directed-graph.component';
 import { LineChartComponent } from '../charts/line-chart/line-chart.component';
 import { TreemapChartComponent } from '../charts/treemap-chart/treemap-chart.component';
@@ -59,14 +68,17 @@ import { SlidesCardComponent } from './components/slides-card/slides-card.compon
         MaterialModule,
         FormsModule,
         ReactiveFormsModule,
+        CoreModule,
         SlidesRoutingModule,
         DragulaModule,
+        NgxChartsModule,
+        NgxUIModule,
         Ng2PageScrollModule.forRoot(),
         FroalaEditorModule.forRoot(),
         FroalaViewModule.forRoot(),
         FileUploadModule
     ],
-    entryComponents: [BarChartComponent, LineChartComponent, ForceDirectedGraphComponent,TreemapChartComponent, SunburstChartComponent, FullScreenGraphSlideComponent],
+    entryComponents: [BarChartComponent, LineChartComponent, ForceDirectedGraphComponent,TreemapChartComponent, SunburstChartComponent, FullScreenGraphSlideComponent, GaugeChartComponent, AdvancedPieChartComponent],
     declarations: [
         ScrollDirective,
         SlidesPresentationComponent,
@@ -86,6 +98,8 @@ import { SlidesCardComponent } from './components/slides-card/slides-card.compon
         FilterComponent,
         SlidesManagerComponent,
         FullScreenGraphSlideComponent,
+        GaugeChartComponent,
+        AdvancedPieChartComponent,
         TitleSlideComponent,
         GraphTextSlideComponent,
         TextSlideComponent,

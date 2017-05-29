@@ -16,10 +16,12 @@ export class GraphTextSlideComponent implements OnInit, AfterViewInit {
   @Input() slide: Slide;
   @Input() pos: number;
   @Input() slideload$: Observable<number>;
+  @Input() slideease$: Observable<number>;
 
   @ViewChild('parent', {read: ViewContainerRef})
   parent: ViewContainerRef;
   private componentRef: ComponentRef<Chart>;
+  private cmpType: string;
 
   config: PageConfig;
   loadContentAni: boolean;
@@ -29,22 +31,23 @@ export class GraphTextSlideComponent implements OnInit, AfterViewInit {
     private chartsService: ChartsService,
     private sanitizer: DomSanitizer) { }
 
-  ngOnInit(){
-    this.setConfig();
-  }
-
-  ngAfterViewInit() {
-    let cmpType : string = this.slide.graph.charAt(0).toUpperCase() + this.slide.graph.slice(1) + 'Component';
-    this.setChart(cmpType);
+  ngAfterViewInit(){
+    this.cmpType = this.slide.graph.charAt(0).toUpperCase() + this.slide.graph.slice(1) + 'Component';
     setTimeout(_ => this.initChart());
     this.slideload$.filter(n => n === this.pos).subscribe(() => {
-      this.easeChart();
       this.loadChart();
-      this.easeContent();
       this.loadContent();
+    })
+    this.slideease$.filter(n => n === this.pos).subscribe(() => {
+      this.easeChart();
+      this.easeContent();
     })
   }
 
+  ngOnInit() {
+    this.setConfig();
+  }
+  
   private setChart(chartType: string) {
     let componentFactory = this._componentFactoryResolver.resolveComponentFactory(this.chartsService.getChartType(chartType));
     this.parent.clear();
@@ -67,6 +70,7 @@ export class GraphTextSlideComponent implements OnInit, AfterViewInit {
 
 
   private initChart() {
+    this.setChart(this.cmpType);
     if (this.config.hasChart) {
       (<Chart>this.componentRef.instance).setData(this.slide.data);
       (<Chart>this.componentRef.instance).init();
@@ -92,7 +96,7 @@ export class GraphTextSlideComponent implements OnInit, AfterViewInit {
       setTimeout(_ => {
         this.easeContentAni = false;
         this.loadContentAni = true
-      }, 625);
+      }, 150);
     }
   }
 
