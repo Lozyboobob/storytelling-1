@@ -24,9 +24,7 @@ export class SunburstChartComponent implements OnInit, Chart {
     private b = {
         w: 85, h: 30, s: 3, t: 10 // Breadcrumb dimensions: width, height, spacing, width of tip/tail.
     };
-
-
-    private stringsLength :Array<number>;
+    private stringsLength :Array<number>; // Array of the strings size inside the trail
 
     constructor() { }
 
@@ -57,10 +55,10 @@ export class SunburstChartComponent implements OnInit, Chart {
         let partition = d3.partition()
             .size([2 * Math.PI, radius * radius]);
         let arc = d3.arc()
-            .startAngle(function (d: any) { return d.x0; })
-            .endAngle(function (d: any) { return d.x1; })
-            .innerRadius(function (d: any) { return Math.sqrt(d.y0); })
-            .outerRadius(function (d: any) { return Math.sqrt(d.y1); });
+            .startAngle((d: any) => d.x0)
+            .endAngle((d: any) => d.x1)
+            .innerRadius((d: any) => Math.sqrt(d.y0))
+            .outerRadius((d: any) => Math.sqrt(d.y1));
 
         // Place the explanation inside the graph
         d3.select('#explanation')
@@ -90,23 +88,21 @@ export class SunburstChartComponent implements OnInit, Chart {
 
         // Turn the data into a d3 hierarchy and calculate the sums.
         let root = d3.hierarchy(this.data)
-            .sum((d: any) => { return d.size; })
+            .sum((d: any) => d.size)
             .sort((a, b) => b.value - a.value);
 
         // For efficiency, filter nodes to keep only those large enough to see.
         let nodes = partition(root)
             .descendants()
-            .filter(function (d) {
-                return (d.x1 - d.x0 > 0.005); // 0.005 radians = 0.29 degrees
-            });
+            .filter(d => d.x1 - d.x0 > 0.005); // 0.005 radians = 0.29 degrees            
 
         let path = this.chart.data([this.data]).selectAll("path")
             .data(nodes)
             .enter().append("path")
-            .attr("display", (d) => d.depth ? null : "none")
+            .attr("display", d => d.depth ? null : "none")
             .attr("d", arc)
             .attr("fill-rule", "evenodd")
-            .style("fill", (d) => this.colorScale(d.data.name))
+            .style("fill", d => this.colorScale(d.data.name))
             .style("opacity", 1)
             .on("mouseover", d => this.mouseover(d, this));
 
@@ -144,7 +140,7 @@ export class SunburstChartComponent implements OnInit, Chart {
 
     // Fade all but the current sequence, and show it in the breadcrumb trail.
     private mouseover(d, thisClass) {
-        let percentage = Number((100 * d.value / this.totalSize).toPrecision(3));
+        let percentage = Number((100 * d.value / thisClass.totalSize).toPrecision(3));
         let percentageString = percentage + "%";
 
         if (percentage < 0.1) {
@@ -164,11 +160,11 @@ export class SunburstChartComponent implements OnInit, Chart {
         thisClass.updateBreadcrumbs(sequenceArray, percentageString, thisClass); // Update of the breadcrumb trail
 
         // Fade all the segments.
-        d3.selectAll("path")
+        thisClass.chart.selectAll("path")
             .style("opacity", 0.3);
 
         // Then highlight only those that are an ancestor of the current segment.
-        this.chart.selectAll("path")
+        thisClass.chart.selectAll("path")
             .filter(function (node) {
                 return (sequenceArray.indexOf(node) >= 0);
             })
@@ -177,6 +173,8 @@ export class SunburstChartComponent implements OnInit, Chart {
 
     // Update the breadcrumb trail to show the current sequence and percentage.
     private updateBreadcrumbs(nodeArray, percentageString, thisClass) {
+        thisClass.stringsLength = [];
+
         // Data join; key function combines name and depth (= position in sequence).
         let trail = d3.select("#trail")
             .selectAll("g")
@@ -185,82 +183,65 @@ export class SunburstChartComponent implements OnInit, Chart {
         // Remove exiting nodes.
         trail.exit().remove();
 
-        
-
         // Add breadcrumb and label for entering nodes.
         let entering = trail.enter().append("g");
 
-        let bw = this.b.w;
-        let bt = this.b.t;
-        let bs = this.b.s;
-        thisClass.stringsLength = [];
-
+        // Dynamic size ot trail
+        // 1. We draw the text of each section of the trail
         entering.append("text")
-            .attr("y", this.b.h / 2)
+            .attr("y", thisClass.b.h / 2)
             .attr("dy", "0.35em")
             .attr("text-anchor", "middle")
             .text(function (d) { return d.data.name; })
             .each(function(d) { 
                 let stringLength = (<SVGTextContentElement>this).getComputedTextLength();                            
-                d3.select(this).attr("x", () => ( bw  + stringLength + bt) / 2);
+                d3.select(this).attr("x", () => ( thisClass.b.w  + stringLength + thisClass.b.t) / 2);
                 
         });
 
-    
-
+        // 2. We calculate the effective size ot these texts
         d3.select('#trail').selectAll('g').select('text').each(function(d) { 
                 let stringLength = (<SVGTextContentElement>this).getComputedTextLength();  
                 thisClass.stringsLength.push(stringLength);        
         });
 
-
+        // 3. We draw the polygons adapted to the text size
         entering.append("polygon")
-            .attr("points", function(d, i) { 
-                let firstChild = (<Node>this).parentNode.firstChild;
-                let stringLength = (<SVGTextContentElement>firstChild).getComputedTextLength();
-                
-                return thisClass.breadcrumbPoints(d, i, this, thisClass, thisClass.stringsLength[i]);
-            })
-            .style("fill", (d) => { return this.colorScale(d.data.name); });
+            .attr("points", (d, i) => thisClass.breadcrumbPoints(d, i, this, thisClass, thisClass.stringsLength[i]))
+            .style("fill", d => thisClass.colorScale(d.data.name))
+            .each(function() {
+                // 4. We place polygons back of the texts
+                let firstChild = (<Node>this).parentNode.firstChild; 
 
-
-
-        entering.selectAll('polygon').each (function() { 
-        let firstChild = (<Node>this).parentNode.firstChild; 
-
-        if (firstChild) { 
-            (<Node>this).parentNode.insertBefore(<Node>this, firstChild); 
-        } })
-
-
-
-        
+                if (firstChild) { 
+                    (<Node>this).parentNode.insertBefore(<Node>this, firstChild); 
+                }
+            });
 
         // Merge enter and update selections; set position for all nodes and we calculate the size of the sequence
-        let translation = 0;
-        let sequenceSize = 0;        
+        let translation = 0; // Translation of each polygon
+        let SequenceTotalSize = 0; // Total size of the trail
 
-        entering.merge(trail).attr("transform", function(d, i) {
-            translation += ((i == 0) ? 0 : (bw + bs + thisClass.stringsLength[i-1]));
-            sequenceSize += bw + thisClass.stringsLength[i] + bt;
-           
-
+        entering.merge(trail).attr("transform", (d, i) => {
+            translation += ((i == 0) ? 0 : (thisClass.b.w + thisClass.b.s + thisClass.stringsLength[i-1]));
+            SequenceTotalSize += thisClass.b.w + thisClass.stringsLength[i] + thisClass.b.t;
+    
             return "translate(" + translation + ", 0)";
         });
 
         // Now move and update the percentage at the end.
-        let textSpacing = 10;
+        let endLabelSpacing = 10; // Space between the trail and the percentage
         d3.select("#trail").select("#endlabel")
-            .attr("x", sequenceSize + textSpacing)
-            .attr("y", this.b.h / 2)
+            .attr("x", SequenceTotalSize + endLabelSpacing)
+            .attr("y", thisClass.b.h / 2)
             .attr("dy", "0.35em")
             .text(percentageString);
 
         // We add the size of the text of the sequence to the calculation
-        sequenceSize += (d3.select("#sequence").select('svg').select('text').node() as SVGTextContentElement).getComputedTextLength() + textSpacing;
+        SequenceTotalSize += (d3.select("#sequence").select('svg').select('text').node() as SVGTextContentElement).getComputedTextLength() + endLabelSpacing;
 
         // Position of the sequence
-        d3.select('#sequence').select('svg').attr("transform", d => "translate(" + (this.width / 2 - sequenceSize / 2) + "," + this.explanationHeight / 2 + ")");
+        d3.select('#sequence').select('svg').attr("transform", d => "translate(" + (thisClass.width / 2 - SequenceTotalSize / 2) + "," + thisClass.explanationHeight / 2 + ")");
 
         // Make the breadcrumb trail visible, if it's hidden.
         d3.select("#trail")
@@ -291,11 +272,11 @@ export class SunburstChartComponent implements OnInit, Chart {
             .style("visibility", "hidden");
 
         // Deactivate all segments during transition.
-        d3.selectAll("path")
+        thisClass.chart.selectAll("path")
             .on("mouseover", null);
 
         // Transition each segment to full opacity and then reactivate it.
-        d3.selectAll("path")
+        thisClass.chart.selectAll("path")
             .transition()
             .duration(500)
             .style("opacity", 1)
