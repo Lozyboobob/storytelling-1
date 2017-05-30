@@ -76,6 +76,7 @@ mongod
 
 # Visual Studio
 # =========
+.vscode/
 *.suo
 *.ntvs*
 *.njsproj
