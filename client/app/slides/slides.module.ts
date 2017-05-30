@@ -46,6 +46,7 @@ import { AdvancedPieChartComponent } from '../charts';
 import { ForceDirectedGraphComponent } from '../charts/force-directed-graph/force-directed-graph.component';
 import { LineChartComponent } from '../charts/line-chart/line-chart.component';
 import { TreemapChartComponent } from '../charts/treemap-chart/treemap-chart.component';
+import { SunburstChartComponent } from '../charts/sunburst-chart/sunburst-chart.component';
 import { FroalaEditorModule, FroalaViewModule } from 'angular2-froala-wysiwyg';
 
 
@@ -83,6 +84,7 @@ import { SlidesCardComponent } from './components/slides-card/slides-card.compon
         LineChartComponent,
         ForceDirectedGraphComponent,
         TreemapChartComponent,
+        SunburstChartComponent,
         PieChartComponent,
         FullScreenGraphSlideComponent,
         GaugeChartComponent,
@@ -99,6 +101,7 @@ import { SlidesCardComponent } from './components/slides-card/slides-card.compon
         ForceDirectedGraphComponent,
         LineChartComponent,
         TreemapChartComponent,
+        SunburstChartComponent,
         SlidesEditorComponent,
         SlidesSettingComponent,
         EditorComponent,
