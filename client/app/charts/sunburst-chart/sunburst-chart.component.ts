@@ -66,16 +66,17 @@ export class SunburstChartComponent implements OnInit, Chart {
             .style("left", this.width / 2 - this.explanationWidth / 2 + 'px');
 
         // Center the breadcrumb trail at the top of the graph
-        d3.select('#sequence')
+        d3.select(element).select('#sequence')
             .select('svg')
             .attr("transform", d => "translate(0," + this.explanationHeight / 2 + ")");
 
         // Basic setup of page elements
-        this.initializeBreadcrumbTrail();
+        this.initializeBreadcrumbTrail(element);
 
         this.chart = d3.select(element).append('svg')
             .attr('width', this.width)
             .attr('height', this.height)
+            .attr("id", "sunBurstSvg")
             .append("g")
             .attr("id", "container")
             .attr("transform", "translate(" + this.width / 2 + "," + this.height / 2 + ")");
@@ -113,7 +114,7 @@ export class SunburstChartComponent implements OnInit, Chart {
         this.totalSize = path.datum().value;
 
         /* Add 'curtain' rectangle to hide entire graph */
-        this.curtain = d3.select(element).select('svg')
+       this.curtain = d3.select(element).select('#sunBurstSvg')
             .append("g")
             .append('rect')
             .attr('x', -1 * this.width)
@@ -126,9 +127,9 @@ export class SunburstChartComponent implements OnInit, Chart {
     }
 
     // Basic setup of page elements.
-    private initializeBreadcrumbTrail() {
+    private initializeBreadcrumbTrail(element) {
         // Add the svg area.
-        let trail = d3.select("#sequence").append("svg")
+        let trail = d3.select(element).select("#sequence").append("svg")
             .attr("height", 50)
             .attr("id", "trail")
             .style("width", 'auto');
@@ -157,7 +158,7 @@ export class SunburstChartComponent implements OnInit, Chart {
 
         let sequenceArray = d.ancestors().reverse();
         sequenceArray.shift(); // remove root node from the array
-        thisClass.updateBreadcrumbs(sequenceArray, percentageString, thisClass); // Update of the breadcrumb trail
+        thisClass.updateBreadcrumbs(sequenceArray, percentageString, thisClass, element); // Update of the breadcrumb trail
 
         // Fade all the segments.
         thisClass.chart.selectAll("path")
@@ -172,11 +173,11 @@ export class SunburstChartComponent implements OnInit, Chart {
     }
 
     // Update the breadcrumb trail to show the current sequence and percentage.
-    private updateBreadcrumbs(nodeArray, percentageString, thisClass) {
+    private updateBreadcrumbs(nodeArray, percentageString, thisClass, element) {
         thisClass.stringsLength = [];
 
         // Data join; key function combines name and depth (= position in sequence).
-        let trail = d3.select("#trail")
+        let trail = d3.select(element).select("#trail")
             .selectAll("g")
             .data(nodeArray, (d: any) => d.data.name + d.depth);
 
@@ -200,7 +201,7 @@ export class SunburstChartComponent implements OnInit, Chart {
         });
 
         // 2. We calculate the effective size ot these texts
-        d3.select('#trail').selectAll('g').select('text').each(function(d) { 
+        d3.select(element).select('#trail').selectAll('g').select('text').each(function(d) { 
                 let stringLength = (<SVGTextContentElement>this).getComputedTextLength();  
                 thisClass.stringsLength.push(stringLength);        
         });
@@ -231,20 +232,20 @@ export class SunburstChartComponent implements OnInit, Chart {
 
         // Now move and update the percentage at the end.
         let endLabelSpacing = 10; // Space between the trail and the percentage
-        d3.select("#trail").select("#endlabel")
+        d3.select(element).select("#trail").select("#endlabel")
             .attr("x", SequenceTotalSize + endLabelSpacing)
             .attr("y", thisClass.b.h / 2)
             .attr("dy", "0.35em")
             .text(percentageString);
 
         // We add the size of the text of the sequence to the calculation
-        SequenceTotalSize += (d3.select("#sequence").select('svg').select('text').node() as SVGTextContentElement).getComputedTextLength() + endLabelSpacing;
+        SequenceTotalSize += (d3.select(element).select("#sequence").select('svg').select('text').node() as SVGTextContentElement).getComputedTextLength() + endLabelSpacing;
 
         // Position of the sequence
-        d3.select('#sequence').select('svg').attr("transform", d => "translate(" + (thisClass.width / 2 - SequenceTotalSize / 2) + "," + thisClass.explanationHeight / 2 + ")");
+        d3.select(element).select('#sequence').select('svg').attr("transform", d => "translate(" + (thisClass.width / 2 - SequenceTotalSize / 2) + "," + thisClass.explanationHeight / 2 + ")");
 
         // Make the breadcrumb trail visible, if it's hidden.
-        d3.select("#trail")
+        d3.select(element).select("#trail")
             .style("visibility", "");
     }
 
@@ -268,7 +269,7 @@ export class SunburstChartComponent implements OnInit, Chart {
     // Restore everything to full opacity when moving off the visualization.
     private mouseleave(d, thisClass, element) {
         // Hide the breadcrumb trail
-        d3.select("#trail")
+        d3.select(element).select("#trail")
             .style("visibility", "hidden");
 
         // Deactivate all segments during transition.
