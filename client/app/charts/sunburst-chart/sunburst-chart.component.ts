@@ -47,7 +47,7 @@ export class SunburstChartComponent implements OnInit, Chart {
         this.colorScale = d3.scaleOrdinal(d3.schemeCategory20);
 
         // Position of the Explanation label in the center of the sunburst
-        let explanationElmnt = d3.select('#explanation').node() as HTMLElement;
+        let explanationElmnt = d3.select(element).select('#explanation').node() as HTMLElement;
         this.explanationWidth = explanationElmnt.offsetWidth;
         this.explanationHeight = explanationElmnt.offsetHeight;
 
@@ -61,7 +61,7 @@ export class SunburstChartComponent implements OnInit, Chart {
             .outerRadius((d: any) => Math.sqrt(d.y1));
 
         // Place the explanation inside the graph
-        d3.select('#explanation')
+        d3.select(element).select('#explanation')
             .style("top", this.height / 2 + this.explanationHeight / 2 + 'px')
             .style("left", this.width / 2 - this.explanationWidth / 2 + 'px');
 
@@ -104,10 +104,10 @@ export class SunburstChartComponent implements OnInit, Chart {
             .attr("fill-rule", "evenodd")
             .style("fill", d => this.colorScale(d.data.name))
             .style("opacity", 1)
-            .on("mouseover", d => this.mouseover(d, this));
+            .on("mouseover", d => this.mouseover(d, this, element));
 
         // Add the mouseleave handler to the bounding circle.
-        d3.select("#container").on("mouseleave", d => this.mouseleave(d, this));
+        d3.select(element).select("#container").on("mouseleave", d => this.mouseleave(d, this, element));
 
         // Get total size of the tree = value of root node from partition.
         this.totalSize = path.datum().value;
@@ -139,7 +139,7 @@ export class SunburstChartComponent implements OnInit, Chart {
     }
 
     // Fade all but the current sequence, and show it in the breadcrumb trail.
-    private mouseover(d, thisClass) {
+    private mouseover(d, thisClass, element) {
         let percentage = Number((100 * d.value / thisClass.totalSize).toPrecision(3));
         let percentageString = percentage + "%";
 
@@ -148,11 +148,11 @@ export class SunburstChartComponent implements OnInit, Chart {
         }
 
         // Update of the percentage of the explanation
-        d3.select("#percentage")
+        d3.select(element).select("#percentage")
         .text(percentageString);
 
         // Show the explanation
-        d3.select("#explanation")
+        d3.select(element).select("#explanation")
             .style("visibility", "");
 
         let sequenceArray = d.ancestors().reverse();
@@ -266,7 +266,7 @@ export class SunburstChartComponent implements OnInit, Chart {
     }
 
     // Restore everything to full opacity when moving off the visualization.
-    private mouseleave(d, thisClass) {
+    private mouseleave(d, thisClass, element) {
         // Hide the breadcrumb trail
         d3.select("#trail")
             .style("visibility", "hidden");
@@ -281,11 +281,11 @@ export class SunburstChartComponent implements OnInit, Chart {
             .duration(500)
             .style("opacity", 1)
             .on("end", function () {
-                d3.select(this).on("mouseover", d => thisClass.mouseover(d, thisClass));
+                d3.select(this).on("mouseover", d => thisClass.mouseover(d, thisClass, element));
             });
 
         // Hide explanation
-        d3.select("#explanation")
+        d3.select(element).select("#explanation")
             .style("visibility", "hidden");
     }
 
