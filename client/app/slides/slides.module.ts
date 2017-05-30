@@ -9,8 +9,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {XHRBackend, Http, RequestOptions} from '@angular/http';
 
 // NGX-CHARTS MODULE
-import { NgxChartsModule } from "@swimlane/ngx-charts";
-import { NgxUIModule } from "@swimlane/ngx-ui";
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { NgxUIModule } from '@swimlane/ngx-ui';
 
 
 
@@ -26,12 +26,13 @@ import { SlidesPresentationComponent,
 } from '.';
 
 // SLIDES SERVICES
-import {SlidesService,ValidService, ChartsService} from '.';
+import {SlidesService, ValidService, ChartsService} from '.';
 
 // SLIDES ROUTES MODULE
 import { SlidesRoutingModule } from '.';
-import { CoreModule } from "app/core";
+import { CoreModule } from 'app/core';
 import { FileUploadModule } from 'ng2-file-upload';
+import { PieChartComponent } from '../charts/pie-chart/pie-chart.component';
 
 
 
@@ -40,8 +41,8 @@ import { ScrollDirective } from './components/slides-presentation/scroll.directi
 import {Ng2PageScrollModule} from 'ng2-page-scroll';
 import {DragulaModule} from 'ng2-dragula';
 import { BarChartComponent } from '../charts';
-import { GaugeChartComponent } from "../charts";
-import { AdvancedPieChartComponent } from "../charts";
+import { GaugeChartComponent } from '../charts';
+import { AdvancedPieChartComponent } from '../charts';
 import { ForceDirectedGraphComponent } from '../charts/force-directed-graph/force-directed-graph.component';
 import { LineChartComponent } from '../charts/line-chart/line-chart.component';
 import { TreemapChartComponent } from '../charts/treemap-chart/treemap-chart.component';
@@ -77,7 +78,15 @@ import { SlidesCardComponent } from './components/slides-card/slides-card.compon
         FroalaViewModule.forRoot(),
         FileUploadModule
     ],
-    entryComponents: [BarChartComponent, LineChartComponent, ForceDirectedGraphComponent,TreemapChartComponent, FullScreenGraphSlideComponent, GaugeChartComponent, AdvancedPieChartComponent],
+    entryComponents: [
+        BarChartComponent,
+        LineChartComponent,
+        ForceDirectedGraphComponent,
+        TreemapChartComponent,
+        PieChartComponent,
+        FullScreenGraphSlideComponent,
+        GaugeChartComponent,
+        AdvancedPieChartComponent],
     declarations: [
         ScrollDirective,
         SlidesPresentationComponent,
@@ -101,6 +110,7 @@ import { SlidesCardComponent } from './components/slides-card/slides-card.compon
         TitleSlideComponent,
         GraphTextSlideComponent,
         TextSlideComponent,
+        PieChartComponent,
         SlidesCardComponent,
     ],
     exports:[

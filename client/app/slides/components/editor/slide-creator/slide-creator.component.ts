@@ -29,6 +29,9 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
         }, {
             value: "forceDirectedGraph",
             type: "Force Directed Graph"
+        }, {
+            value: "pieChart",
+            type: "Pie chart"
         },
         {
             value: "lineChart",
@@ -141,7 +144,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
                 case 0: {
                     if (this.form.value.slideGraph == 'barChart')
                         this.slide.data = this.form.value.graphData;
-                    else 
+                    else
                         this.slide.data = [];
                     break;
                 }
@@ -230,8 +233,11 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
             case "forceDirectedGraph": this.form.controls['graphDataJson'].setValue(forceDirectedGraphDataExample); break;
             case "lineChart": this.form.controls['graphDataJson'].setValue(lineChartExample); break;
             case "treemapChart": this.form.controls['graphDataJson'].setValue(treemapChartExample); break;
+            case "pieChart": this.form.controls['graphDataJson'].setValue(pieChartExample); break;
+
             default: ;
         }
+
     }
     pageLayoutChange() {
         switch (this.form.value.pageLayout) {
@@ -308,6 +314,8 @@ const ngxSingleChartDataExample = JSON.stringify(single) ;
 const barCharDataExample = '{"graphData":[{"index":"index1","value":"21"},{"index":"index2","value":"20"}]}';
 const forceDirectedGraphDataExample = '{"graphData":{ "nodes": [{ "id": "a", "group": 1 },{ "id": "b", "group": 1 },{ "id": "c", "group": 2 },  { "id": "d", "group": 2 } ], "links": [{ "source": "a", "target": "b", "value": 1 },  { "source": "a", "target": "d", "value": 2 },{ "source": "b", "target": "c", "value": 3 },  { "source": "c", "target": "a", "value": 4 }  ]}}';
 const lineChartExample = '{"graphData":[[{"yAxis" : "1394.46","xAxis" : "Jan 2000",  "series" : "S&P 500"}, {"yAxis" : "1366.42",  "xAxis" : "Feb 2000","series" : "S&P 500"}, {  "yAxis" : "1498.58","xAxis" : "Mar 2000",  "series" : "S&P 500"}],[{"yAxis" : "1285.36","xAxis" : "Jan 2000",  "series" : "IBM"}, {"yAxis" : "1299.98",  "xAxis" : "Feb 2000","series" : "IBM"}, {  "yAxis" : "1322.20","xAxis" : "Mar 2000",  "series" : "IBM"}]]}';
+const pieChartExample ='{ "graphData": [{"label" : "data1", "value": 1}, {"label" : "data2", "value" : 2}, {"label" : "data3","value" : 3}, { "label" : "data4", "value" : 4}]}'
+
 const treemapChartExample = `{"graphData":[
     {
         "name": "flare",
