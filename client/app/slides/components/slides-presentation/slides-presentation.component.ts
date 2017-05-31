@@ -6,7 +6,7 @@ import { WindowResizeService } from '../../services/window-resize.service';
 import { PageScrollInstance, PageScrollService, PageScrollConfig } from 'ng2-page-scroll';
 import {DOCUMENT, DomSanitizer} from '@angular/platform-browser';
 import {SlidesService} from '../../services/slides.service';
-import { BarChartComponent, ForceDirectedGraphComponent, LineChartComponent, TreemapChartComponent, SunburstChartComponent} from 'app/charts';
+import { BarChartComponent, ForceDirectedGraphComponent, LineChartComponent, TreemapChartComponent, SunburstChartComponent, HierarchicalEdgeBundlingComponent} from 'app/charts';
 
 import { PageConfig, HALF_HALF_LAYOUT, FULL_LAYOUT} from './pageConfig';
 
@@ -27,8 +27,8 @@ export class SlidesPresentationComponent implements OnInit {
     curSlideIndex: number = 0;
     slideNum: number;
     charts: Array<any> = [];
-    loadContentAni: Array<boolean> = []; //indicator for content load animation
-    easeContentAni: Array<boolean> = []; //indicator for content ease(fade away) animation
+    loadContentAni: Array<boolean> = []; // indicator for content load animation
+    easeContentAni: Array<boolean> = []; // indicator for content ease(fade away) animation
     pageLayoutConfig: Array<any> = [];
     inEaseProcess = false;
 
