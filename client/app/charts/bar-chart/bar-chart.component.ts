@@ -30,7 +30,6 @@ export class BarChartComponent implements OnInit, Chart {
     createChart() {
         let element = this.chartContainer.nativeElement;
         this.width = element.offsetWidth - this.margin.left - this.margin.right;
-        console.log(this.width, element.offsetWidth);
         this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
 
         let svg = d3.select(element).append('svg')
@@ -121,7 +120,6 @@ export class BarChartComponent implements OnInit, Chart {
             .append("g")
             .attr('class', 'bar-block')
             .on('mouseover', _ => {
-              console.log(d3.event)
                 d3.select(d3.event.srcElement).attr('opacity', 1)
                 d3.select(d3.event.target.nextElementSibling).attr('font-size', '24px')
             })
@@ -165,7 +163,6 @@ export class BarChartComponent implements OnInit, Chart {
     }
     setData(data) {
         if (data.length == 0) return;
-        console.log("data", data);
         this.data = data;
     }
     init() {
@@ -177,16 +174,15 @@ export class BarChartComponent implements OnInit, Chart {
             .attr('y', d => this.yScale(0))
             .attr('height', d => this.height - this.yScale(0))
 
-        console.log("load");
         this.chart.selectAll('.value-text')
             .attr('opacity', 0)
 
         this.chart.selectAll('.bar').transition()
-            .delay((d, i) => i * 100 + 400)
+            .duration(1500)
             .attr('y', d => this.yScale(d.value))
             .attr('height', d => this.height - this.yScale(d.value));
         this.chart.selectAll('.value-text').transition()
-            .delay((d, i) => i * 100 + 400)
+            .delay(1300)
             .duration(200)
             .attr('opacity', 1);
 
@@ -194,7 +190,7 @@ export class BarChartComponent implements OnInit, Chart {
     ease() {
         this.loaded = false;
         this.chart.selectAll('.bar').transition()
-            .delay((d, i) => i * 100)
+            .delay((d,i)=>i*100)
             .attr('y', d => this.yScale(0))
             .attr('height', d => this.height - this.yScale(0))
         this.chart.selectAll('.value-text').transition()
@@ -205,11 +201,11 @@ export class BarChartComponent implements OnInit, Chart {
         setTimeout(_ => {
             if (this.loaded) return;
             this.chart.selectAll('.bar').transition()
-                .delay((d, i) => i * 100)
+                .duration(1500)
                 .attr('y', d => this.yScale(d.value))
                 .attr('height', d => this.height - this.yScale(d.value));
             this.chart.selectAll('.value-text').transition()
-                .delay((d, i) => i * 100)
+                .delay(1500)
                 .duration(200)
                 .attr('opacity', 1);
 
