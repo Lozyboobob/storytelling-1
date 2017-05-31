@@ -22,7 +22,7 @@ export class SunburstChartComponent implements OnInit, Chart {
     private explanationHeight: number;
     private explanationWidth: number;
     private b = {
-        w: 65, h: 30, s: 3, t: 10 // Breadcrumb dimensions: width, height, spacing, width of tip/tail.
+        w: 55, h: 30, s: 3, t: 10 // Breadcrumb dimensions: width, height, spacing, width of tip/tail.
     };
     private stringsLength :Array<number>; // Array of the strings size inside the trail
     private arc: any;
@@ -70,14 +70,7 @@ export class SunburstChartComponent implements OnInit, Chart {
             .outerRadius((d: any) => { return Math.max(0, this.yScale(d.y1)); });
 
         // Basic setup of page elements
-        d3.select(element).select("#sequence").append("svg")
-            .attr("height", 50)
-            .attr("id", "trail")
-            .style("width", 'auto');
-        
-        d3.select(element).select('#sequence')
-            .select('svg')
-            .attr("transform", d => "translate(0," + this.explanationHeight / 2 + ")");
+        this.initializeBreadcrumbTrail(element);
 
         this.chart = d3.select(element).append('svg')
             .attr('width', this.width)
@@ -122,6 +115,20 @@ export class SunburstChartComponent implements OnInit, Chart {
             .attr('class', 'curtain')
             .attr('transform', 'rotate(180)')
             .style('fill', '#fafafa')
+    }
+
+    // Basic setup of page elements.
+    private initializeBreadcrumbTrail(element) {
+        // Add the svg area.
+        d3.select(element).select("#sequence").append("svg")
+            .attr("height", 50)
+            .attr("id", "trail")
+            .style("width", 'auto');
+        
+        // Place the breadcrumb trail lower
+        d3.select(element).select('#sequence')
+            .select('svg')
+            .attr("transform", d => "translate(0," + this.explanationHeight / 2 + ")");
     }
 
     // Fade all but the current sequence, and show it in the breadcrumb trail.
@@ -218,12 +225,12 @@ export class SunburstChartComponent implements OnInit, Chart {
         // Position of the sequence
         d3.select(element).select('#sequence')
             .select('svg')
-            .attr("transform", d => "translate(" + (thisClass.width / 2 - SequenceTotalSize / 2 - thisClass.explanationWidth / 2)  + "," + thisClass.explanationHeight / 2 + ")");
+            .attr("transform", d => "translate(" + ((thisClass.width  - SequenceTotalSize - thisClass.explanationWidth) / 2)   + "," + thisClass.explanationHeight / 2 + ")");
 
         // Position of the explanation
         d3.select(element).select('#explanation')
             .style("top", -thisClass.explanationHeight / 2 + 'px')
-            .style("left", thisClass.width / 2 + SequenceTotalSize / 2 - thisClass.explanationWidth / 2 + 'px');
+            .style("left", (thisClass.width + SequenceTotalSize - thisClass.explanationWidth) / 2 + 'px');
 
         // Make the breadcrumb trail visible, if it's hidden.
         d3.select(element).select("#trail")
