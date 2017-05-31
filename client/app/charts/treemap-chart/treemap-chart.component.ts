@@ -29,9 +29,6 @@ export class TreemapChartComponent implements OnInit, Chart {
     }
 
     setData(data) {
-        console.log('data', data);
-        console.log('sample', sample[0]);
-
         (data.length == 0) ? this.data = sample[0] : this.data = data; 
     }
     
