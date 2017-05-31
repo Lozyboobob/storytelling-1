@@ -81,40 +81,7 @@ export class BarChartComponent implements OnInit, Chart {
             .attr('height', d => this.height - this.yScale(d.value))
             .style('fill', (d, i) => this.colors(i));
 
-        // add new bars
-        /*
-                bars
-                    .enter()
-                    .append('rect')
-                    .attr('class', 'bar')
-                    .attr('x', d => this.xScale(d.index))
-                    .attr('y', d => this.yScale(0))
-                    .attr('width', this.xScale.bandwidth())
-                    .attr('height', 0)
-                    .attr('opacity', 0.8)
-                    .style('fill', (d, i) => this.colors(i))
-                    .on('mouseover', _ => {
-                        d3.select(d3.event.srcElement).attr('opacity', 1)
-                        //this.chart.selectAll('.value-text').attr('opacity', 1)
-                    })
-                    .on('mouseout', _ => {
-                        d3.select(d3.event.srcElement).attr('opacity', 0.8)
-                        //this.chart.selectAll('.value-text').attr('opacity', 1)
-                    });
 
-                //value tip at the top
-                bars
-                    .enter()
-                    .append('text')
-                    .attr('class', 'value-text')
-                    .attr('font-weight', 600)
-                    .attr('x', d => this.xScale(d.index) + this.xScale.bandwidth() / 2)
-                    .attr('y', d => this.yScale(d.value) - 5)
-                    .attr("text-anchor", "middle")
-                    .attr('fill', (d, i) => this.colors(i))
-                    .attr('opacity', 1)
-                    .text(d => d.value);
-        */
         bars.data(this.data)
             .enter()
             .append("g")
