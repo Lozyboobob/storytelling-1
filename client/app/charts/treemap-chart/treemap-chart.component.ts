@@ -11,7 +11,7 @@ import {Chart} from '../chart.interface';
 })
 export class TreemapChartComponent implements OnInit, Chart {
     @ViewChild('chart') private chartContainer: ElementRef;
-    private data: Array<any>;
+    private data: any;
     private curtain: any; //for animation
     private margin: any = { top: 20, bottom: 20, left: 20, right: 20 };
     private chart: any;
@@ -29,7 +29,7 @@ export class TreemapChartComponent implements OnInit, Chart {
     }
 
     setData(data) {
-        (data.length == 0) ? this.data = sample[0] : this.data = data; 
+        (data.length == 0) ? this.data = sample[0] : this.data = data[0]; 
     }
     
     init() {
@@ -89,7 +89,7 @@ export class TreemapChartComponent implements OnInit, Chart {
     });
 */
 
-        this.root = d3.hierarchy(this.data[0])
+        this.root = d3.hierarchy(this.data)
             .eachBefore(d => { d.data.id = (d.parent ? d.parent.data.id + "." : "") + d.data.name })
             .sum(d => d.size)
             .sort((a, b) =>  b.height - a.height || b.value - a.value);
@@ -190,7 +190,7 @@ export class TreemapChartComponent implements OnInit, Chart {
 }
 
 const sample = [
-    [{
+    {
         "name": "flare",
         "children": [{
             "name": "analytics",
@@ -558,5 +558,5 @@ const sample = [
    ]
   }
  ]
-}]
+}
 ]
