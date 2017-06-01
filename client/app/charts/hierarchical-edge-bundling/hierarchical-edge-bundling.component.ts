@@ -17,14 +17,13 @@ export class HierarchicalEdgeBundlingComponent implements OnInit, Chart {
   private innerRadius ;
   private line: any;
   private link: any;
-  private node: any
+  private node: any;
   private margin: any = { top: 20, bottom: 20, left: 20, right: 20 };
 
   constructor() { }
 
   ngOnInit() {
     this.id = `slide-${Math.floor(Math.random() * (1000000 - 0 + 1)) + 0}`;
-    console.log('id', this.id);
   }
   init() {
     const element = this.chartContainer.nativeElement;
