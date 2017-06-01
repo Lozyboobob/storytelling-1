@@ -16,7 +16,7 @@ export class HierarchicalEdgeBundlingComponent extends Chart implements OnInit {
   private innerRadius ;
   private line: any;
   private link: any;
-  private node: any
+  private node: any;
   private margin: any = { top: 20, bottom: 20, left: 20, right: 20 };
 
   constructor() { 

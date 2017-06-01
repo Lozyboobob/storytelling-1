@@ -36,7 +36,7 @@ export class SlidesManagerComponent implements OnInit {
 
     search(paramsTosearch) {
         console.log("search trigger");
-        //get search result
+        // get search result
         this.toSearch.title = paramsTosearch || '';
         this.slidesService.getSlideToSearch(this.toSearch)
             .subscribe(slides => {
@@ -53,6 +53,16 @@ export class SlidesManagerComponent implements OnInit {
                 this.slides = [];
                 this.slides = slides;
             });
+    }
+    refreshList() {
+        this.slidesService.getSlidesList()
+            .subscribe(
+                slide => {
+                    this.slides = slide;
+                },
+                error => {
+                    console.log('fail to get Slides list');
+                });
     }
 
 }
