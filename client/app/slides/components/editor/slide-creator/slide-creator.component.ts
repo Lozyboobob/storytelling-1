@@ -152,16 +152,8 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
 
         if (this.slide.hasGraph && !(this.form.value.slideGraph == 'noGraph' || this.form.value.slideGraph == 'image')) {
             switch (this.dataInputTab.selectedIndex) {
-                // default data
-                case 0: {
-                    if (this.form.value.slideGraph == 'barChart')
-                        this.slide.data = this.form.value.graphData;
-                    else
-                        this.slide.data = [];
-                    break;
-                }
                 //json input
-                case 1: {
+                case 0: {
                     let data;
                     try {
                         data = JSON.parse(this.form.value.graphDataJson);
@@ -174,7 +166,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
                     break;
                 }
                 //csv input
-                case 2: {
+                case 1: {
                     let data;
                     try {
                         //data = JSON.parse(this.csvJson);
