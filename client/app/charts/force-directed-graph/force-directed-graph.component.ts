@@ -22,6 +22,7 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
     }
 
     ngOnInit() { 
+        // Set data
         if (this.dataInput.length == 0){
           this.data = sample;
         } else {

@@ -27,7 +27,9 @@ export class BarChartComponent extends Chart implements OnInit {
     }
 
     ngOnInit() {
+        // Set data
         this.data = this.dataInput;
+        
         this.init();
     }
 

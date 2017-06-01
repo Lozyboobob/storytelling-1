@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import * as d3 from 'd3';
-import {Chart} from '../chart.interface';
+import {Chart} from '../chart.class';
 @Component({
   selector: 'app-hierarchical-edge-bundling',
   templateUrl: './hierarchical-edge-bundling.component.html',
   styleUrls: ['./hierarchical-edge-bundling.component.scss']
 })
-export class HierarchicalEdgeBundlingComponent implements OnInit, Chart {
+export class HierarchicalEdgeBundlingComponent extends Chart implements OnInit {
   @ViewChild('chart') private chartContainer: ElementRef;
   private id;
   private data: Array<any> = [];
@@ -20,7 +20,9 @@ export class HierarchicalEdgeBundlingComponent implements OnInit, Chart {
   private node: any
   private margin: any = { top: 20, bottom: 20, left: 20, right: 20 };
 
-  constructor() { }
+  constructor() { 
+       super()  
+    }
 
   ngOnInit() {
     this.id = `slide-${Math.floor(Math.random() * (1000000 - 0 + 1)) + 0}`;
