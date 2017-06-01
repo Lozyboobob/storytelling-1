@@ -62,8 +62,7 @@ export class GraphTextSlideComponent implements OnInit, AfterContentInit {
     console.log('slide.pageLayout', this.slide.pageLayout)
   }
 
-  private 
-  () {
+  private setConfig() {
     this.config = new PageConfig();
     Object.assign(this.config, HALF_HALF_LAYOUT);
 
