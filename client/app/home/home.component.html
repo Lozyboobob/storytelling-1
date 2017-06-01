@@ -1,7 +1,7 @@
 <div class="logo" [class.hide]="showSlidesList">
   <img src="assets/logo.png" width="100%">
 </div>
-<br>
+<br *ngIf="!showSlidesList">
 <div class="container-fluid search-block" [class.center-mode]="!showSlidesList" [class.side-mode]="showSlidesList">
   <div class="row space search-wrap">
     <app-search (textSearch)="searchSlides($event)" class="search"></app-search>
