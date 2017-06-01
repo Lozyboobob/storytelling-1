@@ -42,7 +42,6 @@ export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit {
   ngAfterContentInit() {
     let cmpType : string = this.slide.graph.charAt(0).toUpperCase() + this.slide.graph.slice(1) + 'Component';
     this.setChart(cmpType)
-    //setTimeout(_ => this.initChart());
     this.slideload$.filter(n => n === this.pos).subscribe(() => {
       this.loadChart();
       //this.loadContent();
@@ -77,10 +76,6 @@ export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit {
       this.config.hasChart = true;
     }
   }
-  /*private initChart() {
-    (<Chart>this.componentRef.instance).setData(this.slide.data);
-    (<Chart>this.componentRef.instance).init();
-  }*/
 
   private loadChart() {
     if (this.config.hasChart) {
