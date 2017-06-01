@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import * as d3 from 'd3';
-import {Chart} from '../chart.class';
+import {Chart} from '../chart.interface';
 @Component({
   selector: 'app-hierarchical-edge-bundling',
   templateUrl: './hierarchical-edge-bundling.component.html',
@@ -20,7 +20,7 @@ export class HierarchicalEdgeBundlingComponent extends Chart implements OnInit {
   private node: any;
   private margin: any = { top: 20, bottom: 20, left: 20, right: 20 };
 
-  constructor() { 
+  constructor() {
        super()
     }
 
@@ -30,7 +30,7 @@ export class HierarchicalEdgeBundlingComponent extends Chart implements OnInit {
 
     this.init();
   }
-  
+
   init() {
     const element = this.chartContainer.nativeElement;
     this.width = element.offsetWidth;
