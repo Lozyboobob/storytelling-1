@@ -22,9 +22,9 @@ export class LineChartComponent extends Chart implements OnInit {
     ngOnInit() {
         // Set the data
         this.data = [];
-        this.setData(this.dataInput);
         this.dateMode = false;
-
+        this.setData(this.dataInput);
+        
         this.init();
     }
 
