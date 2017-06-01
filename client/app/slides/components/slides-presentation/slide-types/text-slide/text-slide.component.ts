@@ -3,7 +3,7 @@ import { Component, OnInit, Input, ViewChild, ViewChildren } from '@angular/core
 import { Observable } from "rxjs/Observable";
 import { Slide } from "../../../../models";
 import { PageConfig, FULL_LAYOUT } from "../../pageConfig";
-import { Chart } from "../../../../../charts/chart.interface";
+import { Chart } from "../../../../../charts/chart.class";
 
 
 @Component({
