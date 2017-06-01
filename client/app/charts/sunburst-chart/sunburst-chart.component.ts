@@ -11,7 +11,6 @@ import { Chart } from '../chart.class';
 })
 export class SunburstChartComponent extends Chart implements OnInit {
     @ViewChild('chart') private chartContainer: ElementRef;
-     @Input() dataInput: any;
     private data: any;
     private curtain: any; //for animation
     private margin: any = { top: 20, bottom: 20, left: 20, right: 20 };

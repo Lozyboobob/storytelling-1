@@ -8,7 +8,6 @@ import {Chart} from '../chart.class';
 })
 export class HierarchicalEdgeBundlingComponent extends Chart implements OnInit {
   @ViewChild('chart') private chartContainer: ElementRef;
-  @Input() dataInput: any;
   private data: Array<any> = [];
   private width: number;
   private height: number;
@@ -25,9 +24,12 @@ export class HierarchicalEdgeBundlingComponent extends Chart implements OnInit {
     }
 
   ngOnInit() {
+    // Set data
     this.data = this.dataInput;
+
     this.init();
   }
+  
   init() {
     const element = this.chartContainer.nativeElement;
     this.width = element.offsetWidth;

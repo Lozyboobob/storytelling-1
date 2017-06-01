@@ -8,7 +8,6 @@ import {Chart} from '../chart.class';
 })
 export class ForceDirectedGraphComponent extends Chart implements OnInit {
     @ViewChild('chart') private chartContainer: ElementRef;
-     @Input() dataInput: any;
     private chart: any;
     private width: number;
     private height: number;

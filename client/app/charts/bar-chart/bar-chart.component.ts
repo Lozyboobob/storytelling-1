@@ -9,7 +9,6 @@ import {Chart} from '../chart.class';
 export class BarChartComponent extends Chart implements OnInit {
 
     @ViewChild('chart') private chartContainer: ElementRef;
-     @Input() dataInput: any;
     private data: Array<any> = sample;
     private margin: any = { top: 0, bottom: 0, left: 40, right: 40 };
     private chart: any;

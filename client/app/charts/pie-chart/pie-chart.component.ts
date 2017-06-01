@@ -10,7 +10,6 @@ import {Chart} from '../chart.class';
 export class PieChartComponent extends Chart implements OnInit  {
 
  @ViewChild('chart') private chartContainer: ElementRef;
- @Input() dataInput: any;
     private element: any;
     private data: Array<any> = [];
     private width: number;
@@ -25,10 +24,13 @@ export class PieChartComponent extends Chart implements OnInit  {
     }
 
   ngOnInit() {
-        this.data = this.dataInput;
-        this.element = this.chartContainer.nativeElement;
-        this.init();
+      // Set data
+      this.data = this.dataInput;
+      this.element = this.chartContainer.nativeElement;
+      
+      this.init();
   }
+  
   init() {
         this.width = this.element.offsetWidth;
         this.height = this.element.offsetHeight;

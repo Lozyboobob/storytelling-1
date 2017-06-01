@@ -7,7 +7,6 @@ import { formatLabel } from "@swimlane/ngx-charts";
   styleUrls: ['./advanced-pie-chart.component.scss']
 })
 export class AdvancedPieChartComponent extends Chart implements OnInit {
- @Input() dataInput: any;
   private data: Array<any> = [];
   private width: number;
   private height: number;
