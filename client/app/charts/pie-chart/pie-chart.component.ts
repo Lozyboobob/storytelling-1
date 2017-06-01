@@ -32,7 +32,6 @@ export class PieChartComponent implements OnInit, Chart {
           .append('g')
           .attr('transform', `translate(${this.width / 2},${this.height / 2})`);
     this.radius = Math.min(this.width, this.height) / 2;
-    console.log('data', this.data);
     const values = this.data.map(data => data.value);
     const pie = d3.pie();
     const arcSelection = svg.selectAll('.arc')
