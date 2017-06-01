@@ -42,6 +42,8 @@ import {Ng2PageScrollModule} from 'ng2-page-scroll';
 import {DragulaModule} from 'ng2-dragula';
 import { BarChartComponent } from '../charts';
 import { GaugeChartComponent } from '../charts';
+import { HierarchicalEdgeBundlingComponent } from '../charts/hierarchical-edge-bundling/hierarchical-edge-bundling.component';
+
 import { AdvancedPieChartComponent } from '../charts';
 import { ForceDirectedGraphComponent } from '../charts/force-directed-graph/force-directed-graph.component';
 import { LineChartComponent } from '../charts/line-chart/line-chart.component';
@@ -85,6 +87,7 @@ import { SlidesCardComponent } from './components/slides-card/slides-card.compon
         ForceDirectedGraphComponent,
         TreemapChartComponent,
         SunburstChartComponent,
+        HierarchicalEdgeBundlingComponent,
         PieChartComponent,
         FullScreenGraphSlideComponent,
         GaugeChartComponent,
@@ -115,6 +118,7 @@ import { SlidesCardComponent } from './components/slides-card/slides-card.compon
         TextSlideComponent,
         PieChartComponent,
         SlidesCardComponent,
+        HierarchicalEdgeBundlingComponent
     ],
     exports:[
       FilterComponent,
