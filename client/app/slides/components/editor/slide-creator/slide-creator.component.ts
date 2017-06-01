@@ -57,10 +57,12 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
             value: "sunburstChart",
             type: "Sunburst Chart"
         },
+          /* hide image part
         {
             value: "image",
             type: "Image"
         },
+        */
         {
             value: "noGraph",
             type: "No Graph"
@@ -73,10 +75,12 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
             value: "textInCenter",
             type: "Text in Center"
         },
+        /* hide image part
         {
             value: "textInCenterImageBackground",
             type: "Text in Center + Image Background"
         },
+        */
         {
             value: "LeftGraphRightText",
             type: "Graph on Left +  Text on Right"
