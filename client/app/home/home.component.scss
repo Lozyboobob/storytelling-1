@@ -56,17 +56,16 @@
 
     &.side-mode {
         .search-wrap {
-          display: flex;
+            display: flex;
             margin-left: 145px;
             margin-top: -50px;
             //width: 80%;
-
             .search {
-              //flex: 1;
+                //flex: 1;
             }
 
             .filter {
-              //flex: 0 0 100px;
+                //flex: 0 0 100px;
             }
         }
     }
@@ -75,4 +74,11 @@
         color: #c5401a;
         cursor: pointer;
     }
+}
+
+.no-publish,
+.no-result {
+    color: #263238;
+    font-size: 24px;
+    text-align: center;
 }

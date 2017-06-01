@@ -17,12 +17,16 @@ export class HomeComponent implements OnInit {
     private states: Array<string>;
     private toSearch;
     private slides: Array<Slides> = [];
+    private noResult:boolean;
+    private noPublish:boolean;
 
 
     constructor(private slidesService: SlidesService) { }
 
     ngOnInit() {
         this.showSlidesList = false;
+        this.noResult=false;
+        this.noPublish=false;
         this.states = ['All'];
         this.toSearch = { title: '', filter: 'Public' };
     }
@@ -36,19 +40,23 @@ export class HomeComponent implements OnInit {
         this.slidesService.getSlideToSearch(this.toSearch)
             .subscribe(slides => {
                 this.slides = slides;
+                if(this.slides.length==0) this.noResult=true
+                else this.noResult=false;
             });
     }
 
-    
+
     getAllslides() {
         this.showSlidesList = true;
         this.toSearch.title = '';
         this.slidesService.getSlideToSearch(this.toSearch)
             .subscribe(slides => {
                 this.slides = slides;
+                if(this.slides.length==0) this.noPublish=true
+                else this.noPublish=false;
             });
     }
-    
+
     filterState(state) {
 
     }
