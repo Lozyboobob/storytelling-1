@@ -54,9 +54,15 @@ export class SlidesManagerComponent implements OnInit {
                 this.slides = slides;
             });
     }
-    refreshList(id) {
-        console.log(id);
-        this.slides.slice(1,);
+    refreshList() {
+        this.slidesService.getSlidesList()
+            .subscribe(
+                slide => {
+                    this.slides = slide;
+                },
+                error => {
+                    console.log('fail to get Slides list');
+                });
     }
 
 }
