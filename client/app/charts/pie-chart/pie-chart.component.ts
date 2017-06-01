@@ -20,7 +20,7 @@ export class PieChartComponent extends Chart implements OnInit  {
     private pieColor = d3.scaleOrdinal(d3.schemeCategory20);
     private id;
 
-    constructor() {
+    constructor() { 
        super()  
     }
 
