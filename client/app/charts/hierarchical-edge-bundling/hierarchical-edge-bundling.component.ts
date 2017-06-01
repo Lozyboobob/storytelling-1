@@ -8,7 +8,7 @@ import {Chart} from '../chart.interface';
 })
 export class HierarchicalEdgeBundlingComponent implements OnInit, Chart {
   @ViewChild('chart') private chartContainer: ElementRef;
-  private id;
+  id: string;
   private data: Array<any> = [];
   private width: number;
   private height: number;
@@ -24,7 +24,6 @@ export class HierarchicalEdgeBundlingComponent implements OnInit, Chart {
 
   ngOnInit() {
     this.id = `slide-${Math.floor(Math.random() * (1000000 - 0 + 1)) + 0}`;
-    console.log('id', this.id);
   }
   init() {
     const element = this.chartContainer.nativeElement;

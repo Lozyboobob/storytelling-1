@@ -15,7 +15,7 @@ export class PieChartComponent implements OnInit, Chart {
     private radius: number;
     private _current: any; // for animation
     private pieColor = d3.scaleOrdinal(d3.schemeCategory20);
-    private id;
+    id: string;
     constructor() {
 
     }

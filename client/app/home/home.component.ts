@@ -13,10 +13,10 @@ import { Slides } from 'app/slides';
 export class HomeComponent implements OnInit {
     @select(['session', 'token']) loggedIn$: Observable<string>;
 
-    private showSlidesList: boolean;
+    showSlidesList: boolean;
     private states: Array<string>;
     private toSearch;
-    private slides: Array<Slides> = [];
+    slides: Array<Slides> = [];
 
 
     constructor(private slidesService: SlidesService) { }
@@ -28,7 +28,7 @@ export class HomeComponent implements OnInit {
     }
 
 
-    private searchSlides(searchText) {
+    searchSlides(searchText) {
         //show slides and hide logo
         this.showSlidesList = true;
         //get search result
