@@ -32,24 +32,25 @@ export class GraphTextSlideComponent implements OnInit, AfterViewInit {
     private sanitizer: DomSanitizer) { }
 
   ngAfterViewInit(){
+    if (this.slide.graph === 'noGraph') return;
     this.cmpType = this.slide.graph.charAt(0).toUpperCase() + this.slide.graph.slice(1) + 'Component';
     setTimeout(_ => this.initChart());
     this.slideload$.filter(n => n === this.pos).subscribe(() => {
       this.loadChart();
       this.loadContent();
-    })
+    });
     this.slideease$.filter(n => n === this.pos).subscribe(() => {
       this.easeChart();
       this.easeContent();
-    })
+    });
   }
 
   ngOnInit() {
     this.setConfig();
   }
-  
+
   private setChart(chartType: string) {
-    let componentFactory = this._componentFactoryResolver.resolveComponentFactory(this.chartsService.getChartType(chartType));
+    const componentFactory = this._componentFactoryResolver.resolveComponentFactory(this.chartsService.getChartType(chartType));
     this.parent.clear();
     this.componentRef = this.parent.createComponent(componentFactory);
   }
