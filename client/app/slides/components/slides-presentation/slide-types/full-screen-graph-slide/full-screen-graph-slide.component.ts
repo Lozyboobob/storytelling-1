@@ -40,7 +40,8 @@ export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit {
 
 
   ngAfterContentInit() {
-    let cmpType : string = this.slide.graph.charAt(0).toUpperCase() + this.slide.graph.slice(1) + 'Component';
+    if (this.slide.graph === 'noGraph') return;
+    const cmpType: string = this.slide.graph.charAt(0).toUpperCase() + this.slide.graph.slice(1) + 'Component';
     this.setChart(cmpType)
     this.slideload$.filter(n => n === this.pos).subscribe(() => {
       this.loadChart();
