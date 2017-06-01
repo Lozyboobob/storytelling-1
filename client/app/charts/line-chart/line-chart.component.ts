@@ -7,22 +7,27 @@ import {Chart} from '../chart.class';
     templateUrl: './line-chart.component.html',
     styleUrls: ['./line-chart.component.scss']
 })
-export class LineChartComponent implements OnInit, Chart {
+export class LineChartComponent extends Chart implements OnInit {
     @ViewChild('chart') private chartContainer: ElementRef;
-     @Input() dataInput: any;
     private data: Array<any> = [];
     private width: number;
     private height: number;
     private curtain: any; //for animation
     private dateMode: boolean;//date data in xAxis
 
-    constructor() { }
+    constructor() { 
+       super()  
+    }
 
     ngOnInit() {
+        // Set the data
         this.data = [];
+        this.setData(this.dataInput);
         this.dateMode = false;
 
+        this.init();
     }
+
     setData(data: any) {
         if (data.length == 0) {
             data = [];

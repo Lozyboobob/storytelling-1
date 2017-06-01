@@ -6,7 +6,7 @@ import { formatLabel } from "@swimlane/ngx-charts";
   templateUrl: './advanced-pie-chart.component.html',
   styleUrls: ['./advanced-pie-chart.component.scss']
 })
-export class AdvancedPieChartComponent implements OnInit, Chart {
+export class AdvancedPieChartComponent extends Chart implements OnInit {
  @Input() dataInput: any;
   private data: Array<any> = [];
   private width: number;
@@ -27,7 +27,9 @@ export class AdvancedPieChartComponent implements OnInit, Chart {
   marginBottom: number = 40;
   marginLeft: number = 40;
 
-  constructor() { }
+  constructor() { 
+       super()  
+    }
 
    ngOnInit() {
     this.colorScheme = {
@@ -38,10 +40,11 @@ export class AdvancedPieChartComponent implements OnInit, Chart {
         '#a8385d', '#7aa3e5', '#a27ea8', '#aae3f5', '#adcded', '#a95963', '#8796c0', '#7ed3ed', '#50abcc', '#ad6886'
       ]
     }
-  }
 
-  setData(data) {
-    this.data =  data[0].results;
+    // Set the data
+    this.data =  this.dataInput[0].results;
+
+    this.init();
   }
 
   init() {

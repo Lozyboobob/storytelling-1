@@ -37,7 +37,9 @@ export class SunburstChartComponent extends Chart implements OnInit {
     }
 
     ngOnInit() {
+        // Set data
         (this.dataInput.length == 0) ? this.data = sample[0] : this.data = this.dataInput[0];
+        
         this.init();
     }
 

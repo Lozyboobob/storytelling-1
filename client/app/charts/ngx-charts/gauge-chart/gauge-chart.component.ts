@@ -6,9 +6,7 @@ import {Chart} from '../../chart.class';
   templateUrl: './gauge-chart.component.html',
   styleUrls: ['./gauge-chart.component.scss']
 })
-export class GaugeChartComponent implements OnInit, Chart {
-   @Input() dataInput: any;
-
+export class GaugeChartComponent extends Chart implements OnInit {
   private data: Array<any> = [];
   private width: number;
   private height: number;
@@ -37,7 +35,9 @@ export class GaugeChartComponent implements OnInit, Chart {
 
   tooltipDisabled = false;
 
-  constructor() { }
+  constructor() { 
+       super()  
+    }
 
   ngOnInit() {
     this.colorScheme = {
@@ -48,13 +48,11 @@ export class GaugeChartComponent implements OnInit, Chart {
         '#a8385d', '#7aa3e5', '#a27ea8', '#aae3f5', '#adcded', '#a95963', '#8796c0', '#7ed3ed', '#50abcc', '#ad6886'
       ]
     }
-  }
 
-  setData(data) {
-    this.gaugeUnits = data[0].unit;
-    this.data =  data[0].results;
+    // Set data
+    this.gaugeUnits = this.dataInput[0].unit;
+    this.data =  this.dataInput[0].results;
   }
-
 
   init() {
     // this.width = 700;
