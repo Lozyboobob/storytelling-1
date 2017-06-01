@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import * as d3 from 'd3';
 import {Chart} from '../chart.class';
 @Component({
@@ -8,7 +8,7 @@ import {Chart} from '../chart.class';
 })
 export class HierarchicalEdgeBundlingComponent extends Chart implements OnInit {
   @ViewChild('chart') private chartContainer: ElementRef;
-  private id;
+  @Input() dataInput: any;
   private data: Array<any> = [];
   private width: number;
   private height: number;
@@ -25,8 +25,8 @@ export class HierarchicalEdgeBundlingComponent extends Chart implements OnInit {
     }
 
   ngOnInit() {
-    this.id = `slide-${Math.floor(Math.random() * (1000000 - 0 + 1)) + 0}`;
-    console.log('id', this.id);
+    this.data = this.dataInput;
+    this.init();
   }
   init() {
     const element = this.chartContainer.nativeElement;
@@ -39,8 +39,8 @@ export class HierarchicalEdgeBundlingComponent extends Chart implements OnInit {
         .curve(d3.curveBundle.beta(0.85))
         .radius(d =>{ return d['y']; })
         .angle(d => { return d['x'] / 180 * Math.PI; });
-
-    const svg = d3.select(`#${this.id}`).append('svg')
+    console.log( d3.select(element));
+    const svg = d3.select(element).append('svg')
         .attr('width', this.width)
         .attr('height', this.height)
         .append('g')
@@ -49,9 +49,7 @@ export class HierarchicalEdgeBundlingComponent extends Chart implements OnInit {
     this.link = svg.append('g').selectAll('.link');
     this.node = svg.append('g').selectAll('.node');
   };
-  setData(data) {
-    this.data = data;
-  };
+
   load() {
     const cluster = d3.cluster()
         .size([360, this.innerRadius]);
@@ -80,15 +78,6 @@ export class HierarchicalEdgeBundlingComponent extends Chart implements OnInit {
         .on('mouseover', mouseovered)
         .on('mouseout', mouseouted);
 
-    d3.select(`#${this.id}`).selectAll('.arc').select('path')
-        .transition()
-        .duration(1500)
-        .attrTween('d', tweenPie);
-    function tweenPie(b) {
-      b.innerRadius = 0;
-      const i = d3.interpolate({startAngle: 0, endAngle: 0}, b);
-      return function(t) { return this.line(i(t)); };
-    }
     function mouseovered(d) {
       node
           .each(function(n) { n.target = n.source = false; });
