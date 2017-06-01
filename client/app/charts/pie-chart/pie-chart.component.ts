@@ -7,9 +7,11 @@ import {Chart} from '../chart.class';
   templateUrl: './pie-chart.component.html',
   styleUrls: ['./pie-chart.component.scss']
 })
-export class PieChartComponent extends Chart implements OnInit {
+export class PieChartComponent extends Chart implements OnInit  {
+
  @ViewChild('chart') private chartContainer: ElementRef;
-  @Input() dataInput: any;
+ @Input() dataInput: any;
+    private element: any;
     private data: Array<any> = [];
     private width: number;
     private height: number;
@@ -17,23 +19,25 @@ export class PieChartComponent extends Chart implements OnInit {
     private _current: any; // for animation
     private pieColor = d3.scaleOrdinal(d3.schemeCategory20);
     private id;
+
     constructor() { 
        super()  
     }
 
   ngOnInit() {
-      this.id = `slide-${Math.floor(Math.random() * (1000000 - 0 + 1)) + 0}`;
+        this.data = this.dataInput;
+        this.element = this.chartContainer.nativeElement;
+        this.init();
   }
   init() {
-      const element = this.chartContainer.nativeElement;
-        this.width = element.offsetWidth;
-        this.height = element.offsetHeight;
-        const svg = d3.select(`#${this.id}`)
+        this.width = this.element.offsetWidth;
+        this.height = this.element.offsetHeight;
+        const svg = d3.select(this.element)
           .append('svg')
           .append('g')
           .attr('transform', `translate(${this.width / 2},${this.height / 2})`);
+        console.log(this.element);
     this.radius = Math.min(this.width, this.height) / 2;
-    console.log('data', this.data);
     const values = this.data.map(data => data.value);
     const pie = d3.pie();
     const arcSelection = svg.selectAll('.arc')
@@ -44,16 +48,14 @@ export class PieChartComponent extends Chart implements OnInit {
     arcSelection.append('path');
     arcSelection.append('text');
     };
-    setData(data) {
-        this.data = data;
-    };
+
     load() {
         const  outerRadius = this.radius - 10;
         const  arc = d3.arc()
             .innerRadius(0)
             .outerRadius(outerRadius);
 
-        d3.select(`#${this.id}`).selectAll('.arc').select('path')
+        d3.select(this.element).selectAll('.arc').select('path')
             .attr('fill', (datum, index) => {
                 return this.pieColor(this.data[index].label);
             })
@@ -61,7 +63,7 @@ export class PieChartComponent extends Chart implements OnInit {
             .duration(1500)
             .attrTween('d', tweenPie);
 
-        d3.select(`#${this.id}`).selectAll('.arc').select('text')
+        d3.select(this.element).selectAll('.arc').select('text')
             .transition()
             .duration(1500)
             .attrTween('transform', tweenText)
