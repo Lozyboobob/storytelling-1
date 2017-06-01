@@ -8,6 +8,7 @@ import {Chart} from '../chart.class';
   styleUrls: ['./pie-chart.component.scss']
 })
 export class PieChartComponent extends Chart implements OnInit  {
+
  @ViewChild('chart') private chartContainer: ElementRef;
  @Input() dataInput: any;
     private element: any;
@@ -18,8 +19,9 @@ export class PieChartComponent extends Chart implements OnInit  {
     private _current: any; // for animation
     private pieColor = d3.scaleOrdinal(d3.schemeCategory20);
     private id;
-    constructor() {
-        super();
+
+    constructor() { 
+       super()  
     }
 
   ngOnInit() {
