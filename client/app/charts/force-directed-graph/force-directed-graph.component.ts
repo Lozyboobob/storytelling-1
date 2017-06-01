@@ -73,10 +73,14 @@ export class ForceDirectedGraphComponent implements OnInit, Chart {
     }
     setData(data) {
         //  this.data=data[0];
-        if (data.length == 0) return;
-        this.data = sample;
+        if (data.length == 0){
+          this.data = sample;
+        }
+        else this.data=data[0];
+
     }
     init() {
+      console.log(this.data);
         let element = this.chartContainer.nativeElement;
         this.width = element.offsetWidth;
         this.height = element.offsetHeight;
