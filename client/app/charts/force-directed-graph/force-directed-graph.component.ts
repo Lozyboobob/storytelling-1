@@ -1,13 +1,14 @@
-import { Component, OnInit, ViewChild, ElementRef, } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef,Input } from '@angular/core';
 import * as d3 from 'd3';
-import {Chart} from '../chart.interface';
+import {Chart} from '../chart.class';
 @Component({
     selector: 'app-force-directed-graph',
     templateUrl: './force-directed-graph.component.html',
     styleUrls: ['./force-directed-graph.component.scss']
 })
-export class ForceDirectedGraphComponent implements OnInit, Chart {
+export class ForceDirectedGraphComponent extends Chart implements OnInit {
     @ViewChild('chart') private chartContainer: ElementRef;
+     @Input() dataInput: any;
     private chart: any;
     private width: number;
     private height: number;
@@ -16,9 +17,19 @@ export class ForceDirectedGraphComponent implements OnInit, Chart {
     private link: any;
     private node: any;
 
-    constructor() { }
+    constructor() { 
+       super()  
+    }
 
-    ngOnInit() { }
+    ngOnInit() { 
+        if (this.dataInput.length == 0){
+          this.data = sample;
+        } else {
+            this.data=this.dataInput[0];
+        }
+
+        this.init();
+    }
 
     ticked() {
         this.link
@@ -73,10 +84,7 @@ export class ForceDirectedGraphComponent implements OnInit, Chart {
     }
     setData(data) {
         //  this.data=data[0];
-        if (data.length == 0){
-          this.data = sample;
-        }
-        else this.data=data[0];
+        
 
     }
     init() {

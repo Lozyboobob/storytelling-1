@@ -1,14 +1,15 @@
 import { Component, OnInit, OnChanges, ViewChild, ElementRef, Input, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import * as d3 from 'd3';
-import {Chart} from '../chart.interface';
+import {Chart} from '../chart.class';
 @Component({
     selector: 'app-bar-chart',
     templateUrl: './bar-chart.component.html',
     styleUrls: ['./bar-chart.component.scss']
 })
-export class BarChartComponent implements OnInit, Chart {
+export class BarChartComponent extends Chart implements OnInit {
 
     @ViewChild('chart') private chartContainer: ElementRef;
+     @Input() dataInput: any;
     private data: Array<any> = sample;
     private margin: any = { top: 0, bottom: 0, left: 40, right: 40 };
     private chart: any;
@@ -19,12 +20,15 @@ export class BarChartComponent implements OnInit, Chart {
     private colors: any;
     private xAxis: any;
     private yAxis: any;
-
     private loaded: boolean = true;
-    constructor() { }
+    
+    constructor() { 
+       super()  
+    }
 
     ngOnInit() {
-        this.data = [];
+        this.data = this.dataInput;
+        this.init();
     }
 
     createChart() {

@@ -2,14 +2,14 @@ import { Component, OnInit, OnChanges, ViewChild, ElementRef, Input, ViewEncapsu
 import * as d3 from 'd3';
 import {HierarchyNode} from 'd3'
 
-import {Chart} from '../chart.interface';
+import {Chart} from '../chart.class';
 
 @Component({
     selector: 'app-treemap-chart',
     templateUrl: './treemap-chart.component.html',
     styleUrls: ['./treemap-chart.component.scss']
 })
-export class TreemapChartComponent implements OnInit, Chart {
+export class TreemapChartComponent extends Chart implements OnInit {
     @ViewChild('chart') private chartContainer: ElementRef;
     private data: any;
     private curtain: any; //for animation
@@ -22,17 +22,17 @@ export class TreemapChartComponent implements OnInit, Chart {
     private root: any;
     private node: any;
 
-    constructor() { }
-
-    ngOnInit() {
-        this.data = [];
+    constructor() { 
+       super()  
     }
 
-    setData(data) {
-        (data.length == 0) ? this.data = sample[0] : this.data = data[0]; 
+    ngOnInit() {
+        (this.dataInput.length == 0) ? this.data = sample[0] : this.data = this.dataInput[0];
+        this.init();
     }
     
     init() {
+        console.log('init');
         let element = this.chartContainer.nativeElement;
         this.width = element.offsetWidth - this.margin.left - this.margin.right;
         this.height = element.offsetHeight - this.margin.top - this.margin.bottom;

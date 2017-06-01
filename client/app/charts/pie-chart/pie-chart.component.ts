@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import * as d3 from 'd3';
-import {Chart} from '../chart.interface';
+import {Chart} from '../chart.class';
 
 @Component({
   selector: 'app-pie-chart',
@@ -9,6 +9,7 @@ import {Chart} from '../chart.interface';
 })
 export class PieChartComponent implements OnInit, Chart {
  @ViewChild('chart') private chartContainer: ElementRef;
+  @Input() dataInput: any;
     private data: Array<any> = [];
     private width: number;
     private height: number;

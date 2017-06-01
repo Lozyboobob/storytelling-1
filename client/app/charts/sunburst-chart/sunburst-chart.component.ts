@@ -2,15 +2,16 @@ import { Component, OnInit, OnChanges, ViewChild, ElementRef, Input, ViewEncapsu
 import * as d3 from 'd3';
 import * as _ from "lodash";
 
-import { Chart } from '../chart.interface';
+import { Chart } from '../chart.class';
 
 @Component({
     selector: 'app-sunburst-chart',
     templateUrl: './sunburst-chart.component.html',
     styleUrls: ['./sunburst-chart.component.scss']
 })
-export class SunburstChartComponent implements OnInit, Chart {
+export class SunburstChartComponent extends Chart implements OnInit {
     @ViewChild('chart') private chartContainer: ElementRef;
+     @Input() dataInput: any;
     private data: any;
     private curtain: any; //for animation
     private margin: any = { top: 20, bottom: 20, left: 20, right: 20 };
@@ -31,10 +32,13 @@ export class SunburstChartComponent implements OnInit, Chart {
     private radius: any;
     private formatNumber: any
 
-    constructor() { }
+    constructor() { 
+       super()  
+    }
 
     ngOnInit() {
-        this.data = [];
+        (this.dataInput.length == 0) ? this.data = sample[0] : this.data = this.dataInput[0];
+        this.init();
     }
 
     setData(data) {

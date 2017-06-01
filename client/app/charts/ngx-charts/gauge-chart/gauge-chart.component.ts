@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import {Chart} from '../../chart.interface';
+import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
+import {Chart} from '../../chart.class';
 
 @Component({
   selector: 'app-gauge-chart',
@@ -7,6 +7,7 @@ import {Chart} from '../../chart.interface';
   styleUrls: ['./gauge-chart.component.scss']
 })
 export class GaugeChartComponent implements OnInit, Chart {
+   @Input() dataInput: any;
 
   private data: Array<any> = [];
   private width: number;

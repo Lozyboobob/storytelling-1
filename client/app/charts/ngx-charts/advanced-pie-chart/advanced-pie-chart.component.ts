@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {Chart} from '../../chart.interface';
+import { Component, OnInit, Input } from '@angular/core';
+import {Chart} from '../../chart.class';
 import { formatLabel } from "@swimlane/ngx-charts";
 @Component({
   selector: 'app-advanced-pie-chart',
@@ -7,7 +7,7 @@ import { formatLabel } from "@swimlane/ngx-charts";
   styleUrls: ['./advanced-pie-chart.component.scss']
 })
 export class AdvancedPieChartComponent implements OnInit, Chart {
-
+ @Input() dataInput: any;
   private data: Array<any> = [];
   private width: number;
   private height: number;
