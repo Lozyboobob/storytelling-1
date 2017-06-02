@@ -8,6 +8,7 @@ import {Chart} from '../chart.class';
 })
 export class HierarchicalEdgeBundlingComponent extends Chart implements OnInit {
   @ViewChild('chart') private chartContainer: ElementRef;
+
   private data: Array<any> = [];
   private width: number;
   private height: number;

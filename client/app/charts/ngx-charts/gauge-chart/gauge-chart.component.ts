@@ -7,12 +7,13 @@ import {Chart} from '../../chart.class';
   styleUrls: ['./gauge-chart.component.scss']
 })
 export class GaugeChartComponent extends Chart implements OnInit {
-  private data: Array<any> = [];
+  
+  data: Array<any> = [];
+
   private width: number;
   private height: number;
 
   view: any[];
-  activated: boolean = false;
   showLegend: boolean = true;
   legendTitle: string = 'Legend';
   gaugeTextValue: string = '';
@@ -61,13 +62,11 @@ export class GaugeChartComponent extends Chart implements OnInit {
   }
 
   load() {
-    this.activated = false;
-    setTimeout(()=> this.activated = true, 300);
+    this.data = [...this.data];
   }
 
 
   ease() {
-    this.activated = false;
   }
 
   select(data) {
