@@ -7,7 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class TitleSlideComponent implements OnInit {
 
-  @Input() private slideTitle: string;
+  @Input() slideTitle: string;
   
   constructor() { }
 

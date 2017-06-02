@@ -9,8 +9,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {XHRBackend, Http, RequestOptions} from '@angular/http';
 
 // NGX-CHARTS MODULE
-import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { NgxUIModule } from '@swimlane/ngx-ui';
+import { PieChartModule, GaugeModule } from '@swimlane/ngx-charts';
 
 
 
@@ -75,8 +74,8 @@ import { DialogComponent } from './components/dialog/dialog.component';
         CoreModule,
         SlidesRoutingModule,
         DragulaModule,
-        NgxChartsModule,
-        NgxUIModule,
+        PieChartModule,
+        GaugeModule,
         Ng2PageScrollModule.forRoot(),
         FroalaEditorModule.forRoot(),
         FroalaViewModule.forRoot(),
