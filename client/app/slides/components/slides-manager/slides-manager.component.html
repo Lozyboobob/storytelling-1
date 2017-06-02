@@ -2,7 +2,6 @@
   <div class="row space">
     <app-search (textSearch)="search($event)"></app-search>
     <app-filter *ngIf="loggedIn$|async" (filterState)="filterState($event)" [states]="states"></app-filter>
-    <button class="add-button" *ngIf="loggedIn$|async"  [routerLink]="['createSlides']" md-fab><md-icon>add</md-icon> </button>
 
   </div>
 
@@ -11,4 +10,6 @@
       <app-slides-card (deletedSlides)="refreshList()"  [slides]="s" [editable]="true"></app-slides-card>
     </div>
   </div>
+
 </div>
+<button  [class.buttonTop]="slides.length===0" [class.buttonBottom]="slides.length>0" *ngIf="loggedIn$|async"  [routerLink]="['createSlides']" md-fab><md-icon>add</md-icon> </button>
