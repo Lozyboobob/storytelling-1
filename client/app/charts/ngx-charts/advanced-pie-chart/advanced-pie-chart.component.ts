@@ -9,6 +9,7 @@ import { formatLabel } from "@swimlane/ngx-charts";
 export class AdvancedPieChartComponent extends Chart implements OnInit {
   
   data: Array<any> = [];
+
   private width: number;
   private height: number;
 

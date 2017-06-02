@@ -9,6 +9,7 @@ import {Chart} from '../../chart.class';
 export class GaugeChartComponent extends Chart implements OnInit {
   
   data: Array<any> = [];
+
   private width: number;
   private height: number;
 

@@ -24,7 +24,6 @@ export class LineChartComponent extends Chart implements OnInit {
         this.data = [];
         this.setData(this.dataInput);
         this.dateMode = false;
-
         this.init();
     }
 
