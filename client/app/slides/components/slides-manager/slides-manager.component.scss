@@ -1,6 +1,12 @@
 .space {
     margin-left: 15px;
 }
-.add-button {
-    margin-left: 5%;
+.buttonBottom {
+    position: absolute;
+    bottom: 5%;
+    right: 5%;
+}
+.buttonTop {
+    position: absolute;
+    left: 5%;
 }

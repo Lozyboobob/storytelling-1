@@ -18,19 +18,18 @@ export class PieChartComponent extends Chart implements OnInit  {
     private _current: any; // for animation
     private pieColor = d3.scaleOrdinal(d3.schemeCategory20);
     private id;
-
-    constructor() { 
-       super()  
+    private curtain: any;
+    constructor() {
+       super();
     }
 
   ngOnInit() {
       // Set data
       this.data = this.dataInput;
       this.element = this.chartContainer.nativeElement;
-      
+
       this.init();
   }
-  
   init() {
         this.width = this.element.offsetWidth;
         this.height = this.element.offsetHeight;
@@ -57,7 +56,7 @@ export class PieChartComponent extends Chart implements OnInit  {
             .innerRadius(0)
             .outerRadius(outerRadius);
 
-        d3.select(this.element).selectAll('.arc').select('path')
+       this.curtain = d3.select(this.element).selectAll('.arc').select('path')
             .attr('fill', (datum, index) => {
                 return this.pieColor(this.data[index].label);
             })
@@ -99,5 +98,6 @@ export class PieChartComponent extends Chart implements OnInit  {
         }
 
     }
-    ease() { };
+    ease() {
+    }
 }

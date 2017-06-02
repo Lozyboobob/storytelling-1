@@ -12,6 +12,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import 'hammerjs';
 
+// NGX-CHARTS MODULE
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 
 // APP ROUTING
@@ -40,6 +42,7 @@ import { UsersModule } from "app/users";
     BrowserAnimationsModule,
     StoreModule,
     CoreModule,
+    NgxChartsModule,
     UsersModule.forRoot(),
     SlidesConfigModule.forRoot(),
     AppRoutingModule,

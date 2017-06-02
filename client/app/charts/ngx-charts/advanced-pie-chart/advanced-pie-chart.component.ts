@@ -7,12 +7,13 @@ import { formatLabel } from "@swimlane/ngx-charts";
   styleUrls: ['./advanced-pie-chart.component.scss']
 })
 export class AdvancedPieChartComponent extends Chart implements OnInit {
-  private data: Array<any> = [];
+  
+  data: Array<any> = [];
+
   private width: number;
   private height: number;
 
   view: any[];
-  activated: boolean = false;
 
   colorScheme: any;
   gradient = false;
@@ -54,17 +55,20 @@ export class AdvancedPieChartComponent extends Chart implements OnInit {
 
 
   load() {
-    this.activated = false;
-    setTimeout(()=> this.activated = true, 300);
+    this.data = [];
+    setInterval(() => this.data = this.dataInput[0].results);
   }
 
 
   ease() {
-    this.activated = false;
   }
 
   select(data) {
     console.log('Item clicked', data);
+  }
+
+  onLegendLabelClick(entry) {
+    console.log('Legend clicked', entry);
   }
 
   pieTooltipText({data}) {

@@ -26,7 +26,6 @@ export class LineChartComponent extends Chart implements OnInit {
         this.dateMode = false;
         this.heightTB = 60;
         this.setData(this.dataInput);
-
         this.init();
     }
     brushed(x, xTB, xAxis, svg, area, focus, zoom) {

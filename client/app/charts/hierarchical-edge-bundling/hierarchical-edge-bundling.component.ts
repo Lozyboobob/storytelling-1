@@ -8,6 +8,7 @@ import {Chart} from '../chart.class';
 })
 export class HierarchicalEdgeBundlingComponent extends Chart implements OnInit {
   @ViewChild('chart') private chartContainer: ElementRef;
+
   private data: Array<any> = [];
   private width: number;
   private height: number;
@@ -20,7 +21,7 @@ export class HierarchicalEdgeBundlingComponent extends Chart implements OnInit {
   private margin: any = { top: 20, bottom: 20, left: 20, right: 20 };
 
   constructor() { 
-       super()  
+       super()
     }
 
   ngOnInit() {

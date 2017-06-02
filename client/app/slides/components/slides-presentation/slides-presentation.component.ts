@@ -193,7 +193,7 @@ export class SlidesPresentationComponent implements OnInit {
     // slide switch operation
 
 
-    private lastSlide() {
+    lastSlide() {
         /*  if (this.charts.length == 0 || this.charts === undefined) {
               this.initCharts();
           }*/
@@ -215,7 +215,7 @@ export class SlidesPresentationComponent implements OnInit {
         }
     }
 
-    private nextSlide() {
+    nextSlide() {
         /*  if (this.charts.length == 0 || this.charts === undefined) {
               this.initCharts();
           }*/
@@ -241,6 +241,10 @@ export class SlidesPresentationComponent implements OnInit {
             });*/
 
         }
+    }
+    
+    staySlideProcess() {
+
     }
 
     private goToSlide(index: number) {
