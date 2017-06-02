@@ -24,8 +24,6 @@ import { AppComponent } from ".";
 import { CoreModule, StoreModule } from "app/core";
 // HOME MODULE
 import { HomeModule } from 'app/home';
-// ARTICLES CONFIG
-import { ArticlesConfigModule } from 'app/articles/config';
 // SLIDES CONFIG
 import { SlidesConfigModule } from 'app/slides';
 // USER MODULE
@@ -46,7 +44,6 @@ import { UsersModule } from "app/users";
     CoreModule,
     NgxChartsModule,
     UsersModule.forRoot(),
-    ArticlesConfigModule.forRoot(),
     SlidesConfigModule.forRoot(),
     AppRoutingModule,
     HomeModule,

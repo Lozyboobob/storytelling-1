@@ -1,9 +1,9 @@
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { Component, OnInit, AfterViewInit, Input, ViewChild, ViewChildren, ComponentFactoryResolver, ViewContainerRef, ComponentRef } from '@angular/core';
+import { Component, OnInit, AfterContentInit, AfterViewInit, Input, ViewChild, ViewChildren, ComponentFactoryResolver, ViewContainerRef, ComponentRef } from '@angular/core';
 import { Observable } from "rxjs/Observable";
 import { Slide } from "../../../../models";
 import { PageConfig, HALF_HALF_LAYOUT } from "../../pageConfig";
-import { Chart } from "../../../../../charts/chart.interface";
+import { Chart } from "../../../../../charts/chart.class";
 import { ChartsService } from "../../../../services";
 
 @Component({
@@ -11,7 +11,7 @@ import { ChartsService } from "../../../../services";
   templateUrl: './graph-text-slide.component.html',
   styleUrls: ['./graph-text-slide.component.scss']
 })
-export class GraphTextSlideComponent implements OnInit, AfterViewInit {
+export class GraphTextSlideComponent implements OnInit, AfterContentInit {
 
   @Input() slide: Slide;
   @Input() pos: number;
@@ -21,7 +21,6 @@ export class GraphTextSlideComponent implements OnInit, AfterViewInit {
   @ViewChild('parent', {read: ViewContainerRef})
   parent: ViewContainerRef;
   private componentRef: ComponentRef<Chart>;
-  private cmpType: string;
 
   config: PageConfig;
   loadContentAni: boolean;
@@ -31,32 +30,42 @@ export class GraphTextSlideComponent implements OnInit, AfterViewInit {
     private chartsService: ChartsService,
     private sanitizer: DomSanitizer) { }
 
-  ngAfterViewInit(){
-    this.cmpType = this.slide.graph.charAt(0).toUpperCase() + this.slide.graph.slice(1) + 'Component';
-    setTimeout(_ => this.initChart());
-    this.slideload$.filter(n => n === this.pos).subscribe(() => {
-      this.loadChart();
-      this.loadContent();
-    })
-    this.slideease$.filter(n => n === this.pos).subscribe(() => {
-      this.easeChart();
-      this.easeContent();
-    })
+  ngAfterViewInit() {
+
   }
 
   ngOnInit() {
     this.setConfig();
   }
+
+  ngAfterContentInit(){
+    if (this.slide.graph === 'noGraph') return;
+    let cmpType = this.slide.graph.charAt(0).toUpperCase() + this.slide.graph.slice(1) + 'Component';
+    this.setChart(cmpType);
+    //setTimeout(_ => this.initChart());
+    this.slideload$.filter(n => n === this.pos).subscribe(() => {
+      this.loadChart();
+      this.loadContent();
+    });
+    this.slideease$.filter(n => n === this.pos).subscribe(() => {
+      this.easeChart();
+      this.easeContent();
+    });
+  }
   
   private setChart(chartType: string) {
-    let componentFactory = this._componentFactoryResolver.resolveComponentFactory(this.chartsService.getChartType(chartType));
+    const componentFactory = this._componentFactoryResolver.resolveComponentFactory(this.chartsService.getChartType(chartType));
     this.parent.clear();
     this.componentRef = this.parent.createComponent(componentFactory);
+    this.componentRef.instance.dataInput = this.slide.data; // set the input inputData of the abstract class Chart
+
+    console.log('slide.pageLayout', this.slide.pageLayout)
   }
 
   private setConfig() {
     this.config = new PageConfig();
     Object.assign(this.config, HALF_HALF_LAYOUT);
+
     if (this.slide.graph == "image") {
       if (this.slide.fullScreenHtml.length)
         this.slide.fullScreenHtml = this.sanitizer.bypassSecurityTrustHtml(this.slide.fullScreenHtml) as string;
@@ -69,13 +78,13 @@ export class GraphTextSlideComponent implements OnInit, AfterViewInit {
   }
 
 
-  private initChart() {
+  /*private initChart() {
     this.setChart(this.cmpType);
     if (this.config.hasChart) {
       (<Chart>this.componentRef.instance).setData(this.slide.data);
       (<Chart>this.componentRef.instance).init();
     }
-  }
+  }*/
 
   private loadChart() {
     if (this.config.hasChart) {

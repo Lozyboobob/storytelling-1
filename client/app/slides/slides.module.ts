@@ -61,6 +61,7 @@ import { EditorComponent } from './components/editor/editor.component';
 import { FilterComponent } from './components/filter/filter.component';
 import { SlidesManagerComponent } from './components/slides-manager/slides-manager.component';
 import { SlidesCardComponent } from './components/slides-card/slides-card.component';
+import { DialogComponent } from './components/dialog/dialog.component';
 
 
 
@@ -90,7 +91,8 @@ import { SlidesCardComponent } from './components/slides-card/slides-card.compon
         PieChartComponent,
         FullScreenGraphSlideComponent,
         GaugeChartComponent,
-        AdvancedPieChartComponent],
+        AdvancedPieChartComponent,
+        DialogComponent],
     declarations: [
         ScrollDirective,
         SlidesPresentationComponent,
@@ -117,7 +119,8 @@ import { SlidesCardComponent } from './components/slides-card/slides-card.compon
         TextSlideComponent,
         PieChartComponent,
         SlidesCardComponent,
-        HierarchicalEdgeBundlingComponent
+        HierarchicalEdgeBundlingComponent,
+        DialogComponent
     ],
     exports:[
       FilterComponent,

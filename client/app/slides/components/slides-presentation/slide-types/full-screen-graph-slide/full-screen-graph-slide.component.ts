@@ -3,7 +3,7 @@ import { Component, OnInit, AfterContentInit, Input, ViewChild, ViewChildren, Co
 import { Observable } from "rxjs/Observable";
 import { Slide } from "../../../../models";
 import { PageConfig, FULL_LAYOUT } from "../../pageConfig";
-import { Chart } from "../../../../../charts/chart.interface";
+import { Chart } from "../../../../../charts/chart.class";
 import { ChartsService } from "../../../../services";
 @Component({
   selector: 'app-full-screen-graph-slide',
@@ -40,9 +40,9 @@ export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit {
 
 
   ngAfterContentInit() {
-    let cmpType : string = this.slide.graph.charAt(0).toUpperCase() + this.slide.graph.slice(1) + 'Component';
+    if (this.slide.graph === 'noGraph') return;
+    const cmpType: string = this.slide.graph.charAt(0).toUpperCase() + this.slide.graph.slice(1) + 'Component';
     this.setChart(cmpType)
-    setTimeout(_ => this.initChart());
     this.slideload$.filter(n => n === this.pos).subscribe(() => {
       this.loadChart();
       //this.loadContent();
@@ -57,6 +57,7 @@ export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit {
     let componentFactory = this._componentFactoryResolver.resolveComponentFactory(this.chartsService.getChartType(chartType));
     this.parent.clear();
     this.componentRef = this.parent.createComponent(componentFactory);
+    this.componentRef.instance.dataInput = this.slide.data; // set the input inputData of the abstract class Chart
   }
 
   private setConfig() {
@@ -75,10 +76,6 @@ export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit {
     else {
       this.config.hasChart = true;
     }
-  }
-  private initChart() {
-    (<Chart>this.componentRef.instance).setData(this.slide.data);
-    (<Chart>this.componentRef.instance).init();
   }
 
   private loadChart() {

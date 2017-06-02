@@ -1,14 +1,14 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import * as d3 from 'd3';
-import {Chart} from '../chart.interface';
+import {Chart} from '../chart.class';
 @Component({
   selector: 'app-hierarchical-edge-bundling',
   templateUrl: './hierarchical-edge-bundling.component.html',
   styleUrls: ['./hierarchical-edge-bundling.component.scss']
 })
-export class HierarchicalEdgeBundlingComponent implements OnInit, Chart {
+export class HierarchicalEdgeBundlingComponent extends Chart implements OnInit {
   @ViewChild('chart') private chartContainer: ElementRef;
-  id: string;
+
   private data: Array<any> = [];
   private width: number;
   private height: number;
@@ -17,14 +17,20 @@ export class HierarchicalEdgeBundlingComponent implements OnInit, Chart {
   private innerRadius ;
   private line: any;
   private link: any;
-  private node: any
+  private node: any;
   private margin: any = { top: 20, bottom: 20, left: 20, right: 20 };
 
-  constructor() { }
+  constructor() { 
+       super()  
+    }
 
   ngOnInit() {
-    this.id = `slide-${Math.floor(Math.random() * (1000000 - 0 + 1)) + 0}`;
+    // Set data
+    this.data = this.dataInput;
+
+    this.init();
   }
+  
   init() {
     const element = this.chartContainer.nativeElement;
     this.width = element.offsetWidth;
@@ -36,8 +42,8 @@ export class HierarchicalEdgeBundlingComponent implements OnInit, Chart {
         .curve(d3.curveBundle.beta(0.85))
         .radius(d =>{ return d['y']; })
         .angle(d => { return d['x'] / 180 * Math.PI; });
-
-    const svg = d3.select(`#${this.id}`).append('svg')
+    console.log( d3.select(element));
+    const svg = d3.select(element).append('svg')
         .attr('width', this.width)
         .attr('height', this.height)
         .append('g')
@@ -46,9 +52,7 @@ export class HierarchicalEdgeBundlingComponent implements OnInit, Chart {
     this.link = svg.append('g').selectAll('.link');
     this.node = svg.append('g').selectAll('.node');
   };
-  setData(data) {
-    this.data = data;
-  };
+
   load() {
     const cluster = d3.cluster()
         .size([360, this.innerRadius]);
@@ -77,15 +81,6 @@ export class HierarchicalEdgeBundlingComponent implements OnInit, Chart {
         .on('mouseover', mouseovered)
         .on('mouseout', mouseouted);
 
-    d3.select(`#${this.id}`).selectAll('.arc').select('path')
-        .transition()
-        .duration(1500)
-        .attrTween('d', tweenPie);
-    function tweenPie(b) {
-      b.innerRadius = 0;
-      const i = d3.interpolate({startAngle: 0, endAngle: 0}, b);
-      return function(t) { return this.line(i(t)); };
-    }
     function mouseovered(d) {
       node
           .each(function(n) { n.target = n.source = false; });

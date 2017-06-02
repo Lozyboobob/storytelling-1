@@ -5,7 +5,9 @@
     cursor: pointer;
     margin-bottom: 15px;
     width: 100%;
-
+    .card-link:focus {
+        outline: none;
+    }
     .card-header {
         .user-logo {
             background-color: #c5401a;
@@ -77,13 +79,19 @@
                 opacity: 0.5;
             }
 
-            md-icon {
-                font-size: 24px;
-                margin: 4px;
-                position: relative;
-            }
+         }
+        md-icon {
+            font-size: 24px;
+            margin: 4px;
+            position: relative;
         }
 
+        .delete-icon:hover {
+            color : #b50000
+        }
+        .edit-icon:hover {
+            color : #0000b8
+        }
         .left {
             flex: 1;
         }

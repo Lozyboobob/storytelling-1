@@ -1,13 +1,13 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import * as d3 from 'd3';
-import {Chart} from '../chart.interface';
+import {Chart} from '../chart.class';
 
 @Component({
     selector: 'app-line-chart',
     templateUrl: './line-chart.component.html',
     styleUrls: ['./line-chart.component.scss']
 })
-export class LineChartComponent implements OnInit, Chart {
+export class LineChartComponent extends Chart implements OnInit {
     @ViewChild('chart') private chartContainer: ElementRef;
     private data: Array<any> = [];
     private width: number;
@@ -15,13 +15,19 @@ export class LineChartComponent implements OnInit, Chart {
     private curtain: any; //for animation
     private dateMode: boolean;//date data in xAxis
 
-    constructor() { }
+    constructor() { 
+       super()  
+    }
 
     ngOnInit() {
+        // Set the data
         this.data = [];
+        this.setData(this.dataInput);
         this.dateMode = false;
 
+        this.init();
     }
+
     setData(data: any) {
         if (data.length == 0) {
             data = [];

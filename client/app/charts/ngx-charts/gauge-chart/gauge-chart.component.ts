@@ -1,19 +1,18 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import {Chart} from '../../chart.interface';
+import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
+import {Chart} from '../../chart.class';
 
 @Component({
   selector: 'app-gauge-chart',
   templateUrl: './gauge-chart.component.html',
   styleUrls: ['./gauge-chart.component.scss']
 })
-export class GaugeChartComponent implements OnInit, Chart {
-
-  private data: Array<any> = [];
+export class GaugeChartComponent extends Chart implements OnInit {
+  
+  data: Array<any> = [];
   private width: number;
   private height: number;
 
   view: any[];
-  activated: boolean = false;
   showLegend: boolean = true;
   legendTitle: string = 'Legend';
   gaugeTextValue: string = '';
@@ -36,7 +35,9 @@ export class GaugeChartComponent implements OnInit, Chart {
 
   tooltipDisabled = false;
 
-  constructor() { }
+  constructor() { 
+       super()  
+    }
 
   ngOnInit() {
     this.colorScheme = {
@@ -47,13 +48,11 @@ export class GaugeChartComponent implements OnInit, Chart {
         '#a8385d', '#7aa3e5', '#a27ea8', '#aae3f5', '#adcded', '#a95963', '#8796c0', '#7ed3ed', '#50abcc', '#ad6886'
       ]
     }
-  }
 
-  setData(data) {
-    this.gaugeUnits = data[0].unit;
-    this.data =  data[0].results;
+    // Set data
+    this.gaugeUnits = this.dataInput[0].unit;
+    this.data =  this.dataInput[0].results;
   }
-
 
   init() {
     // this.width = 700;
@@ -62,13 +61,11 @@ export class GaugeChartComponent implements OnInit, Chart {
   }
 
   load() {
-    this.activated = false;
-    setTimeout(()=> this.activated = true, 300);
+    this.data = [...this.data];
   }
 
 
   ease() {
-    this.activated = false;
   }
 
   select(data) {
