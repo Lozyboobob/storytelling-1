@@ -45,18 +45,22 @@ export class PieChartComponent extends Chart implements OnInit  {
         .data(pie(values))
         .enter()
         .append('g')
-        .attr('class', 'arc');
+        .attr('class', 'arc')
+        .style("opacity",1);
     arcSelection.append('path');
     arcSelection.append('text');
     };
 
     load() {
+       d3.select(this.element).select('svg').selectAll('.arc')
+            .style("opacity",1);
+
         const  outerRadius = this.radius - 10;
         const  arc = d3.arc()
             .innerRadius(0)
             .outerRadius(outerRadius);
 
-       this.curtain = d3.select(this.element).selectAll('.arc').select('path')
+      d3.select(this.element).selectAll('.arc').select('path')
             .attr('fill', (datum, index) => {
                 return this.pieColor(this.data[index].label);
             })
@@ -67,6 +71,7 @@ export class PieChartComponent extends Chart implements OnInit  {
         d3.select(this.element).selectAll('.arc').select('text')
             .transition()
             .duration(1500)
+            .style("opacity",1)
             .attrTween('transform', tweenText)
             .text((datum, index) => this.data[index].label)
             .styleTween('text-anchor', d => {
@@ -99,5 +104,9 @@ export class PieChartComponent extends Chart implements OnInit  {
 
     }
     ease() {
+        d3.select(this.element).selectAll('.arc')
+            .transition()
+            .duration(900)
+            .style("opacity",0);
     }
 }
