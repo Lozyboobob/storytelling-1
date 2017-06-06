@@ -19,41 +19,41 @@ export class HierarchicalEdgeBundlingComponent extends Chart implements OnInit {
   private link: any;
   private node: any;
   private margin: any = { top: 20, bottom: 20, left: 20, right: 20 };
+  private element: any;
 
-  constructor() { 
+  constructor() {
        super()
     }
 
   ngOnInit() {
     // Set data
     this.data = this.dataInput;
+    this.element = this.chartContainer.nativeElement;
 
     this.init();
   }
-  
+
   init() {
-    const element = this.chartContainer.nativeElement;
-    this.width = element.offsetWidth;
-    this.height = element.offsetHeight;
+    this.width = this.element.offsetWidth;
+    this.height = this.element.offsetHeight;
     this.diameter = this.height - this.margin.top - this.margin.bottom;
     this.radius = this.diameter / 2;
     this.innerRadius = this.radius - 120
     this.line = d3.radialLine()
         .curve(d3.curveBundle.beta(0.85))
-        .radius(d =>{ return d['y']; })
+        .radius(d => { return d['y']; })
         .angle(d => { return d['x'] / 180 * Math.PI; });
-    console.log( d3.select(element));
-    const svg = d3.select(element).append('svg')
+
+    const svg = d3.select(this.element).append('svg')
+        .append('g')
         .attr('width', this.width)
         .attr('height', this.height)
-        .append('g')
-        .attr('transform', `translate(${this.width / 2},${this.height / 2})`);
+        .attr('transform', `translate(${this.width / 2},${this.height / 2})`)
+        .style("opacity", 0);
 
-    this.link = svg.append('g').selectAll('.link');
-    this.node = svg.append('g').selectAll('.node');
-  };
-
-  load() {
+    this.link = svg.append('g').selectAll('.link')
+        .style("opacity",0);
+    this.node = svg.append('g').selectAll('.node').style("opacity", 0);
     const cluster = d3.cluster()
         .size([360, this.innerRadius]);
 
@@ -68,18 +68,26 @@ export class HierarchicalEdgeBundlingComponent extends Chart implements OnInit {
         .enter().append('path')
         .each(d => { d.source = d[0], d.target = d[d.length - 1]; })
         .attr('class', 'link')
-        .attr('d', this.line)
+        .attr('d', this.line);
+
+
+    d3.select(this.element).selectAll('path')
+        .transition()
+        .duration(4000)
+        .attr('class', 'link')
+        .attr('d', this.line);
 
     const node = this.node
         .data(root.leaves())
         .enter().append('text')
         .attr('class', 'node')
         .attr('dy', '0.31em')
-        .attr('transform', d => { return 'rotate(' + (d.x - 90) + ')translate(' + (d.y + 8) + ',0)' + (d.x < 180 ? '' : 'rotate(180)'); })
         .attr('text-anchor', d => { return d.x < 180 ? 'start' : 'end'; })
         .text(d => { return d.data.key; })
+        .style("opacity",0)
         .on('mouseover', mouseovered)
         .on('mouseout', mouseouted);
+
 
     function mouseovered(d) {
       node
@@ -153,8 +161,31 @@ export class HierarchicalEdgeBundlingComponent extends Chart implements OnInit {
 
       return imports;
     }
-
   };
-  ease() {};
 
+
+  load() {
+    d3.select(this.element).select('svg').select('g')
+        .transition()
+        .duration(1000)
+        .style("opacity",1);
+
+    d3.select(this.element).selectAll('text')
+        .transition()
+        .duration(1000)
+        .style("opacity", 1)
+        .attr('transform', d => { return 'rotate(' + (d['x'] - 90) + ')translate(' + (d['y'] + 8) + ',0)' + (d['x'] < 180 ? '' : 'rotate(180)'); })
+  };
+  ease() {
+    d3.select(this.element).select('svg').select('g')
+        .transition()
+        .duration(900)
+        .style("opacity", 0);
+
+    d3.select(this.element).selectAll('text')
+        .transition()
+        .duration(1500)
+        .attr('transform', d => { return 'rotate(180)translate(0,0)'; })
+
+  }
 }
