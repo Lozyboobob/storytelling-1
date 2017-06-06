@@ -18,7 +18,7 @@ import {SearchComponent} from './components/search/search.component';
 import { SlidesPresentationComponent,
     FullScreenGraphSlideComponent,
     TitleSlideComponent,
-    GraphTextSlideComponent,
+    LeftGraphRightTextSlideComponent,
     TextSlideComponent,
     SlidesCreatorComponent,
     SlideCreatorComponent
@@ -115,7 +115,7 @@ import { DialogComponent } from './components/dialog/dialog.component';
         GaugeChartComponent,
         AdvancedPieChartComponent,
         TitleSlideComponent,
-        GraphTextSlideComponent,
+        LeftGraphRightTextSlideComponent,
         TextSlideComponent,
         PieChartComponent,
         SlidesCardComponent,
