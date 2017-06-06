@@ -11,11 +11,15 @@
        [slide] = "slide" [pos]="i+1"  [slideload$]="slideload$" [slideease$]="slideease$" >
     </app-full-screen-graph-slide>
 
-    <!--left text right grah-->
     <!--left graph right text-->
-    <app-left-graph-right-text-slide *ngIf="slide.pageLayout=='LeftTextRightGraph'||slide.pageLayout=='LeftGraphRightText'"
+    <app-left-graph-right-text-slide *ngIf="slide.pageLayout=='LeftGraphRightText'"
        [slide] = "slide" [pos]="i+1"  [slideload$]="slideload$" [slideease$]="slideease$">
     </app-left-graph-right-text-slide>
+
+    <!--left text right grah-->
+    <app-right-graph-left-text-slide *ngIf="slide.pageLayout=='LeftTextRightGraph'"
+       [slide] = "slide" [pos]="i+1"  [slideload$]="slideload$" [slideease$]="slideease$">
+    </app-right-graph-left-text-slide>
 
     <!--full screen :text-->
     <!--full screen :img-->
