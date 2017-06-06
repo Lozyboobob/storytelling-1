@@ -270,13 +270,13 @@ export class LineChartComponent extends Chart implements OnInit {
                         .duration(200)
                         .attr('r', _ => zoomScale > 3 ? 20 : 7)
                         .attr('opacity', 1)
-
+                    console.log(d3.event);
                     div.transition()
                         .duration(200)
                         .style("opacity", .9);
                     div.html('<p>' + d["xAxis"] + "<br/>" + d["yAxis"] + '</p>')
                         .style("left", (d3.event.layerX) + "px")
-                        .style("top", (d3.event.layerY - 50) + "px");
+                        .style("top", (d3.event.clientY ) + "px");
                 })
                 .on("mouseout", function(d) {
                     let curR = parseInt(d3.select(d3.event.srcElement).attr("r"))
