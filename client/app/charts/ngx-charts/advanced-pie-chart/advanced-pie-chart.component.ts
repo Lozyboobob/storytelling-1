@@ -57,7 +57,7 @@ export class AdvancedPieChartComponent extends Chart implements OnInit, OnDestro
 
   load() {
     this.data = [];
-    this._setIntervalHandler =  setInterval(() => this.data = this.dataInput[0].results);
+    this._setIntervalHandler =  setTimeout(() => this.data = this.dataInput[0].results);
   }
 
 
