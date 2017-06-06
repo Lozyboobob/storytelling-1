@@ -83,7 +83,7 @@ export class AdvancedPieChartComponent extends Chart implements OnInit, OnDestro
   }
 
   ngOnDestroy() {
-    clearInterval(this._setIntervalHandler);
+    clearTimeout(this._setIntervalHandler);
   }
 
 }
