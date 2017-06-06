@@ -10,10 +10,10 @@ export class ChartsService {
   constructor(private _resolver : ComponentFactoryResolver) {
     // this.listWidget = Array.from(this._resolver['_factories'].keys());
 
-    this.listWidget = new Map<string, Type<any>>([['PieChartComponent', PieChartComponent], ['AdvancedPieChartComponent', AdvancedPieChartComponent], 
+    this.listWidget = new Map<string, Type<any>>([['PieChartComponent', PieChartComponent], ['AdvancedPieChartComponent', AdvancedPieChartComponent],
     ['BarChartComponent', BarChartComponent], ['ForceDirectedGraphComponent', ForceDirectedGraphComponent],
      ['GaugeChartComponent', GaugeChartComponent], ['HierarchicalEdgeBundlingComponent', HierarchicalEdgeBundlingComponent],
-     ['SunburstChartComponent', SunburstChartComponent], ['TreemapChartComponent', TreemapChartComponent]
+     ['SunburstChartComponent', SunburstChartComponent], ['TreemapChartComponent', TreemapChartComponent], ['LineChartComponent', LineChartComponent]
      ]);
   }
 
