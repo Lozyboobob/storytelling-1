@@ -5,7 +5,7 @@
 <div class="container-fluid search-block" [class.center-mode]="!showSlidesList" [class.side-mode]="showSlidesList">
   <div class="row space search-wrap">
     <app-search (textSearch)="searchSlides($event)" class="search"></app-search>
-    <app-filter class="filter" *ngIf="loggedIn$ | async" (filterState)="filterState($event)" [states]="states"></app-filter>
+    <app-filter class="filter" *ngIf="loggedIn$ | async" (filterState)="filterState($event)" [selectedValue]= "selectedValue" [states]="states"></app-filter>
   </div>
 
   <p align="center" class="get-all center-mode " *ngIf="!showSlidesList" (click)="getAllslides()">Discover All</p>

@@ -15,18 +15,20 @@ export class HomeComponent implements OnInit {
 
     slides: Array<Slides> = [];
     showSlidesList: boolean;
-    noResult:boolean;
-    noPublish:boolean;
+    noResult: boolean;
+    noPublish: boolean;
     private states: Array<string>;
+    private selectedValue: string;
     private toSearch;
 
     constructor(private slidesService: SlidesService) { }
 
     ngOnInit() {
         this.showSlidesList = false;
-        this.noResult=false;
-        this.noPublish=false;
-        this.states = ['All'];
+        this.noResult = false;
+        this.noPublish = false;
+        this.states = ['Public'];
+        this.selectedValue = 'Public';
         this.toSearch = { title: '', filter: 'Public' };
     }
 
@@ -39,8 +41,10 @@ export class HomeComponent implements OnInit {
         this.slidesService.getSlideToSearch(this.toSearch)
             .subscribe(slides => {
                 this.slides = slides;
-                if(this.slides.length==0) this.noResult=true
-                else this.noResult=false;
+                if (this.slides.length === 0) this.noResult = true;
+                else {
+                    this.noResult = false;
+                }
             });
     }
 
@@ -51,8 +55,11 @@ export class HomeComponent implements OnInit {
         this.slidesService.getSlideToSearch(this.toSearch)
             .subscribe(slides => {
                 this.slides = slides;
-                if(this.slides.length==0) this.noPublish=true
-                else this.noPublish=false;
+                if(this.slides.length === 0) {
+                    this.noPublish = true;
+                } else {
+                    this.noPublish = false;
+                }
             });
     }
 
