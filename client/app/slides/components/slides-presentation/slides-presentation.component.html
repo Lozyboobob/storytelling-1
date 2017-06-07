@@ -1,4 +1,4 @@
-<div class="slides" appScroll (mouseWheelUp)="lastSlide()" (mouseWheelDown)="nextSlide()" (stayProcess)="staySlideProcess()" #slider>
+<div class="slides" appScroll  (mouseScroll)="scroll2Slide()" #slider>
   <!--slide title -->
   <div [ngStyle]="slideHeight_style" class="slide" id="slide-0">
     <app-title-slide [slideTitle]="slideTitle"> </app-title-slide>

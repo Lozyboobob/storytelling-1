@@ -4,7 +4,7 @@ import { RouterModule, Router } from '@angular/router';
 
 // MATERIAL DESIGN MODULES
 import { MaterialModule } from '@angular/material';
-import { Angular2FontAwesomeModule } from 'angular2-font-awesome/angular2-font-awesome';
+import { AngularFontAwesomeModule } from 'angular-font-awesome/angular-font-awesome';
 
 // HTTP PROVIDER
 import { HttpModule, Http, XHRBackend, RequestOptions } from "@angular/http";
@@ -24,7 +24,7 @@ export function httpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptio
 @NgModule({
   imports: [
     RouterModule,
-    Angular2FontAwesomeModule,
+    AngularFontAwesomeModule,
     HttpModule,
     MaterialModule,
     CommonModule
