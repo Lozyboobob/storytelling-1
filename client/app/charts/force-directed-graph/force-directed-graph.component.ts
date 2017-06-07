@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef,Input } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import * as d3 from 'd3';
 import {Chart} from '../chart.class';
 @Component({
@@ -11,21 +11,21 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
     private chart: any;
     private width: number;
     private height: number;
-    private data: any=sample;
+    private data: any = sample;
     private simulation: any;
     private link: any;
     private node: any;
 
-    constructor() { 
-       super()  
+    constructor() {
+        super()
     }
 
-    ngOnInit() { 
+    ngOnInit() {
         // Set data
-        if (this.dataInput.length == 0){
-          this.data = sample;
+        if (this.dataInput.length == 0) {
+            this.data = sample;
         } else {
-            this.data=this.dataInput[0];
+            this.data = this.dataInput[0];
         }
 
         this.init();
@@ -84,15 +84,13 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
     }
     setData(data) {
         //  this.data=data[0];
-        
+
 
     }
     init() {
-      console.log(this.data);
         let element = this.chartContainer.nativeElement;
         this.width = element.offsetWidth;
         this.height = element.offsetHeight;
-        console.log(element.offsetHeight, this.height);
         let svg = d3.select(element).append('svg')
             //    .attr('width', element.offsetWidth)
             //  .attr('height', element.offsetHeight);
@@ -131,15 +129,15 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
             .selectAll("circle")
             .data(this.data.nodes)
             .enter().append("circle")
-            .attr("r", 5)
+            .attr("r", 7)
             .attr("fill", (d) => { return color(d['group']); })
             .call(d3.drag()
                 .on("start", (d) => { return this.dragstarted(d) })
                 .on("drag", (d) => { return this.dragged(d) })
                 .on("end", (d) => { return this.dragended(d) }))
 
-           this.node.append("title")
-                .text(function(d) { return d.id; });
+        this.node.append("title")
+            .text(function(d) { return d.id; });
         this.simulation
             .nodes(this.data.nodes)
 
@@ -147,6 +145,40 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
 
         this.simulation.force("link")
             .links(this.data.links)
+
+
+        //legend
+        let legendBox = svg.append("g")
+            .attr("class", "legends")
+            .attr("transform","translate(120,200)")
+
+
+
+        let legendRectSize = 12;
+        let legendSpacing = 24;
+        let legends=legendBox.selectAll('.legend')
+            .data(color.domain())
+            .enter()
+            .append('g')
+            .attr('class', 'legend')
+            .attr('transform', function(d, i) {
+                var height = legendRectSize + legendSpacing;
+                var offset = height * color.domain().length / 2;
+
+                var vert = i * height ;
+                return 'translate(' + 0 + ',' + vert + ')';
+            });
+
+        legends.append('circle')
+            .attr("r", legendRectSize/2)
+            .style('fill', color)
+            .style('stroke',color);
+
+        legends.append('text')
+            .attr('x', legendRectSize + legendSpacing)
+            .attr('y', legendRectSize - legendSpacing/2)
+            .attr("transform", "translate(0,5)")
+            .text(d=>"group"+d);
 
     }
 
@@ -157,7 +189,7 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
     ease() {
         this.transition();
 
-    }graph
+    } graph
 
 }
 const sample = {
