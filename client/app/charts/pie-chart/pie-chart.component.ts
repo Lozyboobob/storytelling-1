@@ -17,6 +17,7 @@ export class PieChartComponent extends Chart implements OnInit  {
     private radius: number;
     private _current: any; // for animation
     private pieColor = d3.scaleOrdinal(d3.schemeCategory20);
+    private margin: any = { top: 20, bottom: 20, left: 20, right: 20 };
     private id;
     private curtain: any;
     constructor() {
@@ -31,8 +32,8 @@ export class PieChartComponent extends Chart implements OnInit  {
       this.init();
   }
   init() {
-        this.width = this.element.offsetWidth;
-        this.height = this.element.offsetHeight;
+        this.width = this.element.offsetWidth - this.margin.left - this.margin.right;
+        this.height = this.element.offsetHeight - this.margin.top - this.margin.bottom;
         const svg = d3.select(this.element)
           .append('svg')
           .append('g')

@@ -34,10 +34,11 @@ export class HierarchicalEdgeBundlingComponent extends Chart implements OnInit {
   }
 
   init() {
-    this.width = this.element.offsetWidth;
-    this.height = this.element.offsetHeight;
+    this.width = this.element.offsetWidth - this.margin.left - this.margin.right;
+    this.height = this.element.offsetHeight - this.margin.top - this.margin.bottom;
     this.diameter = this.height - this.margin.top - this.margin.bottom;
-    this.radius = this.diameter / 2;
+    //this.radius = this.diameter / 2;
+    this.radius = (Math.min(this.width, this.height) )/ 2;
     this.innerRadius = this.radius - 120
     this.line = d3.radialLine()
         .curve(d3.curveBundle.beta(0.85))

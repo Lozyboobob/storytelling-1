@@ -22,11 +22,7 @@ export class AdvancedPieChartComponent extends Chart implements OnInit, OnDestro
 
 
   // margin
-  margin: boolean = false;
-  marginTop: number = 40;
-  marginRight: number = 40;
-  marginBottom: number = 40;
-  marginLeft: number = 40;
+  private margin: any = { top: 20, bottom: 20, left: 40, right: 40 };
 
   constructor() { 
        super()  

@@ -1,5 +1,5 @@
-<ngx-charts-gauge
-    class="chart-container"
+<div class="d3-chart">
+    <ngx-charts-gauge class="chart-container" 
     [view]="view"
     [legend]="showLegend"
     [legendTitle]="legendTitle"
@@ -18,4 +18,5 @@
     [tooltipDisabled]="tooltipDisabled"
     (select)="select($event)"
     (legendLabelClick)="onLegendLabelClick($event)">
-</ngx-charts-gauge>
+    </ngx-charts-gauge>
+</div>

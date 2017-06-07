@@ -54,6 +54,7 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular2-froala-wysiwyg';
 
 import { CsvInputComponent } from './components/editor/slide-creator/csv-input/csv-input.component';
 import { ImageUploadComponent } from './components/editor/slide-creator/image-upload/image-upload.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { SlidesEditorComponent } from './components/slides-editor/slides-editor.component';
 import { SlidesSettingComponent } from './components/editor/slides-setting/slides-setting.component';
@@ -77,6 +78,7 @@ import { DialogComponent } from './components/dialog/dialog.component';
         DragulaModule,
         PieChartModule,
         GaugeModule,
+        FlexLayoutModule,
         Ng2PageScrollModule.forRoot(),
         FroalaEditorModule.forRoot(),
         FroalaViewModule.forRoot(),
