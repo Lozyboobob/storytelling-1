@@ -1,0 +1,25 @@
+
+:host /deep/ {
+  width: 100%;
+
+  .d3-chart {
+    height: 600px;
+    width: 100%;
+  }
+
+  .node circle {
+    fill: #fff;
+    stroke: steelblue;
+    stroke-width: 3px;
+  }
+
+  .node text {
+    font: 12px sans-serif;
+  }
+
+  .link {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 2px;
+  }
+}

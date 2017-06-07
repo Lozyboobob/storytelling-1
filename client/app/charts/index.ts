@@ -8,3 +8,4 @@ export * from './hierarchical-edge-bundling/hierarchical-edge-bundling.component
 export * from './ngx-charts';
 export * from './pie-chart';
 export * from './sunburst-chart';
+export * from './dendogram/dendogram.component';

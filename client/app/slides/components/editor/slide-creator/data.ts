@@ -2252,7 +2252,20 @@ export const lineChartData = {
 }
 
 export const pieChartData = { "graphData": [{ "label": "data1", "value": 1 }, { "label": "data2", "value": 2 }, { "label": "data3", "value": 3 }, { "label": "data4", "value": 4 }] }
-
+export const dendogramChartData = {"graphData" :
+    [{
+        "name": "Top Level",
+        "children": [
+            {
+                "name": "Level 2: A",
+                "children": [
+                    { "name": "Son of A" },
+                    { "name": "Daughter of A" }
+                ]
+            },
+            { "name": "Level 2: B" }
+        ]
+    }]};
 export const HierarchicalEdgeData = {
     "graphData": [{ "name": "flare.analytics.cluster.AgglomerativeCluster", "size": 3938, "imports": ["flare.animate.Transitioner", "flare.vis.data.DataList", "flare.util.math.IMatrix", "flare.analytics.cluster.MergeEdge", "flare.analytics.cluster.HierarchicalCluster", "flare.vis.data.Data"] },
         { "name": "flare.analytics.cluster.CommunityStructure", "size": 3812, "imports": ["flare.analytics.cluster.HierarchicalCluster", "flare.animate.Transitioner", "flare.vis.data.DataList", "flare.analytics.cluster.MergeEdge", "flare.util.math.IMatrix"] },
