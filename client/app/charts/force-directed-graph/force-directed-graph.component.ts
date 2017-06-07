@@ -24,7 +24,7 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
         // Set data
 
         this.data = this.dataInput[0];
-        
+
 
         this.init();
     }
@@ -233,6 +233,6 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
     ease() {
         this.transition();
 
-    } graph
+    } 
 
 }
