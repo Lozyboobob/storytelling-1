@@ -64,8 +64,8 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
     shrink() {
         this.simulation
             //.force("gravity", d3.forceManyBody())
-            .force("x", d3.forceX().strength(.7).x(this.width / 2))
-            .force("y", d3.forceY().strength(.7).y(this.height / 2))
+            .force("x", d3.forceX().strength(1).x(this.width / 2))
+            .force("y", d3.forceY().strength(1).y(this.height / 2))
         //  .force("charge", d3.forceManyBody().strength(30))
         this.simulation.alpha(0.1).restart();
     }
@@ -75,6 +75,26 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
             .force("x", d3.forceX().strength(0).x(this.width / 2))
             .force("y", d3.forceY().strength(0).y(this.height / 2));
         this.simulation.alpha(1).restart()
+    }
+    focusLink(link){
+      this.link.filter((d, i) => i == link["index"]).attr("opacity",1);
+    }
+    fadeLink(link){
+      this.link.filter((d, i) => i == link["index"]).attr("opacity",.1);
+    }
+    centerPoint(node){
+      this.node.filter((d, i) => i == node["index"]).attr("r",15).attr("opacity",1);
+    }
+    focus(node) {
+        this.node.filter((d, i) => i == node["index"]).attr("opacity",1);
+    }
+    fade(node) {
+        this.node.filter((d, i) => i == node["index"]).attr("r",8).attr("opacity",.1);
+    }
+    reset(){
+      console.log("reset");
+      this.node.transition().duration(200).attr("r",8).attr("opacity",1);
+      this.link.transition().duration(200).attr("opacity",1);
     }
     transition() {
         this.shrink();
@@ -105,8 +125,8 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
         let color = d3.scaleOrdinal(d3.schemeCategory20);
 
         this.simulation = d3.forceSimulation()
-            .force("link", d3.forceLink().id(function(d: { id: string, group: number }) { return d.id; }).distance(30))
-            .force("charge", d3.forceManyBody().strength(-30))
+            .force("link", d3.forceLink().id(function(d: { id: string, group: number }) { return d.id; }).distance(50))
+            .force("charge", d3.forceManyBody().strength(-40))
             .force("center", d3.forceCenter(element.offsetWidth / 2, element.offsetHeight / 2))
             .force("x", d3.forceX().strength(0).x(this.width / 2))
             .force("y", d3.forceY().strength(0).y(this.height / 2))
@@ -117,46 +137,72 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
 
         this.link = svg.append("g")
             .attr("class", "links")
-            .selectAll("line")
+            .selectAll(".link")
             .data(this.data.links)
             .enter().append("line")
+            .attr("class", "link")
             .attr("stroke-width", function(d) { return Math.sqrt(d['value']); })
             .attr("stroke", "#999")
 
 
         this.node = svg.append("g")
             .attr("class", "nodes")
-            .selectAll("circle")
+            .selectAll(".node")
             .data(this.data.nodes)
             .enter().append("circle")
-            .attr("r", 7)
+            .attr("class", "node")
+            .attr("r", 8)
             .attr("fill", (d) => { return color(d['group']); })
+            .on("click", _ => {
+                let targetId = d3.select(d3.event.target).datum()['id'];
+                //fade all node
+                this.node.each(d=>{
+                  this.fade(d);
+                  if(d.id==targetId) this.centerPoint(d);
+                })
+                //find relative links
+                let connectedLink = this.link.each(d => {
+                    this.fadeLink(d);
+                    if (d.source.id == targetId|| d.target.id == targetId) {
+                        this.focus(d.target)
+                        this.focus(d.source)
+                        this.focusLink(d);
+                    }
+                })
+
+            })
             .call(d3.drag()
                 .on("start", (d) => { return this.dragstarted(d) })
                 .on("drag", (d) => { return this.dragged(d) })
                 .on("end", (d) => { return this.dragended(d) }))
 
+
+        d3.select(element).on("click",_=>{
+
+          if(d3.event.target.attributes.class&&d3.event.target.attributes.class.nodeValue=="node") return;
+          this.reset()
+        });
         this.node.append("title")
             .text(function(d) { return d.id; });
+
         this.simulation
             .nodes(this.data.nodes)
-
             .on("tick", () => { return this.ticked() });
 
         this.simulation.force("link")
             .links(this.data.links)
 
 
-        //legend
+        //*********legend
         let legendBox = svg.append("g")
             .attr("class", "legends")
-            .attr("transform","translate(120,200)")
+            .attr("transform", "translate(120,200)")
 
 
 
         let legendRectSize = 12;
         let legendSpacing = 24;
-        let legends=legendBox.selectAll('.legend')
+        let legends = legendBox.selectAll('.legend')
             .data(color.domain())
             .enter()
             .append('g')
@@ -165,20 +211,20 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
                 var height = legendRectSize + legendSpacing;
                 var offset = height * color.domain().length / 2;
 
-                var vert = i * height ;
+                var vert = i * height;
                 return 'translate(' + 0 + ',' + vert + ')';
             });
 
         legends.append('circle')
-            .attr("r", legendRectSize/2)
+            .attr("r", legendRectSize / 2)
             .style('fill', color)
-            .style('stroke',color);
+            .style('stroke', color);
 
         legends.append('text')
             .attr('x', legendRectSize + legendSpacing)
-            .attr('y', legendRectSize - legendSpacing/2)
+            .attr('y', legendRectSize - legendSpacing / 2)
             .attr("transform", "translate(0,5)")
-            .text(d=>"group"+d);
+            .text(d => "group" + d);
 
     }
 
