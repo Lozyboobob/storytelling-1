@@ -10,16 +10,16 @@
       <app-slides-card (deletedSlides)="refreshList()"  [slides]="s" [editable]="true"></app-slides-card>
     </div>
   </div>
-  <div class="no-result" *ngIf="Result.noResult">
+  <div class="no-result" *ngIf="result.noResult">
     <p>Opps, no result for these key words</p>
   </div>
-  <div class="no-publish" *ngIf="Result.noPublish">
+  <div class="no-publish" *ngIf="result.noPublish">
     <p>Sorry, no one publish slides yet! <br>Would you want to be the pioneer?</p>
   </div>
-  <div class="no-slides" *ngIf="Result.noSlides">
+  <div class="no-slides" *ngIf="result.noSlides">
     <p>Sorry, you don't have any slides yet!</p>
   </div>
-  <div class="no-private" *ngIf="Result.noPrivate">
+  <div class="no-private" *ngIf="result.noPrivate">
     <p>Sorry, no one private slides</p>
   </div>
 </div>
