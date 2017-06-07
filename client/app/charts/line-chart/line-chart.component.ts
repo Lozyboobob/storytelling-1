@@ -70,7 +70,7 @@ export class LineChartComponent extends Chart implements OnInit {
         let svg = d3.select(element).append('svg')
             .attr('width', element.offsetWidth)
             .attr('height', element.offsetHeight - this.heightTB)
-            .attr('transform', 'translate(' + margin.left + ',0)');
+            .attr('transform', 'translate(' + margin.left + ',' + this.height /2 +')');
 
         let value = [];
         this.data.forEach((d) => {

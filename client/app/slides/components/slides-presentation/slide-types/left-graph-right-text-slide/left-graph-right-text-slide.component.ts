@@ -55,6 +55,7 @@ export class LeftGraphRightTextSlideComponent implements OnInit, AfterContentIni
   private setChart(chartType: string) {
     const componentFactory = this._componentFactoryResolver.resolveComponentFactory(this.chartsService.getChartType(chartType));
     this.parent.clear();
+    console.log('parent', parent);
     this.componentRef = this.parent.createComponent(componentFactory);
     this.componentRef.instance.dataInput = this.slide.data; // set the input inputData of the abstract class Chart
 

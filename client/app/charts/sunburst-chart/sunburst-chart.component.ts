@@ -53,7 +53,7 @@ export class SunburstChartComponent extends Chart implements OnInit {
         this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
 
         this.formatNumber = d3.format(",d");
-        this.radius = Math.min(this.width, this.height) / 2;
+        this.radius = Math.min(this.width - this.margin.left - this.margin.right, this.height - this.margin.top - this.margin.bottom) / 2;
         this.xScale = d3.scaleLinear().range([0, 2 * Math.PI]);
         this.yScale = d3.scaleSqrt().range([0, this.radius]);
 
@@ -74,7 +74,7 @@ export class SunburstChartComponent extends Chart implements OnInit {
             .outerRadius((d: any) => { return Math.max(0, this.yScale(d.y1)); });
 
         // Basic setup of page elements
-        this.initializeBreadcrumbTrail(element);
+        this.initializeBreadcrumbTrail(element, this.radius);
 
         this.chart = d3.select(element).append('svg')
             .attr('width', this.width)
@@ -122,7 +122,7 @@ export class SunburstChartComponent extends Chart implements OnInit {
     }
 
     // Basic setup of page elements.
-    private initializeBreadcrumbTrail(element) {
+    private initializeBreadcrumbTrail(element, radius) {
         // Add the svg area.
         d3.select(element).select("#sequence").append("svg")
             .attr("height", 50)
@@ -229,11 +229,11 @@ export class SunburstChartComponent extends Chart implements OnInit {
         // Position of the sequence
         d3.select(element).select('#sequence')
             .select('svg')
-            .attr("transform", d => "translate(" + ((thisClass.width  - SequenceTotalSize - thisClass.explanationWidth) / 2)   + "," + thisClass.explanationHeight / 2 + ")");
+            .attr("transform", d => "translate(" + ((thisClass.width  - SequenceTotalSize - thisClass.explanationWidth) / 2)   + "," + (thisClass.height / 2 - thisClass.radius + thisClass.margin.top)  + ")");
 
         // Position of the explanation
         d3.select(element).select('#explanation')
-            .style("top", -thisClass.explanationHeight / 2 + 'px')
+            .style("top", thisClass.height / 2 - thisClass.radius - 50 - thisClass.explanationHeight / 4  + 'px')
             .style("left", (thisClass.width + SequenceTotalSize - thisClass.explanationWidth) / 2 + 'px');
 
         // Make the breadcrumb trail visible, if it's hidden.

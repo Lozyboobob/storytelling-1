@@ -44,7 +44,7 @@ export class BarChartComponent extends Chart implements OnInit {
         // chart plot area
         this.chart = svg.append('g')
             .attr('class', 'bars')
-            .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`);
+            .attr('transform', `translate(${this.margin.left}, ${this.height / 2})`);
 
         // define X & Y domains
         let xDomain = this.data.map(d => d.index);
@@ -60,11 +60,11 @@ export class BarChartComponent extends Chart implements OnInit {
         // x & y axis
         this.xAxis = svg.append('g')
             .attr('class', 'axis axis-x')
-            .attr('transform', `translate(${this.margin.left}, ${this.margin.top + this.height})`)
+            .attr('transform', `translate(${this.margin.left}, ${this.height / 2 + this.height})`)
             .call(d3.axisBottom(this.xScale));
         this.yAxis = svg.append('g')
             .attr('class', 'axis axis-y')
-            .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`)
+            .attr('transform', `translate(${this.margin.left}, ${this.height / 2})`)
             .call(d3.axisLeft(this.yScale));
 
 

@@ -1,11 +1,8 @@
-<md-grid-list cols="{{config.pageCol}}" class="thirdcase">
-  <md-grid-tile [colspan]="1" align="center" *ngIf="config.hasText">
+<div fxLayout="row" fxFill>
+  <div fxFlex="50%" *ngIf="config.hasText">
     <div [innerHTML]="slide.text" align="left" [class.slideRight]="loadContentAni" [class.slideLeftOut]="easeContentAni"></div>
-  </md-grid-tile>
-  <!-- graph -->
-  <md-grid-tile [colspan]="1" [attr.id]="slide.graph">
-    <div>
-      <div id="parent1" #parent></div>
-    </div>
-  </md-grid-tile>
-</md-grid-list>
+  </div>
+  <div fxFlex="50%" [attr.id]="slide.graph" fxFill>
+    <ng-template #parent></ng-template>
+  </div>
+</div>
