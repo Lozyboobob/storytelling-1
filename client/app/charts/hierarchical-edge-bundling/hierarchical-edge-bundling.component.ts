@@ -19,9 +19,9 @@ export class HierarchicalEdgeBundlingComponent extends Chart implements OnInit {
   private link: any;
   private node: any;
   private margin: any = { top: 20, bottom: 20, left: 20, right: 20 };
-  private curtain: any; // for animation
   private element: any;
-  constructor() { 
+
+  constructor() {
        super()
     }
 
@@ -32,7 +32,7 @@ export class HierarchicalEdgeBundlingComponent extends Chart implements OnInit {
 
     this.init();
   }
-  
+
   init() {
     this.width = this.element.offsetWidth;
     this.height = this.element.offsetHeight;
@@ -43,7 +43,7 @@ export class HierarchicalEdgeBundlingComponent extends Chart implements OnInit {
         .curve(d3.curveBundle.beta(0.85))
         .radius(d => { return d['y']; })
         .angle(d => { return d['x'] / 180 * Math.PI; });
-    console.log( d3.select(this.element));
+
     const svg = d3.select(this.element).append('svg')
         .append('g')
         .attr('width', this.width)

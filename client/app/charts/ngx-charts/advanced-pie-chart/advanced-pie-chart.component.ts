@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import {Chart} from '../../chart.class';
 import { formatLabel } from "@swimlane/ngx-charts";
 @Component({
@@ -6,12 +6,13 @@ import { formatLabel } from "@swimlane/ngx-charts";
   templateUrl: './advanced-pie-chart.component.html',
   styleUrls: ['./advanced-pie-chart.component.scss']
 })
-export class AdvancedPieChartComponent extends Chart implements OnInit {
+export class AdvancedPieChartComponent extends Chart implements OnInit, OnDestroy {
   
   data: Array<any> = [];
 
   private width: number;
   private height: number;
+  private _setIntervalHandler: any;
 
   view: any[];
 
@@ -56,7 +57,7 @@ export class AdvancedPieChartComponent extends Chart implements OnInit {
 
   load() {
     this.data = [];
-    setInterval(() => this.data = this.dataInput[0].results);
+    this._setIntervalHandler =  setTimeout(() => this.data = this.dataInput[0].results);
   }
 
 
@@ -81,5 +82,8 @@ export class AdvancedPieChartComponent extends Chart implements OnInit {
     `;
   }
 
+  ngOnDestroy() {
+    clearTimeout(this._setIntervalHandler);
+  }
 
 }
