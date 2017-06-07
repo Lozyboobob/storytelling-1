@@ -13,7 +13,7 @@ export class SunburstChartComponent extends Chart implements OnInit {
     @ViewChild('chart') private chartContainer: ElementRef;
     private data: any;
     private curtain: any; //for animation
-    private margin: any = { top: 20, bottom: 20, left: 20, right: 20 };
+    private margin: any = {top: 20, bottom: 20, left: 20, right: 20};
     private chart: any;
     private width: number;
     private height: number;
@@ -24,26 +24,26 @@ export class SunburstChartComponent extends Chart implements OnInit {
     private b = {
         w: 55, h: 30, s: 3, t: 10 // Breadcrumb dimensions: width, height, spacing, width of tip/tail.
     };
-    private stringsLength :Array<number>; // Array of the strings size inside the trail
+    private stringsLength: Array<number>; // Array of the strings size inside the trail
     private arc: any;
     private xScale: any;
     private yScale: any;
     private radius: any;
     private formatNumber: any
 
-    constructor() { 
-       super()  
+    constructor() {
+        super()
     }
 
     ngOnInit() {
         // Set data
         (this.dataInput.length == 0) ? this.data = sample[0] : this.data = this.dataInput[0];
-        
+
         this.init();
     }
 
     setData(data) {
-        (data.length == 0) ? this.data = sample[0] : this.data = data[0];   
+        (data.length == 0) ? this.data = sample[0] : this.data = data[0];
     }
 
     init() {
@@ -56,6 +56,9 @@ export class SunburstChartComponent extends Chart implements OnInit {
         this.radius = Math.min(this.width - this.margin.left - this.margin.right, this.height - this.margin.top - this.margin.bottom) / 2;
         this.xScale = d3.scaleLinear().range([0, 2 * Math.PI]);
         this.yScale = d3.scaleSqrt().range([0, this.radius]);
+        d3.select(element).select('#sequence')
+            .select('svg')
+            .style('opacity',0);
 
         // Set colors of the sections
         this.colorScale = d3.scaleOrdinal(d3.schemeCategory20);
@@ -66,12 +69,20 @@ export class SunburstChartComponent extends Chart implements OnInit {
         this.explanationHeight = explanationElmnt.offsetHeight;
 
         let partition = d3.partition();
-        
+
         this.arc = d3.arc()
-            .startAngle((d: any) => { return Math.max(0, Math.min(2 * Math.PI, this.xScale(d.x0))); })
-            .endAngle((d: any) => { return Math.max(0, Math.min(2 * Math.PI, this.xScale(d.x1))); })
-            .innerRadius((d: any) => { return Math.max(0, this.yScale(d.y0)); })
-            .outerRadius((d: any) => { return Math.max(0, this.yScale(d.y1)); });
+            .startAngle((d: any) => {
+                return Math.max(0, Math.min(2 * Math.PI, this.xScale(d.x0)));
+            })
+            .endAngle((d: any) => {
+                return Math.max(0, Math.min(2 * Math.PI, this.xScale(d.x1)));
+            })
+            .innerRadius((d: any) => {
+                return Math.max(0, this.yScale(d.y0));
+            })
+            .outerRadius((d: any) => {
+                return Math.max(0, this.yScale(d.y1));
+            });
 
         // Basic setup of page elements
         this.initializeBreadcrumbTrail(element, this.radius);
@@ -90,7 +101,7 @@ export class SunburstChartComponent extends Chart implements OnInit {
             .sort((a, b) => b.value - a.value);
 
         let nodes = partition(root)
-            .descendants();         
+            .descendants();
 
         let path = this.chart.data([this.data]).selectAll("path")
             .data(nodes)
@@ -100,7 +111,7 @@ export class SunburstChartComponent extends Chart implements OnInit {
             .style("fill", d => this.colorScale(d.data.name))
             .style("opacity", 1)
             .on("mouseover", d => this.mouseover(d, this, element))
-            .on("click", d=> this.zoom(d, this));
+            .on("click", d => this.zoom(d, this));
 
         // Add the mouseleave handler to the bounding circle.
         d3.select(element).select("#container").on("mouseleave", d => this.mouseleave(d, this, element));
@@ -109,7 +120,7 @@ export class SunburstChartComponent extends Chart implements OnInit {
         this.totalSize = path.datum().value;
 
         /* Add 'curtain' rectangle to hide entire graph */
-       this.curtain = d3.select(element).select('#sunBurstSvg')
+        this.curtain = d3.select(element).select('#sunBurstSvg')
             .append("g")
             .append('rect')
             .attr('x', -1 * this.width)
@@ -128,7 +139,7 @@ export class SunburstChartComponent extends Chart implements OnInit {
             .attr("height", 50)
             .attr("id", "trail")
             .style("width", 'auto');
-        
+
         // Place the breadcrumb trail lower
         d3.select(element).select('#sequence')
             .select('svg')
@@ -147,11 +158,11 @@ export class SunburstChartComponent extends Chart implements OnInit {
 
         // Update of the percentage of the explanation
         d3.select(element).select("#percentage")
-        .text(percentageString);
+            .text(percentageString);
 
         // Update of the percentage of the explanation
         d3.select(element).select("#value")
-        .text(value);
+            .text(value);
 
         let sequenceArray = d.ancestors().reverse();
         thisClass.updateBreadcrumbs(sequenceArray, percentageString, thisClass, element); // Update of the breadcrumb trail
@@ -189,29 +200,31 @@ export class SunburstChartComponent extends Chart implements OnInit {
             .attr("y", thisClass.b.h / 2)
             .attr("dy", "0.35em")
             .attr("text-anchor", "middle")
-            .text(function (d) { return d.data.name; })
-            .each(function(d) { 
-                let stringLength = (<SVGTextContentElement>this).getComputedTextLength();                            
-                d3.select(this).attr("x", () => ( thisClass.b.w  + stringLength + thisClass.b.t) / 2);
-                
-        });
+            .text(function (d) {
+                return d.data.name;
+            })
+            .each(function (d) {
+                let stringLength = (<SVGTextContentElement>this).getComputedTextLength();
+                d3.select(this).attr("x", () => ( thisClass.b.w + stringLength + thisClass.b.t) / 2);
+
+            });
 
         // 2. We calculate the effective size ot these texts
-        d3.select(element).select('#trail').selectAll('g').select('text').each(function(d) { 
-                let stringLength = (<SVGTextContentElement>this).getComputedTextLength();  
-                thisClass.stringsLength.push(stringLength);        
+        d3.select(element).select('#trail').selectAll('g').select('text').each(function (d) {
+            let stringLength = (<SVGTextContentElement>this).getComputedTextLength();
+            thisClass.stringsLength.push(stringLength);
         });
 
         // 3. We draw the polygons adapted to the text size
         entering.append("polygon")
             .attr("points", (d, i) => thisClass.breadcrumbPoints(d, i, this, thisClass, thisClass.stringsLength[i]))
             .style("fill", d => thisClass.colorScale(d.data.name))
-            .each(function() {
+            .each(function () {
                 // 4. We place polygons back of the texts
-                let firstChild = (<Node>this).parentNode.firstChild; 
+                let firstChild = (<Node>this).parentNode.firstChild;
 
-                if (firstChild) { 
-                    (<Node>this).parentNode.insertBefore(<Node>this, firstChild); 
+                if (firstChild) {
+                    (<Node>this).parentNode.insertBefore(<Node>this, firstChild);
                 }
             });
 
@@ -220,12 +233,12 @@ export class SunburstChartComponent extends Chart implements OnInit {
         let SequenceTotalSize = 0; // Total size of the trail
 
         entering.merge(trail).attr("transform", (d, i) => {
-            translation += ((i == 0) ? 0 : (thisClass.b.w + thisClass.b.s + thisClass.stringsLength[i-1]));
+            translation += ((i == 0) ? 0 : (thisClass.b.w + thisClass.b.s + thisClass.stringsLength[i - 1]));
             SequenceTotalSize += thisClass.b.w + thisClass.stringsLength[i] + thisClass.b.t;
-    
+
             return "translate(" + translation + ", 0)";
         });
-        
+
         // Position of the sequence
         d3.select(element).select('#sequence')
             .select('svg')
@@ -242,7 +255,7 @@ export class SunburstChartComponent extends Chart implements OnInit {
 
         // Make the explanation trail visible, if it's hidden.
         d3.select(element).select("#explanation")
-            .style("visibility", "");            
+            .style("visibility", "");
     }
 
     // Generate a string that describes the points of a breadcrumb polygon.
@@ -267,7 +280,7 @@ export class SunburstChartComponent extends Chart implements OnInit {
         // Hide the breadcrumb trail
         d3.select(element).select("#trail")
             .style("visibility", "hidden");
-        
+
         // Hide explanation
         d3.select(element).select("#explanation")
             .style("visibility", "hidden");
@@ -283,27 +296,33 @@ export class SunburstChartComponent extends Chart implements OnInit {
             .style("opacity", 1)
             .on("end", function () {
                 d3.select(this).on("mouseover", d => thisClass.mouseover(d, thisClass, element));
-            });  
+            });
     }
 
-    zoom(d, thisClass) {   
+    zoom(d, thisClass) {
         thisClass.chart.transition()
             .duration(750)
-            .tween("scale", function() {
+            .tween("scale", function () {
                 let xd = d3.interpolate(thisClass.xScale.domain(), [d.x0, d.x1]);
                 let yd = d3.interpolate(thisClass.yScale.domain(), [d.y0, 1]);
                 let yr = d3.interpolate(thisClass.yScale.range(), [d.y0 ? 20 : 0, thisClass.radius]);
 
-                return function(t) { thisClass.xScale.domain(xd(t)); thisClass.yScale.domain(yd(t)).range(yr(t)); };
+                return t => {
+                    thisClass.xScale.domain(xd(t));
+                    thisClass.yScale.domain(yd(t)).range(yr(t));
+                };
             })
             .selectAll("path")
-            .attrTween("d", function(d) { return function() { return thisClass.arc(d); }; });
+            .attrTween("d", d => {
+                return function () {
+                    return thisClass.arc(d);
+                };
+            });
     }
 
 
     load() {
-        this.curtain
-            .attr('width', this.width);
+        this.curtain.attr('width', this.width);
 
         this.curtain.transition()
             .duration(2000)
@@ -312,7 +331,7 @@ export class SunburstChartComponent extends Chart implements OnInit {
 
     ease() {
         this.curtain.transition()
-            .duration(1250)
+            .duration(600)
             .attr('width', this.width);
     }
 }

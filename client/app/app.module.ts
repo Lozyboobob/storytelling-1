@@ -4,7 +4,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
 // FONT AWESOME
-import { Angular2FontAwesomeModule } from 'angular2-font-awesome/angular2-font-awesome';
+import { AngularFontAwesomeModule } from 'angular-font-awesome/angular-font-awesome';
 
 // MATERIAL DESIGN MODULES
 import { MaterialModule, OverlayContainer } from '@angular/material';
@@ -36,7 +36,7 @@ import { UsersModule } from "app/users";
   imports: [
     ReactiveFormsModule,
     FormsModule,
-    Angular2FontAwesomeModule,
+    AngularFontAwesomeModule,
     MaterialModule,
     FlexLayoutModule,
     BrowserAnimationsModule,

@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="row space">
     <app-search (textSearch)="search($event)"></app-search>
-    <app-filter *ngIf="loggedIn$|async" (filterState)="filterState($event)" [states]="states"></app-filter>
+    <app-filter *ngIf="loggedIn$|async" (filterState)="filterState($event)" [selectedValue]="selectedValue" [states]="states"></app-filter>
 
   </div>
 
@@ -10,6 +10,17 @@
       <app-slides-card (deletedSlides)="refreshList()"  [slides]="s" [editable]="true"></app-slides-card>
     </div>
   </div>
-
+  <div class="no-result" *ngIf="result.noResult">
+    <p>Opps, no result for these key words</p>
+  </div>
+  <div class="no-publish" *ngIf="result.noPublish">
+    <p>Sorry, no one publish slides yet! <br>Would you want to be the pioneer?</p>
+  </div>
+  <div class="no-slides" *ngIf="result.noSlides">
+    <p>Sorry, you don't have any slides yet!</p>
+  </div>
+  <div class="no-private" *ngIf="result.noPrivate">
+    <p>Sorry, no one private slides</p>
+  </div>
 </div>
 <button  [class.buttonTop]="slides.length===0" [class.buttonBottom]="slides.length>0" *ngIf="loggedIn$|async"  [routerLink]="['createSlides']" md-fab><md-icon>add</md-icon> </button>
