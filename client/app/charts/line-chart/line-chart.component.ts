@@ -67,6 +67,12 @@ export class LineChartComponent extends Chart implements OnInit {
         let margin = { top: 0, right: 50, bottom: 0, left: 50 };
         this.width = element.offsetWidth - margin.left - margin.right;
         this.height = element.offsetHeight - margin.top - margin.bottom - this.heightTB;
+
+// Define the div for the tooltip
+        var div = d3.select(element).append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0);
+
         let svg = d3.select(element).append('svg')
             .attr('width', element.offsetWidth)
             .attr('height', element.offsetHeight - this.heightTB)
@@ -113,16 +119,9 @@ export class LineChartComponent extends Chart implements OnInit {
         }
         let y = d3.scaleLinear().domain(yDomain).range([this.height, 0]);
 
-
         let line = d3.line()
             .x((d) => x(d['xAxis']))
             .y((d) => y(d['yAxis']));
-
-        // Define the div for the tooltip
-        var div = d3.select(element).append("div")
-            .attr("class", "tooltip")
-            .style("opacity", 0);
-
 
         //create axis for line chart
         let xAxis = d3.axisBottom(x);
