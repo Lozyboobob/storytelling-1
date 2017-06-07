@@ -48,7 +48,7 @@ export class SlidesPresentationComponent implements OnInit {
     ) {
         /* config of scroll*/
         PageScrollConfig.defaultScrollOffset = 50;
-        PageScrollConfig.defaultInterruptible = false;
+        PageScrollConfig.defaultInterruptible = true;
         PageScrollConfig.defaultDuration = 800;
         // PageScrollConfig.defaultEasingLogic = {
         //     ease: (t: number, b: number, c: number, d: number): number => {
@@ -242,6 +242,16 @@ export class SlidesPresentationComponent implements OnInit {
 
         }
     }
+
+    scroll2Slide(){
+        let scrollDis = document.body.scrollTop;
+        let curIndex = Math.round(scrollDis / this.slideHeight);
+        if( curIndex !== this.curSlideIndex ) {
+            this.slideease$.next(this.curSlideIndex);
+            this.slideload$.next(curIndex);
+            this.curSlideIndex = curIndex;
+        }
+    }
     
     staySlideProcess() {
 
@@ -254,6 +264,9 @@ export class SlidesPresentationComponent implements OnInit {
 
     private getCurSlideIndex(): number {
         let scrollDis = document.body.scrollTop;
+        console.log('scrollDis: ', scrollDis);
+        console.log('this.slideHeight: ', this.slideHeight);
+
         let curIndex = Math.round(scrollDis / this.slideHeight);
         return curIndex;
     }

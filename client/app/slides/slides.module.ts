@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 
 // MATERIAL DESIGN MODULES
 import { MaterialModule, OverlayContainer, TooltipPosition } from '@angular/material';
-import { Angular2FontAwesomeModule } from 'angular2-font-awesome/angular2-font-awesome';
+import { AngularFontAwesomeModule } from 'angular-font-awesome/angular-font-awesome';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {XHRBackend, Http, RequestOptions} from '@angular/http';
 
@@ -18,7 +18,8 @@ import {SearchComponent} from './components/search/search.component';
 import { SlidesPresentationComponent,
     FullScreenGraphSlideComponent,
     TitleSlideComponent,
-    GraphTextSlideComponent,
+    LeftGraphRightTextSlideComponent,
+    RightGraphLeftTextSlideComponent,
     TextSlideComponent,
     SlidesCreatorComponent,
     SlideCreatorComponent
@@ -115,7 +116,8 @@ import { DialogComponent } from './components/dialog/dialog.component';
         GaugeChartComponent,
         AdvancedPieChartComponent,
         TitleSlideComponent,
-        GraphTextSlideComponent,
+        LeftGraphRightTextSlideComponent,
+        RightGraphLeftTextSlideComponent,
         TextSlideComponent,
         PieChartComponent,
         SlidesCardComponent,

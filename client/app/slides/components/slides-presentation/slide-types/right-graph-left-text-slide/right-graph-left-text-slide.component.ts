@@ -7,11 +7,11 @@ import { Chart } from "../../../../../charts/chart.class";
 import { ChartsService } from "../../../../services";
 
 @Component({
-  selector: 'app-graph-text-slide',
-  templateUrl: './graph-text-slide.component.html',
-  styleUrls: ['./graph-text-slide.component.scss']
+  selector: 'app-right-graph-left-text-slide',
+  templateUrl: './right-graph-left-text-slide.component.html',
+  styleUrls: ['./right-graph-left-text-slide.component.scss']
 })
-export class GraphTextSlideComponent implements OnInit, AfterContentInit {
+export class RightGraphLeftTextSlideComponent implements OnInit, AfterContentInit {
 
   @Input() slide: Slide;
   @Input() pos: number;
@@ -42,7 +42,6 @@ export class GraphTextSlideComponent implements OnInit, AfterContentInit {
     if (this.slide.graph === 'noGraph') return;
     let cmpType = this.slide.graph.charAt(0).toUpperCase() + this.slide.graph.slice(1) + 'Component';
     this.setChart(cmpType);
-    //setTimeout(_ => this.initChart());
     this.slideload$.filter(n => n === this.pos).subscribe(() => {
       this.loadChart();
       this.loadContent();
@@ -76,15 +75,6 @@ export class GraphTextSlideComponent implements OnInit, AfterContentInit {
     };
     console.log("config is",this.slide.fullScreenHtml);
   }
-
-
-  /*private initChart() {
-    this.setChart(this.cmpType);
-    if (this.config.hasChart) {
-      (<Chart>this.componentRef.instance).setData(this.slide.data);
-      (<Chart>this.componentRef.instance).init();
-    }
-  }*/
 
   private loadChart() {
     if (this.config.hasChart) {
