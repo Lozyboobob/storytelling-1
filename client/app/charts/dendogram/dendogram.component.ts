@@ -29,8 +29,9 @@ export class DendogramComponent extends Chart implements OnInit {
     this.height = this.element.offsetHeight;
 
     let svg = d3.select(this.element).append("svg");
-    this.curtain = svg.attr("width", 0).style('opacity',0);
-    svg.attr("height", this.height);
+    this.curtain = svg.style('opacity',0);
+    svg.attr("height", this.height)
+        .attr("width", this.width);
     let g = svg.append("g").attr('transform', `translate(40,${this.height / 2})`);
 
     let tree = d3.cluster()
@@ -73,15 +74,12 @@ export class DendogramComponent extends Chart implements OnInit {
   load() {
       this.curtain.transition()
           .duration(2000)
-          .style('opacity',1)
-          .attr('width', this.width)
-          ;
+          .style('opacity',1);
   }
   ease() {
       this.curtain.transition()
           .duration(1000)
-          .style('opacity',0)
-          .attr('width', 0);
+          .style('opacity',0);
   }
 
 }
