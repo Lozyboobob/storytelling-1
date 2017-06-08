@@ -55,11 +55,8 @@ export class LeftGraphRightTextSlideComponent implements OnInit, AfterContentIni
   private setChart(chartType: string) {
     const componentFactory = this._componentFactoryResolver.resolveComponentFactory(this.chartsService.getChartType(chartType));
     this.parent.clear();
-    console.log('parent', parent);
     this.componentRef = this.parent.createComponent(componentFactory);
     this.componentRef.instance.dataInput = this.slide.data; // set the input inputData of the abstract class Chart
-
-    console.log('slide.pageLayout', this.slide.pageLayout)
   }
 
   private setConfig() {
@@ -73,6 +70,10 @@ export class LeftGraphRightTextSlideComponent implements OnInit, AfterContentIni
     }
     else {
       this.config.hasChart = true;
+
+      if (this.slide.text.length) {
+        this.slide.text = this.sanitizer.bypassSecurityTrustHtml(this.slide.text) as string;
+      }
     };
     console.log("config is",this.slide.fullScreenHtml);
   }

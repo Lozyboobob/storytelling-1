@@ -39,10 +39,17 @@ export class TextSlideComponent implements OnInit {
     this.config = new PageConfig();
     Object.assign(this.config, FULL_LAYOUT);
     this.config.hasText = true;
+
     if (this.slide.pageLayout === 'textInCenterImageBackground') {
       this.config.hasImage = true;
       if (this.slide.fullScreenHtml.length) {
         this.slide.fullScreenHtml = this.sanitizer.bypassSecurityTrustHtml(this.slide.fullScreenHtml) as string;
+      }
+    }
+
+    if (this.slide.pageLayout === 'textInCenter') {
+      if (this.slide.text.length) {
+        this.slide.text = this.sanitizer.bypassSecurityTrustHtml(this.slide.text) as string;
       }
     }
   }
