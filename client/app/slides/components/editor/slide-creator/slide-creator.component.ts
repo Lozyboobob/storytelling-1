@@ -60,6 +60,9 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
         {
             value: "sunburstChart",
             type: "Sunburst Chart"
+        },{
+            value: "dendogramChart",
+            type: "Dendrogram chart"
         },
         /* hide image part
       {
@@ -251,7 +254,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
             case "pieChart": this.form.controls['graphDataJson'].setValue(pieChartExample); break;
             case "sunburstChart": this.form.controls['graphDataJson'].setValue(sunburstChartExample); break;
             case "HierarchicalEdgeBundling": this.form.controls['graphDataJson'].setValue(HierarchicalEdgeExample); break;
-
+            case "dendogramChart" : this.form.controls['graphDataJson'].setValue(dendogramChartExemple); break;
             default: ;
         }
 
@@ -318,21 +321,18 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
                 newJson.push(newSeries);
                 console.log("create new series", obj["series"]);
             }
-        })
+        });
         console.log(newJson);
         return newJson;
     }
-
-
-
 }
 
 const ngxSingleChartDataExample = JSON.stringify(sampleData.single);
-const barCharDataExample =JSON.stringify(sampleData.barCharData);
+const barCharDataExample = JSON.stringify(sampleData.barCharData);
 const forceDirectedGraphDataExample = JSON.stringify(sampleData.forceDirectedGraphData);
 const lineChartExample = JSON.stringify(sampleData.lineChartData);
-const pieChartExample =JSON.stringify(sampleData.pieChartData);
-
+const pieChartExample = JSON.stringify(sampleData.pieChartData);
+const dendogramChartExemple =  JSON.stringify(sampleData.dendogramChartData);
 const HierarchicalEdgeExample = JSON.stringify(sampleData.HierarchicalEdgeData);
-const treemapChartExample =JSON.stringify(sampleData.treemapChartData);
+const treemapChartExample = JSON.stringify(sampleData.treemapChartData);
 const sunburstChartExample = JSON.stringify(sampleData.sunburstChartData);

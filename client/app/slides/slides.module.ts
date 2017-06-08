@@ -35,10 +35,6 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 
-import { PieChartComponent } from '../charts/pie-chart/pie-chart.component';
-
-
-
 
 import { ScrollDirective } from './components/slides-presentation/scroll.directive';
 import {Ng2PageScrollModule} from 'ng2-page-scroll';
@@ -54,6 +50,8 @@ import { LineChartComponent } from '../charts/line-chart/line-chart.component';
 import { TreemapChartComponent } from '../charts/treemap-chart/treemap-chart.component';
 import { SunburstChartComponent } from '../charts/sunburst-chart/sunburst-chart.component';
 import { FroalaEditorModule, FroalaViewModule } from 'angular2-froala-wysiwyg';
+import { DendogramComponent } from '../charts/dendogram/dendogram.component';
+import { PieChartComponent } from '../charts/pie-chart/pie-chart.component';
 
 
 import { CsvInputComponent } from './components/editor/slide-creator/csv-input/csv-input.component';
@@ -100,7 +98,8 @@ import { DialogComponent } from './components/dialog/dialog.component';
         FullScreenGraphSlideComponent,
         GaugeChartComponent,
         AdvancedPieChartComponent,
-        DialogComponent, 
+        DialogComponent,
+        DendogramComponent, 
         NgGraphComponent],
     declarations: [
         ScrollDirective,
@@ -132,7 +131,11 @@ import { DialogComponent } from './components/dialog/dialog.component';
         SlidesCardComponent,
         HierarchicalEdgeBundlingComponent,
         DialogComponent,
+<<<<<<< HEAD
         NgGraphComponent
+=======
+        DendogramComponent
+>>>>>>> 1dd45ecb778f9ad66024a78238b148bfcd4e8ec6
     ],
     exports:[
       FilterComponent,
