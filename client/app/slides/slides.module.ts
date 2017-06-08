@@ -131,11 +131,8 @@ import { DialogComponent } from './components/dialog/dialog.component';
         SlidesCardComponent,
         HierarchicalEdgeBundlingComponent,
         DialogComponent,
-<<<<<<< HEAD
-        NgGraphComponent
-=======
+        NgGraphComponent,
         DendogramComponent
->>>>>>> 1dd45ecb778f9ad66024a78238b148bfcd4e8ec6
     ],
     exports:[
       FilterComponent,
