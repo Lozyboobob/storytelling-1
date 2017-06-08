@@ -24,6 +24,10 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
     form: FormGroup;
     graphs: Array<any> = [
         {
+            value: "ngGraph",
+            type: "Graph builder"
+        },
+        {
             value: "barChart",
             type: "Bar Chart"
         }, {
@@ -150,7 +154,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
     confirmSlide() {
         /* to decide which data to take from tab*/
 
-        if (this.slide.hasGraph && !(this.form.value.slideGraph == 'noGraph' || this.form.value.slideGraph == 'image')) {
+        if (this.slide.hasGraph && !(this.form.value.slideGraph == 'noGraph' || this.form.value.slideGraph == 'ngGraph' || this.form.value.slideGraph == 'image')) {
             switch (this.dataInputTab.selectedIndex) {
                 //json input
                 case 0: {
@@ -200,6 +204,13 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
         this.form = this._buildForm();
 
     }
+    
+    confirmeSlideGRaphConfig(data) {
+        console.log('data: ', data);
+        this.slide.data = data.data;
+        this.slide.config = data.chartOptions;
+    }
+    
     deleteSlide(e) {
         this.deleteSlideOpt.emit(this.slideIndex);
     }

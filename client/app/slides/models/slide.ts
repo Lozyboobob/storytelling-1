@@ -3,6 +3,7 @@ export class Slide {
     /* graph setting*/
     graph: string = 'noGraph'; //graph type
     data: any = undefined; //data for graph
+    config: any = undefined; // config for graph
     /* slide content*/
     text: string = ""; //content of slide
     /* slide layout*/

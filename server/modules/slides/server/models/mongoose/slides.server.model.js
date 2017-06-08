@@ -81,6 +81,10 @@ var SlidesSchema = new Schema({
         type: Array,
         default: {}
       },
+      config: {
+        type: Object,
+        default: {}
+      },
       hasGraph: {
         type: Boolean,
         default: false,

@@ -9,7 +9,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {XHRBackend, Http, RequestOptions} from '@angular/http';
 
 // NGX-CHARTS MODULE
-import { PieChartModule, GaugeModule } from '@swimlane/ngx-charts';
+import { PieChartModule, GaugeModule, NgxChartsModule } from '@swimlane/ngx-charts';
 
 
 
@@ -32,6 +32,9 @@ import {SlidesService, ValidService, ChartsService} from '.';
 import { SlidesRoutingModule } from '.';
 import { CoreModule } from 'app/core';
 import { FileUploadModule } from 'ng2-file-upload';
+import { FlexLayoutModule } from '@angular/flex-layout';
+
+
 import { PieChartComponent } from '../charts/pie-chart/pie-chart.component';
 
 
@@ -42,6 +45,7 @@ import {Ng2PageScrollModule} from 'ng2-page-scroll';
 import {DragulaModule} from 'ng2-dragula';
 import { BarChartComponent } from '../charts';
 import { GaugeChartComponent } from '../charts';
+import { NgGraphComponent } from "../charts";
 import { HierarchicalEdgeBundlingComponent } from '../charts/hierarchical-edge-bundling/hierarchical-edge-bundling.component';
 
 import { AdvancedPieChartComponent } from '../charts';
@@ -54,10 +58,10 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular2-froala-wysiwyg';
 
 import { CsvInputComponent } from './components/editor/slide-creator/csv-input/csv-input.component';
 import { ImageUploadComponent } from './components/editor/slide-creator/image-upload/image-upload.component';
-import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { SlidesEditorComponent } from './components/slides-editor/slides-editor.component';
 import { SlidesSettingComponent } from './components/editor/slides-setting/slides-setting.component';
+import { ChartsBuilderComponent } from "./components/editor/charts-builder";
 import { EditorComponent } from './components/editor/editor.component';
 
 import { FilterComponent } from './components/filter/filter.component';
@@ -78,6 +82,7 @@ import { DialogComponent } from './components/dialog/dialog.component';
         DragulaModule,
         PieChartModule,
         GaugeModule,
+        NgxChartsModule,
         FlexLayoutModule,
         Ng2PageScrollModule.forRoot(),
         FroalaEditorModule.forRoot(),
@@ -95,7 +100,8 @@ import { DialogComponent } from './components/dialog/dialog.component';
         FullScreenGraphSlideComponent,
         GaugeChartComponent,
         AdvancedPieChartComponent,
-        DialogComponent],
+        DialogComponent, 
+        NgGraphComponent],
     declarations: [
         ScrollDirective,
         SlidesPresentationComponent,
@@ -111,6 +117,7 @@ import { DialogComponent } from './components/dialog/dialog.component';
         SunburstChartComponent,
         SlidesEditorComponent,
         SlidesSettingComponent,
+        ChartsBuilderComponent,
         EditorComponent,
         FilterComponent,
         SlidesManagerComponent,
@@ -124,7 +131,8 @@ import { DialogComponent } from './components/dialog/dialog.component';
         PieChartComponent,
         SlidesCardComponent,
         HierarchicalEdgeBundlingComponent,
-        DialogComponent
+        DialogComponent,
+        NgGraphComponent
     ],
     exports:[
       FilterComponent,
