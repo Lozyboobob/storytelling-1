@@ -1,10 +1,9 @@
 
 :host {
-    md-grid-list,
-    md-grid-tile {
-        padding-top: 0 !important;
-        padding-bottom: 0 !important;
+    div {
         height: 100%;
-        overflow: visible;
+        display:flex;
+        align-items: center;
+        justify-content: center; 
     }
 }
