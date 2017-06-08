@@ -13,7 +13,9 @@ export class DendogramComponent extends Chart implements OnInit {
   private data: Array<any> = [];
   private width: number;
   private height: number;
-  constructor() {
+  private curtain: any; //for animation
+
+    constructor() {
     super();
   }
 
@@ -23,19 +25,19 @@ export class DendogramComponent extends Chart implements OnInit {
     this.init();
   }
   init() {
-    this.width = this.element.offsetWidth;
+    this.width = this.element.offsetWidth ;
     this.height = this.element.offsetHeight;
 
     let svg = d3.select(this.element).append("svg");
-    svg.attr("width", this.width);
+    this.curtain = svg.attr("width", 0);
     svg.attr("height", this.height);
-    let g = svg.append("g").attr('transform', `translate(${this.width / 4},0)`);
+    let g = svg.append("g").attr('transform', `translate(40,0)`);
 
     let tree = d3.cluster()
-        .size([this.height, this.width - 800]);
+        .size([this.height, this.width - 200]);
 
     let stratify = d3.stratify()
-        .parentId(d =>{ return d['id'].substring(0, d['id'].lastIndexOf(".")); });
+        .parentId(d => { return d['id'].substring(0, d['id'].lastIndexOf(".")); });
 
     let root = stratify(this.data)
         .sort((a, b) => { return (a.height - b.height) || a.id.localeCompare(b.id); });
@@ -46,7 +48,7 @@ export class DendogramComponent extends Chart implements OnInit {
         .data(root.descendants().slice(1))
         .enter().append("path")
         .attr("class", "link")
-        .attr("d", function(d) {
+        .attr("d", d => {
           return "M" + d['y'] + "," + d['x']
               + "C" + (d.parent['y'] + 100) + "," + d['x']
               + " " + (d.parent['y'] + 100) + "," + d.parent['x']
@@ -69,10 +71,14 @@ export class DendogramComponent extends Chart implements OnInit {
         .text( d => { return d.id.substring(d.id.lastIndexOf(".") + 1); });
   }
   load() {
-
+      this.curtain.transition()
+          .duration(2000)
+          .attr('width', this.width);
   }
   ease() {
-
+      this.curtain.transition()
+          .duration(200)
+          .attr('width', 0);
   }
 
 }

@@ -2270,6 +2270,10 @@ export const dendogramChartData = {"graphData" : [
         "value": 3938
     },
     {
+        "id": "flare.analytics.cluster.AgglomerativeCluster.CommunityStructure",
+        "value": 3938
+    },
+    {
         "id": "flare.analytics.cluster.CommunityStructure",
         "value": 3812
     },
