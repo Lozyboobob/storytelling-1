@@ -72,14 +72,14 @@ export class DendogramComponent extends Chart implements OnInit {
   }
   load() {
       this.curtain.transition()
-          .duration(1000)
+          .duration(2000)
           .style('opacity',1)
           .attr('width', this.width)
           ;
   }
   ease() {
       this.curtain.transition()
-          .duration(800)
+          .duration(1000)
           .style('opacity',0)
           .attr('width', 0);
   }
