@@ -48,7 +48,7 @@ export class SlidesPresentationComponent implements OnInit {
     ) {
         /* config of scroll*/
         PageScrollConfig.defaultScrollOffset = 50;
-        PageScrollConfig.defaultInterruptible = true;
+        PageScrollConfig.defaultInterruptible = false;
         PageScrollConfig.defaultDuration = 800;
         // PageScrollConfig.defaultEasingLogic = {
         //     ease: (t: number, b: number, c: number, d: number): number => {
@@ -252,7 +252,7 @@ export class SlidesPresentationComponent implements OnInit {
             this.curSlideIndex = curIndex;
         }
     }
-    
+
     staySlideProcess() {
 
     }

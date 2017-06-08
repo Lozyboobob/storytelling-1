@@ -16,6 +16,8 @@ export class LineChartComponent extends Chart implements OnInit {
     private curtain: any; //for animation
     private dateMode: boolean;//date data in xAxis
     private tb;
+    private paths;
+    private dots;
     constructor() {
         super()
     }
@@ -68,7 +70,7 @@ export class LineChartComponent extends Chart implements OnInit {
         this.width = element.offsetWidth - margin.left - margin.right;
         this.height = element.offsetHeight - margin.top - margin.bottom - this.heightTB;
 
-// Define the div for the tooltip
+        // Define the div for the tooltip
         var div = d3.select(element).append("div")
             .attr("class", "tooltip")
             .style("opacity", 0);
@@ -76,7 +78,7 @@ export class LineChartComponent extends Chart implements OnInit {
         let svg = d3.select(element).append('svg')
             .attr('width', element.offsetWidth)
             .attr('height', element.offsetHeight - this.heightTB)
-            .attr('transform', 'translate(' + margin.left + ',' + this.height /2 +')');
+            .attr('transform', 'translate(' + 0 + ',' + this.height / 2 + ')');
 
         let value = [];
         this.data.forEach((d) => {
@@ -90,20 +92,42 @@ export class LineChartComponent extends Chart implements OnInit {
         else xDomain = value.map(d => d['xAxis']);
         let yDomain = [0, d3.max(value, d => d['yAxis'])];
 
-        /*clip*/
-        svg.append("defs").append("clipPath")
-            .attr("id", "clip")
-            .append("rect")
-            .attr("width", this.width)
-            .attr("height", this.height)
-        //.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-        svg.append("defs").append("clipPath")
-            .attr("id", "clip2")
-            .append("rect")
-            .attr("width", this.width)
-            .attr("height", this.height)
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        /*zoom */
+        let zoomScale = 1;
+        let zoom = d3.zoom()
+            .scaleExtent([1, Infinity])
+            .translateExtent([[0, 0], [this.width, this.height]])
+            .extent([[0, 0], [this.width, this.height]])
+            .on("zoom", _ => {
+                if (d3.event.sourceEvent && d3.event.sourceEvent.type === "brush") return; // ignore zoom-by-brush
 
+                var t = d3.event.transform;
+                x.domain(t.rescaleX(xTB).domain());
+                focus.selectAll(".line").attr("d", line);
+                focus.selectAll(".xAxis").call(xAxis);
+                this.tb.select(".brush").call(brush.move, x.range().map(t.invertX, t));
+                //t.k is the scale
+                zoomScale = t.k
+                svg.selectAll('.dot')
+                    .attr("cx", d => x(d['xAxis']))
+                    .attr("cy", d => y(d['yAxis']));
+                if (t.k > 3) {
+                    svg.selectAll('.dot').transition()
+                        .duration(500)
+                        .attr('opacity', 1);
+                }
+                else {
+                    svg.selectAll('.dot').transition()
+                        .duration(100)
+                        .attr('opacity', 0);
+                }
+            });
+        svg.append('rect')
+            .attr("class", "zoom")
+            .attr("width", this.width)
+            .attr("height", this.height)
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+            .call(zoom);
         /*chart area*/
         let focus = svg.append("g")
             .attr("class", "focus")
@@ -143,7 +167,12 @@ export class LineChartComponent extends Chart implements OnInit {
 
         //draw line for line chart
         let colors: any = d3.scaleOrdinal(d3.schemeCategory20);
-        let lines = focus.selectAll('.line')
+        let pathContainer = focus.append("svg")
+            .attr("class", "pathContainer")
+            .attr("width", this.width)
+            .attr("height", this.height)
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        this.paths = pathContainer.selectAll('.line')
             .data(this.data)
             .enter()
             .append('path')
@@ -190,35 +219,7 @@ export class LineChartComponent extends Chart implements OnInit {
             .attr('d', (d) => lineTB(d));
 
 
-        let zoomScale = 1;
-        let zoom = d3.zoom()
-            .scaleExtent([1, Infinity])
-            .translateExtent([[0, 0], [this.width, this.height]])
-            .extent([[0, 0], [this.width, this.height]])
-            .on("zoom", _ => {
-                if (d3.event.sourceEvent && d3.event.sourceEvent.type === "brush") return; // ignore zoom-by-brush
 
-                var t = d3.event.transform;
-                x.domain(t.rescaleX(xTB).domain());
-                focus.selectAll(".line").attr("d", line);
-                focus.selectAll(".xAxis").call(xAxis);
-                this.tb.select(".brush").call(brush.move, x.range().map(t.invertX, t));
-                //t.k is the scale
-                zoomScale = t.k
-                svg.selectAll('.dot')
-                    .attr("cx", d => x(d['xAxis']) + 50)
-                    .attr("cy", d => y(d['yAxis']));
-                if (t.k > 3) {
-                    svg.selectAll('.dot').transition()
-                        .duration(500)
-                        .attr('opacity', 1);
-                }
-                else {
-                    svg.selectAll('.dot').transition()
-                        .duration(100)
-                        .attr('opacity', 0);
-                }
-            });
         let brush = d3.brushX()
             .extent([[0, 0], [this.width, this.heightTB]])
             .on("brush end", _ => {
@@ -234,13 +235,7 @@ export class LineChartComponent extends Chart implements OnInit {
                     .scale(this.width / (s[1] - s[0]))
                     .translate(-s[0], 0));
             });
-        /*zoom */
-        svg.append('rect')
-            .attr("class", "zoom")
-            .attr("width", this.width)
-            .attr("height", this.height)
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-            .call(zoom);
+
 
         /*brush*/
         this.tb.append("g")
@@ -249,9 +244,11 @@ export class LineChartComponent extends Chart implements OnInit {
             .call(brush.move, x.range());
 
         // Add the scatterplot
+        let dotContainer = focus.append("svg").attr("class", "dotContainer").attr("width", this.width)
+            .attr("height", this.height).attr("transform", "translate(1500,0)")
         for (let i = 0; i < this.data.length; i++) {
-            let dots = svg.append('g').attr('class', 'dots dots' + i);
-            dots.selectAll(".dot")
+            let dots = dotContainer.append('g').attr('class', 'dots dots' + i);
+            this.dots = dots.selectAll(".dot")
                 .data(this.data[i])
                 .enter()
                 .append("circle")
@@ -259,23 +256,21 @@ export class LineChartComponent extends Chart implements OnInit {
                 .attr('opacity', 0)
                 .attr("r", 7)
                 .attr("fill", colors(i))
-                .attr("cx", d => x(d['xAxis']) + 50)
+                .attr("cx", d => x(d['xAxis']))
                 .attr("cy", d => y(d['yAxis']))
                 .on("mouseover", function(d) {
                     let curR = parseInt(d3.select(d3.event.srcElement).attr("r"))
-                    console.log(d3.event);
                     d3.select(d3.event.srcElement)
                         .transition()
                         .duration(200)
                         .attr('r', _ => zoomScale > 3 ? 20 : 7)
                         .attr('opacity', 1)
-                    console.log(d3.event);
                     div.transition()
                         .duration(200)
                         .style("opacity", .9);
                     div.html('<p>' + d["xAxis"] + "<br/>" + d["yAxis"] + '</p>')
-                        .style("left", (d3.event.layerX) + "px")
-                        .style("top", (d3.event.clientY ) + "px");
+                      .style("left", (d3.event.pageX) + "px")
+                        .style("top", (d3.event.pageY+25) + "px");
                 })
                 .on("mouseout", function(d) {
                     let curR = parseInt(d3.select(d3.event.srcElement).attr("r"))
@@ -317,6 +312,7 @@ export class LineChartComponent extends Chart implements OnInit {
     }
 
     ease() {
+
         this.curtain.transition()
             .duration(800)
             .attr('width', this.width);
@@ -329,6 +325,7 @@ export class LineChartComponent extends Chart implements OnInit {
         this.tb.transition()
             .delay(1250)
             .attr('opacity', 1);
+
     }
 
 

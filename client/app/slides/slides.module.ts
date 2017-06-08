@@ -35,7 +35,6 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 
-
 import { ScrollDirective } from './components/slides-presentation/scroll.directive';
 import {Ng2PageScrollModule} from 'ng2-page-scroll';
 import {DragulaModule} from 'ng2-dragula';

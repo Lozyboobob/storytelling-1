@@ -20,11 +20,11 @@ $axisColor: #4c4c4c;
         }
     }
 
-    /deep/ .line {
-        clip-path: url("#clip");
+     /deep/ .pathContainer, /deep/ .dotContainer {
+        overflow: hidden;
     }
     /deep/ .dots {
-        clip-path: url("#clip2");
+        //clip-path: url("#clip2");
     }
     /*.area {
         fill: steelblue;
@@ -38,7 +38,7 @@ $axisColor: #4c4c4c;
 }
 
 :host /deep/ .tooltip {
-    position: relative;
+    position: absolute;
     text-align: center;
     padding: 2px;
     font: 12px sans-serif;

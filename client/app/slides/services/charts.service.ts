@@ -12,10 +12,10 @@ export class ChartsService {
     // this.listWidget = Array.from(this._resolver['_factories'].keys());
 
     this.listWidget = new Map<string, Type<any>>([['PieChartComponent', PieChartComponent], ['AdvancedPieChartComponent', AdvancedPieChartComponent],
-    ['BarChartComponent', BarChartComponent], ['ForceDirectedGraphComponent', ForceDirectedGraphComponent],
+     ['BarChartComponent', BarChartComponent], ['ForceDirectedGraphComponent', ForceDirectedGraphComponent],
      ['GaugeChartComponent', GaugeChartComponent], ['HierarchicalEdgeBundlingComponent', HierarchicalEdgeBundlingComponent],
      ['SunburstChartComponent', SunburstChartComponent], ['TreemapChartComponent', TreemapChartComponent],
-        ['LineChartComponent', LineChartComponent], ['DendogramChartComponent', DendogramComponent], ['NgGraphComponent', NgGraphComponent]
+     ['LineChartComponent', LineChartComponent], ['DendogramChartComponent', DendogramComponent], ['NgGraphComponent', NgGraphComponent]
      ]);
   }
 
