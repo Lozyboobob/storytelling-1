@@ -4,7 +4,7 @@ import {ValidService} from '../../../services/valid.service';
 import {JsonValidator } from '../json-validator';
 
 import *  as sampleData from './data';
-
+import *  as slideOption from './slideOption';
 
 import { Slide } from '../../../models/slide';
 @Component({
@@ -22,77 +22,8 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
     @Input() isInShuffle: boolean;
     slide: Slide = new Slide();
     form: FormGroup;
-    graphs: Array<any> = [
-        {
-            value: "barChart",
-            type: "Bar Chart"
-        }, {
-            value: "forceDirectedGraph",
-            type: "Force Directed Graph"
-        }, {
-            value: "pieChart",
-            type: "Pie chart"
-        },
-        {
-            value: "HierarchicalEdgeBundling",
-            type: "Hierarchical edge bundling"
-        },
-        {
-            value: "lineChart",
-            type: "Line Chart"
-        },
-        {
-            value: "advancedPieChart",
-            type: "Advanced Pie Chart"
-        },
-        {
-            value: "gaugeChart",
-            type: "Gauge Chart"
-        },
-        {
-            value: "treemapChart",
-            type: "Treemap Chart"
-        },
-        {
-            value: "sunburstChart",
-            type: "Sunburst Chart"
-        },{
-            value: "dendogramChart",
-            type: "Dendrogram chart"
-        },
-        /* hide image part
-      {
-          value: "image",
-          type: "Image"
-      },
-      */
-        {
-            value: "noGraph",
-            type: "No Graph"
-        }];
-    pageLayout: Array<any> = [
-        {
-            value: "FullScreenGraph",
-            type: "Full Screen Graph"
-        }, {
-            value: "textInCenter",
-            type: "Text in Center"
-        },
-        /* hide image part
-        {
-            value: "textInCenterImageBackground",
-            type: "Text in Center + Image Background"
-        },
-        */
-        {
-            value: "LeftGraphRightText",
-            type: "Graph on Left +  Text on Right"
-        },
-        {
-            value: "LeftTextRightGraph",
-            type: "Text on Left +  Graph on Right"
-        }
-    ];
+    graphs: Array<any>;
+    pageLayout: Array<any>;
     dataExample: string = '{}';
     editorOptions: Object = {
         heightMin: 200,
@@ -113,7 +44,8 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
     }
 
     ngOnInit() {
-
+      this.graphs=slideOption.graphType;
+      this.pageLayout=slideOption.pageLayoutOption;
 
     }
     ngAfterViewInit() {
@@ -122,17 +54,16 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
     ngOnChanges() {
         if (this.slideSetting) {
             this.slide = this.slideSetting;
-
         }
         if (this.slideIndex) {
-
             this.slide.index = this.slideIndex;
         }
-        this.form = this._buildForm(); this.validService.changeSlideValid(this.form.valid, this.slideIndex);
+        this.form = this._buildForm();
+        this.validService.changeSlideValid(this.form.valid, this.slideIndex);
         this.form.valueChanges.subscribe(data => {
             this.validService.changeSlideValid(this.form.valid, this.slideIndex);
         })
-        this.initJson();
+        this.graphChanged();
         this.showForm = !this.form.valid;
     }
     private _buildForm() {
@@ -189,9 +120,8 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
             this.slide.graph = this.form.value.slideGraph;
         else this.slide.graph = "";
         this.slide.pageLayout = this.form.value.pageLayout;
-        if (this.slide.hasText)
-            this.slide.text = this.form.value.slideText;
-        else this.slide.text = "";
+        if (!this.slide.hasText)
+            this.slide.text = "";
         if (this.slideIndex) {
             this.slide.index = this.slideIndex;
         }
@@ -218,10 +148,11 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
         control.push(this.initData());
         console.log(this.form.value);
     }
-    initJson() {
+    /* when change graph*/
+    graphChanged() {
+        //
         //change json sample
-
-        //the slide data is already set
+        //**if the slide data is already set
         if (this.slide.data != undefined) {
             if (this.slide.data.length && this.form.value.slideGraph == this.slide.graph) {
               //if has data, set tab to json
@@ -232,7 +163,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
                 return;
             }
         }
-        // the slide data has not been set
+        //**if the slide data has not been set
         switch (this.form.value.slideGraph) {
             case "barChart": this.form.controls['graphDataJson'].setValue(barCharDataExample); break;
             case "gaugeChart": this.form.controls['graphDataJson'].setValue(ngxSingleChartDataExample); break;
