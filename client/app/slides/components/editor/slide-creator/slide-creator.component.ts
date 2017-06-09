@@ -76,7 +76,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
             type: "Full Screen Graph"
         }, {
             value: "textInCenter",
-            type: "Text in Center"
+            type: "Full screen text"
         },
         /* hide image part
         {
