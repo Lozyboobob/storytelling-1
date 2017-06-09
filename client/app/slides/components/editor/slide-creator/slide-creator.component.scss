@@ -24,8 +24,9 @@
 :host /deep/ .fr-box {
     width: 100%;
     //background: transparent;
-    ul{
+    ul, ol{
       padding:40px;
+      list-style-position: inside;
     }
     /*&:active,
     &:focus {
