@@ -14,7 +14,7 @@ export class SearchComponent implements OnInit {
 
     onChange(textToSearch) {
         if (textToSearch) {
-            this.textSearch.emit(textToSearch);
+            this.textSearch.emit(textToSearch.toLowerCase());
         } else {
             this.textSearch.emit('');
         }
