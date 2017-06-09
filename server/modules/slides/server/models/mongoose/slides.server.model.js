@@ -96,5 +96,4 @@ var SlidesSchema = new Schema({
     trim: true
   }
 });
-
 mongoose.model('Slides', SlidesSchema);

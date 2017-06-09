@@ -59,7 +59,7 @@ export class TextSlideComponent implements OnInit {
       this.loadContentAni = false;
       setTimeout(_ => {
         this.easeContentAni = false;
-        this.loadContentAni = true
+        this.loadContentAni = true;
       }, 625);
     }
   }
@@ -69,7 +69,7 @@ export class TextSlideComponent implements OnInit {
       this.easeContentAni = false;
       setTimeout(() => {
         this.loadContentAni = false;
-        this.easeContentAni = true
+        this.easeContentAni = true;
       }, 0);
     }
   }
