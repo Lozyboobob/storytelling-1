@@ -189,6 +189,7 @@
     [style.visibility]="activated ?  'visible' : 'hidden' "
     *ngIf="chartOptions.chartType === 'bubble-chart'"
     class="chart-container"
+    [view]="null"
     [results]="data"
     [showGridLines]="chartOptions.showGridLines"
     [legend]="chartOptions.showLegend"

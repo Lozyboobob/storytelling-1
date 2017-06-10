@@ -143,7 +143,7 @@
         [showXAxisLabel]="chartOptions.showXAxisLabel" [showYAxisLabel]="chartOptions.showYAxisLabel" [xAxisLabel]="chartOptions.xAxisLabel"
         [yAxisLabel]="chartOptions.yAxisLabel" xxxinnerPadding="chartOptions.innerPadding" [tooltipDisabled]="chartOptions.tooltipDisabled">
       </ngx-charts-heat-map>
-      <ngx-charts-bubble-chart *ngIf="chartType.name === 'bubble-chart'" class="chart-container" [results]="data" [showGridLines]="chartOptions.showGridLines"
+      <ngx-charts-bubble-chart *ngIf="chartType.name === 'bubble-chart'" [view]="null"  class="chart-container" [results]="data" [showGridLines]="chartOptions.showGridLines"
         [legend]="chartOptions.showLegend" [legendTitle]="chartOptions.legendTitle" [xAxis]="chartOptions.showXAxis" [yAxis]="chartOptions.showYAxis"
         [showXAxisLabel]="chartOptions.showXAxisLabel" [showYAxisLabel]="chartOptions.showYAxisLabel" [xAxisLabel]="chartOptions.xAxisLabel"
         [yAxisLabel]="chartOptions.yAxisLabel" [autoScale]="chartOptions.autoScale" [scheme]="chartOptions.colorScheme" [schemeType]="chartOptions.schemeType"
