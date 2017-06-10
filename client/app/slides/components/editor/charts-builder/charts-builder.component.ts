@@ -8,6 +8,7 @@ import * as babyparse from 'babyparse';
 import { chartTypes } from './chartTypes';
 import { gapminder } from './data';
 
+
 const defaultOptions = {
   view: [900, 600],
   colorScheme: colorSets.find(s => s.name === 'cool'),
@@ -58,6 +59,11 @@ const  curves = {
 })
 export class ChartsBuilderComponent implements OnInit {
   chartTypes = chartTypes;
+  config = {
+    lineNumbers: true,
+    theme: 'dracula',
+    mode: "htmlmixed"
+  };
 
   data: any[];
   rawData: any[];

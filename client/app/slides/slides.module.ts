@@ -10,6 +10,7 @@ import {XHRBackend, Http, RequestOptions} from '@angular/http';
 
 // NGX-CHARTS MODULE
 import { PieChartModule, GaugeModule, NgxChartsModule } from '@swimlane/ngx-charts';
+import { CodemirrorModule } from 'ng2-codemirror';
 
 
 
@@ -58,7 +59,7 @@ import { ImageUploadComponent } from './components/editor/slide-creator/image-up
 
 import { SlidesEditorComponent } from './components/slides-editor/slides-editor.component';
 import { SlidesSettingComponent } from './components/editor/slides-setting/slides-setting.component';
-import { ChartsBuilderComponent } from "./components/editor/charts-builder";
+import { ChartsBuilderComponent, CodeEditorComponent } from "./components/editor/charts-builder";
 import { EditorComponent } from './components/editor/editor.component';
 
 import { FilterComponent } from './components/filter/filter.component';
@@ -80,6 +81,7 @@ import { DialogComponent } from './components/dialog/dialog.component';
         PieChartModule,
         GaugeModule,
         NgxChartsModule,
+        CodemirrorModule,
         FlexLayoutModule,
         Ng2PageScrollModule.forRoot(),
         FroalaEditorModule.forRoot(),
@@ -115,6 +117,7 @@ import { DialogComponent } from './components/dialog/dialog.component';
         SunburstChartComponent,
         SlidesEditorComponent,
         SlidesSettingComponent,
+        CodeEditorComponent,
         ChartsBuilderComponent,
         EditorComponent,
         FilterComponent,

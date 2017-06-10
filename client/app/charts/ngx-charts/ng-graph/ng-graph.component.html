@@ -1,5 +1,5 @@
-<div class="d3-chart">
-  <ngx-charts-bar-vertical-2d 
+<div class="d3-chart" >
+  <ngx-charts-bar-vertical-2d fxFlex
     [style.visibility]="activated ?  'visible' : 'hidden' "
     *ngIf="chartOptions.chartType === 'bar-vertical-2d'"
     class="chart-container"
@@ -21,7 +21,7 @@
     xxxgroupPadding="chartOptions.groupPadding"
     [roundDomains]="chartOptions.roundDomains">
   </ngx-charts-bar-vertical-2d>
-  <ngx-charts-bar-horizontal-2d
+  <ngx-charts-bar-horizontal-2d fxFlex
     [style.visibility]="activated ?  'visible' : 'hidden' "
     *ngIf="chartOptions.chartType === 'bar-horizontal-2d'"
     class="chart-container"
@@ -41,7 +41,7 @@
     [showGridLines]="chartOptions.showGridLines"
     [roundDomains]="chartOptions.roundDomains">
   </ngx-charts-bar-horizontal-2d>
-  <ngx-charts-bar-vertical-stacked
+  <ngx-charts-bar-vertical-stacked fxFlex
     [style.visibility]="activated ?  'visible' : 'hidden' "
     *ngIf="chartOptions.chartType === 'bar-vertical-stacked'"
     class="chart-container"
@@ -61,7 +61,7 @@
     [showGridLines]="chartOptions.showGridLines"
     [roundDomains]="chartOptions.roundDomains">
   </ngx-charts-bar-vertical-stacked>
-  <ngx-charts-bar-horizontal-stacked
+  <ngx-charts-bar-horizontal-stacked fxFlex
     [style.visibility]="activated ?  'visible' : 'hidden' "
     *ngIf="chartOptions.chartType === 'bar-horizontal-stacked'"
     class="chart-container"
@@ -80,7 +80,7 @@
     [showGridLines]="chartOptions.showGridLines"
     [roundDomains]="chartOptions.roundDomains">
   </ngx-charts-bar-horizontal-stacked>
-  <ngx-charts-bar-vertical-normalized
+  <ngx-charts-bar-vertical-normalized fxFlex
     [style.visibility]="activated ?  'visible' : 'hidden' "
     *ngIf="chartOptions.chartType === 'bar-vertical-normalized'"
     class="chart-container"
@@ -100,7 +100,7 @@
     [showGridLines]="chartOptions.showGridLines"
     [roundDomains]="chartOptions.roundDomains">
   </ngx-charts-bar-vertical-normalized>
-  <ngx-charts-bar-horizontal-normalized
+  <ngx-charts-bar-horizontal-normalized fxFlex
     [style.visibility]="activated ?  'visible' : 'hidden' "
     *ngIf="chartOptions.chartType === 'bar-horizontal-normalized'"
     class="chart-container"
@@ -120,7 +120,7 @@
     [showGridLines]="chartOptions.showGridLines"
     [roundDomains]="chartOptions.roundDomains">
   </ngx-charts-bar-horizontal-normalized>
-  <ngx-charts-polar-chart
+  <ngx-charts-polar-chart fxFlex
     [style.visibility]="activated ?  'visible' : 'hidden' "
     *ngIf="chartOptions.chartType === 'polar-chart'"
     class="chart-container"
@@ -144,7 +144,7 @@
     [curve]="chartOptions.curveClosed"
     [showSeriesOnHover]="chartOptions.showSeriesOnHover">
   </ngx-charts-polar-chart>
-  <ngx-charts-line-chart
+  <ngx-charts-line-chart fxFlex
     [style.visibility]="activated ?  'visible' : 'hidden' "
     *ngIf="chartOptions.chartType === 'line-chart'"
     class="chart-container"
@@ -168,7 +168,7 @@
     [tooltipDisabled]="chartOptions.tooltipDisabled"
     [showSeriesOnHover]="chartOptions.showSeriesOnHover">
   </ngx-charts-line-chart>
-  <ngx-charts-heat-map
+  <ngx-charts-heat-map fxFlex
     [style.visibility]="activated ?  'visible' : 'hidden' "
     *ngIf="chartOptions.chartType === 'heat-map'"
     class="chart-container"
@@ -185,7 +185,7 @@
     xxxinnerPadding="chartOptions.innerPadding"
     [tooltipDisabled]="chartOptions.tooltipDisabled">
   </ngx-charts-heat-map>
-  <ngx-charts-bubble-chart
+  <ngx-charts-bubble-chart fxFlex
     [style.visibility]="activated ?  'visible' : 'hidden' "
     *ngIf="chartOptions.chartType === 'bubble-chart'"
     class="chart-container"

@@ -236,3 +236,34 @@ $color-text-lighter: #fff;
     overflow-y: auto;
     max-height: 400px;
 }
+
+.text-green {
+  color: #1ac7a4; 
+  
+}
+
+.text-red {
+  color: #ff4514; 
+}
+
+
+.ng-section {
+  display: block;
+  margin-bottom: 2em;
+
+  .section-header {
+    background: #313847;
+    display: block;
+    width: auto;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 10px;
+    color: #cfcfcf;
+    position: relative;
+  }
+
+  .section-content {
+    margin-top: 20px;
+  }
+}
+    
