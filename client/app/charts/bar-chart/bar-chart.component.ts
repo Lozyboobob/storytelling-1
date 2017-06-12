@@ -20,15 +20,15 @@ export class BarChartComponent extends Chart implements OnInit {
     private xAxis: any;
     private yAxis: any;
     private loaded: boolean = true;
-    
-    constructor() { 
-       super()  
+
+    constructor() {
+       super()
     }
 
     ngOnInit() {
         // Set data
         this.data = this.dataInput;
-        
+
         this.init();
     }
 
@@ -170,10 +170,11 @@ export class BarChartComponent extends Chart implements OnInit {
             .attr('opacity', 0);
         let waitingTime = this.chart.selectAll('.bar')._groups[0].length * 100;
         /* if the chart doesn't load after certain time ( the time allows chart ease and then load again*/
-        setTimeout(_ => {
+        /*setTimeout(_ => {
             if (this.loaded) return;
             this.chart.selectAll('.bar').transition()
                 .duration(1500)
+                .delay(waitingTime * 2 + 400)
                 .attr('y', d => this.yScale(d.value))
                 .attr('height', d => this.height - this.yScale(d.value));
             this.chart.selectAll('.value-text').transition()
@@ -181,7 +182,7 @@ export class BarChartComponent extends Chart implements OnInit {
                 .duration(200)
                 .attr('opacity', 1);
 
-        }, waitingTime * 2 + 400);
+        }, waitingTime * 2 + 400);*/
     }
 
 }
