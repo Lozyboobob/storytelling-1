@@ -5,9 +5,11 @@
     cursor: pointer;
     margin-bottom: 15px;
     width: 100%;
+
     .card-link:focus {
         outline: none;
     }
+
     .card-header {
         .user-logo {
             background-color: #c5401a;
@@ -61,6 +63,10 @@
             flex: 0 0 32px;
             height: 32px;
 
+            &:focus {
+                outline: none;
+            }
+
             &.favorite {
                 color: $warn;
             }
@@ -78,20 +84,33 @@
                 color: $primary;
                 opacity: 0.5;
             }
+            &.delete-icon:hover {
+                color: #b50000;
+            }
 
-         }
+            &.edit-icon:hover {
+                color: $primary;
+            }
+            &.more{
+              color:$accent;
+              &:hover{
+                color:$accent;
+              }
+            }
+        }
+
         md-icon {
             font-size: 24px;
             margin: 4px;
             position: relative;
+
+            &:focus {
+                outline: none;
+            }
         }
 
-        .delete-icon:hover {
-            color : #b50000
-        }
-        .edit-icon:hover {
-            color : #0000b8
-        }
+
+
         .left {
             flex: 1;
         }
