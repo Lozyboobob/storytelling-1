@@ -1,5 +1,7 @@
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 @import '~@angular/material/_theming.scss';
+@import "spinner.scss";
+
 @include mat-core();
 $primary: mat-palette($mat-blue-grey, 900);
 $accent: mat-palette($mat-cyan, 600);
