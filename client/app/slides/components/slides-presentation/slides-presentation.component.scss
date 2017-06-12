@@ -12,7 +12,9 @@
         height: 100%;
     }
 }
-
+:host /deep/ ul, :host /deep/ ol{
+  list-style-position: inside;
+}
 
 // .slides {
 //     .slide {
