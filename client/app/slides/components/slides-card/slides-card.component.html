@@ -28,11 +28,11 @@
       <md-icon md-ripple mdRippleColor="rgba(0, 172, 193, 0.3)" mdRippleCentered="true" mdRippleUnbounded="true">mode_edit</md-icon>
     </div>
 
-    <div class="right" *ngIf="(loggedIn$|async) && ((username$|async) === slides.slidesSetting.author)&&editable" mdTooltip="more operation">
+    <div class="right more" *ngIf="(loggedIn$|async) && ((username$|async) === slides.slidesSetting.author)&&editable" mdTooltip="more operation">
       <md-icon md-ripple mdRippleColor="rgba(0, 172, 193, 0.3)" mdRippleCentered="true" mdRippleUnbounded="true" [mdMenuTriggerFor]="menu">more</md-icon>
       <md-menu #menu="mdMenu">
         <button class=" delete-icon" md-menu-item (click)="deleteSlides(slides._id)">
-          <md-icon>delete</md-icon>
+          <md-icon>delete</md-icon>delete
         </button>
         <button md-menu-item><md-icon>content_copy</md-icon>duplicate</button>
       </md-menu>
