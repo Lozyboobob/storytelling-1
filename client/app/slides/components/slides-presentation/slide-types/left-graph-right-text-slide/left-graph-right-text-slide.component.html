@@ -3,6 +3,6 @@
     <ng-template #parent></ng-template>
   </div>
   <div fxFlex="50%" *ngIf="config.hasText">
-    <div [innerHTML]="slide.text" align="left" [class.slideLeft]="loadContentAni" [class.slideRightOut]="easeContentAni"></div>
+    <div [innerHTML]="slide.text" *ngIf="loadContentAni || easeContentAni" align="left" [class.slideLeft]="loadContentAni" [class.slideRightOut]="easeContentAni"></div>
   </div>
 </div>

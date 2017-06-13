@@ -127,7 +127,7 @@ exports.slideByID = function(req, res, next, id) {
 exports.search = function (req, res) {
   var regexS = new RegExp((req.query.title) || '');
   if (req.query.state === 'Public') {
-    Slides.find({ $and: [{ $or: [{ 'slidesSetting.title': regexS }, { 'slidesSetting.tags': regexS }] }, { 'slidesSetting.public': true }] }).sort('-created')
+    Slides.find({ $and: [{ $or: [{ 'slidesSetting.title': { $regex: regexS, $options: "i" } }, { 'slidesSetting.tags': { $regex: regexS, $options: "i" } }] }, { 'slidesSetting.public': true }] }).sort('-created')
       .populate({ path: 'slidesSetting.banner', model: 'Image' }).exec(function (err, slides) {
       if (err) {
         return res.status(422).send({
@@ -138,7 +138,7 @@ exports.search = function (req, res) {
       }
     });
   } else if (req.query.state === 'Private') {
-    Slides.find({ $and: [{ $or: [{ 'slidesSetting.title': regexS }, { 'slidesSetting.tags': regexS }] }, { 'slidesSetting.author': req.query.username }, { 'slidesSetting.public': false }] }).sort('-created')
+    Slides.find({ $and: [{ $or: [{ 'slidesSetting.title': { $regex: regexS, $options: "i"}}, { 'slidesSetting.tags': { $regex: regexS, $options: "i" }}] }, { 'slidesSetting.author': req.query.username }, { 'slidesSetting.public': false }] }).sort('-created')
       .populate({ path: 'slidesSetting.banner', model: 'Image' }).exec(function (err, slides) {
       if (err) {
         return res.status(422).send({
@@ -149,7 +149,7 @@ exports.search = function (req, res) {
       }
     });
   } else {
-    Slides.find({ $and: [{ $or: [{ 'slidesSetting.title': regexS }, { 'slidesSetting.tags': regexS }] }, { $or: [{ 'slidesSetting.author': req.query.username }, { 'slidesSetting.public': true }] }] }).sort('-created')
+    Slides.find({ $and: [{ $or: [{ 'slidesSetting.title': { $regex: regexS, $options:"i"} }, { 'slidesSetting.tags': { $regex: regexS, $options:"i"} }] }, { $or: [{ 'slidesSetting.author': req.query.username }, { 'slidesSetting.public': true }] }] }).sort('-created')
       .populate({ path: 'slidesSetting.banner', model: 'Image' }).exec(function (err, slides) {
       if (err) {
         return res.status(422).send({
