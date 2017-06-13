@@ -97,7 +97,7 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
     transition() {
         this.shrink();
         setTimeout(_ => {
-            this.expand()
+          this.expand()
         }, 800);
     }
     setData(data) {
@@ -233,6 +233,6 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
     ease() {
         this.transition();
 
-    } 
+    }
 
 }

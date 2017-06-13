@@ -21,12 +21,16 @@
     }
 }
 
-textarea {
+:host /deep/ .fr-box {
     width: 100%;
     //background: transparent;
-    &:active,
+    ul, ol{
+      padding:40px;
+      list-style-position: inside;
+    }
+    /*&:active,
     &:focus {
         outline: none;
         border: 1px solid $primary;
-    }
+    }*/
 }

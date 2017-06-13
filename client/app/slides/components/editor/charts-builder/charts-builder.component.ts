@@ -170,9 +170,6 @@ export class ChartsBuilderComponent implements OnInit {
   }
 
   updateData(value = this._dataText) {
-    /* if (this._dataText === value) {
-      return this.clear();
-    } */
 
     this._dataText = value;
     const parsed = babyparse.parse(this._dataText, {

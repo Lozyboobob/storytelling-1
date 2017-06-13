@@ -19,7 +19,7 @@
                 </md-select>
               </td>
               <td>
-                <md-select *ngIf="slide.hasGraph&&form.controls.pageLayout.value!='textInCenterImageBackground'" placeholder="Select graph" formControlName="slideGraph" name="slideGraph" (change)="initJson()">
+                <md-select *ngIf="slide.hasGraph&&form.controls.pageLayout.value!='textInCenterImageBackground'" placeholder="Select graph" formControlName="slideGraph" name="slideGraph" (change)="graphChanged()">
                   <md-option *ngFor="let graph of graphs" [value]="graph.value">
                     {{ graph.type }}
                   </md-option>
@@ -30,7 +30,7 @@
 
           <div class="margin-ver-frame">
             <md-tab-group *ngIf="slide.hasGraph &&(form.controls.slideGraph.value)&& !(form.controls.slideGraph.value=='image'||form.controls.slideGraph.value=='noGraph'||form.controls.slideGraph.value=='ngGraph')" [selectedIndex]="curTab" #dataInput>
-            
+
               <md-tab label="Json">
                 <textarea name="graphDataJson" formControlName="graphDataJson"></textarea>
                 <p class="error" *ngIf=" form.controls.graphDataJson.invalid">Invalidate json format</p>
@@ -44,7 +44,7 @@
 
           </div>
           <div class="margin-ver-frame" *ngIf="slide.hasText">
-            <textarea [froalaEditor]='editorOptions' [(froalaModel)]="form.value.slideText"></textarea>
+            <textarea [froalaEditor]='editorOptions' [(froalaModel)]="slide.text"></textarea>
           </div>
           <div *ngIf="form.controls.slideGraph.value == 'ngGraph'">
             <app-charts-builder (configGraph)="confirmeSlideGRaphConfig($event)">
