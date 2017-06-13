@@ -67,7 +67,7 @@
                 outline: none;
             }
 
-            &.favorite {
+            &.favorite, &.favorite:hover, &.unfavorite:hover {
                 color: $warn;
             }
 
@@ -89,7 +89,7 @@
             }
 
             &.edit-icon:hover {
-                color: $primary;
+                color: $accent;
             }
             &.more{
               color:$primary;
