@@ -79,6 +79,7 @@ export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit {
   }
 
   private loadChart() {
+    console.log("load");
     if (this.config.hasChart) {
       (<Chart>this.componentRef.instance).load();
     }
