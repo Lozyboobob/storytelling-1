@@ -4,10 +4,13 @@ export class Slides {
     _id: string;
     slidesSetting: SlidesSetting;
     slides: Array<Slide> = [];
-    constructor(slides ?:Slides ) {
-      //for copy slides
-        this.slidesSetting=slides.slidesSetting;
-        this.slidesSetting.title=this.slidesSetting.title+" "+"copy"
-        this.slides=slides.slides;
+    constructor(slides?: Slides) {
+        //for copy slides
+        if (slides) {
+        this.slidesSetting = slides.slidesSetting;
+            this.slidesSetting.title = this.slidesSetting.title + " " + "copy"
+            this.slides = slides.slides;
+        }
+
     }
 }
