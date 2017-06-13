@@ -9,7 +9,7 @@ import {SlidesService} from '../../services/slides.service';
 import { BarChartComponent, ForceDirectedGraphComponent, LineChartComponent, TreemapChartComponent, SunburstChartComponent, HierarchicalEdgeBundlingComponent} from 'app/charts';
 
 import { PageConfig, HALF_HALF_LAYOUT, FULL_LAYOUT} from './pageConfig';
-
+import {Slide} from '../../models/slide'
 @Component({
     selector: 'app-slides-presentation',
     templateUrl: './slides-presentation.component.html',
@@ -18,13 +18,16 @@ import { PageConfig, HALF_HALF_LAYOUT, FULL_LAYOUT} from './pageConfig';
 })
 
 export class SlidesPresentationComponent implements OnInit {
-    slides: Array<any> = [];
+    slides: Array<Slide> = [];
     slideTitle: String;
     slideHeight_style: any = {
         'height': '72px'
     };
     slideHeight: number;
+    curSlide: Slide;
+    lastSlide: Slide;
     curSlideIndex: number = 0;
+    lastSlideIndex: number;
     slideNum: number;
     charts: Array<any> = [];
     loadContentAni: Array<boolean> = []; // indicator for content load animation
@@ -62,9 +65,9 @@ export class SlidesPresentationComponent implements OnInit {
         /*set the slide size to fit window size*/
         this.windowResizeService.height$.subscribe(height => {
             this.slideHeight_style = {
-                'height': ( height -50 )  + 'px' //50 is the height of header
+                'height': (height - 65) + 'px' //50 is the height of header
             };
-            this.slideHeight = ( height - 50 ) ;
+            this.slideHeight = (height - 65);
         })
 
     }
@@ -80,63 +83,14 @@ export class SlidesPresentationComponent implements OnInit {
                 this.slideNum = this.slides.length;
                 this.slideTitle = slide.slidesSetting.title;
                 console.log("get slides", this.slides);
-                // this.slides.forEach(
-                //     (slide, index) => {
-                //         slide.text = this.sanitizer.bypassSecurityTrustHtml(slide.text);
-                //         this.loadContentAni.push(true);
-                //         this.easeContentAni.push(false);
-                //         //initialize layout config
-                //         let config: PageConfig = new PageConfig(); //defual is fullscreen no graph no text
-                //         switch (slide.pageLayout) {
-                //             case "FullScreenGraph": Object.assign(config,FULL_LAYOUT);
-                //                 if (slide.graph == "image") {
-                //                     if (slide.fullScreenHtml.length)
-                //                         slide.fullScreenHtml = this.sanitizer.bypassSecurityTrustHtml(slide.fullScreenHtml);
-                //                     config.hasImage = true;
-                //                 }
-                //                 else {
-                //                     config.hasChart = true;
-
-                //                 }
-                //                 break;
-                //             case "textInCenter": Object.assign(config,FULL_LAYOUT);
-                //                 config.hasText = true;
-                //                 ; break;
-                //             case "textInCenterImageBackground": Object.assign(config,FULL_LAYOUT);
-                //                 config.hasText = true;
-                //                 config.hasImage = true;
-                //                 if (slide.fullScreenHtml.length) {
-                //                     slide.fullScreenHtml = this.sanitizer.bypassSecurityTrustHtml(slide.fullScreenHtml);
-                //                 };
-                //                 break;
-                //             // case "LeftGraphRightText":
-                //             // case "LeftTextRightGraph":
-                //             //     Object.assign(config,HALF_HALF_LAYOUT);
-                //             //     if (slide.graph == "image") {
-                //             //         if (slide.fullScreenHtml.length)
-                //             //             slide.fullScreenHtml = this.sanitizer.bypassSecurityTrustHtml(slide.fullScreenHtml);
-                //             //         config.hasImage = true;
-                //             //     }
-                //             //     else {
-                //             //         config.hasChart = true;
-                //             //         console.log(config);
-                //             //     };
-                //             //     break;
-                //             default: {
-
-                //             }
-
-                //         }
-                //         this.pageLayoutConfig.push(config);
-                //     }
-                // )
-                // setTimeout(_ => this.initCharts());
-
+                this.curSlideIndex = 0;
+                this.curSlide=new Slide();
+                console.log(this.curSlide);
             },
             error => {
                 console.log("fail to get slides data");
             });
-          window.scrollTo(0,0);//scroll to top everytime open the slides
+        window.scrollTo(0, 0);//scroll to top everytime open the slides
 
     }
 
@@ -193,17 +147,20 @@ export class SlidesPresentationComponent implements OnInit {
     // slide switch operation
 
 
-    lastSlide() {
+    toLastSlide() {
         /*  if (this.charts.length == 0 || this.charts === undefined) {
               this.initCharts();
           }*/
-        this.curSlideIndex = this.getCurSlideIndex();
+      //  this.curSlideIndex = this.getCurSlideIndex();
         if (this.curSlideIndex > 0) {
             // this.easeChart(this.curSlideIndex - 1);
             // this.easeContent(this.curSlideIndex - 1);
+
             this.slideease$.next(this.curSlideIndex);
             this.curSlideIndex--;
-            this.goToSlide(this.curSlideIndex);
+            this.curSlide = this.slides[this.curSlideIndex - 1];
+
+            //    this.goToSlide(this.curSlideIndex);
 
             // if (this.curSlideIndex != 0) {
             //     this.loadChart(this.curSlideIndex - 1);
@@ -215,22 +172,31 @@ export class SlidesPresentationComponent implements OnInit {
         }
     }
 
-    nextSlide() {
+    toNextSlide() {
         /*  if (this.charts.length == 0 || this.charts === undefined) {
               this.initCharts();
           }*/
-
-        this.curSlideIndex = this.getCurSlideIndex();
+console.log("ne",this.slideNum);
+        //this.curSlideIndex = this.getCurSlideIndex();
         if (this.curSlideIndex < this.slideNum) {
             // if (this.curSlideIndex != 0) {
             //     this.easeChart(this.curSlideIndex - 1);
             //     this.easeContent(this.curSlideIndex - 1);
             // }
+
             this.slideease$.next(this.curSlideIndex);
+
+
+            //  this.goToSlide(this.curSlideIndex);
+
             this.curSlideIndex++;
+            this.curSlide = this.slides[this.curSlideIndex - 1];
+            console.log("curSlide:", this.curSlide);
+
             console.log('curSlideIndex : ', this.curSlideIndex);
-            this.goToSlide(this.curSlideIndex);
+
             this.slideload$.next(this.curSlideIndex);
+
             // this.loadChart(this.curSlideIndex - 1);
             /*add animation to text content*/
             // this.loadContent(this.curSlideIndex - 1);
@@ -243,10 +209,10 @@ export class SlidesPresentationComponent implements OnInit {
         }
     }
 
-    scroll2Slide(){
+    scroll2Slide() {
         let scrollDis = document.body.scrollTop;
         let curIndex = Math.round(scrollDis / this.slideHeight);
-        if( curIndex !== this.curSlideIndex ) {
+        if (curIndex !== this.curSlideIndex) {
             this.slideease$.next(this.curSlideIndex);
             this.slideload$.next(curIndex);
             this.curSlideIndex = curIndex;
@@ -258,8 +224,8 @@ export class SlidesPresentationComponent implements OnInit {
     }
 
     private goToSlide(index: number) {
-      let pageScrollInstance: PageScrollInstance = PageScrollInstance.simpleInstance(this.document, '#slide-' + index);
-      this.pageScrollService.start(pageScrollInstance);
+        let pageScrollInstance: PageScrollInstance = PageScrollInstance.simpleInstance(this.document, '#slide-' + index);
+        this.pageScrollService.start(pageScrollInstance);
     }
 
     private getCurSlideIndex(): number {
