@@ -13,6 +13,7 @@ import { ChartsService } from "../../../../services";
 })
 export class LeftGraphRightTextSlideComponent implements OnInit, AfterContentInit {
 
+
     @Input() slide: Slide;
     @Input() pos: number;
     @Input() slideload$: Observable<number>;
@@ -23,15 +24,14 @@ export class LeftGraphRightTextSlideComponent implements OnInit, AfterContentIni
     private componentRef: ComponentRef<Chart>;
 
     config: PageConfig;
-    loadContentAni: boolean;
-    easeContentAni: boolean;
+    loadContentAni: boolean = false;
+    easeContentAni: boolean = false;
 
     constructor(private _componentFactoryResolver: ComponentFactoryResolver,
         private chartsService: ChartsService,
         private sanitizer: DomSanitizer) { }
 
     ngAfterViewInit() {
-
     }
 
     ngOnInit() {
