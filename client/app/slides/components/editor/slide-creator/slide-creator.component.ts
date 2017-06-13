@@ -22,8 +22,10 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
     @Input() isInShuffle: boolean;
     slide: Slide = new Slide();
     form: FormGroup;
+
     graphs: Array<any>;
     pageLayout: Array<any>;
+
     dataExample: string = '{}';
     editorOptions: Object = {
         heightMin: 200,
