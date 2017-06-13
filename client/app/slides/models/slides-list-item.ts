@@ -7,6 +7,7 @@ export class SlidesListItem {
     tags: Array<string>=[];
     bannerPath:String='';
     public:boolean=false;
+    favorite:boolean=false;
     author: String='';
     constructor(slides?) {
       this.id=slides && slides._id || '';
