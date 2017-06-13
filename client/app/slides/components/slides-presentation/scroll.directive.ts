@@ -3,14 +3,14 @@ import { Observable } from "rxjs";
 @Directive({
     selector: '[appScroll]'
 })
-export class ScrollDirective {
+export class ScrollDirective implements OnInit {
     scrollPose: number = 1250; // scroll in same direction won't be triggered repeatedly inside <number> second
     private enableScroll: boolean = true;
     private delayDuration: number = 100;
     @Output() mouseWheelUp = new EventEmitter();
     @Output() mouseWheelDown = new EventEmitter();
     @Output() mouseScroll = new EventEmitter();
-/*
+
     constructor() {
     }
 
@@ -46,42 +46,5 @@ export class ScrollDirective {
         } else {
             this.mouseScroll.emit();
         }
-    }*/
-
-
-    @HostListener('mousewheel', ['$event'])
-    onMouseWheelChrome(event: any) {
-        this.mouseWheelFunc(event);
-    }
-
-    @HostListener('DOMMouseScroll', ['$event']) onMouseWheelFirefox(event: any) {
-        this.mouseWheelFunc(event);
-    }
-
-    @HostListener('onmousewheel', ['$event']) onMouseWheelIE(event: any) {
-        this.mouseWheelFunc(event);
-    }
-    constructor() {
-
-    }
-
-    mouseWheelFunc(event: any) {
-      //  if (!this.enableScroll) return;
-           var event = window.event || event; // old IE support
-            // for IE
-            event.returnValue = false;
-            // for Chrome and Firefox
-            if (event.preventDefault) {
-                event.preventDefault();
-            }
-
-        var delta = Math.max(-1, Math.min(1, (event.wheelDelta || -event.detail)));
-        if (delta > 0) {
-            this.mouseWheelUp.emit();
-        } else if (delta < 0) {
-            this.mouseWheelDown.emit();
-        }
-
-
     }
 }
