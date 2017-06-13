@@ -14,6 +14,7 @@ export class SlidesCardComponent implements OnInit {
     @Input() slides: Slides;
     @Input() editable: boolean; //whether the slides can be edited;
     @Output() deletedSlides = new EventEmitter();
+    isFavorite: Boolean;
     @select(['session', 'token']) loggedIn$: Observable<string>;
     @select(['session', 'user', 'username']) username$: Observable<Object>;
 
@@ -28,7 +29,11 @@ export class SlidesCardComponent implements OnInit {
         this.slidesService.updateSlide(this.slides, this.slides._id)
             .subscribe(elm => console.log(elm.slidesSetting.public));
     }
-
+    toggleFavorite() {
+        this.slides.slidesSetting.favorite = !this.slides.slidesSetting.favorite;
+        this.slidesService.updateSlide(this.slides, this.slides._id)
+            .subscribe(elm => console.log(elm.slidesSetting.favorite));
+    }
     /*delete the whole slides*/
     deleteSlides(id) {
         const dialog = this.dialog.open(DialogComponent);
