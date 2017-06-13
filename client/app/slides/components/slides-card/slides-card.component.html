@@ -21,8 +21,10 @@
     <div class="right" *ngIf="(loggedIn$|async) && ((username$|async) === slides.slidesSetting.author)&&editable" [class.published]="slides.slidesSetting.public" [class.unpublished]="!slides.slidesSetting.public" mdTooltip="publish">
       <md-icon md-ripple mdRippleColor="rgba(0, 172, 193, 0.3)" mdRippleCentered="true" mdRippleUnbounded="true" (click)="publish()">publish</md-icon>
     </div>
-    <div class="right" [class.favorite]="isFavorite" [class.unfavorite]="!isFavorite" mdTooltip="favoirte">
-      <md-icon md-ripple mdRippleColor="rgba(0, 172, 193, 0.3)" mdRippleCentered="true" mdRippleUnbounded="true">favorite</md-icon>
+
+    <div class="right" *ngIf="loggedIn$|async" [class.favorite]="slides.slidesSetting.favorite" [class.unfavorite]="!slides.slidesSetting.favorite" mdTooltip="favoirte" (click)="toggleFavorite()">
+      <md-icon *ngIf="!slides.slidesSetting.favorite">favorite_border</md-icon>
+      <md-icon *ngIf="slides.slidesSetting.favorite">favorite</md-icon>
     </div>
     <div class="right edit-icon" *ngIf="(loggedIn$|async) && ((username$|async) === slides.slidesSetting.author)&&editable" [routerLink]="['slides', slides._id]" mdTooltip="Edit">
       <md-icon md-ripple mdRippleColor="rgba(0, 172, 193, 0.3)" mdRippleCentered="true" mdRippleUnbounded="true">mode_edit</md-icon>

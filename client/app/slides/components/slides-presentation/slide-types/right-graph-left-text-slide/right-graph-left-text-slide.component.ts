@@ -23,8 +23,8 @@ export class RightGraphLeftTextSlideComponent implements OnInit, AfterContentIni
   private componentRef: ComponentRef<Chart>;
 
   config: PageConfig;
-  loadContentAni: boolean;
-  easeContentAni: boolean;
+  loadContentAni: boolean = false;
+  easeContentAni: boolean = false;
 
   constructor(private _componentFactoryResolver: ComponentFactoryResolver,
     private chartsService: ChartsService,
@@ -98,7 +98,7 @@ export class RightGraphLeftTextSlideComponent implements OnInit, AfterContentIni
       this.loadContentAni = false;
       setTimeout(_ => {
         this.easeContentAni = false;
-        this.loadContentAni = true
+        this.loadContentAni = true;
       }, 150);
     }
   }
@@ -108,7 +108,7 @@ export class RightGraphLeftTextSlideComponent implements OnInit, AfterContentIni
       this.easeContentAni = false;
       setTimeout(() => {
         this.loadContentAni = false;
-        this.easeContentAni = true
+        this.easeContentAni = true;
       }, 0);
     }
   }

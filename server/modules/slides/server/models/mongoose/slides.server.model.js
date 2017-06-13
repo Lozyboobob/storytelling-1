@@ -23,6 +23,11 @@ var SlidesSchema = new Schema({
         default: false,
         trim: true
       },
+      favorite: {
+        type: Boolean,
+        default: false,
+        trim: true
+      },
       description: {
         type: String,
         defalut: '',
@@ -96,5 +101,4 @@ var SlidesSchema = new Schema({
     trim: true
   }
 });
-
 mongoose.model('Slides', SlidesSchema);

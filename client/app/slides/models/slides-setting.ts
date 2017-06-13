@@ -4,6 +4,7 @@ export class SlidesSetting {
     tags: Array<string> = [];
     bannerPath: any;
     public: Boolean = false;
+    favorite: Boolean = false;
     author: String = '';
     banner: any;
     imageId: any;
