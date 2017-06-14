@@ -15,7 +15,7 @@ export class KeySwitchDirective implements OnInit {
   ngOnInit() {
     let events = Observable.fromEvent(document, 'keydown', (e) => e);
     let firstEventObservable = events.take(1);
-    let remainingEventsObservable = events.skip(1).timeInterval()
+    let remainingEventsObservable = events.timeInterval()
       .filter(x => x.interval >= this.delayDuration)
       .map(x => x.value);
     let pageChangeObservable = firstEventObservable.concat(remainingEventsObservable);

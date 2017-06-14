@@ -48,8 +48,6 @@ export class NgGraphComponent extends Chart implements OnInit, OnDestroy {
     this.data =  this.dataInput;
     this.chartOptions = { ...this.chartOptions, ...this.configInput } ;
     
-    console.log('this.configInput: ', this.configInput);
-
     this.init();
 
   }
@@ -66,8 +64,8 @@ export class NgGraphComponent extends Chart implements OnInit, OnDestroy {
   }
 
   load() {
-    this.data = [];
-    this._setIntervalHandler =  setTimeout(() => this.data = this.dataInput);
+    // this.data = [];
+    // this._setIntervalHandler =  setTimeout(() => this.data = this.dataInput);
   }
 
   ease() {

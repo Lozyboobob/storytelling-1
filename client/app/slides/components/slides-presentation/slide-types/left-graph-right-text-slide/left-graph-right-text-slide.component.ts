@@ -59,6 +59,7 @@ export class LeftGraphRightTextSlideComponent implements OnInit, AfterContentIni
         }
         this.componentRef = this.parent.createComponent(componentFactory);
         this.componentRef.instance.dataInput = this.slide.data; // set the input inputData of the abstract class Chart
+        this.componentRef.instance.configInput = this.slide.config; // set the input inputData of the abstract class Chart
     }
 
     private setConfig() {
@@ -77,7 +78,6 @@ export class LeftGraphRightTextSlideComponent implements OnInit, AfterContentIni
                 this.slide.text = this.sanitizer.bypassSecurityTrustHtml(this.slide.text) as string;
             }
         };
-        console.log("config is", this.slide.fullScreenHtml);
     }
 
     private loadChart() {

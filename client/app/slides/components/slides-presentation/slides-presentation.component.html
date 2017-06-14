@@ -37,7 +37,7 @@
 
   <aside class="controls" style="display: block;">
     <button class="navigate-left enabled" aria-label="previous slide" [ngClass]="{'fragmented':  curSlideIndex == 0 }" (click)="switchSlide(-1)"></button>
-    <button class="navigate-right enabled" aria-label="next slide" [ngClass]="{'fragmented':  curSlideIndex == slideNum - 1 }" (click)="switchSlide(1)"></button
+    <button class="navigate-right enabled" aria-label="next slide" [ngClass]="{'fragmented':  curSlideIndex == slideNum }" (click)="switchSlide(1)"></button
     ><button class="navigate-up" aria-label="above slide"></button>
     <button class="navigate-down" aria-label="below slide"></button>
   </aside>
