@@ -158,7 +158,6 @@ export class SlidesPresentationComponent implements OnInit {
 
             //  this.slideease$.next(this.curSlideIndex);
             this.curSlideIndex--;
-            this.curSlide = null;
 
             //    this.goToSlide(this.curSlideIndex);
 
@@ -166,7 +165,11 @@ export class SlidesPresentationComponent implements OnInit {
             //     this.loadChart(this.curSlideIndex - 1);
             //     this.loadContent(this.curSlideIndex - 1);
             // }
-            if (this.curSlideIndex > 0) this.slideload$.next(this.curSlide);
+            if (this.curSlideIndex > 0) {
+              this.curSlide = this.slides[this.curSlideIndex - 1];
+              this.slideload$.next(this.curSlide);
+            }
+
 
         }
     }
