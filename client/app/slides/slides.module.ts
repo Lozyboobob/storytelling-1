@@ -37,6 +37,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 import { ScrollDirective } from './components/slides-presentation/scroll.directive';
+import { KeySwitchDirective } from './components/slides-presentation/key-switch.directive';
+
 import {Ng2PageScrollModule} from 'ng2-page-scroll';
 import {DragulaModule} from 'ng2-dragula';
 import { BarChartComponent } from '../charts';
@@ -104,6 +106,7 @@ import { DialogComponent } from './components/dialog/dialog.component';
         NgGraphComponent],
     declarations: [
         ScrollDirective,
+        KeySwitchDirective,
         SlidesPresentationComponent,
         SlidesCreatorComponent,
         SlideCreatorComponent,
@@ -134,7 +137,8 @@ import { DialogComponent } from './components/dialog/dialog.component';
         HierarchicalEdgeBundlingComponent,
         DialogComponent,
         NgGraphComponent,
-        DendogramComponent
+        DendogramComponent,
+        KeySwitchDirective
     ],
     exports:[
       FilterComponent,
