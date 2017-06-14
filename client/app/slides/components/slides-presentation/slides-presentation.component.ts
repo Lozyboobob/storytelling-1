@@ -34,7 +34,7 @@ export class SlidesPresentationComponent implements OnInit {
     easeContentAni: Array<boolean> = []; // indicator for content ease(fade away) animation
     pageLayoutConfig: Array<any> = [];
     inEaseProcess = false;
-    curSlide$:BehaviorSubject<Slide> = new BehaviorSubject<Slide>(null);
+    curSlide$: BehaviorSubject<Slide> = new BehaviorSubject<Slide>(null);
     slideload$: BehaviorSubject<Slide> = new BehaviorSubject<Slide>(null);
     slideease$: BehaviorSubject<Slide> = new BehaviorSubject<Slide>(null);
 
@@ -84,7 +84,7 @@ export class SlidesPresentationComponent implements OnInit {
                 this.slideTitle = slide.slidesSetting.title;
                 console.log("get slides", this.slides);
                 this.curSlideIndex = 0;
-                this.curSlide=new Slide();
+                this.curSlide = new Slide();
                 console.log(this.curSlide);
             },
             error => {
@@ -151,14 +151,14 @@ export class SlidesPresentationComponent implements OnInit {
         /*  if (this.charts.length == 0 || this.charts === undefined) {
               this.initCharts();
           }*/
-      //  this.curSlideIndex = this.getCurSlideIndex();
+        //  this.curSlideIndex = this.getCurSlideIndex();
         if (this.curSlideIndex > 0) {
             // this.easeChart(this.curSlideIndex - 1);
             // this.easeContent(this.curSlideIndex - 1);
 
-          //  this.slideease$.next(this.curSlideIndex);
+            //  this.slideease$.next(this.curSlideIndex);
             this.curSlideIndex--;
-            this.curSlide = this.slides[this.curSlideIndex - 1];
+            this.curSlide = null;
 
             //    this.goToSlide(this.curSlideIndex);
 
@@ -166,7 +166,7 @@ export class SlidesPresentationComponent implements OnInit {
             //     this.loadChart(this.curSlideIndex - 1);
             //     this.loadContent(this.curSlideIndex - 1);
             // }
-            this.slideload$.next(this.curSlide);
+            if (this.curSlideIndex > 0) this.slideload$.next(this.curSlide);
 
         }
     }
