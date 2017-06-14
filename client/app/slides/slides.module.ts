@@ -37,6 +37,7 @@ import { FileUploadModule } from 'ng2-file-upload';
 
 
 import { ScrollDirective } from './components/slides-presentation/scroll.directive';
+import { KeyboardDirective } from './components/slides-presentation/keyboard.directive';
 import {Ng2PageScrollModule} from 'ng2-page-scroll';
 import {DragulaModule} from 'ng2-dragula';
 import { BarChartComponent } from '../charts';
@@ -100,6 +101,7 @@ import { DialogComponent } from './components/dialog/dialog.component';
         DendogramComponent],
     declarations: [
         ScrollDirective,
+        KeyboardDirective,
         SlidesPresentationComponent,
         SlidesCreatorComponent,
         SlideCreatorComponent,

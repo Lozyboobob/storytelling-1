@@ -1,4 +1,4 @@
-<div class="slides" (mouseWheelUp)="toLastSlide()" (mouseWheelDown)="toNextSlide()" (stayProcess)="staySlideProcess()" #slider>
+<div appKeyboard class="slides" (keyUp)="toLastSlide()" (keyDown)="toNextSlide()" #slider>
 
   <!--for curSlide-->
   <div [ngStyle]="slideHeight_style" class="slide">

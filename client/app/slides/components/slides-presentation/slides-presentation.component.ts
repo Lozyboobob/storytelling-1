@@ -172,6 +172,7 @@ export class SlidesPresentationComponent implements OnInit {
     }
 
     toNextSlide() {
+      console.log("to next");
         /*  if (this.charts.length == 0 || this.charts === undefined) {
               this.initCharts();
           }*/
