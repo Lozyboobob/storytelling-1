@@ -66,7 +66,6 @@ export class SlidesPresentationComponent implements OnInit {
                 this.slides = slide.slides;
                 this.slideNum = this.slides.length;
                 this.slideTitle = slide.slidesSetting.title;
-                this.currentSlide = this.slides[0];
             },
             error => {
                 console.log("fail to get slides data");
@@ -137,16 +136,14 @@ export class SlidesPresentationComponent implements OnInit {
     }
 
     switchSlide(direction: number){
-        console.log("switchSlide: ", direction);
         let nextIndex = this.curSlideIndex + direction ;
-        if(nextIndex >= 0 && nextIndex < this.slideNum)
+        if(nextIndex >= 0 && nextIndex <= this.slideNum) {
             this.curSlideIndex = nextIndex;
-        
-        this.currentSlide = this.slides[this.curSlideIndex];
+            this.currentSlide = this.slides[this.curSlideIndex - 1];
+        }
 
         console.log("this.curSlideIndex: ", this.curSlideIndex);
         console.log("this.currentSlide: ", this.currentSlide);
-        
     }
 
     staySlideProcess() {
