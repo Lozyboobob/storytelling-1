@@ -3,13 +3,13 @@ import * as d3 from 'd3';
 import {Chart} from '../chart.class';
 
 @Component({
-  selector: 'app-pie-chart',
-  templateUrl: './pie-chart.component.html',
-  styleUrls: ['./pie-chart.component.scss']
+    selector: 'app-pie-chart',
+    templateUrl: './pie-chart.component.html',
+    styleUrls: ['./pie-chart.component.scss']
 })
-export class PieChartComponent extends Chart implements OnInit  {
+export class PieChartComponent extends Chart implements OnInit {
 
- @ViewChild('chart') private chartContainer: ElementRef;
+    @ViewChild('chart') private chartContainer: ElementRef;
     private element: any;
     private data: Array<any> = [];
     private width: number;
@@ -21,47 +21,49 @@ export class PieChartComponent extends Chart implements OnInit  {
     private id;
     private curtain: any;
     constructor() {
-       super();
+        super();
     }
 
-  ngOnInit() {
-      // Set data
-      this.data = this.dataInput;
-      this.element = this.chartContainer.nativeElement;
+    ngOnInit() {
 
-      this.init();
-  }
-  init() {
+
+
+    }
+    init() {
+        // Set data
+        this.data = this.dataInput;
+        this.element = this.chartContainer.nativeElement;
+
         this.width = this.element.offsetWidth - this.margin.left - this.margin.right;
         this.height = this.element.offsetHeight - this.margin.top - this.margin.bottom;
         const svg = d3.select(this.element)
-          .append('svg')
-          .append('g')
-          .attr('transform', `translate(${this.width / 2},${this.height / 2})`);
+            .append('svg')
+            .append('g')
+            .attr('transform', `translate(${this.width / 2},${this.height / 2})`);
         console.log(this.element);
-    this.radius = Math.min(this.width, this.height) / 2;
-    const values = this.data.map(data => data.value);
-    const pie = d3.pie();
-    const arcSelection = svg.selectAll('.arc')
-        .data(pie(values))
-        .enter()
-        .append('g')
-        .attr('class', 'arc')
-        .style("opacity",1);
-    arcSelection.append('path');
-    arcSelection.append('text');
+        this.radius = Math.min(this.width, this.height) / 2;
+        const values = this.data.map(data => data.value);
+        const pie = d3.pie();
+        const arcSelection = svg.selectAll('.arc')
+            .data(pie(values))
+            .enter()
+            .append('g')
+            .attr('class', 'arc')
+            .style("opacity", 1);
+        arcSelection.append('path');
+        arcSelection.append('text');
     };
 
     load() {
-       d3.select(this.element).select('svg').selectAll('.arc')
-            .style("opacity",1);
+        d3.select(this.element).select('svg').selectAll('.arc')
+            .style("opacity", 1);
 
-        const  outerRadius = this.radius - 10;
-        const  arc = d3.arc()
+        const outerRadius = this.radius - 10;
+        const arc = d3.arc()
             .innerRadius(0)
             .outerRadius(outerRadius);
 
-      d3.select(this.element).selectAll('.arc').select('path')
+        d3.select(this.element).selectAll('.arc').select('path')
             .attr('fill', (datum, index) => {
                 return this.pieColor(this.data[index].label);
             })
@@ -72,7 +74,7 @@ export class PieChartComponent extends Chart implements OnInit  {
         d3.select(this.element).selectAll('.arc').select('text')
             .transition()
             .duration(1500)
-            .style("opacity",1)
+            .style("opacity", 1)
             .attrTween('transform', tweenText)
             .text((datum, index) => this.data[index].label)
             .styleTween('text-anchor', d => {
@@ -89,12 +91,12 @@ export class PieChartComponent extends Chart implements OnInit  {
             return d.startAngle + (d.endAngle - d.startAngle) / 2;
         }
         function tweenText(b) {
-            const i = d3.interpolate({startAngle: 0, endAngle:  0}, b);
+            const i = d3.interpolate({ startAngle: 0, endAngle: 0 }, b);
             return function(t) { return 'translate(' + arc.centroid(i(t)) + ')rotate(' + angle(i(t)) + ')'; };
         }
         function tweenPie(b) {
             b.innerRadius = 0;
-            const i = d3.interpolate({startAngle: 0, endAngle: 0}, b);
+            const i = d3.interpolate({ startAngle: 0, endAngle: 0 }, b);
             return function(t) { return arc(i(t)); };
         }
 
@@ -108,6 +110,6 @@ export class PieChartComponent extends Chart implements OnInit  {
         d3.select(this.element).selectAll('.arc')
             .transition()
             .duration(900)
-            .style("opacity",0);
+            .style("opacity", 0);
     }
 }

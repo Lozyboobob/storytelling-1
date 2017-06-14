@@ -34,9 +34,9 @@ export class SlidesPresentationComponent implements OnInit {
     easeContentAni: Array<boolean> = []; // indicator for content ease(fade away) animation
     pageLayoutConfig: Array<any> = [];
     inEaseProcess = false;
-
-    slideload$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
-    slideease$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+    curSlide$:BehaviorSubject<Slide> = new BehaviorSubject<Slide>(null);
+    slideload$: BehaviorSubject<Slide> = new BehaviorSubject<Slide>(null);
+    slideease$: BehaviorSubject<Slide> = new BehaviorSubject<Slide>(null);
 
     @ViewChildren('chart') chartEle: any;
 
@@ -156,7 +156,7 @@ export class SlidesPresentationComponent implements OnInit {
             // this.easeChart(this.curSlideIndex - 1);
             // this.easeContent(this.curSlideIndex - 1);
 
-            this.slideease$.next(this.curSlideIndex);
+          //  this.slideease$.next(this.curSlideIndex);
             this.curSlideIndex--;
             this.curSlide = this.slides[this.curSlideIndex - 1];
 
@@ -166,8 +166,7 @@ export class SlidesPresentationComponent implements OnInit {
             //     this.loadChart(this.curSlideIndex - 1);
             //     this.loadContent(this.curSlideIndex - 1);
             // }
-
-            this.slideload$.next(this.curSlideIndex);
+            this.slideload$.next(this.curSlide);
 
         }
     }
@@ -176,7 +175,6 @@ export class SlidesPresentationComponent implements OnInit {
         /*  if (this.charts.length == 0 || this.charts === undefined) {
               this.initCharts();
           }*/
-console.log("ne",this.slideNum);
         //this.curSlideIndex = this.getCurSlideIndex();
         if (this.curSlideIndex < this.slideNum) {
             // if (this.curSlideIndex != 0) {
@@ -184,7 +182,7 @@ console.log("ne",this.slideNum);
             //     this.easeContent(this.curSlideIndex - 1);
             // }
 
-            this.slideease$.next(this.curSlideIndex);
+            //this.slideease$.next(this.curSlideIndex);
 
 
             //  this.goToSlide(this.curSlideIndex);
@@ -195,7 +193,7 @@ console.log("ne",this.slideNum);
 
             console.log('curSlideIndex : ', this.curSlideIndex);
 
-            this.slideload$.next(this.curSlideIndex);
+            this.slideload$.next(this.curSlide);
 
             // this.loadChart(this.curSlideIndex - 1);
             /*add animation to text content*/
@@ -213,8 +211,8 @@ console.log("ne",this.slideNum);
         let scrollDis = document.body.scrollTop;
         let curIndex = Math.round(scrollDis / this.slideHeight);
         if (curIndex !== this.curSlideIndex) {
-            this.slideease$.next(this.curSlideIndex);
-            this.slideload$.next(curIndex);
+            this.slideease$.next(this.curSlide);
+            this.slideload$.next(this.curSlide);
             this.curSlideIndex = curIndex;
         }
     }

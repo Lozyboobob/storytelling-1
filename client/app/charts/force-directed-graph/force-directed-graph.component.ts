@@ -23,10 +23,7 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
     ngOnInit() {
         // Set data
 
-        this.data = this.dataInput[0];
 
-
-        this.init();
     }
 
     ticked() {
@@ -106,6 +103,9 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
 
     }
     init() {
+      this.data = this.dataInput[0];
+
+
         let element = this.chartContainer.nativeElement;
         this.width = element.offsetWidth;
         this.height = element.offsetHeight;

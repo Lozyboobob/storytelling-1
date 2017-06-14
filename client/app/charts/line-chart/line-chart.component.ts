@@ -23,12 +23,7 @@ export class LineChartComponent extends Chart implements OnInit {
     }
 
     ngOnInit() {
-        // Set the data
-        this.data = [];
-        this.dateMode = false;
-        this.heightTB = 60;
-        this.setData(this.dataInput);
-        this.init();
+
     }
     brushed(x, xTB, xAxis, svg, area, focus, zoom) {
         if (d3.event.sourceEvent && d3.event.sourceEvent.type === "zoom") return; // ignore brush-by-zoom
@@ -51,8 +46,9 @@ export class LineChartComponent extends Chart implements OnInit {
     setData(data: any) {
 
         let parseDate = d3.timeParse("%b %Y");
-        if (parseDate(data[0][0].xAxis) != null) this.dateMode = true;
-        data.forEach((d) => {
+        this.data=JSON.parse(JSON.stringify(data));
+        if (parseDate(this.data[0][0].xAxis) != null) this.dateMode = true;
+        this.data.forEach((d) => {
             d.forEach((d) => {
                 if (this.dateMode) {
                     d['xAxis'] = parseDate(d['xAxis']);
@@ -60,11 +56,17 @@ export class LineChartComponent extends Chart implements OnInit {
                 d['yAxis'] = parseFloat(d['yAxis']);
             })
         });
-        this.data = data;
+          console.log(this.dataInput);
 
     }
     init() {
-
+        // Set the data
+        this.data = [];
+        this.dateMode = false;
+        this.heightTB = 60;
+        console.log(this.dataInput);
+        this.setData(this.dataInput);
+        console.log(this.dateMode);
         let element = this.chartContainer.nativeElement;
         let margin = { top: 0, right: 50, bottom: 0, left: 50 };
         this.width = element.offsetWidth - margin.left - margin.right;
@@ -269,8 +271,8 @@ export class LineChartComponent extends Chart implements OnInit {
                         .duration(200)
                         .style("opacity", .9);
                     div.html('<p>' + d["xAxis"] + "<br/>" + d["yAxis"] + '</p>')
-                      .style("left", (d3.event.pageX) + "px")
-                        .style("top", (d3.event.pageY+25) + "px");
+                        .style("left", (d3.event.pageX) + "px")
+                        .style("top", (d3.event.pageY + 25) + "px");
                 })
                 .on("mouseout", function(d) {
                     let curR = parseInt(d3.select(d3.event.srcElement).attr("r"))

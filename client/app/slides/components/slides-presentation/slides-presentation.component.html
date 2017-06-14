@@ -7,21 +7,21 @@
       <app-title-slide [slideTitle]="slideTitle"> </app-title-slide>
     </div>
     <!--full screen :chart -->
-    <app-full-screen-graph-slide *ngIf="curSlideIndex!=0&&(curSlide.pageLayout=='FullScreenGraph'&&curSlide.graph!='image')" [slide]="curSlide" [pos]="i+1" [slideload$]="slideload$" [slideease$]="slideease$">
+    <app-full-screen-graph-slide *ngIf="curSlideIndex!=0&&(curSlide.pageLayout=='FullScreenGraph'&&curSlide.graph!='image')"   [pos]="curSlideIndex" [slideload$]="slideload$" [slideease$]="slideease$">
     </app-full-screen-graph-slide>
 
     <!--left graph right text-->
-    <app-left-graph-right-text-slide *ngIf="(curSlideIndex!=0&&curSlide!=undefined)&&curSlide.pageLayout=='LeftGraphRightText'" [slide]="curSlide" [pos]="i+1" [slideload$]="slideload$" [slideease$]="slideease$">
+    <app-left-graph-right-text-slide *ngIf="(curSlideIndex!=0&&curSlide!=undefined)&&curSlide.pageLayout=='LeftGraphRightText'"   [pos]="curSlideIndex" [slideload$]="slideload$" [slideease$]="slideease$">
     </app-left-graph-right-text-slide>
 
     <!--left text right grah-->
-    <app-right-graph-left-text-slide *ngIf="(curSlideIndex!=0&&curSlide!=undefined)&&curSlide.pageLayout=='LeftTextRightGraph'" [slide]="curSlide" [pos]="i+1" [slideload$]="slideload$" [slideease$]="slideease$">
+    <app-right-graph-left-text-slide *ngIf="(curSlideIndex!=0&&curSlide!=undefined)&&curSlide.pageLayout=='LeftTextRightGraph'"   [pos]="curSlideIndex" [slideload$]="slideload$" [slideease$]="slideease$">
     </app-right-graph-left-text-slide>
 
     <!--full screen :text-->
     <!--full screen :img-->
     <!--full screen :imgback + text-->
-    <app-text-slide *ngIf="(curSlideIndex!=0&&curSlide!=undefined)&&(curSlide.pageLayout=='textInCenter'||curSlide.pageLayout=='textInCenterImageBackground')" [slide]="curSlide" [pos]="i+1" [slideload$]="slideload$" [slideease$]="slideease$">
+    <app-text-slide *ngIf="(curSlideIndex!=0&&curSlide!=undefined)&&(curSlide.pageLayout=='textInCenter'||curSlide.pageLayout=='textInCenterImageBackground')"   [pos]="curSlideIndex" [slideload$]="slideload$" [slideease$]="slideease$">
     </app-text-slide>
     <!--control box-->
     <div class="control-box">

@@ -9,7 +9,7 @@ import {Chart} from '../chart.class';
 export class BarChartComponent extends Chart implements OnInit {
 
     @ViewChild('chart') private chartContainer: ElementRef;
-    private data: Array<any> = sample;
+    private data: Array<any>;
     private margin: any = { top: 0, bottom: 0, left: 40, right: 40 };
     private chart: any;
     private width: number;
@@ -22,14 +22,17 @@ export class BarChartComponent extends Chart implements OnInit {
     private loaded: boolean = true;
 
     constructor() {
-       super()
+
+        super();
+        console.log("construct bar chart");
     }
 
     ngOnInit() {
+        console.log("init bar chart");
         // Set data
-        this.data = this.dataInput;
 
-        this.init();
+
+
     }
 
     createChart() {
@@ -40,13 +43,14 @@ export class BarChartComponent extends Chart implements OnInit {
         let svg = d3.select(element).append('svg')
             .attr('width', element.offsetWidth)
             .attr('height', element.offsetHeight);
-
+        console.log("created svt", this.data);
         // chart plot area
         this.chart = svg.append('g')
             .attr('class', 'bars')
             .attr('transform', `translate(${this.margin.left}, ${this.height / 2})`);
 
         // define X & Y domains
+
         let xDomain = this.data.map(d => d.index);
         let yDomain = [0, d3.max(this.data, d => d.value)];
 
@@ -138,6 +142,8 @@ export class BarChartComponent extends Chart implements OnInit {
         this.data = data;
     }
     init() {
+        this.data = this.dataInput;
+        console.log("init chart");
         this.createChart();
     }
     load() {
@@ -162,7 +168,7 @@ export class BarChartComponent extends Chart implements OnInit {
     ease() {
         this.loaded = false;
         this.chart.selectAll('.bar').transition()
-            .delay((d,i)=>i*100)
+            .delay((d, i) => i * 100)
             .attr('y', d => this.yScale(0))
             .attr('height', d => this.height - this.yScale(0))
         this.chart.selectAll('.value-text').transition()
@@ -186,29 +192,3 @@ export class BarChartComponent extends Chart implements OnInit {
     }
 
 }
-const sample = [
-    {
-        "value": "21",
-        "index": "index1"
-    },
-    {
-        "value": "20",
-        "index": "index2"
-    },
-    {
-        "value": "20",
-        "index": "index3"
-    },
-    {
-        "value": "20",
-        "index": "index4"
-    },
-    {
-        "value": "20",
-        "index": "index5"
-    },
-    {
-        "value": "20",
-        "index": "index6"
-    }
-]
