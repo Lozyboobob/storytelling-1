@@ -127,37 +127,136 @@ exports.slideByID = function(req, res, next, id) {
 exports.search = function (req, res) {
   var regexS = new RegExp((req.query.title) || '');
   if (req.query.state === 'Public') {
-    Slides.find({ $and: [{ $or: [{ 'slidesSetting.title': { $regex: regexS, $options: "i" } }, { 'slidesSetting.tags': { $regex: regexS, $options: "i" } }] }, { 'slidesSetting.public': true }] }).sort('-created')
-      .populate({ path: 'slidesSetting.banner', model: 'Image' }).exec(function (err, slides) {
-      if (err) {
-        return res.status(422).send({
-          message: errorHandler.getErrorMessage(err)
-        });
-      } else {
-        res.json(slides);
-      }
-    });
+    if (req.query.favorite === 'favorite'){
+      Slides.find({ $and: [{ $or: [{ 'slidesSetting.title': regexS }, { 'slidesSetting.tags': regexS }] }, { 'slidesSetting.public': true }, { 'slidesSetting.favorite': true }] }).sort('-created')
+        .populate({ path: 'slidesSetting.banner', model: 'Image' }).exec(function (err, slides) {
+        if(err) {
+          return res.status(422).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        } else {
+          res.json(slides);
+        }
+      });
+    } else if (req.query.favorite === 'notFavorite') {
+      Slides.find({ $and: [{ $or: [{ 'slidesSetting.title': regexS }, { 'slidesSetting.tags': regexS }] }, { 'slidesSetting.public': true }, { 'slidesSetting.favorite': false }] }).sort('-created')
+        .populate({ path: 'slidesSetting.banner', model: 'Image' }).exec(function (err, slides) {
+        if(err) {
+          return res.status(422).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        } else {
+          res.json(slides);
+        }
+      });
+    } else {
+      Slides.find({ $and: [{ $or: [{ 'slidesSetting.title': regexS }, { 'slidesSetting.tags': regexS }] }, { 'slidesSetting.public': true }] }).sort('-created')
+        .populate({ path: 'slidesSetting.banner', model: 'Image' }).exec(function (err, slides) {
+        if(err) {
+          return res.status(422).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        } else {
+          res.json(slides);
+        }
+      });
+    }
   } else if (req.query.state === 'Private') {
-    Slides.find({ $and: [{ $or: [{ 'slidesSetting.title': { $regex: regexS, $options: "i"}}, { 'slidesSetting.tags': { $regex: regexS, $options: "i" }}] }, { 'slidesSetting.author': req.query.username }, { 'slidesSetting.public': false }] }).sort('-created')
-      .populate({ path: 'slidesSetting.banner', model: 'Image' }).exec(function (err, slides) {
-      if (err) {
-        return res.status(422).send({
-          message: errorHandler.getErrorMessage(err)
-        });
-      } else {
-        res.json(slides);
-      }
-    });
+    if (req.query.favorite === 'favorite') {
+      Slides.find({$and: [{$or: [{'slidesSetting.title': regexS}, {'slidesSetting.tags': regexS}]}, {'slidesSetting.author': req.query.username}, {'slidesSetting.public': false}, {'slidesSetting.favorite': true}]}).sort('-created')
+        .populate({path: 'slidesSetting.banner', model: 'Image'}).exec(function (err, slides) {
+        if (err) {
+          return res.status(422).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        } else {
+          res.json(slides);
+        }
+      });
+    } else if (req.query.favorite === 'notFavorite'){
+      Slides.find({$and: [{$or: [{'slidesSetting.title': regexS}, {'slidesSetting.tags': regexS}]}, {'slidesSetting.author': req.query.username}, {'slidesSetting.public': false}, {'slidesSetting.favorite': false } ]}).sort('-created')
+        .populate({path: 'slidesSetting.banner', model: 'Image'}).exec(function (err, slides) {
+        if (err) {
+          return res.status(422).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        } else {
+          res.json(slides);
+        }
+      });
+    } else {
+      Slides.find({$and: [{$or: [{'slidesSetting.title': regexS}, {'slidesSetting.tags': regexS}]}, {'slidesSetting.author': req.query.username}, {'slidesSetting.public': false} ]}).sort('-created')
+        .populate({path: 'slidesSetting.banner', model: 'Image'}).exec(function (err, slides) {
+        if (err) {
+          return res.status(422).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        } else {
+          res.json(slides);
+        }
+      });
+    }
   } else {
-    Slides.find({ $and: [{ $or: [{ 'slidesSetting.title': { $regex: regexS, $options:"i"} }, { 'slidesSetting.tags': { $regex: regexS, $options:"i"} }] }, { $or: [{ 'slidesSetting.author': req.query.username }, { 'slidesSetting.public': true }] }] }).sort('-created')
-      .populate({ path: 'slidesSetting.banner', model: 'Image' }).exec(function (err, slides) {
-      if (err) {
-        return res.status(422).send({
-          message: errorHandler.getErrorMessage(err)
-        });
-      } else {
-        res.json(slides);
-      }
-    });
+    if (req.query.favorite === 'favorite') {
+      Slides.find({
+        $and: [{
+          $or: [{
+            'slidesSetting.title': {
+              $regex: regexS,
+              $options: "i"
+            }
+          }, {'slidesSetting.tags': {$regex: regexS, $options: "i"}}]
+        }, {$or: [{'slidesSetting.author': req.query.username} , {'slidesSetting.public': true}]}, { 'slidesSetting.favorite' : true }]
+      }).sort('-created')
+        .populate({path: 'slidesSetting.banner', model: 'Image'}).exec(function (err, slides) {
+        if (err) {
+          return res.status(422).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        } else {
+          res.json(slides);
+        }
+      });
+    } else if (req.query.favorite === 'notFavorite') {
+      Slides.find({
+        $and: [{
+          $or: [{
+            'slidesSetting.title': {
+              $regex: regexS,
+              $options: "i"
+            }
+          }, {'slidesSetting.tags': {$regex: regexS, $options: "i"}}]
+        }, {$or: [{'slidesSetting.author': req.query.username} , {'slidesSetting.public': true}]}, { 'slidesSetting.favorite' : false }]
+      }).sort('-created')
+        .populate({path: 'slidesSetting.banner', model: 'Image'}).exec(function (err, slides) {
+        if (err) {
+          return res.status(422).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        } else {
+          res.json(slides);
+        }
+      });
+    } else {
+      Slides.find({
+        $and: [{
+          $or: [{
+            'slidesSetting.title': {
+              $regex: regexS,
+              $options: "i"
+            }
+          }, {'slidesSetting.tags': {$regex: regexS, $options: "i"}}]
+        }, {$or: [{'slidesSetting.author': req.query.username}, {'slidesSetting.public': true}]}]
+      }).sort('-created')
+        .populate({path: 'slidesSetting.banner', model: 'Image'}).exec(function (err, slides) {
+        if (err) {
+          return res.status(422).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        } else {
+          res.json(slides);
+        }
+      });
+    }
   }
 };

@@ -12,6 +12,7 @@ export class SlidesManagerComponent implements OnInit {
     @select(['session', 'token']) loggedIn$: Observable<string>;
     private states = ['All', 'Private', 'Public'];
     private selectedValue = 'All';
+    selectedValueFavorite = '';
     result = {
         noResult : false,
         noPublish : false,
@@ -20,7 +21,8 @@ export class SlidesManagerComponent implements OnInit {
     };
     toSearch = {
         title: '',
-        filter: 'All'
+        filter: 'All',
+        favorite: 'All'
     };
     slides: Array<Slides> = [];
     constructor(
@@ -60,7 +62,6 @@ export class SlidesManagerComponent implements OnInit {
                 this.slides = [];
                 this.slides = slides;
                 this.result = this.calculResult(this.slides.length, this.toSearch.filter, this.toSearch.title )
-
             });
     }
     refreshList() {
@@ -88,6 +89,17 @@ export class SlidesManagerComponent implements OnInit {
             }
         }
         return {noResult : false, noPublish : false, noSlides: false, noPrivate : false};
+    }
+    filterFavorite(isFavorite) {
+        console.log(isFavorite);
+        this.toSearch.favorite = isFavorite;
+        this.slidesService.getSlideToSearch(this.toSearch)
+            .subscribe(slides => {
+                this.slides = [];
+                this.slides = slides;
+                this.result = this.calculResult(this.slides.length, this.toSearch.filter, this.toSearch.title )
+            });
+
     }
 
 }

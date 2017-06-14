@@ -65,6 +65,7 @@ import { FilterComponent } from './components/filter/filter.component';
 import { SlidesManagerComponent } from './components/slides-manager/slides-manager.component';
 import { SlidesCardComponent } from './components/slides-card/slides-card.component';
 import { DialogComponent } from './components/dialog/dialog.component';
+import { FavoriteFilterComponent } from './components/favorite-filter/favorite-filter.component';
 
 
 
@@ -127,7 +128,8 @@ import { DialogComponent } from './components/dialog/dialog.component';
         SlidesCardComponent,
         HierarchicalEdgeBundlingComponent,
         DialogComponent,
-        DendogramComponent
+        DendogramComponent,
+        FavoriteFilterComponent
     ],
     exports:[
       FilterComponent,
