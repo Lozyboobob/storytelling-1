@@ -223,6 +223,7 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
             .attr('y', legendRectSize - legendSpacing / 2)
             .attr("transform", "translate(0,5)")
             .text(d => "group" + d);
+        this.load();
 
     }
 

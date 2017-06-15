@@ -138,7 +138,8 @@ export class TreemapChartComponent extends Chart implements OnInit {
             .text(d => d.data.id + "\n" + format(d.value));
 
         // When we click outside the graph, we reinit it
-        d3.select(window).on("click", () => this.zoom(this.root, this.xScale, this.yScale));  
+        d3.select(window).on("click", () => this.zoom(this.root, this.xScale, this.yScale));
+        this.load();
     }
     
     private zoom(d, x, y) {

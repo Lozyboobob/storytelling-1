@@ -294,7 +294,7 @@ export class LineChartComponent extends Chart implements OnInit {
             .attr('class', 'curtain')
             .attr('transform', "rotate(180) translate(" + (0 - margin.left) + "," + margin.top + ")")
             .style('fill', '#fafafa')
-
+        this.load();
     }
 
     load() {
