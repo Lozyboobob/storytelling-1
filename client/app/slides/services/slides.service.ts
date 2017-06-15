@@ -76,6 +76,7 @@ export class SlidesService {
         const params: URLSearchParams = new URLSearchParams();
         params.set('title', textToSearch.title);
         params.set('state', textToSearch.filter);
+        params.set('favorite', textToSearch.favorite);
         params.set('username', this.user.username);
         const backendURL = `${this._baseUrl}${environment.backend.endpoints.search}`;
         return this.http.get(backendURL, {params: params}).map((response: Response) => response.json());
