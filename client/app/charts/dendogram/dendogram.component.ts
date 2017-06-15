@@ -70,6 +70,7 @@ export class DendogramComponent extends Chart implements OnInit {
         .attr("x", d=> { return d.children ? -8 : 8; })
         .style("text-anchor", d=> { return d.children ? "end" : "start"; })
         .text( d => { return d.id.substring(d.id.lastIndexOf(".") + 1); });
+    this.load();
   }
   load() {
       this.curtain.transition()
