@@ -224,6 +224,10 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
             .attr("transform", "translate(0,5)")
             .text(d => "group" + d);
 */
+
+        this.load();
+
+
     }
 
     load() {
