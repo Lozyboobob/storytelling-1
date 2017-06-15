@@ -469,13 +469,9 @@ alphanum-sort@^1.0.1, alphanum-sort@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/alphanum-sort/-/alphanum-sort-1.0.2.tgz#97a1119649b211ad33691d9f9f486a8ec9fbe0a3"
 
-amdefine@1.0.0:
+amdefine@1.0.0, amdefine@>=0.0.4:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.0.tgz#fd17474700cb5cc9c2b709f0be9d23ce3c198c33"
-
-amdefine@>=0.0.4:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
 
 angular-font-awesome@^2.0.2:
   version "2.0.2"
@@ -2110,6 +2106,10 @@ codelyzer@~2.0.0:
     semver-dsl "^1.0.1"
     source-map "^0.5.6"
     sprintf-js "^1.0.3"
+
+codemirror@^5.22.2:
+  version "5.26.0"
+  resolved "https://registry.yarnpkg.com/codemirror/-/codemirror-5.26.0.tgz#bcbee86816ed123870c260461c2b5c40b68746e5"
 
 color-convert@^1.3.0:
   version "1.9.0"
@@ -5599,14 +5599,14 @@ js-tokens@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-3.0.1.tgz#08e9f132484a2c45a30907e9dc4d5567b7f114d7"
 
-js-yaml@3.6.1, js-yaml@3.x, js-yaml@^3.5.1:
+js-yaml@3.6.1, js-yaml@3.x, js-yaml@^3.3.1, js-yaml@^3.5.1, js-yaml@^3.5.3:
   version "3.6.1"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.6.1.tgz#6e5fe67d8b205ce4d22fad05b7781e8dadcc4b30"
   dependencies:
     argparse "^1.0.7"
     esprima "^2.6.0"
 
-js-yaml@^3.3.1, js-yaml@^3.4.6, js-yaml@^3.5.3, js-yaml@^3.7.0, js-yaml@^3.8.3:
+js-yaml@^3.4.6, js-yaml@^3.7.0, js-yaml@^3.8.3:
   version "3.8.4"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.8.4.tgz#520b4564f86573ba96662af85a8cafa7b4b5a6f6"
   dependencies:
@@ -6935,6 +6935,12 @@ nested-error-stacks@^1.0.0:
 ng-http-interceptor@^3.0.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/ng-http-interceptor/-/ng-http-interceptor-3.1.1.tgz#609d7c90315abf834ca5a9a997752ab3c3ce397d"
+
+ng2-codemirror@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/ng2-codemirror/-/ng2-codemirror-1.1.2.tgz#de3011b02278766fe801179d135e10fce753ae53"
+  dependencies:
+    codemirror "^5.22.2"
 
 ng2-dragula@^1.3.1:
   version "1.5.0"
