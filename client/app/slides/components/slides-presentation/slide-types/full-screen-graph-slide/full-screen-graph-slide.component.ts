@@ -1,5 +1,5 @@
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { Component, OnInit, AfterContentInit, Input, ViewChild, ViewChildren, ComponentFactoryResolver, ViewContainerRef, ComponentRef } from '@angular/core';
+import { Component, OnInit, AfterContentInit, OnChanges, SimpleChanges, Input, ViewChild, ViewChildren, ComponentFactoryResolver, ViewContainerRef, ComponentRef } from '@angular/core';
 import { Observable } from "rxjs/Observable";
 import { Slide } from "../../../../models";
 import { PageConfig, FULL_LAYOUT } from "../../pageConfig";
@@ -10,12 +10,12 @@ import { ChartsService } from "../../../../services";
   templateUrl: './full-screen-graph-slide.component.html',
   styleUrls: ['./full-screen-graph-slide.component.scss']
 })
-export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit {
+export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit, OnChanges {
 
   @Input() slide: Slide;
-  @Input() pos: number;
-  @Input() slideload$: Observable<number>;
-  @Input() slideease$: Observable<number>;
+  // @Input() pos: number;
+  // @Input() slideload$: Observable<number>;
+  // @Input() slideease$: Observable<number>;
 
   @ViewChild('parent', {read: ViewContainerRef})
   parent: ViewContainerRef;
@@ -42,22 +42,35 @@ export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit {
   ngAfterContentInit() {
     if (this.slide.graph === 'noGraph') return;
     const cmpType: string = this.slide.graph.charAt(0).toUpperCase() + this.slide.graph.slice(1) + 'Component';
-    this.setChart(cmpType)
-    this.slideload$.filter(n => n === this.pos).subscribe(() => {
-      this.loadChart();
-      //this.loadContent();
-    })
-    this.slideease$.filter(n => n === this.pos).subscribe(() => {
-      this.easeChart();
-      //this.easeContent();
-    })
+    this.setChart(cmpType);
+    // this.slideload$.filter(n => n === this.pos).subscribe(() => {
+    //   this.loadChart();
+    //   //this.loadContent();
+    // })
+    // this.slideease$.filter(n => n === this.pos).subscribe(() => {
+    //   this.easeChart();
+    //   //this.easeContent();
+    // })
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    console.log('changes : ', changes);
+
+    if (this.slide.graph === 'noGraph') return;
+    let cmpType: string = this.slide.graph.charAt(0).toUpperCase() + this.slide.graph.slice(1) + 'Component';
+    this.setChart(cmpType);
+
   }
 
   private setChart(chartType: string) {
     let componentFactory = this._componentFactoryResolver.resolveComponentFactory(this.chartsService.getChartType(chartType));
     this.parent.clear();
+    if (this.componentRef) {
+         this.componentRef.destroy();
+    }
     this.componentRef = this.parent.createComponent(componentFactory);
     this.componentRef.instance.dataInput = this.slide.data; // set the input inputData of the abstract class Chart
+    this.componentRef.instance.configInput = this.slide.config; // set the input inputData of the abstract class Chart
   }
 
   private setConfig() {

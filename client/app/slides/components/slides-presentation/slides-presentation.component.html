@@ -1,35 +1,46 @@
 
-  <div class="slides" appScroll (mouseWheelUp)="lastSlide()" (mouseWheelDown)="nextSlide()" (stayProcess)="staySlideProcess()" #slider>
+  <div class="slides" appKeySwitch (keySwitch)="switchSlide($event)"  #slider>
   <!--slide title -->
-  <div [ngStyle]="slideHeight_style" class="slide" id="slide-0">
+  <div [ngStyle]="slideHeight_style" class="slide" *ngIf="curSlideIndex === 0" id="slide-0">
     <app-title-slide [slideTitle]="slideTitle"> </app-title-slide>
   </div>
 
-  <div [ngStyle]="slideHeight_style" class="slide" [attr.id]="'slide-'+slide.index" *ngFor="let slide of slides; let i =index">
-
+  <div [ngStyle]="slideHeight_style" class="slide" [attr.id]="'slide-'+curSlideIndex" *ngIf="curSlideIndex !== 0 && currentSlide != null">
+    <!--{{currentSlide | json}}-->
     <!--full screen :chart -->
-    <app-full-screen-graph-slide *ngIf="(slide.pageLayout=='FullScreenGraph'&&slide.graph!='image')"
-       [slide] = "slide" [pos]="i+1"  [slideload$]="slideload$" [slideease$]="slideease$" >
+    <app-full-screen-graph-slide *ngIf="(currentSlide.pageLayout=='FullScreenGraph'&&currentSlide.graph!='image')"
+       [slide] = "currentSlide" [pos]="curSlideIndex+1"  [slideload$]="slideload$" [slideease$]="slideease$" >
     </app-full-screen-graph-slide>
 
     <!--left graph right text-->
-    <app-left-graph-right-text-slide *ngIf="slide.pageLayout=='LeftGraphRightText'"
-       [slide] = "slide" [pos]="i+1"  [slideload$]="slideload$" [slideease$]="slideease$">
+    <app-left-graph-right-text-slide *ngIf="currentSlide.pageLayout=='LeftGraphRightText'"
+       [slide] = "currentSlide" [pos]="curSlideIndex+1"  [slideload$]="slideload$" [slideease$]="slideease$">
     </app-left-graph-right-text-slide>
 
     <!--left text right grah-->
-    <app-right-graph-left-text-slide *ngIf="slide.pageLayout=='LeftTextRightGraph'"
-       [slide] = "slide" [pos]="i+1"  [slideload$]="slideload$" [slideease$]="slideease$">
+    <app-right-graph-left-text-slide *ngIf="currentSlide.pageLayout=='LeftTextRightGraph'"
+       [slide] = "currentSlide" [pos]="curSlideIndex+1"  [slideload$]="slideload$" [slideease$]="slideease$">
     </app-right-graph-left-text-slide>
 
     <!--full screen :text-->
     <!--full screen :img-->
     <!--full screen :imgback + text-->
-    <app-text-slide *ngIf="slide.pageLayout=='textInCenter'||slide.pageLayout=='textInCenterImageBackground'"
-       [slide] = "slide" [pos]="i+1"  [slideload$]="slideload$" [slideease$]="slideease$">
+    <app-text-slide *ngIf="currentSlide.pageLayout=='textInCenter'||currentSlide.pageLayout=='textInCenterImageBackground'"
+       [slide] = "currentSlide" [pos]="curSlideIndex+1"  [slideload$]="slideload$" [slideease$]="slideease$">
     </app-text-slide>
 
-
   </div>
+
+  <div class="progress" style="display: block;">
+    <span [style.width]="((curSlideIndex  * 100)/slideNum) + '%'"></span>
+  </div>
+
+  <aside class="controls" style="display: block;">
+    <button class="navigate-left enabled" aria-label="previous slide" [ngClass]="{'fragmented':  curSlideIndex == 0 }" (click)="switchSlide(-1)"></button>
+    <button class="navigate-right enabled" aria-label="next slide" [ngClass]="{'fragmented':  curSlideIndex == slideNum }" (click)="switchSlide(1)"></button
+    ><button class="navigate-up" aria-label="above slide"></button>
+    <button class="navigate-down" aria-label="below slide"></button>
+  </aside>
+
 
 </div>

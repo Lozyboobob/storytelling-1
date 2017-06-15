@@ -1,0 +1,153 @@
+<h1>Graph builder
+  <small class="pull-right">
+    <button md-raised-button type="button" (click)="clearAll($event)"  color="primary">Reset</button>
+  </small>
+</h1>
+
+<div class="main">
+
+  <md-card class="ng-section">
+    <md-card-header class="section-header">
+      <md-card-title> Your Data </md-card-title>
+    </md-card-header>
+    <md-card-content class="section-content">
+      <span>
+        Copy and paste your tabular (TSV, CSV) data here.
+        <button class="btn btn-link" (click)="useExample()">(Use example data)</button>
+      </span>
+      <app-codemirror
+        [(ngModel)]="dataText"
+        [config]="editorConfig">
+      </app-codemirror>
+
+      <p *ngIf="dataText.length > 1">
+        <span *ngFor="let error of errors" class="text-red">
+          <span *ngIf="error.row">Row {{error.row + 2}}: </span>{{error.message}} <br />
+        </span>
+        <span *ngIf="!errors.length" class="text-green">
+          {{rawData.length}} records have been successfully parsed!
+        </span>
+      </p>
+    </md-card-content>
+  </md-card>
+
+  <md-card class="ng-section">
+    <md-card-header class="section-header">
+      <md-card-title> Select your Chart </md-card-title>
+    </md-card-header>
+    <md-card-content class="section-content">
+      <div fxLayout="row" fxLayoutAlign="center">
+        <md-select fxFlex="95%" placeholder="Chart Type" name="chartType" [(ngModel)]="chartType">
+          <md-option *ngFor="let chart of chartTypes" [value]="chart">
+            {{chart.title}}
+          </md-option>
+        </md-select>
+      </div>
+    </md-card-content>
+  </md-card>
+
+  <md-card class="ng-section">
+    <md-card-header class="section-header">
+      <md-card-title> Map your Dimensions </md-card-title>
+    </md-card-header>
+    <md-card-content *ngIf="hasChartSelected" class="section-content">
+
+      <div fxLayout="row" fxLayoutAlign="space-around">
+        <md-select [placeholder]="chartType.dimLabels[0]" name="chartType"  [(ngModel)]="dataDims[0]" (change)="processData()">
+          <md-option *ngFor="let field of headerValues" [value]="field.name">
+            {{field.name}} <small>{{field.type}}</small>
+          </md-option>
+        </md-select>
+
+        <md-select [placeholder]="chartType.dimLabels[1]" name="chartType"  [(ngModel)]="dataDims[1]" (change)="processData()">
+          <md-option *ngFor="let field of headerValues" [value]="field.name">
+            {{field.name}} <small>{{field.type}}</small>
+          </md-option>
+        </md-select>
+
+        <md-select [placeholder]="chartType.dimLabels[2]" name="chartType"  [(ngModel)]="dataDims[2]" (change)="processData()">
+          <md-option *ngFor="let field of headerValues" [value]="field.name">
+            {{field.name}} <small>{{field.type}}</small>
+          </md-option>
+        </md-select>
+
+        <md-select *ngIf="chartType.dimLabels[3]" [placeholder]="chartType.dimLabels[3]" name="chartType"  [(ngModel)]="dataDims[3]"
+          (change)="processData()">
+          <md-option *ngFor="let field of headerValues" [value]="field.name">
+            {{field.name}} <small>{{field.type}}</small>
+          </md-option>
+        </md-select>
+      </div>
+    </md-card-content>
+  </md-card>
+
+  <md-card class="ng-section" >
+    <md-card-header class="section-header">
+      <md-card-title> Your Visualization </md-card-title>
+    </md-card-header>
+    <md-card-content *ngIf="hasValidDimensions" class="section-content viz-container">
+      <ngx-charts-bar-vertical-2d *ngIf="chartType.name === 'bar-vertical-2d'" class="chart-container" [scheme]="chartOptions.colorScheme"
+        [schemeType]="chartOptions.schemeType" [results]="data" [gradient]="chartOptions.gradient" [xAxis]="chartOptions.showXAxis"
+        [yAxis]="chartOptions.showYAxis" [legend]="chartOptions.showLegend" [legendTitle]="chartOptions.legendTitle" [showXAxisLabel]="chartOptions.showXAxisLabel"
+        [showYAxisLabel]="chartOptions.showYAxisLabel" [tooltipDisabled]="chartOptions.tooltipDisabled" [xAxisLabel]="chartOptions.xAxisLabel"
+        [yAxisLabel]="chartOptions.yAxisLabel" [showGridLines]="chartOptions.showGridLines" xxxbarPadding="chartOptions.barPadding"
+        xxxgroupPadding="chartOptions.groupPadding" [roundDomains]="chartOptions.roundDomains">
+      </ngx-charts-bar-vertical-2d>
+      <ngx-charts-bar-horizontal-2d *ngIf="chartType.name === 'bar-horizontal-2d'" class="chart-container" [scheme]="chartOptions.colorScheme"
+        [schemeType]="chartOptions.schemeType" [results]="data" [gradient]="chartOptions.gradient" [tooltipDisabled]="chartOptions.tooltipDisabled"
+        [xAxis]="chartOptions.showXAxis" [yAxis]="chartOptions.showYAxis" [legend]="chartOptions.showLegend" [legendTitle]="chartOptions.legendTitle"
+        [showXAxisLabel]="chartOptions.showXAxisLabel" [showYAxisLabel]="chartOptions.showYAxisLabel" [xAxisLabel]="chartOptions.xAxisLabel"
+        [yAxisLabel]="chartOptions.yAxisLabel" [showGridLines]="chartOptions.showGridLines" [roundDomains]="chartOptions.roundDomains">
+      </ngx-charts-bar-horizontal-2d>
+      <ngx-charts-bar-vertical-stacked *ngIf="chartType.name === 'bar-vertical-stacked'" class="chart-container" [scheme]="chartOptions.colorScheme"
+        [schemeType]="chartOptions.schemeType" [results]="data" [gradient]="chartOptions.gradient" [tooltipDisabled]="chartOptions.tooltipDisabled"
+        [xAxis]="chartOptions.showXAxis" [yAxis]="chartOptions.showYAxis" [legend]="chartOptions.showLegend" [legendTitle]="chartOptions.legendTitle"
+        [showXAxisLabel]="chartOptions.showXAxisLabel" [showYAxisLabel]="chartOptions.showYAxisLabel" [xAxisLabel]="chartOptions.xAxisLabel"
+        [yAxisLabel]="chartOptions.yAxisLabel" [showGridLines]="chartOptions.showGridLines" [roundDomains]="chartOptions.roundDomains">
+      </ngx-charts-bar-vertical-stacked>
+      <ngx-charts-bar-horizontal-stacked *ngIf="chartType.name === 'bar-horizontal-stacked'" class="chart-container" [scheme]="chartOptions.colorScheme"
+        [schemeType]="chartOptions.schemeType" [results]="data" [gradient]="chartOptions.gradient" [xAxis]="chartOptions.showXAxis"
+        [yAxis]="chartOptions.showYAxis" [legend]="chartOptions.showLegend" [legendTitle]="chartOptions.legendTitle" [showXAxisLabel]="chartOptions.showXAxisLabel"
+        [showYAxisLabel]="chartOptions.showYAxisLabel" [xAxisLabel]="chartOptions.xAxisLabel" [yAxisLabel]="chartOptions.yAxisLabel"
+        [showGridLines]="chartOptions.showGridLines" [roundDomains]="chartOptions.roundDomains">
+      </ngx-charts-bar-horizontal-stacked>
+      <ngx-charts-bar-vertical-normalized *ngIf="chartType.name === 'bar-vertical-normalized'" class="chart-container" [scheme]="chartOptions.colorScheme"
+        [schemeType]="chartOptions.schemeType" [results]="data" [gradient]="chartOptions.gradient" [tooltipDisabled]="chartOptions.tooltipDisabled"
+        [xAxis]="chartOptions.showXAxis" [yAxis]="chartOptions.showYAxis" [legend]="chartOptions.showLegend" [legendTitle]="chartOptions.legendTitle"
+        [showXAxisLabel]="chartOptions.showXAxisLabel" [showYAxisLabel]="chartOptions.showYAxisLabel" [xAxisLabel]="chartOptions.xAxisLabel"
+        [yAxisLabel]="chartOptions.yAxisLabel" [showGridLines]="chartOptions.showGridLines" [roundDomains]="chartOptions.roundDomains">
+      </ngx-charts-bar-vertical-normalized>
+      <ngx-charts-bar-horizontal-normalized *ngIf="chartType.name === 'bar-horizontal-normalized'" class="chart-container" [scheme]="chartOptions.colorScheme"
+        [schemeType]="chartOptions.schemeType" [results]="data" [gradient]="chartOptions.gradient" [tooltipDisabled]="chartOptions.tooltipDisabled"
+        [xAxis]="chartOptions.showXAxis" [yAxis]="chartOptions.showYAxis" [legend]="chartOptions.showLegend" [legendTitle]="chartOptions.legendTitle"
+        [showXAxisLabel]="chartOptions.showXAxisLabel" [showYAxisLabel]="chartOptions.showYAxisLabel" [xAxisLabel]="chartOptions.xAxisLabel"
+        [yAxisLabel]="chartOptions.yAxisLabel" [showGridLines]="chartOptions.showGridLines" [roundDomains]="chartOptions.roundDomains">
+      </ngx-charts-bar-horizontal-normalized>
+      <ngx-charts-polar-chart *ngIf="chartType.name === 'polar-chart'" class="chart-container" [scheme]="chartOptions.colorScheme"
+        [schemeType]="chartOptions.schemeType" [results]="data" [legend]="chartOptions.showLegend" [legendTitle]="chartOptions.legendTitle"
+        [gradient]="chartOptions.gradient" [xAxis]="chartOptions.showXAxis" [yAxis]="chartOptions.showYAxis" [showXAxisLabel]="chartOptions.showXAxisLabel"
+        [showYAxisLabel]="chartOptions.showYAxisLabel" [xAxisLabel]="chartOptions.xAxisLabel" [yAxisLabel]="chartOptions.yAxisLabel"
+        [autoScale]="chartOptions.autoScale" [showGridLines]="chartOptions.showGridLines" [rangeFillOpacity]="chartOptions.rangeFillOpacity"
+        [roundDomains]="chartOptions.roundDomains" [tooltipDisabled]="chartOptions.tooltipDisabled" [curve]="chartOptions.curveClosed"
+        [showSeriesOnHover]="chartOptions.showSeriesOnHover">
+      </ngx-charts-polar-chart>
+      <ngx-charts-line-chart *ngIf="chartType.name === 'line-chart'" class="chart-container" [scheme]="chartOptions.colorScheme"
+        [schemeType]="chartOptions.schemeType" [results]="data" [legend]="chartOptions.showLegend" [legendTitle]="chartOptions.legendTitle"
+        [gradient]="chartOptions.gradient" [xAxis]="chartOptions.showXAxis" [yAxis]="chartOptions.showYAxis" [showXAxisLabel]="chartOptions.showXAxisLabel"
+        [showYAxisLabel]="chartOptions.showYAxisLabel" [xAxisLabel]="chartOptions.xAxisLabel" [yAxisLabel]="chartOptions.yAxisLabel"
+        [autoScale]="chartOptions.autoScale" [showGridLines]="chartOptions.showGridLines" [curve]="chartOptions.curve" [rangeFillOpacity]="chartOptions.rangeFillOpacity"
+        [roundDomains]="chartOptions.roundDomains" [tooltipDisabled]="chartOptions.tooltipDisabled" [showSeriesOnHover]="chartOptions.showSeriesOnHover">
+      </ngx-charts-line-chart>
+      <ngx-charts-heat-map *ngIf="chartType.name === 'heat-map'" class="chart-container" [scheme]="chartOptions.colorScheme" [results]="data"
+        [legend]="chartOptions.showLegend" [gradient]="chartOptions.gradient" [xAxis]="chartOptions.showXAxis" [yAxis]="chartOptions.showYAxis"
+        [showXAxisLabel]="chartOptions.showXAxisLabel" [showYAxisLabel]="chartOptions.showYAxisLabel" [xAxisLabel]="chartOptions.xAxisLabel"
+        [yAxisLabel]="chartOptions.yAxisLabel" xxxinnerPadding="chartOptions.innerPadding" [tooltipDisabled]="chartOptions.tooltipDisabled">
+      </ngx-charts-heat-map>
+      <ngx-charts-bubble-chart *ngIf="chartType.name === 'bubble-chart'" [view]="null"  class="chart-container" [results]="data" [showGridLines]="chartOptions.showGridLines"
+        [legend]="chartOptions.showLegend" [legendTitle]="chartOptions.legendTitle" [xAxis]="chartOptions.showXAxis" [yAxis]="chartOptions.showYAxis"
+        [showXAxisLabel]="chartOptions.showXAxisLabel" [showYAxisLabel]="chartOptions.showYAxisLabel" [xAxisLabel]="chartOptions.xAxisLabel"
+        [yAxisLabel]="chartOptions.yAxisLabel" [autoScale]="chartOptions.autoScale" [scheme]="chartOptions.colorScheme" [schemeType]="chartOptions.schemeType"
+        [roundDomains]="chartOptions.roundDomains" [tooltipDisabled]="chartOptions.tooltipDisabled" [minRadius]="3" [maxRadius]="20">
+      </ngx-charts-bubble-chart>
+    </md-card-content>
+  </md-card>

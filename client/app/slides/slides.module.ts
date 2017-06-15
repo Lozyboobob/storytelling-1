@@ -9,7 +9,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {XHRBackend, Http, RequestOptions} from '@angular/http';
 
 // NGX-CHARTS MODULE
-import { PieChartModule, GaugeModule } from '@swimlane/ngx-charts';
+import { PieChartModule, GaugeModule, NgxChartsModule } from '@swimlane/ngx-charts';
+import { CodemirrorModule } from 'ng2-codemirror';
 
 
 
@@ -32,15 +33,17 @@ import {SlidesService, ValidService, ChartsService} from '.';
 import { SlidesRoutingModule } from '.';
 import { CoreModule } from 'app/core';
 import { FileUploadModule } from 'ng2-file-upload';
-
-
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 import { ScrollDirective } from './components/slides-presentation/scroll.directive';
+import { KeySwitchDirective } from './components/slides-presentation/key-switch.directive';
+
 import {Ng2PageScrollModule} from 'ng2-page-scroll';
 import {DragulaModule} from 'ng2-dragula';
 import { BarChartComponent } from '../charts';
 import { GaugeChartComponent } from '../charts';
+import { NgGraphComponent } from "../charts";
 import { HierarchicalEdgeBundlingComponent } from '../charts/hierarchical-edge-bundling/hierarchical-edge-bundling.component';
 
 import { AdvancedPieChartComponent } from '../charts';
@@ -55,10 +58,10 @@ import { PieChartComponent } from '../charts/pie-chart/pie-chart.component';
 
 import { CsvInputComponent } from './components/editor/slide-creator/csv-input/csv-input.component';
 import { ImageUploadComponent } from './components/editor/slide-creator/image-upload/image-upload.component';
-import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { SlidesEditorComponent } from './components/slides-editor/slides-editor.component';
 import { SlidesSettingComponent } from './components/editor/slides-setting/slides-setting.component';
+import { ChartsBuilderComponent, CodeEditorComponent } from "./components/editor/charts-builder";
 import { EditorComponent } from './components/editor/editor.component';
 
 import { FilterComponent } from './components/filter/filter.component';
@@ -80,6 +83,8 @@ import { FavoriteFilterComponent } from './components/favorite-filter/favorite-f
         DragulaModule,
         PieChartModule,
         GaugeModule,
+        NgxChartsModule,
+        CodemirrorModule,
         FlexLayoutModule,
         Ng2PageScrollModule.forRoot(),
         FroalaEditorModule.forRoot(),
@@ -98,9 +103,11 @@ import { FavoriteFilterComponent } from './components/favorite-filter/favorite-f
         GaugeChartComponent,
         AdvancedPieChartComponent,
         DialogComponent,
-        DendogramComponent],
+        DendogramComponent, 
+        NgGraphComponent],
     declarations: [
         ScrollDirective,
+        KeySwitchDirective,
         SlidesPresentationComponent,
         SlidesCreatorComponent,
         SlideCreatorComponent,
@@ -114,6 +121,8 @@ import { FavoriteFilterComponent } from './components/favorite-filter/favorite-f
         SunburstChartComponent,
         SlidesEditorComponent,
         SlidesSettingComponent,
+        CodeEditorComponent,
+        ChartsBuilderComponent,
         EditorComponent,
         FilterComponent,
         SlidesManagerComponent,
@@ -128,8 +137,10 @@ import { FavoriteFilterComponent } from './components/favorite-filter/favorite-f
         SlidesCardComponent,
         HierarchicalEdgeBundlingComponent,
         DialogComponent,
+        NgGraphComponent,
         DendogramComponent,
-        FavoriteFilterComponent
+        FavoriteFilterComponent,
+        KeySwitchDirective
     ],
     exports:[
       FilterComponent,
