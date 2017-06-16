@@ -14,7 +14,6 @@ export class SlidesCardComponent implements OnInit {
     @Input() slides: Slides;
     @Input() editable: boolean; //whether the slides can be edited;
     @Output() deletedSlides = new EventEmitter();
-    isFavorite: Boolean;
     @select(['session', 'token']) loggedIn$: Observable<string>;
     @select(['session', 'user', 'username']) username$: Observable<Object>;
 
