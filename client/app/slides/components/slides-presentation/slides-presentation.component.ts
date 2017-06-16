@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ViewChildren, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Inject, ViewChildren,ViewChild,ViewContainerRef, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 
@@ -11,6 +11,7 @@ import { BarChartComponent, ForceDirectedGraphComponent, LineChartComponent, Tre
 import { PageConfig, HALF_HALF_LAYOUT, FULL_LAYOUT} from './pageConfig';
 
 import { slideTransition } from "./slide.animation";
+import * as screenfull from 'screenfull';
 
 @Component({
     selector: 'app-slides-presentation',
@@ -36,11 +37,16 @@ export class SlidesPresentationComponent implements OnInit {
     easeContentAni: Array<boolean> = []; // indicator for content ease(fade away) animation
     pageLayoutConfig: Array<any> = [];
     inEaseProcess = false;
+    screenfull: any;
 
     slideload$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
     slideease$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
     @ViewChildren('chart') chartEle: any;
+
+    @ViewChild('slider', {read: ViewContainerRef})
+    slider: ViewContainerRef;
+
 
     constructor(
         private windowResizeService: WindowResizeService,
@@ -57,6 +63,7 @@ export class SlidesPresentationComponent implements OnInit {
             };
             this.slideHeight = ( height - 70 ) ;
         })
+        this.screenfull = screenfull;
 
     }
     ngOnInit() {
@@ -155,6 +162,14 @@ export class SlidesPresentationComponent implements OnInit {
     staySlideProcess() {
 
     }
+
+    onClick() {
+        console.log('tootot');
+		if (this.screenfull.enabled) {
+			this.screenfull.toggle(this.slider.element.nativeElement);
+
+		}
+	}
 
     private goToSlide(index: number) {
       let pageScrollInstance: PageScrollInstance = PageScrollInstance.simpleInstance(this.document, '#slide-' + index);

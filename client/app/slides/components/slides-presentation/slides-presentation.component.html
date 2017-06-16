@@ -1,9 +1,18 @@
 
-  <div class="slides" appKeySwitch (keySwitch)="switchSlide($event)"  #slider>
+
+  <div class="slide" #slider>
+
+
+  <button md-mini-fab (click)="onClick()" *ngIf="!screenfull.isFullscreen" ><md-icon class="md-24 fa-lg" [style.margin-bottom]="'15px'" fontSet="fa" fontIcon="fa-arrows-alt"></md-icon></button>
+
+  <div class="slides" appKeySwitch (keySwitch)="switchSlide($event)" >
+
   <!--slide title -->
   <div [ngStyle]="slideHeight_style" class="slide" *ngIf="curSlideIndex === 0" id="slide-0">
     <app-title-slide [slideTitle]="slideTitle"> </app-title-slide>
   </div>
+
+
 
   <div [ngStyle]="slideHeight_style" [@routerTransition]="direction" (@routerTransition.done)="animationDone($event)" class="slide" [attr.id]="'slide-'+curSlideIndex" *ngIf="curSlideIndex !== 0 && currentSlide != null">
     <!--{{currentSlide | json}}-->
@@ -35,12 +44,16 @@
     <span [style.width]="((curSlideIndex  * 100)/slideNum) + '%'"></span>
   </div>
 
+
+
   <aside class="controls" style="display: block;">
     <button class="navigate-left enabled" aria-label="previous slide" [ngClass]="{'fragmented':  curSlideIndex == 0 }" (click)="switchSlide(-1)"></button>
-    <button class="navigate-right enabled" aria-label="next slide" [ngClass]="{'fragmented':  curSlideIndex == slideNum }" (click)="switchSlide(1)"></button
-    ><button class="navigate-up" aria-label="above slide"></button>
+    <button class="navigate-right enabled" aria-label="next slide" [ngClass]="{'fragmented':  curSlideIndex == slideNum }" (click)="switchSlide(1)"></button>
+    <button class="navigate-up" aria-label="above slide"></button>
     <button class="navigate-down" aria-label="below slide"></button>
   </aside>
 
 
 </div>
+
+  </div>
