@@ -13,6 +13,10 @@ export class Slide {
     /* indecator for text and graph*/
     hasGraph:boolean=false;
     hasText:boolean=false;
+    pageTitle:any={
+      title:"",
+      align:""
+    }
     constructor(index ? :number) {
       if(index) this.index=index;
     }

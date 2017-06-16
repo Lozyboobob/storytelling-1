@@ -1,3 +1,6 @@
+export const titleAlign: Array<string>=[
+  "left","right","center"
+]
 export const graphType: Array<any> = [
     {
         value: "ngGraph",

@@ -25,7 +25,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
 
     graphs: Array<any>;
     pageLayout: Array<any>;
-
+    titleAlign:Array<string>
     dataExample: string = '{}';
     editorOptions: Object = {
         heightMin: 200,
@@ -46,8 +46,9 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
     }
 
     ngOnInit() {
-      this.graphs=slideOption.graphType;
-      this.pageLayout=slideOption.pageLayoutOption;
+        this.titleAlign=slideOption.titleAlign;
+        this.graphs = slideOption.graphType;
+        this.pageLayout = slideOption.pageLayoutOption;
 
     }
     ngAfterViewInit() {
@@ -70,6 +71,8 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
     }
     private _buildForm() {
         return this._fb.group({
+            pageTitle: new FormControl(this.slide.pageTitle.title, Validators.nullValidator),
+            titleAlign:new FormControl(this.slide.pageTitle.align, Validators.nullValidator),
             slideText: new FormControl(this.slide.text, Validators.nullValidator),
             slideGraph: new FormControl(this.slide.graph, Validators.nullValidator),
             pageLayout: new FormControl(this.slide.pageLayout, Validators.required),
@@ -127,6 +130,8 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
         if (this.slideIndex) {
             this.slide.index = this.slideIndex;
         }
+        this.slide.pageTitle.title=this.form.value.pageTitle;
+        this.slide.pageTitle.align=this.form.value.titleAlign;
         console.log('slide 1 confirme: ', this.slide);
         this.confirmSlideOpt.emit(this.slide);
         this.slide = new Slide();
@@ -135,13 +140,13 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
         this.form = this._buildForm();
 
     }
-    
+
     confirmeSlideGRaphConfig(data) {
         console.log('data: ', data);
         this.slide.data = data.data;
         this.slide.config = data.chartOptions;
     }
-    
+
     deleteSlide(e) {
         this.deleteSlideOpt.emit(this.slideIndex);
     }
@@ -164,7 +169,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
         //**if the slide data is already set
         if (this.slide.data != undefined) {
             if (this.slide.data.length && this.form.value.slideGraph == this.slide.graph) {
-              //if has data, set tab to json
+                //if has data, set tab to json
                 this.curTab = 0;
                 let data = { "graphData": this.slide.data };
                 console.log(data);
@@ -183,7 +188,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
             case "pieChart": this.form.controls['graphDataJson'].setValue(pieChartExample); break;
             case "sunburstChart": this.form.controls['graphDataJson'].setValue(sunburstChartExample); break;
             case "HierarchicalEdgeBundling": this.form.controls['graphDataJson'].setValue(HierarchicalEdgeExample); break;
-            case "dendogramChart" : this.form.controls['graphDataJson'].setValue(dendogramChartExemple); break;
+            case "dendogramChart": this.form.controls['graphDataJson'].setValue(dendogramChartExemple); break;
             default: ;
         }
 
@@ -261,7 +266,7 @@ const barCharDataExample = JSON.stringify(sampleData.barCharData);
 const forceDirectedGraphDataExample = JSON.stringify(sampleData.forceDirectedGraphData);
 const lineChartExample = JSON.stringify(sampleData.lineChartData);
 const pieChartExample = JSON.stringify(sampleData.pieChartData);
-const dendogramChartExemple =  JSON.stringify(sampleData.dendogramChartData);
+const dendogramChartExemple = JSON.stringify(sampleData.dendogramChartData);
 const HierarchicalEdgeExample = JSON.stringify(sampleData.HierarchicalEdgeData);
 const treemapChartExample = JSON.stringify(sampleData.treemapChartData);
 const sunburstChartExample = JSON.stringify(sampleData.sunburstChartData);
