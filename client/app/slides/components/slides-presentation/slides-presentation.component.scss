@@ -1,4 +1,4 @@
-// @import 'client/theme.scss';
+ @import 'client/theme.scss';
 
 // .chart {
 //     padding: 20px;
@@ -13,6 +13,10 @@
     }
     .title-text{
       margin-left: 40px;
+      margin-right: 40px;
+      font-size: 20px;
+      font-weight: bold;
+      color: $accent;
     }
 }
 :host /deep/ ul, :host /deep/ ol{

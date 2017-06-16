@@ -6,8 +6,8 @@
 
   <div [ngStyle]="slideHeight_style" class="slide" [attr.id]="'slide-'+curSlideIndex" *ngIf="curSlideIndex !== 0 && currentSlide != null">
     <!--title text-->
-    <div class="title-text" fxLayout="column" fxLayoutAlign="space-between none"  *ngIf="currentSlide.pageTitle.title.length!=0">
-      <p>sdfqsfq</p>
+    <div class="title-text" fxLayout="column" fxLayoutAlign="space-between none" align="{{currentSlide.pageTitle.align}}"  *ngIf="currentSlide.pageTitle.title.length!=0">
+      <p>{{currentSlide.pageTitle.title}}</p>
     </div>
     <div [ngStyle]="contentHeight_style"  fxLayout="column" fxLayoutAlign="space-between none"  class="content">
       <!--{{currentSlide | json}}-->
