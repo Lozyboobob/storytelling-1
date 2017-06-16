@@ -1,36 +1,36 @@
-
-  <div class="slides" appKeySwitch (keySwitch)="switchSlide($event)"  #slider>
+<div class="slides" appKeySwitch (keySwitch)="switchSlide($event)" #slider>
   <!--slide title -->
   <div [ngStyle]="slideHeight_style" class="slide" *ngIf="curSlideIndex === 0" id="slide-0">
     <app-title-slide [slideTitle]="slideTitle"> </app-title-slide>
   </div>
 
   <div [ngStyle]="slideHeight_style" class="slide" [attr.id]="'slide-'+curSlideIndex" *ngIf="curSlideIndex !== 0 && currentSlide != null">
-    <!--{{currentSlide | json}}-->
-    <!--full screen :chart -->
-    <app-full-screen-graph-slide *ngIf="(currentSlide.pageLayout=='FullScreenGraph'&&currentSlide.graph!='image')"
-       [slide] = "currentSlide" [pos]="curSlideIndex+1"  [slideload$]="slideload$" [slideease$]="slideease$" >
-    </app-full-screen-graph-slide>
+    <!--title text-->
+    <div class="title-text" >
+      <p>sdfqsfq</p>
+    </div>
+    <div [ngStyle]="contentHeight_style"  class="content">
+      <!--{{currentSlide | json}}-->
+      <!--full screen :chart -->
+      <app-full-screen-graph-slide *ngIf="(currentSlide.pageLayout=='FullScreenGraph'&&currentSlide.graph!='image')" [slide]="currentSlide" [pos]="curSlideIndex+1" [slideload$]="slideload$" [slideease$]="slideease$">
+      </app-full-screen-graph-slide>
 
-    <!--left graph right text-->
-    <app-left-graph-right-text-slide *ngIf="currentSlide.pageLayout=='LeftGraphRightText'"
-       [slide] = "currentSlide" [pos]="curSlideIndex+1"  [slideload$]="slideload$" [slideease$]="slideease$">
-    </app-left-graph-right-text-slide>
+      <!--left graph right text-->
+      <app-left-graph-right-text-slide *ngIf="currentSlide.pageLayout=='LeftGraphRightText'" [slide]="currentSlide" [pos]="curSlideIndex+1" [slideload$]="slideload$" [slideease$]="slideease$">
+      </app-left-graph-right-text-slide>
 
-    <!--left text right grah-->
-    <app-right-graph-left-text-slide *ngIf="currentSlide.pageLayout=='LeftTextRightGraph'"
-       [slide] = "currentSlide" [pos]="curSlideIndex+1"  [slideload$]="slideload$" [slideease$]="slideease$">
-    </app-right-graph-left-text-slide>
+      <!--left text right grah-->
+      <app-right-graph-left-text-slide *ngIf="currentSlide.pageLayout=='LeftTextRightGraph'" [slide]="currentSlide" [pos]="curSlideIndex+1" [slideload$]="slideload$" [slideease$]="slideease$">
+      </app-right-graph-left-text-slide>
 
-    <!--full screen :text-->
-    <!--full screen :img-->
-    <!--full screen :imgback + text-->
-    <app-text-slide *ngIf="currentSlide.pageLayout=='textInCenter'||currentSlide.pageLayout=='textInCenterImageBackground'"
-       [slide] = "currentSlide" [pos]="curSlideIndex+1"  [slideload$]="slideload$" [slideease$]="slideease$">
-    </app-text-slide>
+      <!--full screen :text-->
+      <!--full screen :img-->
+      <!--full screen :imgback + text-->
+      <app-text-slide *ngIf="currentSlide.pageLayout=='textInCenter'||currentSlide.pageLayout=='textInCenterImageBackground'" [slide]="currentSlide" [pos]="curSlideIndex+1" [slideload$]="slideload$" [slideease$]="slideease$">
+      </app-text-slide>
 
+    </div>
   </div>
-
   <div class="progress" style="display: block;">
     <span [style.width]="((curSlideIndex  * 100)/slideNum) + '%'"></span>
   </div>
