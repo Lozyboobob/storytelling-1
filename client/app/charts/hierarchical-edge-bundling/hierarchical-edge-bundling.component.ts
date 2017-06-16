@@ -162,6 +162,7 @@ export class HierarchicalEdgeBundlingComponent extends Chart implements OnInit {
 
       return imports;
     }
+    this.load();
   };
 
 

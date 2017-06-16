@@ -1,5 +1,5 @@
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { Component, OnInit, AfterContentInit, AfterViewInit, Input, ViewChild, ViewChildren, ComponentFactoryResolver, ViewContainerRef, ComponentRef } from '@angular/core';
+import { Component, OnInit, AfterContentInit, OnChanges, SimpleChanges, AfterViewInit, Input, ViewChild, ViewChildren, ComponentFactoryResolver, ViewContainerRef, ComponentRef, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from "rxjs/Observable";
 import { Slide } from "../../../../models";
 import { PageConfig, HALF_HALF_LAYOUT } from "../../pageConfig";
@@ -10,15 +10,16 @@ import { ChartsService } from "../../../../services";
   selector: 'app-right-graph-left-text-slide',
   templateUrl: './right-graph-left-text-slide.component.html',
   styleUrls: ['./right-graph-left-text-slide.component.scss']
+
 })
-export class RightGraphLeftTextSlideComponent implements OnInit, AfterContentInit {
+export class RightGraphLeftTextSlideComponent implements OnInit, AfterContentInit, OnChanges  {
 
   @Input() slide: Slide;
   @Input() pos: number;
   @Input() slideload$: Observable<number>;
   @Input() slideease$: Observable<number>;
 
-  @ViewChild('parent', {read: ViewContainerRef})
+  @ViewChild('parent', { read: ViewContainerRef })
   parent: ViewContainerRef;
   private componentRef: ComponentRef<Chart>;
 
@@ -38,27 +39,27 @@ export class RightGraphLeftTextSlideComponent implements OnInit, AfterContentIni
     this.setConfig();
   }
 
-  ngAfterContentInit(){
+  ngAfterContentInit() {
     if (this.slide.graph === 'noGraph') return;
     let cmpType = this.slide.graph.charAt(0).toUpperCase() + this.slide.graph.slice(1) + 'Component';
     this.setChart(cmpType);
-    this.slideload$.filter(n => n === this.pos).subscribe(() => {
-      this.loadChart();
-      this.loadContent();
-    });
-    this.slideease$.filter(n => n === this.pos).subscribe(() => {
-      this.easeChart();
-      this.easeContent();
-    });
   }
   
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.slide.graph === 'noGraph') return;
+    let cmpType: string = this.slide.graph.charAt(0).toUpperCase() + this.slide.graph.slice(1) + 'Component';
+    this.setChart(cmpType);
+  }
+
   private setChart(chartType: string) {
     const componentFactory = this._componentFactoryResolver.resolveComponentFactory(this.chartsService.getChartType(chartType));
     this.parent.clear();
+    if (this.componentRef) {
+      this.componentRef.destroy();
+    }
     this.componentRef = this.parent.createComponent(componentFactory);
     this.componentRef.instance.dataInput = this.slide.data; // set the input inputData of the abstract class Chart
-
-    console.log('slide.pageLayout', this.slide.pageLayout)
+    this.componentRef.instance.configInput = this.slide.config; // set the input inputData of the abstract class Chart
   }
 
   private setConfig() {
@@ -77,40 +78,39 @@ export class RightGraphLeftTextSlideComponent implements OnInit, AfterContentIni
         this.slide.text = this.sanitizer.bypassSecurityTrustHtml(this.slide.text) as string;
       }
     };
-    console.log("config is",this.slide.fullScreenHtml);
   }
 
-  private loadChart() {
-    if (this.config.hasChart) {
-      (<Chart>this.componentRef.instance).load();
-    }
-  }
+  // private loadChart() {
+  //   if (this.config.hasChart) {
+  //     (<Chart>this.componentRef.instance).load();
+  //   }
+  // }
 
-  private easeChart() {
-    if (this.config.hasChart) {
-      (<Chart>this.componentRef.instance).ease();
-    }
-  }
+  // private easeChart() {
+  //   if (this.config.hasChart) {
+  //     (<Chart>this.componentRef.instance).ease();
+  //   }
+  // }
 
 
-  private loadContent() {
-    if (this.config.hasText) {
-      this.loadContentAni = false;
-      setTimeout(_ => {
-        this.easeContentAni = false;
-        this.loadContentAni = true;
-      }, 150);
-    }
-  }
+  // private loadContent() {
+  //   if (this.config.hasText) {
+  //     this.loadContentAni = false;
+  //     setTimeout(_ => {
+  //       this.easeContentAni = false;
+  //       this.loadContentAni = true;
+  //     }, 150);
+  //   }
+  // }
 
-  private easeContent() {
-    if (this.config.hasText) {
-      this.easeContentAni = false;
-      setTimeout(() => {
-        this.loadContentAni = false;
-        this.easeContentAni = true;
-      }, 0);
-    }
-  }
+  // private easeContent() {
+  //   if (this.config.hasText) {
+  //     this.easeContentAni = false;
+  //     setTimeout(() => {
+  //       this.loadContentAni = false;
+  //       this.easeContentAni = true;
+  //     }, 0);
+  //   }
+  // }
 
 }

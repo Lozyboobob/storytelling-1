@@ -139,6 +139,7 @@ export class BarChartComponent extends Chart implements OnInit {
     }
     init() {
         this.createChart();
+        this.load();
     }
     load() {
         this.loaded = true;

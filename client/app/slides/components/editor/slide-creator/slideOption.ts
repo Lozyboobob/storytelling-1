@@ -1,5 +1,9 @@
 export const graphType: Array<any> = [
     {
+        value: "ngGraph",
+        type: "Graph builder"
+    },
+    {
         value: "barChart",
         type: "Bar Chart"
     }, {

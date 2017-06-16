@@ -1,30 +1,34 @@
-@import 'client/theme.scss'; //  background-color: $accent;
 
+@import 'client/theme.scss';
+//  background-color: $accent;
 :host {
     .chart {
         padding: 20px;
         width: 100%;
     }
 
-    .graph-container {
-        width: 100%;
+    md-grid-tile {
+        overflow: visible;
+    }
+
+    md-grid-list,
+    md-grid-tile {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
         height: 100%;
+        overflow: visible;
+    }
+
+    .text-container {
+        display: flex;
+        height: 100%;
+        align-items: center;
+        margin-left: 40px;
+        margin-right: 40px;
     }
 
     h2 {
         color: $accent;
         font-size: $lg;
-    }
-
-    .graph-container {
-        width: 100%;
-        height: 100%;
-    }
-
-    .text-container {
-        height: 100%;
-        display: flex;
-        align-items: center;
-        //justify-content: center;
     }
 }
