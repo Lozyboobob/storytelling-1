@@ -10,10 +10,13 @@ import { BarChartComponent, ForceDirectedGraphComponent, LineChartComponent, Tre
 
 import { PageConfig, HALF_HALF_LAYOUT, FULL_LAYOUT} from './pageConfig';
 
+import { slideTransition } from "./slide.animation";
+
 @Component({
     selector: 'app-slides-presentation',
     templateUrl: './slides-presentation.component.html',
     styleUrls: ['./slides-presentation.component.scss'],
+    animations: [slideTransition()],
     providers: [WindowResizeService, SlidesService]
 })
 
@@ -28,6 +31,7 @@ export class SlidesPresentationComponent implements OnInit {
     };
     slideHeight: number;
     curSlideIndex: number = 0;
+    direction: number =1;
     currentSlide: any;
     slideNum: number;
     charts: Array<any> = [];
@@ -146,10 +150,12 @@ export class SlidesPresentationComponent implements OnInit {
         if (nextIndex >= 0 && nextIndex <= this.slideNum) {
             this.curSlideIndex = nextIndex;
             this.currentSlide = this.slides[this.curSlideIndex - 1];
+            this.direction = direction;
         }
+    }
 
-        console.log("this.curSlideIndex: ", this.curSlideIndex);
-        console.log("this.currentSlide: ", this.currentSlide);
+    animationDone(event:any){
+        this.direction = 0;
     }
 
     staySlideProcess() {
