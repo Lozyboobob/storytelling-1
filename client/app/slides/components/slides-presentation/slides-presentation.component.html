@@ -6,27 +6,27 @@
 
   <div [ngStyle]="slideHeight_style" class="slide" [attr.id]="'slide-'+curSlideIndex" *ngIf="curSlideIndex !== 0 && currentSlide != null">
     <!--title text-->
-    <div class="title-text" >
+    <div class="title-text" fxLayout="column" fxLayoutAlign="space-between none"  *ngIf="currentSlide.pageTitle.title.length!=0">
       <p>sdfqsfq</p>
     </div>
-    <div [ngStyle]="contentHeight_style"  class="content">
+    <div [ngStyle]="contentHeight_style"  fxLayout="column" fxLayoutAlign="space-between none"  class="content">
       <!--{{currentSlide | json}}-->
       <!--full screen :chart -->
-      <app-full-screen-graph-slide *ngIf="(currentSlide.pageLayout=='FullScreenGraph'&&currentSlide.graph!='image')" [slide]="currentSlide" [pos]="curSlideIndex+1" [slideload$]="slideload$" [slideease$]="slideease$">
+      <app-full-screen-graph-slide *ngIf="(currentSlide.pageLayout=='FullScreenGraph'&&currentSlide.graph!='image')" [slide]="currentSlide" [pos]="curSlideIndex+1" [slideload$]="slideload$" [slideease$]="slideease$" class="graph-container">
       </app-full-screen-graph-slide>
 
       <!--left graph right text-->
-      <app-left-graph-right-text-slide *ngIf="currentSlide.pageLayout=='LeftGraphRightText'" [slide]="currentSlide" [pos]="curSlideIndex+1" [slideload$]="slideload$" [slideease$]="slideease$">
+      <app-left-graph-right-text-slide *ngIf="currentSlide.pageLayout=='LeftGraphRightText'" [slide]="currentSlide" [pos]="curSlideIndex+1" [slideload$]="slideload$" [slideease$]="slideease$" class="graph-container">
       </app-left-graph-right-text-slide>
 
       <!--left text right grah-->
-      <app-right-graph-left-text-slide *ngIf="currentSlide.pageLayout=='LeftTextRightGraph'" [slide]="currentSlide" [pos]="curSlideIndex+1" [slideload$]="slideload$" [slideease$]="slideease$">
+      <app-right-graph-left-text-slide *ngIf="currentSlide.pageLayout=='LeftTextRightGraph'" [slide]="currentSlide" [pos]="curSlideIndex+1" [slideload$]="slideload$" [slideease$]="slideease$" class="graph-container">
       </app-right-graph-left-text-slide>
 
       <!--full screen :text-->
       <!--full screen :img-->
       <!--full screen :imgback + text-->
-      <app-text-slide *ngIf="currentSlide.pageLayout=='textInCenter'||currentSlide.pageLayout=='textInCenterImageBackground'" [slide]="currentSlide" [pos]="curSlideIndex+1" [slideload$]="slideload$" [slideease$]="slideease$">
+      <app-text-slide *ngIf="currentSlide.pageLayout=='textInCenter'||currentSlide.pageLayout=='textInCenterImageBackground'" [slide]="currentSlide" [pos]="curSlideIndex+1" [slideload$]="slideload$" [slideease$]="slideease$" class="graph-container">
       </app-text-slide>
 
     </div>

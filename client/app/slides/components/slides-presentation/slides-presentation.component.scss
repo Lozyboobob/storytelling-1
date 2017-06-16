@@ -18,7 +18,10 @@
 :host /deep/ ul, :host /deep/ ol{
   list-style-position: inside;
 }
-
+.graph-container{
+  height: 100%;
+  width: 100%;
+}
 // .slides {
 //     .slide {
 //          background-color: $accent;
