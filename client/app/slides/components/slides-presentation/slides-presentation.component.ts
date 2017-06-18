@@ -160,6 +160,8 @@ export class SlidesPresentationComponent implements OnInit {
             this.currentSlide = this.slides[this.curSlideIndex - 1];
             this.direction = direction;
         }
+        //hide full screen
+        this.showFullScreen = false;
     }
 
     animationDone(event:any){
