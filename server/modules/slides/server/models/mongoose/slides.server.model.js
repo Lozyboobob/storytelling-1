@@ -99,6 +99,16 @@ var SlidesSchema = new Schema({
         type: Boolean,
         default: false,
         trim: true
+      },
+      pageTitle:{
+        title:{
+          type: String,
+          default: "",
+        },
+        align:{
+          type: String,
+          default: "left",
+        }
       }
     }],
     default: '',

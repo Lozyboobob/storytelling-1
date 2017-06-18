@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ViewChildren,ViewChild,ViewContainerRef, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Inject, ViewChildren,ViewChild,ViewContainerRef, ViewEncapsulation, HostListener } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 
@@ -27,6 +27,9 @@ export class SlidesPresentationComponent implements OnInit {
     slideHeight_style: any = {
         'height': '72px'
     };
+    contentHeight_style: any = {
+        'height': '72px'
+    };
     slideHeight: number;
     curSlideIndex: number = 0;
     direction: number =1;
@@ -38,6 +41,7 @@ export class SlidesPresentationComponent implements OnInit {
     pageLayoutConfig: Array<any> = [];
     inEaseProcess = false;
     screenfull: any;
+    showFullScreen: boolean = false;
 
     slideload$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
     slideease$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
@@ -59,9 +63,12 @@ export class SlidesPresentationComponent implements OnInit {
     ) {
         this.windowResizeService.height$.subscribe(height => {
             this.slideHeight_style = {
-                'height': ( height - 70 )  + 'px' //50 is the height of header
+                'height': (height - 70) + 'px' //70 is the height of header
             };
-            this.slideHeight = ( height - 70 ) ;
+            this.contentHeight_style={
+              'height': (height - 70-50) + 'px'
+            }
+            this.slideHeight = (height - 70);
         })
         this.screenfull = screenfull;
 
@@ -81,7 +88,7 @@ export class SlidesPresentationComponent implements OnInit {
             error => {
                 console.log("fail to get slides data");
             });
-          window.scrollTo(0,0);//scroll to top everytime open the slides
+        window.scrollTo(0, 0);//scroll to top everytime open the slides
 
     }
 
@@ -136,19 +143,19 @@ export class SlidesPresentationComponent implements OnInit {
         }
     }
 
-    scroll2Slide(event){
+    scroll2Slide(event) {
         let scrollDis = document.body.scrollTop;
         let curIndex = Math.round(scrollDis / this.slideHeight);
-        if( curIndex !== this.curSlideIndex ) {
+        if (curIndex !== this.curSlideIndex) {
             this.slideease$.next(this.curSlideIndex);
             this.slideload$.next(curIndex);
             this.curSlideIndex = curIndex;
         }
     }
 
-    switchSlide(direction: number){
-        let nextIndex = this.curSlideIndex + direction ;
-        if(nextIndex >= 0 && nextIndex <= this.slideNum) {
+    switchSlide(direction: number) {
+        let nextIndex = this.curSlideIndex + direction;
+        if (nextIndex >= 0 && nextIndex <= this.slideNum) {
             this.curSlideIndex = nextIndex;
             this.currentSlide = this.slides[this.curSlideIndex - 1];
             this.direction = direction;
@@ -157,6 +164,16 @@ export class SlidesPresentationComponent implements OnInit {
 
     animationDone(event:any){
         this.direction = 0;
+    }
+
+    @HostListener('mouseenter') 
+    onMouseEnter() {
+        this.showFullScreen = true;
+    }
+
+    @HostListener('mouseleave') 
+    onMouseLeave() {
+        this.showFullScreen = false;
     }
 
     staySlideProcess() {
@@ -172,8 +189,8 @@ export class SlidesPresentationComponent implements OnInit {
 	}
 
     private goToSlide(index: number) {
-      let pageScrollInstance: PageScrollInstance = PageScrollInstance.simpleInstance(this.document, '#slide-' + index);
-      this.pageScrollService.start(pageScrollInstance);
+        let pageScrollInstance: PageScrollInstance = PageScrollInstance.simpleInstance(this.document, '#slide-' + index);
+        this.pageScrollService.start(pageScrollInstance);
     }
 
     private getCurSlideIndex(): number {
