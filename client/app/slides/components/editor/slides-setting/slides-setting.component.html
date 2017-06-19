@@ -27,7 +27,7 @@
     </tr>
     <tr class="secondery-setting">
       <td>
-        <app-image-upload [label]="'Choose Image for Banner'" (uploadImage)="upload($event)" [imagePath]="setting?(setting.banner?setting.banner.path:''):''"></app-image-upload>
+        <app-image-upload [label]="'Choose Image for Banner'" (uploadImage)="upload($event)" [imagePath]="setting?(setting.banner?setting.banner:''):''"></app-image-upload>
       </td>
     </tr>
 

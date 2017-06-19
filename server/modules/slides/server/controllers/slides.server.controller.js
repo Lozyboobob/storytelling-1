@@ -116,7 +116,7 @@ exports.slideByID = function(req, res, next, id) {
     });
   }
 
-  Slides.findById(id).populate('user', 'displayName').populate({ path: 'slidesSetting.banner', model: 'Image' }).populate({ path: 'slides.slideImage', model: 'Image' }).exec(function (err, slide) {
+  Slides.findById(id).exec(function (err, slide) {
     if (err) {
       return next(err);
     } else if (!slide) {

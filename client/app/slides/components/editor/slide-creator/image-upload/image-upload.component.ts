@@ -29,8 +29,16 @@ export class ImageUploadComponent implements OnInit,OnChanges {
     ngOnInit() {
     }
     ngOnChanges(){
+      console.log("imagePath",this.imagePath)
       if(this.imagePath){
-        this.imgPreview = this.imagePath;
+        this.slidesService.getImage(this.imagePath)
+            .subscribe(
+            image => {
+              this.imgPreview=image;
+            },
+            error => {
+                console.log("fail ");
+            });
       }
     }
     onChange () {
@@ -70,7 +78,6 @@ export class ImageUploadComponent implements OnInit,OnChanges {
                     image => {
                       this.uploadImage.emit(image._id);
                       this.imgPreview = image.path;
-                      this.imagePath=image.path;
                       console.log("get image",image);
                       this.setImage.emit(image._id);
                     },

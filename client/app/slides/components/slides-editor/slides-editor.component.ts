@@ -46,7 +46,6 @@ export class SlidesEditorComponent implements OnInit, AfterViewChecked {
         this.cdRef.detectChanges();
     }
     saveSlides() {
-        if(this.slider.slidesSetting.banner) this.slider.slidesSetting.banner=this.slider.slidesSetting.banner._id;
 
         console.log("save",this.slider)
         this.slidesService.updateSlide(this.slider, this.slider._id)

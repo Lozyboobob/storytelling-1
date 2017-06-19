@@ -9,6 +9,7 @@ export class Slide {
     /* slide layout*/
     pageLayout: string = ''; //pagelayout type
     /* full screen layout setting*/
+    fullScreenHtml:any;
     slideImage: any;//full screen img :object in image collection
     BkgText:string="";
     /* indecator for text and graph*/

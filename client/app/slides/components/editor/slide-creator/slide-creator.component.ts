@@ -87,7 +87,6 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
         this.showForm = !this.showForm;
     }
     confirmSlide() {
-        if(this.slide.slideImage) this.slide.slideImage=this.slide.slideImage._id;
         /* to decide which data to take from tab*/
 
         if (this.slide.hasGraph && !(this.form.value.slideGraph == 'noGraph' || this.form.value.slideGraph == 'ngGraph' || this.form.value.slideGraph == 'image')) {
