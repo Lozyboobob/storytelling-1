@@ -28,7 +28,7 @@ export class ImageUploadComponent implements OnInit {
     ngOnInit() {}
     onChange () {
         const inputEl = this.el.nativeElement.querySelector('#banner');
-        const fileCount: number = inputEl.files.length;
+      /*  const fileCount: number = inputEl.files.length;
         const formData = new FormData(inputEl);
         if (fileCount > 0) { // a file was selected
             formData.append('banner', inputEl.files[0]);
@@ -38,6 +38,41 @@ export class ImageUploadComponent implements OnInit {
                 console.log("get image");
                 this.setImage.emit(image.path);
             });
+        }*/
+        let file = inputEl.files[0];
+
+        let textType = /image.*/;
+        console.log(file.type.match(textType));
+
+        if (file.type.match(textType)) {
+            var reader: any = new FileReader();
+
+            reader.onload = (e) => {
+                console.log("going to append", e.target);
+
+
+                //upload image
+                let img = {
+                    data: file,
+                    contentType: 'image/*'
+                }
+                this.slidesService.uploadImage(file)
+                    .subscribe(
+                    image => {
+                      this.uploadImage.emit(image._id);
+                      this.imgPreview = image.path;
+                      console.log("get image",image);
+                      this.setImage.emit(image.path);
+                    },
+                    error => {
+                        console.log("fail to createSlides");
+                    });
+
+            }
+
+            reader.readAsDataURL(file);
+        } else {
+            console.log("the file format is not correct")
         }
     }
 }
