@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, Input,OnChanges } from '@angular/core';
 import { SlidesService } from '../../../../services/slides.service';
 import { FileUploader} from 'ng2-file-upload';
 import {Http } from '@angular/http';
@@ -9,7 +9,7 @@ const URL = 'localhost:3000/api/images/';
     templateUrl: './image-upload.component.html',
     styleUrls: ['./image-upload.component.scss']
 })
-export class ImageUploadComponent implements OnInit {
+export class ImageUploadComponent implements OnInit,OnChanges {
     @ViewChild('fileInput') fileInput: ElementRef;
     @ViewChild('fileDisplayArea') fileDisplayArea: ElementRef;
     @ViewChild('form') form: ElementRef;
@@ -17,6 +17,7 @@ export class ImageUploadComponent implements OnInit {
     @Output() uploadImage: EventEmitter<any> = new EventEmitter();
 
     @Input() label = 'Choose Image';
+    @Input() imagePath;
     public uploader: FileUploader = new FileUploader({url: URL, itemAlias: 'banner'});
 
     fileUpload: any;
@@ -25,8 +26,16 @@ export class ImageUploadComponent implements OnInit {
     id: any;
     constructor(private el: ElementRef, private slidesService: SlidesService) {
     }
-    ngOnInit() {}
+    ngOnInit() {
+    }
+    ngOnChanges(){
+      if(this.imagePath){
+        this.imgPreview = this.imagePath;
+      }
+    }
     onChange () {
+      //this.imgPreview = this.imagePath;
+      //this.imgPreview = this.imagePath;
         const inputEl = this.el.nativeElement.querySelector('#banner');
       /*  const fileCount: number = inputEl.files.length;
         const formData = new FormData(inputEl);
@@ -61,8 +70,9 @@ export class ImageUploadComponent implements OnInit {
                     image => {
                       this.uploadImage.emit(image._id);
                       this.imgPreview = image.path;
+                      this.imagePath=image.path;
                       console.log("get image",image);
-                      this.setImage.emit(image.path);
+                      this.setImage.emit(image._id);
                     },
                     error => {
                         console.log("fail to createSlides");

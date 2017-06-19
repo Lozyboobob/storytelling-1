@@ -28,7 +28,7 @@ export class SlidesEditorComponent implements OnInit, AfterViewChecked {
         this.slidesService.getSlides(id)
             .subscribe(
             slides => {
-                console.log("get slider");
+                console.log("get slider",slides);
                 this.slider = slides;
             },
             error => {
@@ -46,7 +46,9 @@ export class SlidesEditorComponent implements OnInit, AfterViewChecked {
         this.cdRef.detectChanges();
     }
     saveSlides() {
-        console.log(this.slider)
+        if(this.slider.slidesSetting.banner) this.slider.slidesSetting.banner=this.slider.slidesSetting.banner._id;
+
+        console.log("save",this.slider)
         this.slidesService.updateSlide(this.slider, this.slider._id)
             .subscribe(res => {
                 console.log("update succesfully");
