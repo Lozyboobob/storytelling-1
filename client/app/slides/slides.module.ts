@@ -69,6 +69,7 @@ import { SlidesManagerComponent } from './components/slides-manager/slides-manag
 import { SlidesCardComponent } from './components/slides-card/slides-card.component';
 import { DialogComponent } from './components/dialog/dialog.component';
 import { FavoriteFilterComponent } from './components/favorite-filter/favorite-filter.component';
+import { ToggleFullscreenDirective } from './components/slides-presentation/toggle-fullscreen.directive';
 
 
 
@@ -140,7 +141,8 @@ import { FavoriteFilterComponent } from './components/favorite-filter/favorite-f
         NgGraphComponent,
         DendogramComponent,
         FavoriteFilterComponent,
-        KeySwitchDirective
+        KeySwitchDirective,
+        ToggleFullscreenDirective
     ],
     exports:[
       FilterComponent,

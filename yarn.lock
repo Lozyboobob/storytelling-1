@@ -8942,6 +8942,10 @@ sax@>=0.1.1, sax@>=0.6.0, sax@~1.2.1:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.2.tgz#fd8631a23bc7826bef5d871bdb87378c95647828"
 
+screenfull@^3.2.2:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/screenfull/-/screenfull-3.2.2.tgz#ddd0c2c66a799640a566d95672d79abac4d627aa"
+
 script-loader@^0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/script-loader/-/script-loader-0.7.0.tgz#685dc7e7069e0dee7a92674f0ebc5b0f55baa5ec"

@@ -1,4 +1,9 @@
-<div class="slides" appKeySwitch (keySwitch)="switchSlide($event)" #slider>
+
+
+  <div class="slide" #slider>
+
+  <div class="slides" appKeySwitch (keySwitch)="switchSlide($event)" >
+
   <!--slide title -->
   <div [ngStyle]="slideHeight_style" class="slide" *ngIf="curSlideIndex === 0" id="slide-0">
     <app-title-slide [slideTitle]="slideTitle"> </app-title-slide>
@@ -35,16 +40,22 @@
     </div>
 
   </div>
+
+
   <div class="progress" style="display: block;">
     <span [style.width]="((curSlideIndex  * 100)/slideNum) + '%'"></span>
   </div>
 
   <aside class="controls" style="display: block;">
     <button class="navigate-left enabled" aria-label="previous slide" [ngClass]="{'fragmented':  curSlideIndex == 0 }" (click)="switchSlide(-1)"></button>
-    <button class="navigate-right enabled" aria-label="next slide" [ngClass]="{'fragmented':  curSlideIndex == slideNum }" (click)="switchSlide(1)"></button
-    ><button class="navigate-up" aria-label="above slide"></button>
+    <button class="navigate-right enabled" aria-label="next slide" [ngClass]="{'fragmented':  curSlideIndex == slideNum }" (click)="switchSlide(1)"></button>
+    <button class="navigate-center enabled" (click)="onClick()" *ngIf="showFullScreen && !screenfull.isFullscreen" aria-label="above slide"><i class="fa fa-arrows-alt" aria-hidden="true"></i></button>
+
+    <button class="navigate-up" aria-label="above slide"></button>
     <button class="navigate-down" aria-label="below slide"></button>
   </aside>
 
 
 </div>
+
+  </div>

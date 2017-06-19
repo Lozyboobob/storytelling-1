@@ -6,6 +6,11 @@
 // }
 
 
+    .slide {
+        width: 100%;
+        height: 100%;
+    }
+
 .slides {
     .slide {
         width: 100%;
@@ -14,9 +19,9 @@
     .title-text{
       margin-left: 40px;
       margin-right: 40px;
-      font-size: 20px;
+      font-size: 30px;
       font-weight: bold;
-      color: $accent;
+      color: black;
     }
 }
 :host /deep/ ul, :host /deep/ ol{
@@ -137,8 +142,21 @@
             opacity: 0.3;
         }
     }
+    
+    .navigate-center {
+        border: 3px;
+        left: 42px;
+        top: 42px;
 
+        .fa {
+            font-size: 25px;
+            margin-left: 2px;
+            color: #9e9e9e
+        }
+    }
 }
+
+
 
 /*********************************************
  * PROGRESS BAR
