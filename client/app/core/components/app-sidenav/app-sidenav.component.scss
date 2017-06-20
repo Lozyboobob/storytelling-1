@@ -296,19 +296,21 @@
   margin-top: 3px;
 }
 
-.logo:hover {
-  opacity: 0.8;
-}
+.logo {
+  :hover {
+    opacity: 0.8;
+  }
 
-.logo .fa{
-  color: #fff;
-  line-height: 40px;
-  float: left;
-  padding: 0 20px;
-}
+  .fa {
+    color: #fff;
+    line-height: 40px;
+    float: left;
+    padding: 0 20px;
+  }
 
-.logo span {
-  font-size:28px;
-  color:#fff;
-  padding: 5px 5px;
+  span {
+    font-size: 28px;
+    color: #fff;
+    padding: 5px;
+  }
 }
