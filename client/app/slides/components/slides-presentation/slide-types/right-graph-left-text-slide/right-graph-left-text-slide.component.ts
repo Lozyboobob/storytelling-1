@@ -40,13 +40,13 @@ export class RightGraphLeftTextSlideComponent implements OnInit, AfterContentIni
   }
 
   ngAfterContentInit() {
-    if (this.slide.graph === 'noGraph') return;
+    if (this.slide.graph === 'noGraph'||this.slide.graph === 'image') return;
     let cmpType = this.slide.graph.charAt(0).toUpperCase() + this.slide.graph.slice(1) + 'Component';
     this.setChart(cmpType);
   }
-  
+
   ngOnChanges(changes: SimpleChanges) {
-    if (this.slide.graph === 'noGraph') return;
+    if (this.slide.graph === 'noGraph'||this.slide.graph === 'image') return;
     let cmpType: string = this.slide.graph.charAt(0).toUpperCase() + this.slide.graph.slice(1) + 'Component';
     this.setChart(cmpType);
   }
@@ -67,8 +67,8 @@ export class RightGraphLeftTextSlideComponent implements OnInit, AfterContentIni
     Object.assign(this.config, HALF_HALF_LAYOUT);
 
     if (this.slide.graph == "image") {
-      if (this.slide.fullScreenHtml.length)
-        this.slide.fullScreenHtml = this.sanitizer.bypassSecurityTrustHtml(this.slide.fullScreenHtml) as string;
+  /*    if (this.slide.fullScreenHtml.length)
+        this.slide.fullScreenHtml = this.sanitizer.bypassSecurityTrustHtml(this.slide.fullScreenHtml) as string;*/
       this.config.hasImage = true;
     }
     else {
