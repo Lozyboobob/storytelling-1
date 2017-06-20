@@ -26,6 +26,7 @@
   .head {
     background-color: md-color($primary, 800);
   }
+
   .foot {
     background-color: md-color($primary, 800);
     bottom: 0;
@@ -36,7 +37,7 @@
     width: 100%;
     color: white;
   }
- /*toggle class*/
+  /*toggle class*/
   &.toggled {
     margin-left: 0;
     width: 250px;
@@ -109,7 +110,7 @@
   }
 
   .sidenav {
-    margin-left: 0px;
+    margin-left: 0;
   }
 
   .toggle-left-btn {
@@ -162,13 +163,12 @@
 .sidenav .sidebar-nav .user a {
   color: #fff;
   text-decoration: none;
-  padding:10px 20px;
+  padding: 10px 20px;
 
   .active-link {
     background-color: #24272d;
     color: #fff;
   }
-
 }
 
 .sidenav .sidebar-nav .user a md-icon {
@@ -184,10 +184,11 @@
   width: 36px;
 }
 
-.sidenav .sidebar-nav  {
+.sidenav .sidebar-nav {
   .active-link {
     background-color: #24272d;
   }
+
   .user:hover {
     background-color: #24272d;
   }
@@ -256,7 +257,6 @@
 .sidenav .sidebar .nav-third-level li a {
   padding-left: 52px;
 }
-
 // .sidenav .sidebar ul li a {
 //   width: 250px;
 // }
@@ -296,14 +296,19 @@
   margin-top: 3px;
 }
 
-.logo,
 .logo:hover {
-  background:#c5401a ;
-  float: left;
-  margin: 8px 10px;
-  padding: 0;
+  opacity: 0.8;
 }
 
-.logo .shape:hover {
-  transition: all 0.2s;
+.logo .fa{
+  color: #fff;
+  line-height: 40px;
+  float: left;
+  padding: 0 20px;
+}
+
+.logo span {
+  font-size:28px;
+  color:#fff;
+  padding: 5px 5px;
 }
