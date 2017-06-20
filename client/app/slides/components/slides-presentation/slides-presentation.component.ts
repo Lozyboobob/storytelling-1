@@ -79,8 +79,9 @@ export class SlidesPresentationComponent implements OnInit {
             id = params['id'];
         });
         /* generate and initialize slides*/
-        this.slidesService.getSlides(id).subscribe(
+        this.slidesService.getSlidesFix(id).subscribe(
             slide => {
+              console.log(slide);
                 this.slides = slide.slides;
                 this.slideNum = this.slides.length;
                 this.slideTitle = slide.slidesSetting.title;
@@ -168,12 +169,12 @@ export class SlidesPresentationComponent implements OnInit {
         this.direction = 0;
     }
 
-    @HostListener('mouseenter') 
+    @HostListener('mouseenter')
     onMouseEnter() {
         this.showFullScreen = true;
     }
 
-    @HostListener('mouseleave') 
+    @HostListener('mouseleave')
     onMouseLeave() {
         this.showFullScreen = false;
     }
