@@ -11,7 +11,7 @@ export class Slide {
     /* full screen layout setting*/
     fullScreenHtml:any;
     slideImage: any;//full screen img :object in image collection
-    BkgText:string="";
+
     /* indecator for text and graph*/
     hasGraph:boolean=false;
     hasText:boolean=false;

@@ -63,7 +63,7 @@ export const pageLayoutOption: Array<any> = [
     },
     {
         value: "textInCenterImageBackground",
-        type: "Text in Center + Image Background"
+        type: "Text + Image Background"
     },
     {
         value: "LeftGraphRightText",

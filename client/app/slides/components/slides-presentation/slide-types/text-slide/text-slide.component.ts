@@ -42,9 +42,6 @@ export class TextSlideComponent implements OnInit {
 
     if (this.slide.pageLayout === 'textInCenterImageBackground') {
       this.config.hasImage = true;
-      if (this.slide.fullScreenHtml.length) {
-        this.slide.fullScreenHtml = this.sanitizer.bypassSecurityTrustHtml(this.slide.fullScreenHtml) as string;
-      }
     }
 
     if (this.slide.pageLayout === 'textInCenter') {

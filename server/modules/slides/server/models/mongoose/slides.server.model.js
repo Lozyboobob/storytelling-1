@@ -81,11 +81,6 @@ var SlidesSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'Image'
       },
-      BkgText: {
-        type: String,
-        default: '',
-        trim: true
-      },
       data: {
         type: Array,
         default: {}
