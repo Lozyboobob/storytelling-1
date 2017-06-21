@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRe
 import * as shape from 'd3-shape';
 import { colorSets } from '@swimlane/ngx-charts/release/utils/color-sets';
 import { Chart } from '../../chart.class';
+import { nest } from 'd3-collection';
 
 const defaultOptions = {
   view: [900, 600],
@@ -44,11 +45,42 @@ export class NgGraphComponent extends Chart implements OnInit, OnDestroy {
   ngOnInit() {
     this.chartOptions = {...defaultOptions};
 
-        // Set the data
-    this.data =  this.dataInput;
+        // Set the config
     this.chartOptions = { ...this.chartOptions, ...this.configInput } ;
-    
+
     this.init();
+
+  }
+
+  processData(dataDims: string[], rawData: any) {
+
+    const key$ = d => d[dataDims[0]];
+    const name$ = d => d[dataDims[1]];
+    const value$ = d => d[dataDims[2]];
+    const value2$ = d => d[dataDims[3]];
+
+    this.data = nest()
+      .key(key$)
+      .entries(rawData)
+      .map(series);
+      
+    
+    function series(d) {
+      return {
+        name: d.key,
+        series: d.values.map(seriesPoints)
+      };
+    }
+
+    function seriesPoints(d) {
+      return {
+        name: name$(d),
+        value: value$(d),
+        x: name$(d),
+        y: value$(d),
+        r: value2$(d)
+      };
+    }
 
   }
 
@@ -61,6 +93,7 @@ export class NgGraphComponent extends Chart implements OnInit, OnDestroy {
     // this.width = 700;
     // this.height = 300;
     // this.view = [this.width, this.height];
+    this.processData(this.chartOptions.dataDims, this.dataInput);
   }
 
   load() {

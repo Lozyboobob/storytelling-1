@@ -27,6 +27,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
     pageLayout: Array<any>;
     titleAlign:Array<string>
     dataExample: string = '{}';
+    dataBuilder: any = {};
     editorOptions: Object = {
         heightMin: 200,
         heightMax: 400,
@@ -120,7 +121,11 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
                 }
                 default: this.slide.data = '';
             }
+        } else if( this.form.value.slideGraph == 'ngGraph' ) {
+            this.slide.data = this.dataBuilder.data;
+            this.slide.config = this.dataBuilder.chartOptions;
         }
+
         if (this.slide.hasGraph)
             this.slide.graph = this.form.value.slideGraph;
         else this.slide.graph = "";
@@ -132,7 +137,6 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
         }
         this.slide.pageTitle.title=this.form.value.pageTitle;
         this.slide.pageTitle.align=this.form.value.titleAlign;
-        console.log('slide 1 confirme: ', this.slide);
         this.confirmSlideOpt.emit(this.slide);
         this.slide = new Slide();
 
@@ -142,9 +146,8 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
     }
 
     confirmeSlideGRaphConfig(data) {
-        console.log('data: ', data);
-        this.slide.data = data.data;
-        this.slide.config = data.chartOptions;
+        this.dataBuilder.data = data.data;
+        this.dataBuilder.chartOptions = data.chartOptions;
     }
 
     deleteSlide(e) {
@@ -160,7 +163,6 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
     addData() {
         const control = <FormArray>this.form.controls['graphData'];
         control.push(this.initData());
-        console.log(this.form.value);
     }
     /* when change graph*/
     graphChanged() {
@@ -172,7 +174,6 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
                 //if has data, set tab to json
                 this.curTab = 0;
                 let data = { "graphData": this.slide.data };
-                console.log(data);
                 this.form.controls['graphDataJson'].setValue(JSON.stringify(data));
                 return;
             }

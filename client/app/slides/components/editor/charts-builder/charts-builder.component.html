@@ -37,7 +37,7 @@
     </md-card-header>
     <md-card-content class="section-content">
       <div fxLayout="row" fxLayoutAlign="center">
-        <md-select fxFlex="95%" placeholder="Chart Type" name="chartType" [(ngModel)]="chartType">
+        <md-select fxFlex="95%" placeholder="Chart Type" name="chartType" [(ngModel)]="chartType" (change)="processData()">
           <md-option *ngFor="let chart of chartTypes" [value]="chart">
             {{chart.title}}
           </md-option>
