@@ -82,8 +82,8 @@ export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit, 
     this.easeContentAni = false;
 
     if (this.slide.graph == "image") {
-      if (this.slide.fullScreenHtml.length)
-        this.slide.fullScreenHtml = this.sanitizer.bypassSecurityTrustHtml(this.slide.fullScreenHtml) as string;
+  /*    if (this.slide.fullScreenHtml.length)
+        this.slide.fullScreenHtml = this.sanitizer.bypassSecurityTrustHtml(this.slide.fullScreenHtml) as string;*/
       this.config.hasImage = true;
     }
     else {

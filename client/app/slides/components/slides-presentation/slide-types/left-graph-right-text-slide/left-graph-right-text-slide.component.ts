@@ -74,13 +74,14 @@ export class LeftGraphRightTextSlideComponent implements OnInit, AfterContentIni
         else {
             this.config.hasChart = true;
 
-            if (this.slide.text.length) {
-                this.slide.text = this.sanitizer.bypassSecurityTrustHtml(this.slide.text) as string;
-            }
+
         };
     }
 
     private loadChart() {
+      if (this.slide.text.length) {
+          this.slide.text = this.sanitizer.bypassSecurityTrustHtml(this.slide.text) as string;
+      }
         if (this.config.hasChart) {
             (<Chart>this.componentRef.instance).load();
         }
