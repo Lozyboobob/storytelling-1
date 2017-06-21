@@ -26,10 +26,26 @@
                 </md-select>
               </td>
             </tr>
+            <br>
+            <tr>
+
+              <td>
+                <md-input-container class="page-title">
+                  <input mdInput placeholder="Page title" formControlName="pageTitle" name="pageTitle" class="input ">
+                </md-input-container>
+              </td>
+              <td>
+                <md-select placeholder="Select title align" formControlName="titleAlign" name="titleAlign" class="text-align">
+                  <md-option *ngFor="let align of titleAlign" [value]="align">
+                    {{ align }}
+                  </md-option>
+                </md-select>
+              </td>
+            </tr>
           </table>
 
           <div class="margin-ver-frame">
-            <md-tab-group *ngIf="slide.hasGraph &&(form.controls.slideGraph.value)&& !(form.controls.slideGraph.value=='image'||form.controls.slideGraph.value=='noGraph')" [selectedIndex]="curTab" #dataInput>
+            <md-tab-group *ngIf="slide.hasGraph &&(form.controls.slideGraph.value)&& !(form.controls.slideGraph.value=='image'||form.controls.slideGraph.value=='noGraph'||form.controls.slideGraph.value=='ngGraph')" [selectedIndex]="curTab" #dataInput>
 
               <md-tab label="Json">
                 <textarea name="graphDataJson" formControlName="graphDataJson"></textarea>
@@ -45,6 +61,10 @@
           </div>
           <div class="margin-ver-frame" *ngIf="slide.hasText">
             <textarea [froalaEditor]='editorOptions' [(froalaModel)]="slide.text"></textarea>
+          </div>
+          <div *ngIf="form.controls.slideGraph.value == 'ngGraph'">
+            <app-charts-builder (configGraph)="confirmeSlideGRaphConfig($event)">
+            </app-charts-builder>
           </div>
         </div>
       </div>

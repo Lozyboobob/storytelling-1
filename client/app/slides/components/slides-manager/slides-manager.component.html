@@ -2,7 +2,7 @@
   <div class="row space">
     <app-search (textSearch)="search($event)"></app-search>
     <app-filter *ngIf="loggedIn$|async" (filterState)="filterState($event)" [selectedValue]="selectedValue" [states]="states"></app-filter>
-
+    <app-favorite-filter *ngIf="loggedIn$|async" (filterFavorite)="filterFavorite($event)" [selectedValue]="selectedValue"></app-favorite-filter>
   </div>
 
   <div class="row">

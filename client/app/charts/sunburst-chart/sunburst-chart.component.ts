@@ -47,6 +47,7 @@ export class SunburstChartComponent extends Chart implements OnInit {
     }
 
     init() {
+
         // Set size of the svg
         let element = this.chartContainer.nativeElement;
         this.width = element.offsetWidth - this.margin.left - this.margin.right;
@@ -62,7 +63,6 @@ export class SunburstChartComponent extends Chart implements OnInit {
 
         // Set colors of the sections
         this.colorScale = d3.scaleOrdinal(d3.schemeCategory20);
-
         // Position of the Explanation label in the center of the sunburst
         let explanationElmnt = d3.select(element).select('#explanation').node() as HTMLElement;
         this.explanationWidth = explanationElmnt.offsetWidth;
@@ -129,7 +129,8 @@ export class SunburstChartComponent extends Chart implements OnInit {
             .attr('width', 0)
             .attr('class', 'curtain')
             .attr('transform', 'rotate(180)')
-            .style('fill', '#fafafa')
+            .style('fill', '#fafafa');
+        this.load();
     }
 
     // Basic setup of page elements.
@@ -320,12 +321,11 @@ export class SunburstChartComponent extends Chart implements OnInit {
             });
     }
 
-
     load() {
         this.curtain.attr('width', this.width);
 
         this.curtain.transition()
-            .duration(2000)
+            .duration(1500)
             .attr('width', 0);
     }
 

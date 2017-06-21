@@ -15,7 +15,7 @@ export class ScrollDirective implements OnInit {
     }
 
     ngOnInit() {
-        let events = Observable.fromEvent(window, 'mousewheel', (e) => e);
+        let events = Observable.fromEvent(document, 'keydown', (e) => e);
         let firstEventObservable = events.take(1);
         let remainingEventsObservable = events.skip(1).timeInterval()
             .filter(x => x.interval >= this.delayDuration)

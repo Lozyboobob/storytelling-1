@@ -114,7 +114,7 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
             //  .attr('height', element.offsetHeight);
             //    .atrr("overflow", "visible")
             .attr("preserveAspectRatio", "xMidYMid meet")
-            .attr("viewBox", "0 0 " + element.offsetWidth + " " + element.offsetHeight)
+            .attr("viewBox", "100 0 " +( element.offsetWidth) + " " + element.offsetHeight)
             .classed("allow-overflow", true);
 
         //var width = +this.svg.attr("width");
@@ -125,7 +125,7 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
         this.simulation = d3.forceSimulation()
             .force("link", d3.forceLink().id(function(d: { id: string, group: number }) { return d.id; }).distance(50))
             .force("charge", d3.forceManyBody().strength(-40))
-            .force("center", d3.forceCenter(element.offsetWidth / 2, element.offsetHeight / 2))
+            .force("center", d3.forceCenter((element.offsetWidth) / 2, element.offsetHeight / 2))
             .force("x", d3.forceX().strength(0).x(this.width / 2))
             .force("y", d3.forceY().strength(0).y(this.height / 2))
 
@@ -192,7 +192,7 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
 
 
         //*********legend
-        let legendBox = svg.append("g")
+      /*  let legendBox = svg.append("g")
             .attr("class", "legends")
             .attr("transform", "translate(120,200)")
 
@@ -223,6 +223,10 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
             .attr('y', legendRectSize - legendSpacing / 2)
             .attr("transform", "translate(0,5)")
             .text(d => "group" + d);
+*/
+
+        this.load();
+
 
     }
 

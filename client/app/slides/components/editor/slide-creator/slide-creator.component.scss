@@ -20,7 +20,14 @@
         }
     }
 }
-
+.page-title{
+  width: 80%;
+  position: relative;
+  top: 5px;
+}
+.text-align{
+  //padding-left: 20px;
+}
 :host /deep/ .fr-box {
     width: 100%;
     //background: transparent;

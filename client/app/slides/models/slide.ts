@@ -3,6 +3,7 @@ export class Slide {
     /* graph setting*/
     graph: string = 'noGraph'; //graph type
     data: any = undefined; //data for graph
+    config: any = undefined; // config for graph
     /* slide content*/
     text: string = ""; //content of slide
     /* slide layout*/
@@ -12,6 +13,10 @@ export class Slide {
     /* indecator for text and graph*/
     hasGraph:boolean=false;
     hasText:boolean=false;
+    pageTitle:any={
+      title:"",
+      align:""
+    }
     constructor(index ? :number) {
       if(index) this.index=index;
     }
