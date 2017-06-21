@@ -83,6 +83,9 @@
             &.unpublished {
                 color: $primary;
                 opacity: 0.5;
+                &:hover{
+                    color: $accent;
+                }
             }
             &.delete-icon:hover {
                 color: #b50000;

@@ -1,15 +1,11 @@
-
 @import 'client/theme.scss'; //  background-color: $accent;
-
-
-
 //  background-color: $accent;
+
 :host {
     .chart {
         padding: 20px;
         width: 100%;
     }
-
 
     .graph-container {
         width: 100%;
@@ -26,5 +22,5 @@
         display: flex;
         align-items: center;
         //justify-content: center;
-
+    }
 }
