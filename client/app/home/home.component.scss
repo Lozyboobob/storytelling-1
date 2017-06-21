@@ -1,84 +1,47 @@
 /* animation */
 * {
-    -webkit-transition: all 0.5s ease;
-    -moz-transition: all 0.5s ease;
-    -ms-transition: all 0.5s ease;
-    -o-transition: all 0.5s ease;
-    transition: all 0.5s ease;
-}
-
-.space {
-    margin-left: 0;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
 }
 
 .logo {
-    width: 50vh;
-    margin-left: auto;
-    margin-right: auto;
-    left: 0;
-    right: 0;
-    margin-top: 0;
-    //max-height: 80vh;
-    //transition: max-height 1s ease-in;
-    img {
-        //max-height: 80vh;
-    }
+  width: 50vh;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  margin-top: 0;
 
-    &.hide {
-        //max-height: 0vh;
-        //transition: max-height 1s ease-in;
-        //  margin-top:-100%;
-        left: 0;
-        margin-left: 20px;
-        width: 125px;
-    }
+  &.hide {
+    display: none;
+  }
 }
 
 .search-block {
-    &.center-mode {
-        width: 80%;
-        padding-left: 15px;
-        padding-right: 15px;
+  .search-wrap {
+    width: 100%;
+  }
 
-        .search-wrap {
-            display: flex;
-            width: 100%;
+  &.center-mode {
+    width: 40%;
+  }
 
-            .search {
-                flex: 1;
-            }
+  &.side-mode {
+    width: 80%;
+  }
 
-            .filter {
-                flex: 0 0 100px;
-            }
-        }
-    }
-
-    &.side-mode {
-        .search-wrap {
-            display: flex;
-            margin-left: 145px;
-            margin-top: -50px;
-            //width: 80%;
-            .search {
-                //flex: 1;
-            }
-
-            .filter {
-                //flex: 0 0 100px;
-            }
-        }
-    }
-
-    .get-all {
-        color: #c5401a;
-        cursor: pointer;
-    }
+  .get-all {
+    color: #c5401a;
+    cursor: pointer;
+  }
 }
 
 .no-publish,
 .no-result {
-    color: #263238;
-    font-size: 24px;
-    text-align: center;
+  color: #263238;
+  font-size: 24px;
+  text-align: center;
 }

@@ -1,23 +1,23 @@
-<div class="logo" [class.hide]="showSlidesList">
-  <img src="assets/logo.png" width="100%">
-</div>
-<br *ngIf="!showSlidesList">
-<div class="container-fluid search-block" [class.center-mode]="!showSlidesList" [class.side-mode]="showSlidesList">
-  <div class="row space search-wrap">
-    <app-search (textSearch)="searchSlides($event)" class="search"></app-search>
-    <app-filter class="filter" *ngIf="loggedIn$ | async" (filterState)="filterState($event)" [selectedValue]= "selectedValue" [states]="states"></app-filter>
+<div fxLayout="column" fxLayoutAlign="center center">
+  <div class="logo" [class.hide]="showSlidesList">
+    <img src="assets/logo.png" width="100%">
   </div>
-
-  <p align="center" class="get-all center-mode " *ngIf="!showSlidesList" (click)="getAllslides()">Discover All</p>
-  <div class="row">
-    <div *ngFor="let s of slides" [class.display-div]="!(loggedIn$|async)&& !s.slidesSetting.public" class="list-item slides-item col-xs-12 col-sm-6  col-md-4 col-lg-3">
-      <app-slides-card [slides]="s" [editable]="false"></app-slides-card>
+  <div class="search-block" [class.center-mode]="!showSlidesList" [class.side-mode]="showSlidesList">
+    <div class="search-wrap">
+      <app-search (textSearch)="searchSlides($event)" class="search"></app-search>
+      <!-- not use actually <app-filter class="filter" *ngIf="loggedIn$ | async" (filterState)="filterState($event)" [selectedValue]= "selectedValue" [states]="states"></app-filter>-->
     </div>
+    <p align="center" class="get-all center-mode" *ngIf="!showSlidesList" (click)="getAllslides()">Discover All</p>
+  </div>
+</div>
 
+<div fxLayout="row" fxLayoutWrap="wrap" fxLayoutAlign="space-around">
+  <div *ngFor="let s of slides" [class.display-div]="!(loggedIn$|async)&& !s.slidesSetting.public" fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="50" fxFlex.lg="30">
+    <app-slides-card [slides]="s" [editable]="false"></app-slides-card>
   </div>
-  <div class="no-result" *ngIf="noResult">
-    <p>Opps, no result for these key words</p>
-  </div>
-  <div class="no-publish" *ngIf="noPublish">
-    <p>Sorry, no one publish slides yet! <br>Would you want to be the pioneer?</p>
-  </div>
+</div>
+
+<div class="no" >
+  <p *ngIf="noPublish">Sorry, no one publish slides yet! <br>Would you want to be the pioneer?</p>
+  <p *ngIf="noResult">Opps, no result for these key words</p>
+</div>

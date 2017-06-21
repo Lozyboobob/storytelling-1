@@ -12,24 +12,28 @@ import { HomeConfig } from '.';
 // SLIDES MODULE
 import { SlidesModule } from 'app/slides';
 
+import { FlexLayoutModule } from '@angular/flex-layout';
+
+
 export function homeFactory(config: HomeConfig) {
-    return () => config.addMenu();
+  return () => config.addMenu();
 }
 
 @NgModule({
-    imports: [
-        FormsModule,
-        MaterialModule,
-        CommonModule,
-        SlidesModule
-    ],
-    declarations: [
-        HomeComponent
-    ],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    providers: [HomeConfig, OverlayContainer,
-        { provide: APP_INITIALIZER, useFactory: homeFactory, deps: [HomeConfig], multi: true }
-    ],
+  imports: [
+    FormsModule,
+    MaterialModule,
+    CommonModule,
+    FlexLayoutModule,
+    SlidesModule
+  ],
+  declarations: [
+    HomeComponent
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  providers: [HomeConfig, OverlayContainer,
+    { provide: APP_INITIALIZER, useFactory: homeFactory, deps: [HomeConfig], multi: true }
+  ],
 
 })
 export class HomeModule { }
