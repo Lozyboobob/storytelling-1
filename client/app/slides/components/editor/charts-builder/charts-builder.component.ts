@@ -124,7 +124,7 @@ export class ChartsBuilderComponent implements OnInit {
     this.headerValues = this.inputOptions.headerValues;
     this.dataDims = this.inputOptions.dataDims;
     this.data = [];
-    this.chartType = this.chartTypes.find( chart => chart.name === this.inputOptions.chartType.name);
+    this.chartType = this.chartTypes.find( chart => chart.name === this.inputOptions.chartType);
 
 
     console.log('this.dataDims:' , this.dataDims);
