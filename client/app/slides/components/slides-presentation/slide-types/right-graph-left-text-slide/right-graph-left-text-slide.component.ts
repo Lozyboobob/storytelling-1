@@ -68,8 +68,6 @@ export class RightGraphLeftTextSlideComponent implements OnInit, AfterContentIni
         Object.assign(this.config, HALF_HALF_LAYOUT);
 
         if (this.slide.graph == "image") {
-            /*    if (this.slide.fullScreenHtml.length)
-                  this.slide.fullScreenHtml = this.sanitizer.bypassSecurityTrustHtml(this.slide.fullScreenHtml) as string;*/
             this.config.hasImage = true;
         }
         else {
