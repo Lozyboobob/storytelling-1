@@ -17,6 +17,9 @@ export class SlidesCardComponent implements OnInit {
 
     isFavorite: Boolean;
     @Output() duplicateslidesOpt=new EventEmitter();
+
+
+
     @select(['session', 'token']) loggedIn$: Observable<string>;
     @select(['session', 'user', 'username']) username$: Observable<Object>;
 

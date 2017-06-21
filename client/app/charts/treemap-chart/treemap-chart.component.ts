@@ -140,6 +140,7 @@ export class TreemapChartComponent extends Chart implements OnInit {
         d3.select(window).on("click", () => this.zoom(this.root, this.xScale, this.yScale));
 
         this.load();
+
     }
 
     private zoom(d, x, y) {
