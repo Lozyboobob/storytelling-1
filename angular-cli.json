@@ -18,9 +18,7 @@
       "prefix": "app",
       "mobile": false,
       "styles": [
-        "styles.css",
-        "animation.css",
-        "theme.scss",
+        "styles.scss",
         "../node_modules/codemirror/lib/codemirror.css",
         "../node_modules/font-awesome/css/font-awesome.css",
         "../node_modules/froala-editor/css/froala_editor.pkgd.min.css"
