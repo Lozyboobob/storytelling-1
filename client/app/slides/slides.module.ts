@@ -22,7 +22,7 @@ import { SlidesPresentationComponent,
     LeftGraphRightTextSlideComponent,
     RightGraphLeftTextSlideComponent,
     TextSlideComponent,
-    SlidesCreatorComponent,
+    PrezFormComponent,
     SlideCreatorComponent
 } from '.';
 
@@ -57,13 +57,12 @@ import { PieChartComponent } from '../charts/pie-chart/pie-chart.component';
 import { CsvInputComponent } from './components/editor/slide-creator/csv-input/csv-input.component';
 import { ImageUploadComponent } from './components/editor/slide-creator/image-upload/image-upload.component';
 
-import { SlidesEditorComponent } from './components/slides-editor/slides-editor.component';
 import { SlidesSettingComponent } from './components/editor/slides-setting/slides-setting.component';
 import { ChartsBuilderComponent, CodeEditorComponent } from "./components/editor/charts-builder";
 import { EditorComponent } from './components/editor/editor.component';
 
-import { PrezManagerComponent } from './components/prez-manager/prez-manager.component';
-import { SlidesCardComponent } from './components/slides-card/slides-card.component';
+import { PrezListComponent } from './components/prez/prez-list.component';
+import { PrezListCardComponent } from './components/prez/prez-list-card.component';
 import { DialogComponent } from './components/dialog/dialog.component';
 import { ToggleFullscreenDirective } from './components/slides-presentation/toggle-fullscreen.directive';
 
@@ -104,7 +103,7 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         ScrollDirective,
         KeySwitchDirective,
         SlidesPresentationComponent,
-        SlidesCreatorComponent,
+        PrezFormComponent,
         SlideCreatorComponent,
         CsvInputComponent,
         ImageUploadComponent,
@@ -112,12 +111,11 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         BarChartComponent,
         ForceDirectedGraphComponent,
         LineChartComponent,
-        SlidesEditorComponent,
         SlidesSettingComponent,
         CodeEditorComponent,
         ChartsBuilderComponent,
         EditorComponent,
-        PrezManagerComponent,
+        PrezListComponent,
         FullScreenGraphSlideComponent,
         GaugeChartComponent,
         AdvancedPieChartComponent,
@@ -126,7 +124,7 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         RightGraphLeftTextSlideComponent,
         TextSlideComponent,
         PieChartComponent,
-        SlidesCardComponent,
+        PrezListCardComponent,
         HierarchicalEdgeBundlingComponent,
         DialogComponent,
         NgGraphComponent,
@@ -135,7 +133,7 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         ToggleFullscreenDirective
     ],
     exports:[
-      SlidesCardComponent,
+      PrezListCardComponent,
       SearchComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],

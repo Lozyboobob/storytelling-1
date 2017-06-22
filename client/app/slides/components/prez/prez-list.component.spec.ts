@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PrezManagerComponent } from './prez-manager.component';
+import { PrezListComponent } from './prez-list.component';
 
-describe('PrezManagerComponent', () => {
-  let component: PrezManagerComponent;
-  let fixture: ComponentFixture<PrezManagerComponent>;
+describe('PrezListComponent', () => {
+  let component: PrezListComponent;
+  let fixture: ComponentFixture<PrezListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PrezManagerComponent ]
+      declarations: [PrezListComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PrezManagerComponent);
+    fixture = TestBed.createComponent(PrezListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

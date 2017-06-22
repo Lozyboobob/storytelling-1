@@ -6,11 +6,11 @@ import {SlidesService} from '../../services/slides.service';
 import {MdDialog} from '@angular/material';
 import {DialogComponent} from '../dialog/dialog.component';
 @Component({
-  selector: 'app-slides-card',
-  templateUrl: './slides-card.component.html',
-  styleUrls: ['./slides-card.component.scss']
+  selector: 'app-prez-list-card',
+  templateUrl: './prez-list-card.component.html',
+  styleUrls: ['./prez-list-card.component.scss']
 })
-export class SlidesCardComponent implements OnInit {
+export class PrezListCardComponent implements OnInit {
   @Input() slides: Slides;
   @Input() editable: boolean; //whether the slides can be edited;
   @Output() deletedSlides = new EventEmitter();

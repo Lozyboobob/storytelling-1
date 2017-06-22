@@ -4,11 +4,11 @@ import {Observable} from 'rxjs/Observable';
 import {SlidesService} from '../../services/index';
 import {Slides} from '../../models/index'
 @Component({
-  selector: 'app-prez-manager',
-  templateUrl: './prez-manager.component.html',
-  styleUrls: ['./prez-manager.component.scss']
+  selector: 'app-prez-list',
+  templateUrl: './prez-list.component.html',
+  styleUrls: ['./prez-list.component.scss']
 })
-export class PrezManagerComponent implements OnInit {
+export class PrezListComponent implements OnInit {
   @select(['session', 'token']) loggedIn$: Observable<string>;
   states = ['All', 'Private', 'Public'];
   selectedState = 'All';

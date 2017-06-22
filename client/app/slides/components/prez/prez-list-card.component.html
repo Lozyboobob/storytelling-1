@@ -1,5 +1,5 @@
 <a class="toto" *ngIf="(loggedIn$|async)||slides.slidesSetting.public" [routerLink]="['/slides/slidesPresentation', slides._id]">
-  <md-card class="slides-card">
+  <md-card class="prez-list-card">
     <h2>{{slides.slidesSetting.title}}</h2>
     <div class="md-card-image" style="background-image:url('assets/logo_full_banner.png');">
       <div class="options">
@@ -15,7 +15,7 @@
             <md-icon md-ripple mdRippleCentered="true" mdRippleUnbounded="true">delete</md-icon>
           </a>
           <a (click)="open($event); false" [routerLink]="['slides', slides._id]" mdTooltip="Edit">
-            <md-icon md-ripple mdRippleCentered="true" mdRippleUnbounded="true">mode_edit</md-icon>
+            <md-icon md-ripple mdRippleCentered="true" mdRippleUnbounded="true">edit</md-icon>
           </a>
         </div>
       </div>
