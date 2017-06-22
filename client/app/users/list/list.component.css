@@ -1,7 +1,7 @@
 .mat-card {
-  width :80%;
   margin: 0 auto;
+  width: 80%;
 }
-.mat-list-item{
-  margin : 4%;
+.mat-list-item {
+  margin: 4%;
 }

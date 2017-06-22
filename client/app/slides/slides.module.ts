@@ -18,6 +18,7 @@ import {SearchComponent} from './components/search/search.component';
 // SLIDES COMPONENTS
 import { SlidesPresentationComponent,
     FullScreenGraphSlideComponent,
+    ImageComponent,
     TitleSlideComponent,
     LeftGraphRightTextSlideComponent,
     RightGraphLeftTextSlideComponent,
@@ -39,8 +40,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { ScrollDirective } from './components/slides-presentation/scroll.directive';
 import { KeySwitchDirective } from './components/slides-presentation/key-switch.directive';
 
-import {Ng2PageScrollModule} from 'ng2-page-scroll';
-import {DragulaModule} from 'ng2-dragula';
+import { Ng2PageScrollModule } from 'ng2-page-scroll';
+import { DragulaModule } from 'ng2-dragula';
 import { BarChartComponent } from '../charts';
 import { GaugeChartComponent } from '../charts';
 import { NgGraphComponent } from "../charts";
@@ -49,8 +50,6 @@ import { HierarchicalEdgeBundlingComponent } from '../charts/hierarchical-edge-b
 import { AdvancedPieChartComponent } from '../charts';
 import { ForceDirectedGraphComponent } from '../charts/force-directed-graph/force-directed-graph.component';
 import { LineChartComponent } from '../charts/line-chart/line-chart.component';
-import { TreemapChartComponent } from '../charts/treemap-chart/treemap-chart.component';
-import { SunburstChartComponent } from '../charts/sunburst-chart/sunburst-chart.component';
 import { FroalaEditorModule, FroalaViewModule } from 'angular2-froala-wysiwyg';
 import { DendogramComponent } from '../charts/dendogram/dendogram.component';
 import { PieChartComponent } from '../charts/pie-chart/pie-chart.component';
@@ -64,11 +63,9 @@ import { SlidesSettingComponent } from './components/editor/slides-setting/slide
 import { ChartsBuilderComponent, CodeEditorComponent } from "./components/editor/charts-builder";
 import { EditorComponent } from './components/editor/editor.component';
 
-import { FilterComponent } from './components/filter/filter.component';
 import { SlidesManagerComponent } from './components/slides-manager/slides-manager.component';
 import { SlidesCardComponent } from './components/slides-card/slides-card.component';
 import { DialogComponent } from './components/dialog/dialog.component';
-import { FavoriteFilterComponent } from './components/favorite-filter/favorite-filter.component';
 import { ToggleFullscreenDirective } from './components/slides-presentation/toggle-fullscreen.directive';
 
 
@@ -96,16 +93,15 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         BarChartComponent,
         LineChartComponent,
         ForceDirectedGraphComponent,
-        TreemapChartComponent,
-        SunburstChartComponent,
         HierarchicalEdgeBundlingComponent,
         PieChartComponent,
         FullScreenGraphSlideComponent,
         GaugeChartComponent,
         AdvancedPieChartComponent,
         DialogComponent,
-        DendogramComponent, 
-        NgGraphComponent],
+        DendogramComponent,
+        NgGraphComponent,
+        ImageComponent],
     declarations: [
         ScrollDirective,
         KeySwitchDirective,
@@ -118,14 +114,11 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         BarChartComponent,
         ForceDirectedGraphComponent,
         LineChartComponent,
-        TreemapChartComponent,
-        SunburstChartComponent,
         SlidesEditorComponent,
         SlidesSettingComponent,
         CodeEditorComponent,
         ChartsBuilderComponent,
         EditorComponent,
-        FilterComponent,
         SlidesManagerComponent,
         FullScreenGraphSlideComponent,
         GaugeChartComponent,
@@ -140,12 +133,11 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         DialogComponent,
         NgGraphComponent,
         DendogramComponent,
-        FavoriteFilterComponent,
         KeySwitchDirective,
-        ToggleFullscreenDirective
+        ToggleFullscreenDirective,
+        ImageComponent
     ],
     exports:[
-      FilterComponent,
       SlidesCardComponent,
       SearchComponent
     ],

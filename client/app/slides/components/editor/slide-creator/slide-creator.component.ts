@@ -122,7 +122,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
                 default: this.slide.data = '';
             }
         } else if( this.form.value.slideGraph == 'ngGraph' ) {
-            // if(this.dataBuilder.chartOptions.chartType 
+            // if(this.dataBuilder.chartOptions.chartType
             //     && this.dataBuilder.chartOptions.chartType.cmpName != null)
             //     this.form.value.slideGraph = this.dataBuilder.chartOptions.chartType.cmpName;
             this.slide.data = this.dataBuilder.data;
@@ -188,9 +188,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
             case "advancedPieChart": this.form.controls['graphDataJson'].setValue(ngxSingleChartDataExample); break;
             case "forceDirectedGraph": this.form.controls['graphDataJson'].setValue(forceDirectedGraphDataExample); break;
             case "lineChart": this.form.controls['graphDataJson'].setValue(lineChartExample); break;
-            case "treemapChart": this.form.controls['graphDataJson'].setValue(treemapChartExample); break;
             case "pieChart": this.form.controls['graphDataJson'].setValue(pieChartExample); break;
-            case "sunburstChart": this.form.controls['graphDataJson'].setValue(sunburstChartExample); break;
             case "HierarchicalEdgeBundling": this.form.controls['graphDataJson'].setValue(HierarchicalEdgeExample); break;
             case "dendogramChart": this.form.controls['graphDataJson'].setValue(dendogramChartExemple); break;
             default: ;
@@ -226,9 +224,9 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
         }
     }
     /* image background*/
-    setImageHtml(path) {
-        console.log("image html");
-        this.slide.fullScreenHtml = "<img src='" + path + "' style='width:100%;height:100%'>";
+    setImageHtml(image) {
+      console.log(image);
+        this.slide.slideImage = image;
     }
     /* sort and group series of json data*/
     sortSeries(data) {
@@ -272,5 +270,3 @@ const lineChartExample = JSON.stringify(sampleData.lineChartData);
 const pieChartExample = JSON.stringify(sampleData.pieChartData);
 const dendogramChartExemple = JSON.stringify(sampleData.dendogramChartData);
 const HierarchicalEdgeExample = JSON.stringify(sampleData.HierarchicalEdgeData);
-const treemapChartExample = JSON.stringify(sampleData.treemapChartData);
-const sunburstChartExample = JSON.stringify(sampleData.sunburstChartData);
