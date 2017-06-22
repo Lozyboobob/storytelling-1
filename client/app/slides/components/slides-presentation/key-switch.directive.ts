@@ -9,7 +9,7 @@ export class KeySwitchDirective implements OnInit {
   private static ArrowRightCode: number = 39;
   private static ArrowLeftCode: number = 37;
   @Output() keySwitch: EventEmitter<number> = new EventEmitter();
-  
+
   constructor() { }
 
   ngOnInit() {

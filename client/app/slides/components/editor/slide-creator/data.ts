@@ -2251,7 +2251,7 @@ export const lineChartData = {
 
 }
 
-export const pieChartData = { "graphData": [{ "label": "data1", "value": 1 }, { "label": "data2", "value": 2 }, { "label": "data3", "value": 3 }, { "label": "data4", "value": 4 }] }
+export const pieChartData = { "graphData": [{ "name": "data1", "value": 1 }, { "name": "data2", "value": 2 }, { "name": "data3", "value": 3 }, { "name": "data4", "value": 4 }] }
 export const dendogramChartData = {"graphData" : [
     {
         "id": "flare",

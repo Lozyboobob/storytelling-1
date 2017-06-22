@@ -39,14 +39,42 @@ export class LeftGraphRightTextSlideComponent implements OnInit, AfterContentIni
     }
 
     ngAfterContentInit() {
+<<<<<<< HEAD
         if (this.slide.graph === 'noGraph' || this.slide.graph === 'image') return;
         let cmpType = this.slide.graph.charAt(0).toUpperCase() + this.slide.graph.slice(1) + 'Component';
+=======
+        if (this.slide.graph === 'noGraph') return;
+        let cmpName: string;
+
+        if(this.slide.config && this.slide.config.chartType 
+        && this.slide.config.chartType.cmpName != null){
+            cmpName = this.slide.config.chartType.cmpName;
+        } else {
+            cmpName = this.slide.graph;
+        }
+
+        let cmpType: string = cmpName.charAt(0).toUpperCase() + cmpName.slice(1) + 'Component';
+>>>>>>> e2f546e69d3d3956b0904da6d887ef37b96e015a
         this.setChart(cmpType);
     }
 
     ngOnChanges(changes: SimpleChanges) {
+<<<<<<< HEAD
         if (this.slide.graph === 'noGraph' || this.slide.graph === 'image') return;
         let cmpType: string = this.slide.graph.charAt(0).toUpperCase() + this.slide.graph.slice(1) + 'Component';
+=======
+        if (this.slide.graph === 'noGraph') return;
+        let cmpName: string;
+
+        if(this.slide.config && this.slide.config.chartType 
+        && this.slide.config.chartType.cmpName != null){
+            cmpName = this.slide.config.chartType.cmpName;
+        } else {
+            cmpName = this.slide.graph;
+        }
+
+        let cmpType: string = cmpName.charAt(0).toUpperCase() + cmpName.slice(1) + 'Component';
+>>>>>>> e2f546e69d3d3956b0904da6d887ef37b96e015a
         this.setChart(cmpType);
     }
 

@@ -12,6 +12,7 @@ import { ChartsService } from "../../../../services";
     styleUrls: ['./right-graph-left-text-slide.component.scss']
 
 })
+<<<<<<< HEAD
 export class RightGraphLeftTextSlideComponent implements OnInit, AfterContentInit, OnChanges {
 
     @Input() slide: Slide;
@@ -43,6 +44,70 @@ export class RightGraphLeftTextSlideComponent implements OnInit, AfterContentIni
         if (this.slide.graph === 'noGraph' || this.slide.graph === 'image') return;
         let cmpType = this.slide.graph.charAt(0).toUpperCase() + this.slide.graph.slice(1) + 'Component';
         this.setChart(cmpType);
+=======
+export class RightGraphLeftTextSlideComponent implements OnInit, AfterContentInit, OnChanges  {
+
+  @Input() slide: Slide;
+  @Input() pos: number;
+  @Input() slideload$: Observable<number>;
+  @Input() slideease$: Observable<number>;
+
+  @ViewChild('parent', { read: ViewContainerRef })
+  parent: ViewContainerRef;
+  private componentRef: ComponentRef<Chart>;
+
+  config: PageConfig;
+  loadContentAni: boolean = false;
+  easeContentAni: boolean = false;
+
+  constructor(private _componentFactoryResolver: ComponentFactoryResolver,
+    private chartsService: ChartsService,
+    private sanitizer: DomSanitizer) { }
+
+  ngAfterViewInit() {
+
+  }
+
+  ngOnInit() {
+    this.setConfig();
+  }
+
+    ngAfterContentInit() {
+        if (this.slide.graph === 'noGraph') return;
+        let cmpName: string;
+
+        if(this.slide.config && this.slide.config.chartType 
+        && this.slide.config.chartType.cmpName != null){
+            cmpName = this.slide.config.chartType.cmpName;
+        } else {
+            cmpName = this.slide.graph;
+        }
+
+        let cmpType: string = cmpName.charAt(0).toUpperCase() + cmpName.slice(1) + 'Component';
+        this.setChart(cmpType);
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+        if (this.slide.graph === 'noGraph') return;
+        let cmpName: string;
+
+        if(this.slide.config && this.slide.config.chartType 
+        && this.slide.config.chartType.cmpName != null){
+            cmpName = this.slide.config.chartType.cmpName;
+        } else {
+            cmpName = this.slide.graph;
+        }
+
+        let cmpType: string = cmpName.charAt(0).toUpperCase() + cmpName.slice(1) + 'Component';
+        this.setChart(cmpType);
+    }
+
+  private setChart(chartType: string) {
+    const componentFactory = this._componentFactoryResolver.resolveComponentFactory(this.chartsService.getChartType(chartType));
+    this.parent.clear();
+    if (this.componentRef) {
+      this.componentRef.destroy();
+>>>>>>> e2f546e69d3d3956b0904da6d887ef37b96e015a
     }
 
     ngOnChanges(changes: SimpleChanges) {

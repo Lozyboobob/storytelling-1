@@ -63,7 +63,7 @@
             <textarea [froalaEditor]='editorOptions' [(froalaModel)]="slide.text"></textarea>
           </div>
           <div *ngIf="form.controls.slideGraph.value == 'ngGraph'">
-            <app-charts-builder (configGraph)="confirmeSlideGRaphConfig($event)">
+            <app-charts-builder [inputData]="slide.data" [inputOptions]="slide.config"  (configGraph)="confirmeSlideGRaphConfig($event)">
             </app-charts-builder>
           </div>
         </div>
