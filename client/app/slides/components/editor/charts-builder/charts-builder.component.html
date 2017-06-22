@@ -77,6 +77,13 @@
             {{field.name}} <small>{{field.type}}</small>
           </md-option>
         </md-select>
+
+        <md-select *ngIf="chartType.dimLabels[4]" [placeholder]="chartType.dimLabels[4]" name="chartType"  [(ngModel)]="dataDims[4]"
+          (change)="processData()">
+          <md-option *ngFor="let field of headerValues" [value]="field.name">
+            {{field.name}} <small>{{field.type}}</small>
+          </md-option>
+        </md-select>
       </div>
     </md-card-content>
   </md-card>
@@ -158,6 +165,8 @@
         </app-pie-chart>
         <app-dendogram *ngIf="chartType.name === 'dendogram'" [dataInput]="data">
         </app-dendogram>
+        <app-force-directed-graph *ngIf="chartType.name === 'force-directed-graph'" [dataInput]="data">
+        </app-force-directed-graph>
       </div>
 
     </md-card-content>
