@@ -89,7 +89,8 @@ export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit, 
             this.componentRef.instance.configInput = this.slide.config; // set the input inputData of the abstract class Chart
         }
         else {
-            //  this.componentRef = this.parent.createEmbeddedView()
+          let componentFactory = this._componentFactoryResolver.resolveComponentFactory("DIV");
+          this.componentRef = this.parent.createComponent(componentFactory);
         }
 
 

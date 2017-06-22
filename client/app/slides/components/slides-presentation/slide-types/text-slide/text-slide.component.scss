@@ -14,10 +14,10 @@
 
     md-grid-list,
     md-grid-tile {
-        padding-top: 0 !important;
-        padding-bottom: 0 !important;
         height: 100%;
         overflow: visible;
+        padding-bottom: 0 !important;
+        padding-top: 0 !important;
     }
 
     .text-container {

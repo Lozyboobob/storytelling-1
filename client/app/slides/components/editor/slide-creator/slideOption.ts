@@ -27,13 +27,6 @@ export const graphType: Array<any> = [
         type: "Gauge Chart"
     },
     {
-        value: "treemapChart",
-        type: "Treemap Chart"
-    },
-    {
-        value: "sunburstChart",
-        type: "Sunburst Chart"
-    },{
         value: "dendogramChart",
         type: "Dendrogram chart"
     },

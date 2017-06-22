@@ -1,13 +1,13 @@
 .mat-mini-fab {
-	background-color: #bdbdbd;
+  background-color: #bdbdbd;
 }
-.mat-input-underline {
-	width:15% !important;
-	transition: width 2s;
-	border-color: red;
+.mat-input-underline  {
+  border-color: red;
+  transition: width 2s;
+  width: 15% !important;
 }
-.mat-focused .mat-input-underline{
-	width :100% !important;
+.mat-focused .mat-input-underline {
+  width: 100% !important;
 }
 /*.mat-input-container{display:inline-block;position:relative;font-family:Roboto,"Helvetica Neue",sans-serif;line-height:normal;text-align:left}[dir=rtl]*/
 /*.mat-input-container{text-align:right}*/

@@ -1,19 +1,7 @@
-.space {
-    margin-left: 15px;
-}
+@import 'client/theme.scss';
+
 .buttonBottom {
-    position: fixed;
-    bottom: 5%;
-    right: 5%;
-}
-.buttonTop {
-    position: fixed;
-}
-.no-private,
-.no-slides,
-.no-publish,
-.no-result {
-    color: #263238;
-    font-size: 24px;
-    text-align: center;
+  bottom: 20px;
+  position: fixed;
+  right: 20px;
 }
