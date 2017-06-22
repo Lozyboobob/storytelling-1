@@ -71,3 +71,15 @@ $lg: 26px;
    width: 100%;
    text-align: center;
  }
+
+ /* base */
+ .base {
+   background-color: #fff;
+   float: left;
+   padding: 20px;
+   width: 100%;
+ }
+
+ .base.dark {
+   background: #f6f6f6;
+ }

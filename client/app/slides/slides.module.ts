@@ -62,7 +62,7 @@ import { SlidesSettingComponent } from './components/editor/slides-setting/slide
 import { ChartsBuilderComponent, CodeEditorComponent } from "./components/editor/charts-builder";
 import { EditorComponent } from './components/editor/editor.component';
 
-import { SlidesManagerComponent } from './components/slides-manager/slides-manager.component';
+import { PrezManagerComponent } from './components/prez-manager/prez-manager.component';
 import { SlidesCardComponent } from './components/slides-card/slides-card.component';
 import { DialogComponent } from './components/dialog/dialog.component';
 import { ToggleFullscreenDirective } from './components/slides-presentation/toggle-fullscreen.directive';
@@ -117,7 +117,7 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         CodeEditorComponent,
         ChartsBuilderComponent,
         EditorComponent,
-        SlidesManagerComponent,
+        PrezManagerComponent,
         FullScreenGraphSlideComponent,
         GaugeChartComponent,
         AdvancedPieChartComponent,

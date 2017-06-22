@@ -2,14 +2,14 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 // SLIDES COMPONENTS
-import { SlidesPresentationComponent, SlidesCreatorComponent, SlidesEditorComponent,SlidesManagerComponent} from '.';
+import { SlidesPresentationComponent, SlidesCreatorComponent, SlidesEditorComponent,PrezManagerComponent} from '.';
 
 import { Auth } from 'app/users';
 
 
 const slidesRoutes: Routes = [{
     path: '',
-    component: SlidesManagerComponent,
+    component: PrezManagerComponent,
     canActivate: [Auth],
     data: {
         roles: ['*'],
