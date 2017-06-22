@@ -4,7 +4,7 @@ import {Component, Input} from '@angular/core'
 @Component({
     selector: 'image',
     template: `
-      <img [src]="path" class="fullScreenImg">
+    <div class="img-container">  <img [src]="path" class="img-cmp"></div>
 
   `,
 })

@@ -21,7 +21,7 @@ export class LeftGraphRightTextSlideComponent implements OnInit, AfterContentIni
 
     @ViewChild('parent', { read: ViewContainerRef })
     parent: ViewContainerRef;
-    private componentRef: ComponentRef<Chart>;
+    private componentRef: ComponentRef<any>;
 
     config: PageConfig;
     loadContentAni: boolean = false;
@@ -40,7 +40,7 @@ export class LeftGraphRightTextSlideComponent implements OnInit, AfterContentIni
 
     ngAfterContentInit() {
 
-        if (this.slide.graph === 'noGraph'||this.slide.graph === 'image') return;
+        if (this.slide.graph === 'noGraph') return;
         let cmpName: string;
 
         if(this.slide.config && this.slide.config.chartType
@@ -55,8 +55,7 @@ export class LeftGraphRightTextSlideComponent implements OnInit, AfterContentIni
     }
 
     ngOnChanges(changes: SimpleChanges) {
-
-        if (this.slide.graph === 'noGraph'||this.slide.graph === 'image') return;
+        if (this.slide.graph === 'noGraph') return;
         let cmpName: string;
 
         if(this.slide.config && this.slide.config.chartType
@@ -67,6 +66,7 @@ export class LeftGraphRightTextSlideComponent implements OnInit, AfterContentIni
         }
 
         let cmpType: string = cmpName.charAt(0).toUpperCase() + cmpName.slice(1) + 'Component';
+        console.log(cmpType);
         this.setChart(cmpType);
     }
 
@@ -78,8 +78,15 @@ export class LeftGraphRightTextSlideComponent implements OnInit, AfterContentIni
             this.componentRef.destroy();
         }
         this.componentRef = this.parent.createComponent(componentFactory);
-        this.componentRef.instance.dataInput = this.slide.data; // set the input inputData of the abstract class Chart
-        this.componentRef.instance.configInput = this.slide.config; // set the input inputData of the abstract class Chart
+        if (chartType == 'ImageComponent') {
+          console.log("get path");
+            if (this.slide.slideImage) this.componentRef.instance.path = this.slide.slideImage.path;
+        }
+        else {
+            this.componentRef.instance.dataInput = this.slide.data; // set the input inputData of the abstract class Chart
+            this.componentRef.instance.configInput = this.slide.config; // set the input inputData of the abstract class Chart
+        }
+
     }
 
     private setConfig() {
