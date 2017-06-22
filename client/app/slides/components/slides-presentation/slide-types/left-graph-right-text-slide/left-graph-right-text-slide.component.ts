@@ -40,13 +40,31 @@ export class LeftGraphRightTextSlideComponent implements OnInit, AfterContentIni
 
     ngAfterContentInit() {
         if (this.slide.graph === 'noGraph') return;
-        let cmpType = this.slide.graph.charAt(0).toUpperCase() + this.slide.graph.slice(1) + 'Component';
+        let cmpName: string;
+
+        if(this.slide.config && this.slide.config.chartType 
+        && this.slide.config.chartType.cmpName != null){
+            cmpName = this.slide.config.chartType.cmpName;
+        } else {
+            cmpName = this.slide.graph;
+        }
+
+        let cmpType: string = cmpName.charAt(0).toUpperCase() + cmpName.slice(1) + 'Component';
         this.setChart(cmpType);
     }
 
     ngOnChanges(changes: SimpleChanges) {
         if (this.slide.graph === 'noGraph') return;
-        let cmpType: string = this.slide.graph.charAt(0).toUpperCase() + this.slide.graph.slice(1) + 'Component';
+        let cmpName: string;
+
+        if(this.slide.config && this.slide.config.chartType 
+        && this.slide.config.chartType.cmpName != null){
+            cmpName = this.slide.config.chartType.cmpName;
+        } else {
+            cmpName = this.slide.graph;
+        }
+
+        let cmpType: string = cmpName.charAt(0).toUpperCase() + cmpName.slice(1) + 'Component';
         this.setChart(cmpType);
     }
 

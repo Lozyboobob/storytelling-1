@@ -33,9 +33,9 @@ const defaultOptions = {
   styleUrls: ['./ng-graph.component.scss']
 })
 export class NgGraphComponent extends Chart implements OnInit, OnDestroy {
-  
+
   chartOptions: any;
-  
+
   data: any[];
   private activated: boolean = true;
   private _setIntervalHandler: any;
@@ -43,28 +43,30 @@ export class NgGraphComponent extends Chart implements OnInit, OnDestroy {
   constructor() { super() }
 
   ngOnInit() {
-    this.chartOptions = {...defaultOptions};
-
-        // Set the config
-    this.chartOptions = { ...this.chartOptions, ...this.configInput } ;
+    // Set the config
+    this.chartOptions = { ...defaultOptions, ...this.configInput };
 
     this.init();
 
   }
 
-  processData(dataDims: string[], rawData: any) {
+  /**
+   * Process json Data to Ngx-charts format
+   * @param dataDims :  string[] Selected Dimentions 
+   * @param rawData : array<Object> Json data 
+   */
+  public static convertData(dataDims: string[], rawData: any) {
 
     const key$ = d => d[dataDims[0]];
     const name$ = d => d[dataDims[1]];
     const value$ = d => d[dataDims[2]];
     const value2$ = d => d[dataDims[3]];
 
-    this.data = nest()
+    return nest()
       .key(key$)
       .entries(rawData)
       .map(series);
-      
-    
+
     function series(d) {
       return {
         name: d.key,
@@ -81,19 +83,15 @@ export class NgGraphComponent extends Chart implements OnInit, OnDestroy {
         r: value2$(d)
       };
     }
-
   }
 
   setData(graphData, graphConfig) {
-    this.chartOptions = { ...this.chartOptions, ...graphConfig } ;
-    this.data =  graphData;
+    this.chartOptions = { ...this.chartOptions, ...graphConfig };
+    this.data = graphData;
   }
 
   init() {
-    // this.width = 700;
-    // this.height = 300;
-    // this.view = [this.width, this.height];
-    this.processData(this.chartOptions.dataDims, this.dataInput);
+    this.data = NgGraphComponent.convertData(this.chartOptions.dataDims, this.dataInput);
   }
 
   load() {

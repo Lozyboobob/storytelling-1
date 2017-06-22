@@ -65,7 +65,7 @@
           </md-option>
         </md-select>
 
-        <md-select [placeholder]="chartType.dimLabels[2]" name="chartType"  [(ngModel)]="dataDims[2]" (change)="processData()">
+        <md-select *ngIf="chartType.dimLabels[2]" [placeholder]="chartType.dimLabels[2]" name="chartType"  [(ngModel)]="dataDims[2]" (change)="processData()">
           <md-option *ngFor="let field of headerValues" [value]="field.name">
             {{field.name}} <small>{{field.type}}</small>
           </md-option>
@@ -149,5 +149,10 @@
         [yAxisLabel]="chartOptions.yAxisLabel" [autoScale]="chartOptions.autoScale" [scheme]="chartOptions.colorScheme" [schemeType]="chartOptions.schemeType"
         [roundDomains]="chartOptions.roundDomains" [tooltipDisabled]="chartOptions.tooltipDisabled" [minRadius]="3" [maxRadius]="20">
       </ngx-charts-bubble-chart>
+      <app-bar-chart *ngIf="chartType.name === 'bar-chart'" [dataInput]="data">
+      </app-bar-chart>
+      <app-pie-chart *ngIf="chartType.name === 'pie-chart'" [dataInput]="data">
+      </app-pie-chart>
+      
     </md-card-content>
   </md-card>

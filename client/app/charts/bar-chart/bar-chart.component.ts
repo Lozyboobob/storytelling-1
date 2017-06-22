@@ -1,6 +1,9 @@
 import { Component, OnInit, OnChanges, ViewChild, ElementRef, Input, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import * as d3 from 'd3';
-import {Chart} from '../chart.class';
+import { nest } from 'd3-collection';
+import { Chart } from '../chart.class';
+
+
 @Component({
     selector: 'app-bar-chart',
     templateUrl: './bar-chart.component.html',
@@ -10,7 +13,7 @@ export class BarChartComponent extends Chart implements OnInit {
 
     @ViewChild('chart') private chartContainer: ElementRef;
     private data: Array<any> = sample;
-    private margin: any = { top: 0, bottom: 0, left: 40, right: 40 };
+    private margin: any = { top: 0, bottom: 0, left: 100, right: 100 };
     private chart: any;
     private width: number;
     private height: number;
@@ -20,19 +23,63 @@ export class BarChartComponent extends Chart implements OnInit {
     private xAxis: any;
     private yAxis: any;
     private loaded: boolean = true;
+    private chartOptions: any;
 
     constructor() {
-       super()
+        super()
     }
 
     ngOnInit() {
-        // Set data
-        this.data = this.dataInput;
-
+        this.chartOptions = { ...this.configInput };
         this.init();
     }
 
-    createChart() {
+    /**
+     * Process json Data to D3.js Bar chart format
+     * @param dataDims :  string[] Selected Dimentions 
+     * @param rawData : array<Object> Json data 
+     */
+    public static convertData(dataDims: string[], rawData: any) {
+
+        const name$ = d => d[dataDims[0]];
+        const value$ = d => d[dataDims[1]];
+        const value2$ = d => d[dataDims[2]];
+
+        function seriesPoints(d) {
+            return {
+                name: name$(d),
+                index: name$(d),
+                value: value$(d),
+                x: name$(d),
+                y: value$(d),
+                r: value2$(d)
+            };
+        }
+
+        return nest()
+            .entries(rawData)
+            .map(seriesPoints);
+    }
+
+    setData(data) {
+        if (data.length == 0) return;
+        this.data = data;
+    }
+
+    init() {
+        if (this.configInput != null)
+            this.data = BarChartComponent.convertData(this.chartOptions.dataDims, this.dataInput);
+        else
+            this.data = this.dataInput;
+
+        this.drawChart();
+        this.load();
+    }
+
+    /**
+     * Draw function for D3.js Bar chart
+     */
+    drawChart() {
         let element = this.chartContainer.nativeElement;
         this.width = element.offsetWidth - this.margin.left - this.margin.right;
         this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
@@ -129,18 +176,6 @@ export class BarChartComponent extends Chart implements OnInit {
 
     }
 
-    updateChart() {
-
-
-    }
-    setData(data) {
-        if (data.length == 0) return;
-        this.data = data;
-    }
-    init() {
-        this.createChart();
-        this.load();
-    }
     load() {
         this.loaded = true;
         this.chart.selectAll('.bar')
@@ -160,33 +195,23 @@ export class BarChartComponent extends Chart implements OnInit {
             .attr('opacity', 1);
 
     }
+
+    // FIXME
     ease() {
         this.loaded = false;
         this.chart.selectAll('.bar').transition()
-            .delay((d,i)=>i*100)
+            .delay((d, i) => i * 100)
             .attr('y', d => this.yScale(0))
             .attr('height', d => this.height - this.yScale(0))
         this.chart.selectAll('.value-text').transition()
             .duration(200)
             .attr('opacity', 0);
         let waitingTime = this.chart.selectAll('.bar')._groups[0].length * 100;
-        /* if the chart doesn't load after certain time ( the time allows chart ease and then load again*/
-        /*setTimeout(_ => {
-            if (this.loaded) return;
-            this.chart.selectAll('.bar').transition()
-                .duration(1500)
-                .delay(waitingTime * 2 + 400)
-                .attr('y', d => this.yScale(d.value))
-                .attr('height', d => this.height - this.yScale(d.value));
-            this.chart.selectAll('.value-text').transition()
-                .delay(1500)
-                .duration(200)
-                .attr('opacity', 1);
-
-        }, waitingTime * 2 + 400);*/
     }
 
 }
+
+// FIXME
 const sample = [
     {
         "value": "21",

@@ -18,9 +18,8 @@ $axisColor:#4c4c4c;
           stroke: $axisColor;
       }
     }
-
-
 }
+
 :host /deep/ .tooltip {
     position: absolute;
     text-align: center;

@@ -7,14 +7,8 @@ export const graphType: Array<any> = [
         type: "Graph builder"
     },
     {
-        value: "barChart",
-        type: "Bar Chart"
-    }, {
         value: "forceDirectedGraph",
         type: "Force Directed Graph"
-    }, {
-        value: "pieChart",
-        type: "Pie chart"
     },
     {
         value: "HierarchicalEdgeBundling",
