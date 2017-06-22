@@ -74,9 +74,11 @@ $lg: 26px;
 
  /* base */
  .base {
-   background-color: #fff;
-   float: left;
+   width: 100%;
    padding: 20px;
+ }
+
+ .base.light {
    width: 100%;
  }
 

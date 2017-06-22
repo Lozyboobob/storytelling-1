@@ -1,4 +1,4 @@
-<div fxLayout="column" fxLayoutAlign="center center">
+<div class="base" fxLayout="column" fxLayoutAlign="center center">
   <div class="logo" [class.hide]="showSlidesList">
     <img src="assets/logo.png" width="100%">
   </div>
@@ -6,7 +6,7 @@
     <div class="search-wrap">
       <app-search (textSearch)="searchSlides($event)" kind="generic"></app-search>
     </div>
-    <p align="center" class="get-all center-mode" *ngIf="!showSlidesList" (click)="getAllslides()">Discover All</p>
+    <button *ngIf="!showSlidesList" class="buttonBottom floating" (click)="getAllslides()" md-fab><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
   </div>
 </div>
 
