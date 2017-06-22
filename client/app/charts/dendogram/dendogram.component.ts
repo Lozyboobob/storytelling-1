@@ -91,7 +91,7 @@ export class DendogramComponent extends Chart implements OnInit {
         this.curtain = svg.style('opacity', 0);
         svg.attr("height", this.height)
             .attr("width", this.width);
-        let g = svg.append("g").attr('transform', `translate(40,${this.height / 2})`);
+        let g = svg.append("g").attr('transform', `translate(60,0)`);
 
         let tree = d3.cluster()
             .size([this.height, this.width - 200]);
