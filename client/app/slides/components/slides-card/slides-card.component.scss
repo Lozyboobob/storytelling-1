@@ -1,93 +1,144 @@
 @import 'client/theme.scss';
+.toto
+{
+    z-index: 0;
+}
 
-.slides-card {
-  margin: 10px;
-  padding: 0;
-  font-family: 'SF Pro Display','SF Pro Icons','Helvetica Neue','Helvetica','Arial',sans-serif !important;
-  color: #333;
-  background: #fff;
-  box-shadow: none !important;
+.slides-card
+{
+    font-family: 'SF Pro Display','SF Pro Icons','Helvetica Neue','Helvetica','Arial',sans-serif !important;
 
-  h2 {
-    width: 100% !important;
-    height: auto;
-    line-height: 50px;
-    text-align: center;
-    margin: auto;
-    padding: 10px;
-  }
+    margin: 10px;
+    padding: 0;
 
-  .mat-card-header-text {
-    width: 100%;
-    text-align: center;
-    margin: 10px auto;
-  }
+    color: #333;
+    background: #fff;
+    box-shadow: none !important;
 
-  .md-card-image {
-    height: 225px;
-    width: 100%;
-    background-size: cover;
-    background-position: center;
-    position: relative;
+    h2
+    {
+        line-height: 50px;
 
-    .options {
-      position: absolute;
-      right: 10px;
-      top: 10px;
-      display: inline-block;
+        width: 100% !important;
+        height: auto;
+        margin: auto;
+        padding: 10px;
 
-      span {
-        padding: 0 5px;
+        text-align: center;
+    }
 
-        &.favorite {
-          color: $warn;
+    .mat-card-header-text
+    {
+        width: 100%;
+        margin: 10px auto;
+
+        text-align: center;
+    }
+
+    .md-card-image
+    {
+        position: relative;
+
+        width: 100%;
+        height: 225px;
+
+        background-position: center;
+        background-size: cover;
+
+        .options
+        {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+
+            display: inline-block;
+
+            md-icon
+            {
+                font-size: 125%;
+            }
+
+            div
+            {
+                display: inline-block;
+            }
+
+            a
+            {
+                position: relative;
+                z-index: 99;
+
+                padding: 2px;
+
+                color: #333;
+
+                &.favorite
+                {
+                    color: $warn;
+                }
+
+                &.unfavorite
+                {
+                    opacity: .5;
+                    color: $primary;
+                }
+
+                &.published
+                {
+                    color: $accent;
+                }
+
+                &.unpublished
+                {
+                    opacity: .5;
+                    color: $primary;
+                }
+            }
         }
 
-        &.unfavorite {
-          color: $primary;
-          opacity: 0.5;
+        md-chip-list
+        {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+
+            md-chip
+            {
+                font-size: 75%;
+
+                padding: 4px 8px;
+
+                color: #dedede;
+                border-radius: 10px;
+                background: rgb(36, 39, 45);
+                background: rgba(36, 39, 45, .7);
+            }
+        }
+    }
+
+    md-card-content
+    {
+        margin: 5px;
+
+        p
+        {
+            padding: 10px;
         }
 
-        &.published {
-          color: $accent;
+        .description
+        {
+            overflow-y: auto;
+
+            height: 100px;
+
+            text-align: justify;
         }
 
-        &.unpublished {
-          color: $primary;
-          opacity: 0.5;
+        .author
+        {
+            text-align: right;
+
+            color: #999;
         }
-      }
     }
-
-    md-chip-list {
-      position: absolute;
-      bottom: 10px;
-      left: 10px;
-
-      md-chip {
-        background: rgb(36, 39, 45);
-        background: rgba(36, 39, 45, 0.8);
-        color: #dedede;
-      }
-    }
-  }
-
-  md-card-content {
-    margin: 5px;
-
-    p {
-      padding: 10px;
-    }
-
-    .description {
-      height: 100px;
-      overflow-y: auto;
-      text-align: justify;
-    }
-
-    .author {
-      text-align: right;
-      color: #999;
-    }
-  }
 }
