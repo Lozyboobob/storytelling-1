@@ -1,8 +1,9 @@
 import { Injectable, Type, ComponentFactoryResolver } from '@angular/core';
 import { PieChartComponent, AdvancedPieChartComponent, BarChartComponent, ForceDirectedGraphComponent, GaugeChartComponent,
   HierarchicalEdgeBundlingComponent, LineChartComponent, DendogramComponent,
-  NgGraphComponent
+  NgGraphComponent,TreemapChartComponent
 }  from "app/charts";
+import {ImageComponent} from "../components/slides-presentation/slide-types/"
 
 @Injectable()
 export class ChartsService {
@@ -12,9 +13,10 @@ export class ChartsService {
     // this.listWidget = Array.from(this._resolver['_factories'].keys());
 
     this.listWidget = new Map<string, Type<any>>([['PieChartComponent', PieChartComponent], ['AdvancedPieChartComponent', AdvancedPieChartComponent],
-     ['BarChartComponent', BarChartComponent], ['ForceDirectedGraphComponent', ForceDirectedGraphComponent],
-     ['GaugeChartComponent', GaugeChartComponent], ['HierarchicalEdgeBundlingComponent', HierarchicalEdgeBundlingComponent],
-     ['LineChartComponent', LineChartComponent], ['DendogramChartComponent', DendogramComponent], ['NgGraphComponent', NgGraphComponent]
+      ['BarChartComponent', BarChartComponent], ['ForceDirectedGraphComponent', ForceDirectedGraphComponent],
+      ['GaugeChartComponent', GaugeChartComponent], ['HierarchicalEdgeBundlingComponent', HierarchicalEdgeBundlingComponent],
+      ['LineChartComponent', LineChartComponent], ['DendogramComponent', DendogramComponent], ['NgGraphComponent', NgGraphComponent], ['ImageComponent', ImageComponent],
+      ['TreemapChartComponent', TreemapChartComponent]
      ]);
   }
 
