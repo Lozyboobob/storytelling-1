@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NgGraphComponent } from './ng-graph.component';
+import { TreemapChartComponent } from './treemap-chart.component';
 
-describe('NgGraphComponent', () => {
-  let component: NgGraphComponent;
-  let fixture: ComponentFixture<NgGraphComponent>;
+describe('TreemapChartComponent', () => {
+  let component: TreemapChartComponent;
+  let fixture: ComponentFixture<TreemapChartComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NgGraphComponent ]
+      declarations: [ TreemapChartComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NgGraphComponent);
+    fixture = TestBed.createComponent(TreemapChartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
