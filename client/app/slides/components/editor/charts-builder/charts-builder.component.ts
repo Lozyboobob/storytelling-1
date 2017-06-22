@@ -125,8 +125,6 @@ export class ChartsBuilderComponent implements OnInit {
     this.data = [];
     this.chartType = this.chartTypes.find(chart => chart.name === this.inputOptions.chartType.name);
 
-    console.log('this.dataDims:', this.dataDims);
-
     this.errors = [];
     this._dataText = babyparse.unparse(this.inputData);
     this.rawData = this.inputData;
@@ -168,9 +166,7 @@ export class ChartsBuilderComponent implements OnInit {
       this.data = this.convertGroupedData();
     }
 
-
     this.configGraph.emit({ data: this.rawData, chartOptions: { chartType: this.chartType, headerValues: this.headerValues, dataDims: this.dataDims, ...this.chartOptions } });
-    console.log('data: ', this.data);
     return this.data;
 
   }
