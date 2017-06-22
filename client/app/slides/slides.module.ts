@@ -39,8 +39,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { ScrollDirective } from './components/slides-presentation/scroll.directive';
 import { KeySwitchDirective } from './components/slides-presentation/key-switch.directive';
 
-import {Ng2PageScrollModule} from 'ng2-page-scroll';
-import {DragulaModule} from 'ng2-dragula';
+import { Ng2PageScrollModule } from 'ng2-page-scroll';
+import { DragulaModule } from 'ng2-dragula';
 import { BarChartComponent } from '../charts';
 import { GaugeChartComponent } from '../charts';
 import { NgGraphComponent } from "../charts";
@@ -64,11 +64,9 @@ import { SlidesSettingComponent } from './components/editor/slides-setting/slide
 import { ChartsBuilderComponent, CodeEditorComponent } from "./components/editor/charts-builder";
 import { EditorComponent } from './components/editor/editor.component';
 
-import { FilterComponent } from './components/filter/filter.component';
 import { SlidesManagerComponent } from './components/slides-manager/slides-manager.component';
 import { SlidesCardComponent } from './components/slides-card/slides-card.component';
 import { DialogComponent } from './components/dialog/dialog.component';
-import { FavoriteFilterComponent } from './components/favorite-filter/favorite-filter.component';
 import { ToggleFullscreenDirective } from './components/slides-presentation/toggle-fullscreen.directive';
 
 
@@ -104,7 +102,7 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         GaugeChartComponent,
         AdvancedPieChartComponent,
         DialogComponent,
-        DendogramComponent, 
+        DendogramComponent,
         NgGraphComponent],
     declarations: [
         ScrollDirective,
@@ -125,7 +123,6 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         CodeEditorComponent,
         ChartsBuilderComponent,
         EditorComponent,
-        FilterComponent,
         SlidesManagerComponent,
         FullScreenGraphSlideComponent,
         GaugeChartComponent,
@@ -140,12 +137,10 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         DialogComponent,
         NgGraphComponent,
         DendogramComponent,
-        FavoriteFilterComponent,
         KeySwitchDirective,
         ToggleFullscreenDirective
     ],
     exports:[
-      FilterComponent,
       SlidesCardComponent,
       SearchComponent
     ],

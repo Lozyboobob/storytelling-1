@@ -4,8 +4,7 @@
   </div>
   <div class="search-block" [class.center-mode]="!showSlidesList" [class.side-mode]="showSlidesList">
     <div class="search-wrap">
-      <app-search (textSearch)="searchSlides($event)" class="search"></app-search>
-      <!-- not use actually <app-filter class="filter" *ngIf="loggedIn$ | async" (filterState)="filterState($event)" [selectedValue]= "selectedValue" [states]="states"></app-filter>-->
+      <app-search (textSearch)="searchSlides($event)" kind="generic"></app-search>
     </div>
     <p align="center" class="get-all center-mode" *ngIf="!showSlidesList" (click)="getAllslides()">Discover All</p>
   </div>
@@ -17,7 +16,7 @@
   </div>
 </div>
 
-<div class="no" >
+<div class="error">
   <p *ngIf="noPublish">Sorry, no one publish slides yet! <br>Would you want to be the pioneer?</p>
   <p *ngIf="noResult">Opps, no result for these key words</p>
 </div>
