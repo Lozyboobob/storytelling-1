@@ -11,42 +11,49 @@ import {DialogComponent} from '../dialog/dialog.component';
   styleUrls: ['./slides-card.component.scss']
 })
 export class SlidesCardComponent implements OnInit {
-    @Input() slides: Slides;
-    @Input() editable: boolean; //whether the slides can be edited;
-    @Output() deletedSlides = new EventEmitter();
-    @select(['session', 'token']) loggedIn$: Observable<string>;
-    @select(['session', 'user', 'username']) username$: Observable<Object>;
+  @Input() slides: Slides;
+  @Input() editable: boolean; //whether the slides can be edited;
+  @Output() deletedSlides = new EventEmitter();
+  @select(['session', 'token']) loggedIn$: Observable<string>;
+  @select(['session', 'user', 'username']) username$: Observable<Object>;
 
-    constructor(private slidesService: SlidesService, private dialog: MdDialog) {
-    }
+  constructor(private slidesService: SlidesService, private dialog: MdDialog) {
+  }
 
-    ngOnInit() {
-    }
+  ngOnInit() {
+  }
 
-    publish(e) {
-        this.slides.slidesSetting.public = !this.slides.slidesSetting.public;
-        this.slidesService.updateSlide(this.slides, this.slides._id)
-            .subscribe(elm => console.log(elm.slidesSetting.public));
-    }
-    toggleFavorite() {
-        this.slides.slidesSetting.favorite = !this.slides.slidesSetting.favorite;
-        this.slidesService.updateSlide(this.slides, this.slides._id)
-            .subscribe(elm => console.log(elm.slidesSetting.favorite));
-    }
-    /*delete the whole slides*/
-    deleteSlides(id) {
-        const dialog = this.dialog.open(DialogComponent);
-        dialog.afterClosed().subscribe(result => {
-            if (result === 'YES') {
-                this.slidesService.deleteSlides(id)
-                    .subscribe(res => {
-                            console.log("update succesfully");
-                            // this.router.navigate(['/slides']);
-                            this.deletedSlides.emit(id);
-                        },
-                        error => console.log(error));
-            }
-        });
+  open(e) {
+    e.stopPropagation();
+  }
 
-    }
+  publish(e) {
+    e.stopPropagation();
+    this.slides.slidesSetting.public = !this.slides.slidesSetting.public;
+    this.slidesService.updateSlide(this.slides, this.slides._id)
+      .subscribe(elm => console.log(elm.slidesSetting.public));
+  }
+  toggleFavorite(e) {
+    e.stopPropagation();
+    this.slides.slidesSetting.favorite = !this.slides.slidesSetting.favorite;
+    this.slidesService.updateSlide(this.slides, this.slides._id)
+      .subscribe(elm => console.log(elm.slidesSetting.favorite));
+  }
+  /*delete the whole slides*/
+  deleteSlides(e, id) {
+    e.stopPropagation();
+    const dialog = this.dialog.open(DialogComponent);
+    dialog.afterClosed().subscribe(result => {
+      if (result === 'YES') {
+        this.slidesService.deleteSlides(id)
+          .subscribe(res => {
+            console.log("update succesfully");
+            // this.router.navigate(['/slides']);
+            this.deletedSlides.emit(id);
+          },
+          error => console.log(error));
+      }
+    });
+
+  }
 }

@@ -27,22 +27,14 @@ export const graphType: Array<any> = [
         type: "Gauge Chart"
     },
     {
-        value: "treemapChart",
-        type: "Treemap Chart"
-    },
-    {
-        value: "sunburstChart",
-        type: "Sunburst Chart"
-    },{
         value: "dendogramChart",
         type: "Dendrogram chart"
     },
-    /* hide image part
   {
       value: "image",
       type: "Image"
   },
-  */
+
     {
         value: "noGraph",
         type: "No Graph"
@@ -56,12 +48,10 @@ export const pageLayoutOption: Array<any> = [
         value: "textInCenter",
         type: "Text in Center"
     },
-    /* hide image part
     {
         value: "textInCenterImageBackground",
-        type: "Text in Center + Image Background"
+        type: "Text + Image Background"
     },
-    */
     {
         value: "LeftGraphRightText",
         type: "Graph on Left +  Text on Right"
