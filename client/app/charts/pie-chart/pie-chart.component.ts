@@ -44,6 +44,8 @@ export class PieChartComponent extends Chart implements OnInit {
         this.height = this.element.offsetHeight - this.margin.top - this.margin.bottom;
         const svg = d3.select(this.element)
             .append('svg')
+            .attr('width', this.element.offsetWidth)
+            .attr('height', this.element.offsetHeight)
             .append('g')
             .attr('transform', `translate(${this.width / 2},${this.height / 2})`);
         this.radius = Math.min(this.width, this.height) / 2;
