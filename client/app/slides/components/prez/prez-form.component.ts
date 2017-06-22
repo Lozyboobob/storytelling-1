@@ -1,5 +1,3 @@
-
-
 import { Component, OnInit, Output, EventEmitter, Input, ViewChild, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -18,6 +16,7 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./prez-form.component.scss'],
   providers: [SlidesService, ValidService]
 })
+
 export class PrezFormComponent implements OnInit, AfterViewChecked {
 
   id: string = null;
@@ -25,6 +24,7 @@ export class PrezFormComponent implements OnInit, AfterViewChecked {
   slider: Slides = new Slides();
   @ViewChild('editor') _editor: EditorComponent;
   editorValid: Subscription;
+
   constructor(private router: Router, private sanitizer: DomSanitizer, private slidesService: SlidesService, private validService: ValidService, private cdRef: ChangeDetectorRef, private route: ActivatedRoute) { }
 
   ngOnInit() {
