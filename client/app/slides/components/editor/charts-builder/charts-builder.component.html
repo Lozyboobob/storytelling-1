@@ -80,7 +80,6 @@
       </div>
     </md-card-content>
   </md-card>
-
   <md-card class="ng-section" >
     <md-card-header class="section-header">
       <md-card-title> Your Visualization </md-card-title>
@@ -153,6 +152,8 @@
       </app-bar-chart>
       <app-pie-chart *ngIf="chartType.name === 'pie-chart'" [dataInput]="data">
       </app-pie-chart>
+      <ngx-charts-tree-map *ngIf="chartType.name === 'treemap'" [view]="null" [scheme]="chartOptions.colorScheme" [results]="data">
+      </ngx-charts-tree-map>
       
     </md-card-content>
   </md-card>
