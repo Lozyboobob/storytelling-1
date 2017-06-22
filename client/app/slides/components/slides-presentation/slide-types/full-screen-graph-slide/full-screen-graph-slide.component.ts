@@ -63,6 +63,7 @@ export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit, 
   }
 
   private setChart(chartType: string) {
+    console.log("set");
     let componentFactory = this._componentFactoryResolver.resolveComponentFactory(this.chartsService.getChartType(chartType));
     this.parent.clear();
     if (this.componentRef) {
