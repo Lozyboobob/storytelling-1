@@ -1,24 +1,42 @@
-import {Component, OnInit, Output, EventEmitter} from '@angular/core';
+import {Component, OnInit, Output, Input, EventEmitter} from '@angular/core';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.css']
+  styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
-    @Output() textSearch: EventEmitter<string> = new EventEmitter();
-    textToSearch: string;
+  @Output() textSearch: EventEmitter<string> = new EventEmitter();
+  @Input() kind: string;
 
-    constructor() {
-    }
+  @Output() fState = new EventEmitter();
+  @Input() states = new Array<string>();
+  @Input() selectedState = '';
 
-    onChange(textToSearch) {
-        if (textToSearch) {
-            this.textSearch.emit(textToSearch);
-        } else {
-            this.textSearch.emit('');
-        }
+  @Output() fFavorite = new EventEmitter();
+  @Input() selectedFavorite = '';
+
+  textToSearch: string;
+
+  constructor() {
+  }
+
+  onChange(textToSearch) {
+    if (textToSearch) {
+      this.textSearch.emit(textToSearch);
+    } else {
+      this.textSearch.emit('');
     }
-    ngOnInit() {}
+  }
+
+  onChangeState(state) {
+    this.fState.emit(state);
+  }
+
+  onChangeFavorite(isFavorite) {
+    this.fFavorite.emit(isFavorite);
+  }
+
+  ngOnInit() { }
 
 }

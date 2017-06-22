@@ -1,7 +1,5 @@
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 @import '~@angular/material/_theming.scss';
-@import "spinner.scss";
-
 @include mat-core();
 $primary: mat-palette($mat-blue-grey, 900);
 $accent: mat-palette($mat-cyan, 600);
@@ -15,51 +13,61 @@ $warn: mat-color(map-get($theme, warn)); //$secondery:md-color( map-get($theme, 
 /*for font size*/
 $lg: 26px;
 @mixin basic-frame-theme($theme) {
-    // Extract whichever individual palettes you need from the theme.
-    $primary: map-get($theme, primary);
-    $accent: map-get($theme, accent);
-   $warn: map-get($theme, warn);
-    // Use md-color to extract individual colors from a palette as necessary.
-    background-color: white;
-    color: mat-color($primary);
+  // Extract whichever individual palettes you need from the theme.
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  // Use md-color to extract individual colors from a palette as necessary.
+  background-color: white;
+  color: mat-color($primary);
 
-    .lg {
-        font-size: $lg;
-    }
+  .lg {
+    font-size: $lg;
+  }
 
-    li,
-    ul {
-       //list-style-type: none;
-        padding: 0;
-    }
-    .secondery-text{
-      color: mat-color($primary,50);
-    }
-    .section-title,
-    h2 {
-        color: mat-color($accent);
-        font-size: $lg;
-    }
+  li, ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  .secondery-text {
+    color: mat-color($primary,50);
+  }
+  .section-title, h2 {
+    color: mat-color($accent);
+    font-size: $lg;
+  }
 
-    button {
-        &.secondery {
-            background-color: mat-color($primary, 50);
-            color: mat-color($primary);
-        }
+  button {
+    &.secondery {
+      background-color: mat-color($primary, 50);
+      color: mat-color($primary);
     }
+  }
 
-    &.secondery-theme {
-        background: mat-color($primary,50);
-    }
-    .error{
-      color: mat-color($warn);
-    }
+  &.secondery-theme {
+    background: mat-color($primary,50);
+  }
+  .error {
+    color: mat-color($warn);
+  }
 }
 @mixin Nav-theme($theme) {
-    // Extract whichever individual palettes you need from the theme.
-    $primary: map-get($theme, primary);
-    $accent: map-get($theme, accent);
-    // Use md-color to extract individual colors from a palette as necessary.
-    background-color: mat-color($primary);
-    border-color: mat-color($accent, A400);
+  // Extract whichever individual palettes you need from the theme.
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  // Use md-color to extract individual colors from a palette as necessary.
+  background-color: mat-color($primary);
+  border-color: mat-color($accent, A400);
 }
+
+
+/**
+ Project specifications
+ **/
+
+ .error{
+   display: block;
+   padding: 20px;
+   width: 100%;
+   text-align: center;
+ }
