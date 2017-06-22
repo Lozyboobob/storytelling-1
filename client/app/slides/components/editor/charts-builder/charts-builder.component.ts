@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { colorSets } from '@swimlane/ngx-charts/release/utils/color-sets';
 import * as shape from 'd3-shape';
 import * as dsv from 'd3-dsv';
@@ -7,7 +7,6 @@ import * as babyparse from 'babyparse';
 
 import { chartTypes } from './chartTypes';
 import { gapminder } from './data';
-
 
 const defaultOptions = {
   view: [900, 600],
@@ -32,7 +31,7 @@ const defaultOptions = {
   curveClosed: shape.curveCardinalClosed
 };
 
-const  curves = {
+const curves = {
   'Basis': shape.curveBasis,
   'Basis Closed': shape.curveBasisClosed,
   'Bundle': shape.curveBundle.beta(1),
@@ -55,10 +54,14 @@ const  curves = {
 @Component({
   selector: 'app-charts-builder',
   templateUrl: './charts-builder.component.html',
-  styleUrls: [ './charts-builder.component.scss']
+  styleUrls: ['./charts-builder.component.scss']
 })
 export class ChartsBuilderComponent implements OnInit {
+  @Input() inputData: any[];
+  @Input() inputOptions: any;
+
   chartTypes = chartTypes;
+
   config = {
     lineNumbers: true,
     theme: 'dracula',
@@ -71,7 +74,6 @@ export class ChartsBuilderComponent implements OnInit {
   errors: any[];
   chartType: any;
   theme: string;
-
   dataDims: string[];
   chartOptions: any;
   @Output() configGraph = new EventEmitter();
@@ -109,7 +111,29 @@ export class ChartsBuilderComponent implements OnInit {
 
 
   ngOnInit() {
-    this.clearAll();
+    if (this.inputData != null) {
+      this.loadData()
+    } else {
+      this.clearAll();
+    }
+  }
+
+
+  loadData() {
+    this.headerValues = this.inputOptions.headerValues;
+    this.dataDims = this.inputOptions.dataDims;
+    this.data = [];
+    this.chartType = this.chartTypes.find(chart => chart.name === this.inputOptions.chartType.name);
+
+    console.log('this.dataDims:', this.dataDims);
+
+    this.errors = [];
+    this._dataText = babyparse.unparse(this.inputData);
+    this.rawData = this.inputData;
+    this.chartOptions = { ...defaultOptions };
+    // console.log('this.dataDims:' , this.dataDims);
+    // console.log('this.chartType:' , this.chartType);
+    this.processData();
   }
 
   useExample() {
@@ -129,27 +153,58 @@ export class ChartsBuilderComponent implements OnInit {
     this.dataText = '';
     this.chartType = null;
     this.theme = 'light';
-    this.chartOptions = {...defaultOptions};
+    this.chartOptions = { ...defaultOptions };
   }
 
   processData() {
-    console.log('processData : ', this.dataDims[0]);
 
     if (!this.hasValidDimensions) {
       return;
     }
+
+    if (this.chartType.simpleData) {
+      this.data = this.chartType.convertData(this.dataDims, this.rawData);
+    } else {
+      this.data = this.convertGroupedData();
+    }
+
+
+    this.configGraph.emit({ data: this.rawData, chartOptions: { chartType: this.chartType, headerValues: this.headerValues, dataDims: this.dataDims, ...this.chartOptions } });
+    console.log('data: ', this.data);
+    return this.data;
+
+  }
+
+
+  // FIXME
+  convertSimpleData() {
+
+    const name$ = d => d[this.dataDims[0]];
+    const value$ = d => d[this.dataDims[1]];
+    const value2$ = d => d[this.dataDims[2]];
+
+    function seriesPoints(d) {
+      return {
+        name: name$(d),
+        index: name$(d),
+        value: value$(d),
+        x: name$(d),
+        y: value$(d),
+        r: value2$(d)
+      };
+    }
+
+    return nest()
+      .entries(this.rawData)
+      .map(seriesPoints);
+  }
+
+  // FIXME
+  convertGroupedData() {
     const key$ = d => d[this.dataDims[0]];
     const name$ = d => d[this.dataDims[1]];
     const value$ = d => d[this.dataDims[2]];
     const value2$ = d => d[this.dataDims[3]];
-
-    this.data = nest()
-      .key(key$)
-      .entries(this.rawData)
-      .map(series);
-    
-    this.configGraph.emit({data: this.data, chartOptions: { chartType: this.chartType.name, ...this.chartOptions }})
-    return this.data;
 
     function series(d) {
       return {
@@ -167,7 +222,14 @@ export class ChartsBuilderComponent implements OnInit {
         r: value2$(d)
       };
     }
+
+    return nest()
+      .key(key$)
+      .entries(this.rawData)
+      .map(series);
+
   }
+
 
   updateData(value = this._dataText) {
 
