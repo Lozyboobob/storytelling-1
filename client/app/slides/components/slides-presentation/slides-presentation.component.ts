@@ -6,7 +6,7 @@ import { WindowResizeService } from '../../services/window-resize.service';
 import { PageScrollInstance, PageScrollService, PageScrollConfig } from 'ng2-page-scroll';
 import {DOCUMENT, DomSanitizer} from '@angular/platform-browser';
 import {SlidesService} from '../../services/slides.service';
-import { BarChartComponent, ForceDirectedGraphComponent, LineChartComponent, TreemapChartComponent, SunburstChartComponent, HierarchicalEdgeBundlingComponent} from 'app/charts';
+import { BarChartComponent, ForceDirectedGraphComponent, LineChartComponent, HierarchicalEdgeBundlingComponent} from 'app/charts';
 
 import { PageConfig, HALF_HALF_LAYOUT, FULL_LAYOUT} from './pageConfig';
 
@@ -168,12 +168,12 @@ export class SlidesPresentationComponent implements OnInit {
         this.direction = 0;
     }
 
-    @HostListener('mouseenter') 
+    @HostListener('mouseenter')
     onMouseEnter() {
         this.showFullScreen = true;
     }
 
-    @HostListener('mouseleave') 
+    @HostListener('mouseleave')
     onMouseLeave() {
         this.showFullScreen = false;
     }
