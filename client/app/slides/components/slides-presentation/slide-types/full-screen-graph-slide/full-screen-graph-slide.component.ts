@@ -19,7 +19,7 @@ export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit, 
 
     @ViewChild('parent', { read: ViewContainerRef })
     parent: ViewContainerRef;
-    private componentRef: ComponentRef<Chart>;
+    private componentRef: ComponentRef<any>;
 
     config: PageConfig;
     loadContentAni: boolean;
@@ -41,7 +41,7 @@ export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit, 
 
     ngAfterContentInit() {
 
-        if (this.slide.graph === 'noGraph' || this.slide.graph === 'image') return;
+        if (this.slide.graph === 'noGraph') return;
         let cmpName: string;
 
         if (this.slide.config && this.slide.config.chartType
@@ -50,7 +50,7 @@ export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit, 
         } else {
             cmpName = this.slide.graph;
         }
-
+        console.log(cmpName)
         let cmpType: string = cmpName.charAt(0).toUpperCase() + cmpName.slice(1) + 'Component';
 
         this.setChart(cmpType);
@@ -59,19 +59,18 @@ export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit, 
     ngOnChanges(changes: SimpleChanges) {
 
         if (this.slide.graph === 'noGraph') return;
-        if (this.slide.graph != 'image') {
-            let cmpName: string;
+        let cmpName: string;
 
-            if (this.slide.config && this.slide.config.chartType
-                && this.slide.config.chartType.cmpName != null) {
-                cmpName = this.slide.config.chartType.cmpName;
-            } else {
-                cmpName = this.slide.graph;
-            }
-            let cmpType: string = cmpName.charAt(0).toUpperCase() + cmpName.slice(1) + 'Component'; this.setChart(cmpType);
+        if (this.slide.config && this.slide.config.chartType
+            && this.slide.config.chartType.cmpName != null) {
+            cmpName = this.slide.config.chartType.cmpName;
+        } else {
+            cmpName = this.slide.graph;
         }
-        else
-        { let cmpType: string = "IMAGE"; this.setChart(cmpType); }
+        console.log(cmpName)
+        let cmpType: string = cmpName.charAt(0).toUpperCase() + cmpName.slice(1) + 'Component'; this.setChart(cmpType);
+
+
 
     }
 
@@ -81,21 +80,20 @@ export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit, 
         if (this.componentRef) {
             this.componentRef.destroy();
         }
-        if (chartType != 'IMAGE') {
-            let componentFactory = this._componentFactoryResolver.resolveComponentFactory(this.chartsService.getChartType(chartType));
-            this.componentRef = this.parent.createComponent(componentFactory);
-
+        let componentFactory = this._componentFactoryResolver.resolveComponentFactory(this.chartsService.getChartType(chartType));
+        this.componentRef = this.parent.createComponent(componentFactory);
+        if (chartType == 'ImageComponent') {
+            if (this.slide.slideImage) this.componentRef.instance.path = this.slide.slideImage.path;
+        }
+        else {
             this.componentRef.instance.dataInput = this.slide.data; // set the input inputData of the abstract class Chart
             this.componentRef.instance.configInput = this.slide.config; // set the input inputData of the abstract class Chart
         }
-        else {
-          let componentFactory = this._componentFactoryResolver.resolveComponentFactory("DIV");
-          this.componentRef = this.parent.createComponent(componentFactory);
-        }
-
-
 
     }
+
+
+
 
     private setConfig() {
         this.config = new PageConfig();

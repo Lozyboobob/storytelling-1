@@ -3,6 +3,7 @@ import { PieChartComponent, AdvancedPieChartComponent, BarChartComponent, ForceD
   HierarchicalEdgeBundlingComponent, LineChartComponent, DendogramComponent,
   NgGraphComponent
 }  from "app/charts";
+import {ImageComponent} from "../components/slides-presentation/slide-types/"
 
 @Injectable()
 export class ChartsService {
@@ -14,7 +15,7 @@ export class ChartsService {
     this.listWidget = new Map<string, Type<any>>([['PieChartComponent', PieChartComponent], ['AdvancedPieChartComponent', AdvancedPieChartComponent],
      ['BarChartComponent', BarChartComponent], ['ForceDirectedGraphComponent', ForceDirectedGraphComponent],
      ['GaugeChartComponent', GaugeChartComponent], ['HierarchicalEdgeBundlingComponent', HierarchicalEdgeBundlingComponent],
-     ['LineChartComponent', LineChartComponent], ['DendogramChartComponent', DendogramComponent], ['NgGraphComponent', NgGraphComponent]
+     ['LineChartComponent', LineChartComponent], ['DendogramChartComponent', DendogramComponent], ['NgGraphComponent', NgGraphComponent], ['ImageComponent', ImageComponent]
      ]);
   }
 

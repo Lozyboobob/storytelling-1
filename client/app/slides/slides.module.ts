@@ -18,6 +18,7 @@ import {SearchComponent} from './components/search/search.component';
 // SLIDES COMPONENTS
 import { SlidesPresentationComponent,
     FullScreenGraphSlideComponent,
+    ImageComponent,
     TitleSlideComponent,
     LeftGraphRightTextSlideComponent,
     RightGraphLeftTextSlideComponent,
@@ -101,7 +102,8 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         AdvancedPieChartComponent,
         DialogComponent,
         DendogramComponent,
-        NgGraphComponent],
+        NgGraphComponent,
+        ImageComponent],
     declarations: [
         ScrollDirective,
         KeySwitchDirective,
@@ -136,12 +138,13 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         DendogramComponent,
         FavoriteFilterComponent,
         KeySwitchDirective,
-        ToggleFullscreenDirective
+        ToggleFullscreenDirective,
+        ImageComponent
     ],
-    exports:[
-      FilterComponent,
-      SlidesCardComponent,
-      SearchComponent
+    exports: [
+        FilterComponent,
+        SlidesCardComponent,
+        SearchComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     providers: [OverlayContainer, SlidesService, ChartsService]
