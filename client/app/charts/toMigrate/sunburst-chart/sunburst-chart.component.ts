@@ -1,193 +1,337 @@
 import { Component, OnInit, OnChanges, ViewChild, ElementRef, Input, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import * as d3 from 'd3';
-import {HierarchyNode} from 'd3'
+import * as _ from "lodash";
 
-import {Chart} from '../chart.class';
+import { Chart } from '../../chart.class';
 
 @Component({
-    selector: 'app-treemap-chart',
-    templateUrl: './treemap-chart.component.html',
-    styleUrls: ['./treemap-chart.component.scss']
+    selector: 'app-sunburst-chart',
+    templateUrl: './sunburst-chart.component.html',
+    styleUrls: ['./sunburst-chart.component.scss']
 })
-export class TreemapChartComponent extends Chart implements OnInit {
+export class SunburstChartComponent extends Chart implements OnInit {
     @ViewChild('chart') private chartContainer: ElementRef;
     private data: any;
     private curtain: any; //for animation
-    private margin: any = { top: 20, bottom: 20, left: 20, right: 20 };
+    private margin: any = {top: 20, bottom: 20, left: 20, right: 20};
     private chart: any;
     private width: number;
     private height: number;
+    private totalSize: number = 0; // Total size of all segments; we set this later, after loading the data.
+    private colorScale: any
+    private explanationHeight: number;
+    private explanationWidth: number;
+    private b = {
+        w: 55, h: 30, s: 3, t: 10 // Breadcrumb dimensions: width, height, spacing, width of tip/tail.
+    };
+    private stringsLength: Array<number>; // Array of the strings size inside the trail
+    private arc: any;
     private xScale: any;
     private yScale: any;
-    private root: any;
-    private node: any;
+    private radius: any;
+    private formatNumber: any
 
-    constructor() { 
-       super()  
+    constructor() {
+        super()
     }
 
     ngOnInit() {
         // Set data
         (this.dataInput.length == 0) ? this.data = sample[0] : this.data = this.dataInput[0];
-        
+
         this.init();
     }
-    
+
+    setData(data) {
+        (data.length == 0) ? this.data = sample[0] : this.data = data[0];
+    }
+
     init() {
-        console.log('init');
+
+        // Set size of the svg
         let element = this.chartContainer.nativeElement;
         this.width = element.offsetWidth - this.margin.left - this.margin.right;
         this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
 
-        // x and y definition
-        this.xScale = d3.scaleLinear().range([0, this.width]);
-        this.yScale = d3.scaleLinear().range([0, this.height]);
+        this.formatNumber = d3.format(",d");
+        this.radius = Math.min(this.width - this.margin.left - this.margin.right, this.height - this.margin.top - this.margin.bottom) / 2;
+        this.xScale = d3.scaleLinear().range([0, 2 * Math.PI]);
+        this.yScale = d3.scaleSqrt().range([0, this.radius]);
+        d3.select(element).select('#sequence')
+            .select('svg')
+            .style('opacity',0);
 
-        // Color definition
-        let colorDomain = ['#FF8A8A','#C58AFF', '#FF8AC5', '#FFC875', '#F8FF86', '#86FF6a', '#7DF5FF', '#8AFFC5', '#BED2ED'];
-        let color = d3.scaleOrdinal(colorDomain);
+        // Set colors of the sections
+        this.colorScale = d3.scaleOrdinal(d3.schemeCategory20);
+        // Position of the Explanation label in the center of the sunburst
+        let explanationElmnt = d3.select(element).select('#explanation').node() as HTMLElement;
+        this.explanationWidth = explanationElmnt.offsetWidth;
+        this.explanationHeight = explanationElmnt.offsetHeight;
 
-        let format = d3.format(",d");
+        let partition = d3.partition();
 
-        // Chart construction
-        this.chart = d3.select(element).append('svg')
-            .attr("class", "svg")
-            .attr('width', this.width)
-            .attr('height', this.height);
-
-        let treemap = d3.treemap()
-            .tile(d3.treemapResquarify)
-            .size([this.width, this.height])
-            .round(true);
-            
-/*
-    d3.csv("./client/app/charts/treemap-chart/flare.csv", (error, flatData) => {
-        if (error) throw error;
-
-        // assign null correctly
-        flatData.forEach(function(d) {
-            if (d.size == "null") { d.size = null};
-        });
-
-        // convert the flat data into a hierarchy (treeData = json to record)
-        let treeData = d3.stratify()
-                        .id(function(d: any) { return d.name; })
-                        .parentId(function(d: any) { 
-                var i = d.name.lastIndexOf("."); 
-                return i >= 0 ? d.name.slice(0, i) : null; 
-            })(flatData);
-
-        // assign the name to each node
-        treeData.each(function(d: any) {
-            var i = d.id.lastIndexOf("."); 
-             d.name =  i >= 0 ? d.id.slice(i+1, d.id.length) : d.id;
-        });
-        
-        //  assigns the data to a hierarchy using parent-child relationships
-        this.root = d3.hierarchy(treeData
-            .eachBefore(function(d: any) { d.data.id = (d.parent ? d.parent.data.id + "." : "") + d.data.name })
-            .sum(function(d: any) {return d.size})
-            .sort((a, b) =>  b.height - a.height || b.value - a.value));
-    });
-*/
-
-        this.root = d3.hierarchy(this.data)
-            .eachBefore(d => { d.data.id = (d.parent ? d.parent.data.id + "." : "") + d.data.name })
-            .sum(d => d.size)
-            .sort((a, b) =>  b.height - a.height || b.value - a.value);
-
-        this.node = this.root;
-
-        treemap(this.root);
-
-        let cell = this.chart.selectAll("g")
-            .data(this.root.leaves())
-            .enter().append("g")
-            .attr("class", "cell")
-            .attr("transform", d => "translate(" + d['x0'] + "," + d['y0'] + ")")
-            .on("click", d => this.zoom(this.node == d.parent ? this.root : d.parent, this.xScale, this.yScale));
-
-        cell.append("rect")
-            .attr("id", d => d.data.id)
-            .attr("width", d => d['x1'] - d['x0'] - 1)
-            .attr("height", d => d['y1'] - d['y0'] - 1)
-            .attr("fill", d => color(d.parent.data.id));
-
-        cell.append("text")
-            .attr("x", d => (d['x1'] - d['x0'])/2)
-            .attr("y", d => (d['y1'] - d['y0'])/2)
-            .attr("dy", ".35em")
-            .attr("text-anchor", "middle")
-            .text(d => d.data.name)
-            .style("opacity", function(d) { 
-                let stringLength = (<SVGTSpanElement>this).getComputedTextLength();  
-                return (d['x1'] - d['x0']) > stringLength ? 1 : 0;
+        this.arc = d3.arc()
+            .startAngle((d: any) => {
+                return Math.max(0, Math.min(2 * Math.PI, this.xScale(d.x0)));
+            })
+            .endAngle((d: any) => {
+                return Math.max(0, Math.min(2 * Math.PI, this.xScale(d.x1)));
+            })
+            .innerRadius((d: any) => {
+                return Math.max(0, this.yScale(d.y0));
+            })
+            .outerRadius((d: any) => {
+                return Math.max(0, this.yScale(d.y1));
             });
 
+        // Basic setup of page elements
+        this.initializeBreadcrumbTrail(element, this.radius);
+
+        this.chart = d3.select(element).append('svg')
+            .attr('width', this.width)
+            .attr('height', this.height)
+            .attr("id", "sunBurstSvg")
+            .append("g")
+            .attr("id", "container")
+            .attr("transform", "translate(" + this.width / 2 + "," + this.height / 2 + ")");
+
+        // Turn the data into a d3 hierarchy and calculate the sums.
+        let root = d3.hierarchy(this.data)
+            .sum((d: any) => d.size)
+            .sort((a, b) => b.value - a.value);
+
+        let nodes = partition(root)
+            .descendants();
+
+        let path = this.chart.data([this.data]).selectAll("path")
+            .data(nodes)
+            .enter().append("path")
+            .attr("d", this.arc)
+            .attr("fill-rule", "evenodd")
+            .style("fill", d => this.colorScale(d.data.name))
+            .style("opacity", 1)
+            .on("mouseover", d => this.mouseover(d, this, element))
+            .on("click", d => this.zoom(d, this));
+
+        // Add the mouseleave handler to the bounding circle.
+        d3.select(element).select("#container").on("mouseleave", d => this.mouseleave(d, this, element));
+
+        // Get total size of the tree = value of root node from partition.
+        this.totalSize = path.datum().value;
+
         /* Add 'curtain' rectangle to hide entire graph */
-        this.curtain = this.chart.append("g").append('rect')
+        this.curtain = d3.select(element).select('#sunBurstSvg')
+            .append("g")
+            .append('rect')
             .attr('x', -1 * this.width)
             .attr('y', -1 * this.height)
             .attr('height', this.height)
             .attr('width', 0)
             .attr('class', 'curtain')
             .attr('transform', 'rotate(180)')
-            .style('fill', '#fafafa')
-        
-        cell.append("title")
-            .text(d => d.data.id + "\n" + format(d.value));
-
-        // When we click outside the graph, we reinit it
-        d3.select(window).on("click", () => this.zoom(this.root, this.xScale, this.yScale));
+            .style('fill', '#fafafa');
         this.load();
     }
-    
-    private zoom(d, x, y) {
-        // Ratio
-        let kx = this.width / (d['x1'] - d['x0']);
-        let ky = this.height / (d['y1'] - d['y0']);
-        
-        // New x and y domains
-        x.domain([d['x0'], d['x1']]);
-        y.domain([d['y0'], d['y1']]);
-                
-        // Cells translation
-        let t = this.chart.selectAll("g.cell").transition()
-            .duration(750)
-            .attr("transform", function(d) { return "translate(" + x(d['x0']) + "," + y(d['y0']) + ")"; });
-            
-        // Rect new dimensions
-        t.select("rect")
-            .attr("width", function(d) { return kx * (d['x1'] - d['x0']) - 1; })
-            .attr("height", function(d) { return ky * (d['y1'] - d['y0']) - 1; })
-            
-        // Text position
-        t.select("text")
-            .attr("x", function(d) { return kx * (d['x1'] - d['x0']) / 2; })
-            .attr("y", function(d) { return ky * (d['y1'] - d['y0']) / 2; })
-            .attr("dy", ".35em")
+
+    // Basic setup of page elements.
+    private initializeBreadcrumbTrail(element, radius) {
+        // Add the svg area.
+        d3.select(element).select("#sequence").append("svg")
+            .attr("height", 50)
+            .attr("id", "trail")
+            .style("width", 'auto');
+
+        // Place the breadcrumb trail lower
+        d3.select(element).select('#sequence')
+            .select('svg')
+            .attr("transform", d => "translate(0," + this.explanationHeight / 2 + ")");
+    }
+
+    // Fade all but the current sequence, and show it in the breadcrumb trail.
+    private mouseover(d, thisClass, element) {
+        let percentage = Number((100 * d.value / thisClass.totalSize).toPrecision(3));
+        let value = thisClass.formatNumber(d.value);
+        let percentageString = `${percentage}%`;
+
+        if (percentage < 0.1) {
+            percentageString = "< 0.1%";
+        }
+
+        // Update of the percentage of the explanation
+        d3.select(element).select("#percentage")
+            .text(percentageString);
+
+        // Update of the percentage of the explanation
+        d3.select(element).select("#value")
+            .text(value);
+
+        let sequenceArray = d.ancestors().reverse();
+        thisClass.updateBreadcrumbs(sequenceArray, percentageString, thisClass, element); // Update of the breadcrumb trail
+
+        // Fade all the segments.
+        thisClass.chart.selectAll("path")
+            .style("opacity", 0.3);
+
+        // Then highlight only those that are an ancestor of the current segment.
+        thisClass.chart.selectAll("path")
+            .filter(function (node) {
+                return (sequenceArray.indexOf(node) >= 0);
+            })
+            .style("opacity", 1);
+    }
+
+    // Update the breadcrumb trail to show the current sequence and percentage.
+    private updateBreadcrumbs(nodeArray, percentageString, thisClass, element) {
+        thisClass.stringsLength = [];
+
+        // Data join; key function combines name and depth (= position in sequence).
+        let trail = d3.select(element).select("#trail")
+            .selectAll("g")
+            .data(nodeArray, (d: any) => d.data.name + d.depth);
+
+        // Remove exiting nodes.
+        trail.exit().remove();
+
+        // Add breadcrumb and label for entering nodes.
+        let entering = trail.enter().append("g");
+
+        // Dynamic size ot trail
+        // 1. We draw the text of each section of the trail
+        entering.append("text")
+            .attr("y", thisClass.b.h / 2)
+            .attr("dy", "0.35em")
             .attr("text-anchor", "middle")
-            .style("opacity", function(d) { 
-                let stringLength = (<SVGTSpanElement>this).getComputedTextLength();  
-                return (kx * (d['x1'] - d['x0'])) > stringLength ? 1 : 0;
+            .text(function (d) {
+                return d.data.name;
+            })
+            .each(function (d) {
+                let stringLength = (<SVGTextContentElement>this).getComputedTextLength();
+                d3.select(this).attr("x", () => ( thisClass.b.w + stringLength + thisClass.b.t) / 2);
+
             });
-            
-        this.node = d;
-        d3.event.stopPropagation();
+
+        // 2. We calculate the effective size ot these texts
+        d3.select(element).select('#trail').selectAll('g').select('text').each(function (d) {
+            let stringLength = (<SVGTextContentElement>this).getComputedTextLength();
+            thisClass.stringsLength.push(stringLength);
+        });
+
+        // 3. We draw the polygons adapted to the text size
+        entering.append("polygon")
+            .attr("points", (d, i) => thisClass.breadcrumbPoints(d, i, this, thisClass, thisClass.stringsLength[i]))
+            .style("fill", d => thisClass.colorScale(d.data.name))
+            .each(function () {
+                // 4. We place polygons back of the texts
+                let firstChild = (<Node>this).parentNode.firstChild;
+
+                if (firstChild) {
+                    (<Node>this).parentNode.insertBefore(<Node>this, firstChild);
+                }
+            });
+
+        // Merge enter and update selections; set position for all nodes and we calculate the size of the sequence
+        let translation = 0; // Translation of each polygon
+        let SequenceTotalSize = 0; // Total size of the trail
+
+        entering.merge(trail).attr("transform", (d, i) => {
+            translation += ((i == 0) ? 0 : (thisClass.b.w + thisClass.b.s + thisClass.stringsLength[i - 1]));
+            SequenceTotalSize += thisClass.b.w + thisClass.stringsLength[i] + thisClass.b.t;
+
+            return "translate(" + translation + ", 0)";
+        });
+
+        // Position of the sequence
+        d3.select(element).select('#sequence')
+            .select('svg')
+            .attr("transform", d => "translate(" + ((thisClass.width  - SequenceTotalSize - thisClass.explanationWidth) / 2)   + "," + (thisClass.height / 2 - thisClass.radius + thisClass.margin.top)  + ")");
+
+        // Position of the explanation
+        d3.select(element).select('#explanation')
+            .style("top", thisClass.height / 2 - thisClass.radius - 50 - thisClass.explanationHeight / 4  + 'px')
+            .style("left", (thisClass.width + SequenceTotalSize - thisClass.explanationWidth) / 2 + 'px');
+
+        // Make the breadcrumb trail visible, if it's hidden.
+        d3.select(element).select("#trail")
+            .style("visibility", "");
+
+        // Make the explanation trail visible, if it's hidden.
+        d3.select(element).select("#explanation")
+            .style("visibility", "");
+    }
+
+    // Generate a string that describes the points of a breadcrumb polygon.
+    private breadcrumbPoints(d, i, node, thisClass, textLength) {
+        let points = [];
+        points.push("0,0");
+        points.push(thisClass.b.w + textLength + ",0");
+        points.push(thisClass.b.w + textLength + thisClass.b.t + "," + (thisClass.b.h / 2));
+        points.push(thisClass.b.w + textLength + "," + thisClass.b.h);
+        points.push("0," + thisClass.b.h);
+
+        // For the leftmost breadcrumb we don't include 6th vertex
+        if (i > 0) {
+            points.push(thisClass.b.t + "," + (thisClass.b.h / 2));
+        }
+
+        return points.join(" ");
+    }
+
+    // Restore everything to full opacity when moving off the visualization.
+    private mouseleave(d, thisClass, element) {
+        // Hide the breadcrumb trail
+        d3.select(element).select("#trail")
+            .style("visibility", "hidden");
+
+        // Hide explanation
+        d3.select(element).select("#explanation")
+            .style("visibility", "hidden");
+
+        // Deactivate all segments during transition.
+        thisClass.chart.selectAll("path")
+            .on("mouseover", null);
+
+        // Transition each segment to full opacity and then reactivate it.
+        thisClass.chart.selectAll("path")
+            .transition()
+            .duration(250)
+            .style("opacity", 1)
+            .on("end", function () {
+                d3.select(this).on("mouseover", d => thisClass.mouseover(d, thisClass, element));
+            });
+    }
+
+    zoom(d, thisClass) {
+        thisClass.chart.transition()
+            .duration(750)
+            .tween("scale", function () {
+                let xd = d3.interpolate(thisClass.xScale.domain(), [d.x0, d.x1]);
+                let yd = d3.interpolate(thisClass.yScale.domain(), [d.y0, 1]);
+                let yr = d3.interpolate(thisClass.yScale.range(), [d.y0 ? 20 : 0, thisClass.radius]);
+
+                return t => {
+                    thisClass.xScale.domain(xd(t));
+                    thisClass.yScale.domain(yd(t)).range(yr(t));
+                };
+            })
+            .selectAll("path")
+            .attrTween("d", d => {
+                return function () {
+                    return thisClass.arc(d);
+                };
+            });
     }
 
     load() {
-        this.curtain
-            .attr('width', this.width);
+        this.curtain.attr('width', this.width);
 
         this.curtain.transition()
-            .duration(2000)
+            .duration(1500)
             .attr('width', 0);
-     }
+    }
 
-    ease() { 
+    ease() {
         this.curtain.transition()
-            .duration(1250)
+            .duration(600)
             .attr('width', this.width);
     }
 }
@@ -563,3 +707,63 @@ const sample = [
  ]
 }
 ]
+
+
+
+/*
+// Functions enabling parsinf of csv and the construction of the json
+
+d3.text("./client/app/charts/sunburst-chart/sunBurstSample.csv", function(text) {
+    let csv = d3.csvParseRows(text);
+    let json = buildHierarchy(csv);
+});
+
+function buildHierarchy(csv) {
+    let root = {"name": "root", "children": []};
+
+    for (let i = 0; i < csv.length; i++) {
+        let sequence = csv[i][0];
+        let size = +csv[i][1];
+
+        if (isNaN(size)) { // e.g. if this is a header row
+            continue;
+        }
+
+        let parts = sequence.split("-");
+        let currentNode = root;
+
+        for (let j = 0; j < parts.length; j++) {
+            let children = currentNode["children"];
+            let nodeName = parts[j];
+            let childNode;
+
+            if (j + 1 < parts.length) {
+                // Not yet at the end of the sequence; move down the tree.
+ 	            let foundChild = false;
+
+ 	            for (let k = 0; k < children.length; k++) {
+ 	                if (children[k]["name"] == nodeName) {
+ 	                    childNode = children[k];
+ 	                    foundChild = true;
+ 	                    break;
+ 	                }
+ 	            }
+
+                // If we don't already have a child node for this branch, create it.
+ 	            if (!foundChild) {
+ 	                childNode = {"name": nodeName, "children": []};
+ 	                children.push(childNode);
+ 	            }
+
+                currentNode = childNode;
+            } else {
+ 	            // Reached the end of the sequence; create a leaf node.
+ 	            childNode = {"name": nodeName, "size": size};
+ 	            children.push(childNode);
+            }
+        }
+    }
+
+    return root;
+};
+*/

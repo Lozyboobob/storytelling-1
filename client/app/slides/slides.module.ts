@@ -49,8 +49,6 @@ import { HierarchicalEdgeBundlingComponent } from '../charts/hierarchical-edge-b
 import { AdvancedPieChartComponent } from '../charts';
 import { ForceDirectedGraphComponent } from '../charts/force-directed-graph/force-directed-graph.component';
 import { LineChartComponent } from '../charts/line-chart/line-chart.component';
-import { TreemapChartComponent } from '../charts/treemap-chart/treemap-chart.component';
-import { SunburstChartComponent } from '../charts/sunburst-chart/sunburst-chart.component';
 import { FroalaEditorModule, FroalaViewModule } from 'angular2-froala-wysiwyg';
 import { DendogramComponent } from '../charts/dendogram/dendogram.component';
 import { PieChartComponent } from '../charts/pie-chart/pie-chart.component';
@@ -94,8 +92,6 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         BarChartComponent,
         LineChartComponent,
         ForceDirectedGraphComponent,
-        TreemapChartComponent,
-        SunburstChartComponent,
         HierarchicalEdgeBundlingComponent,
         PieChartComponent,
         FullScreenGraphSlideComponent,
@@ -116,8 +112,6 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         BarChartComponent,
         ForceDirectedGraphComponent,
         LineChartComponent,
-        TreemapChartComponent,
-        SunburstChartComponent,
         SlidesEditorComponent,
         SlidesSettingComponent,
         CodeEditorComponent,
