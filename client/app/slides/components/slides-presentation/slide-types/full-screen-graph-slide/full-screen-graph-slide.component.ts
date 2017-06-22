@@ -51,6 +51,7 @@ export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit, 
     }
 
     let cmpType: string = cmpName.charAt(0).toUpperCase() + cmpName.slice(1) + 'Component';
+    console.log('cmpType: ', cmpType);
     this.setChart(cmpType);
   }
 
@@ -66,6 +67,7 @@ export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit, 
     }
 
     let cmpType: string = cmpName.charAt(0).toUpperCase() + cmpName.slice(1) + 'Component';
+    console.log('cmpType: ', cmpType);
     this.setChart(cmpType);
   }
 

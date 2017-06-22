@@ -15,7 +15,7 @@ export class ChartsService {
      ['BarChartComponent', BarChartComponent], ['ForceDirectedGraphComponent', ForceDirectedGraphComponent],
      ['GaugeChartComponent', GaugeChartComponent], ['HierarchicalEdgeBundlingComponent', HierarchicalEdgeBundlingComponent],
      ['SunburstChartComponent', SunburstChartComponent], ['TreemapChartComponent', TreemapChartComponent],
-     ['LineChartComponent', LineChartComponent], ['DendogramChartComponent', DendogramComponent], ['NgGraphComponent', NgGraphComponent]
+     ['LineChartComponent', LineChartComponent], ['DendogramComponent', DendogramComponent], ['NgGraphComponent', NgGraphComponent]
      ]);
   }
 

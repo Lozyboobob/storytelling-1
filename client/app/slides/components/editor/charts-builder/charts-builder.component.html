@@ -86,6 +86,7 @@
       <md-card-title> Your Visualization </md-card-title>
     </md-card-header>
     <md-card-content *ngIf="hasValidDimensions" class="section-content viz-container">
+        <div fxFlex="100%">
       <ngx-charts-bar-vertical-2d *ngIf="chartType.name === 'bar-vertical-2d'" class="chart-container" [scheme]="chartOptions.colorScheme"
         [schemeType]="chartOptions.schemeType" [results]="data" [gradient]="chartOptions.gradient" [xAxis]="chartOptions.showXAxis"
         [yAxis]="chartOptions.showYAxis" [legend]="chartOptions.showLegend" [legendTitle]="chartOptions.legendTitle" [showXAxisLabel]="chartOptions.showXAxisLabel"
@@ -153,6 +154,8 @@
       </app-bar-chart>
       <app-pie-chart *ngIf="chartType.name === 'pie-chart'" [dataInput]="data">
       </app-pie-chart>
-      
+      <app-dendogram *ngIf="chartType.name === 'dendogram'" [dataInput]="data">
+      </app-dendogram>
+        </div>
     </md-card-content>
   </md-card>
