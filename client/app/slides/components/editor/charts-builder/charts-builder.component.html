@@ -149,10 +149,15 @@
         [yAxisLabel]="chartOptions.yAxisLabel" [autoScale]="chartOptions.autoScale" [scheme]="chartOptions.colorScheme" [schemeType]="chartOptions.schemeType"
         [roundDomains]="chartOptions.roundDomains" [tooltipDisabled]="chartOptions.tooltipDisabled" [minRadius]="3" [maxRadius]="20">
       </ngx-charts-bubble-chart>
+      <ngx-charts-number-card *ngIf="chartType.name === 'number-cards'"
+      [scheme]="chartOptions.colorScheme"
+      [results]="data">
+      </ngx-charts-number-card>
+
       <app-bar-chart *ngIf="chartType.name === 'bar-chart'" [dataInput]="data">
       </app-bar-chart>
       <app-pie-chart *ngIf="chartType.name === 'pie-chart'" [dataInput]="data">
       </app-pie-chart>
-      
+
     </md-card-content>
   </md-card>
