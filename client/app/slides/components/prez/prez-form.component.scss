@@ -1,15 +1,5 @@
 @import 'client/theme.scss';
 
-.slides-creator {
-  @include basic-frame-theme($theme);
-
-  md-card {
-    @include basic-frame-theme($theme);
-  }
-}
-
-
-
 .slides {
   .slide {
     padding-bottom: 15px;

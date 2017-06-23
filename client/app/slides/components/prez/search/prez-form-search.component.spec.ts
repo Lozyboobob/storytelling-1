@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SlidesCreatorComponent } from './slides-creator.component';
+import { PrezFormSearchComponent } from './prez-form-search.component';
 
-describe('SlidesCreatorComponent', () => {
-  let component: SlidesCreatorComponent;
-  let fixture: ComponentFixture<SlidesCreatorComponent>;
+describe('PrezFormSearchComponent', () => {
+  let component: PrezFormSearchComponent;
+  let fixture: ComponentFixture<PrezFormSearchComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SlidesCreatorComponent ]
+      declarations: [ PrezFormSearchComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SlidesCreatorComponent);
+    fixture = TestBed.createComponent(PrezFormSearchComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

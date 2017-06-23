@@ -1,8 +1,6 @@
 
 export * from './slides-presentation';
-export * from './slides-creator/slides-creator.component';
+export * from './prez/prez-form.component';
 export * from './editor/slide-creator/slide-creator.component';
-export * from './slides-editor/slides-editor.component';
-export * from './slides-manager/slides-manager.component';
-export * from './search/search.component';
-export * from './filter/filter.component';
+export * from './prez/prez-list.component';
+export * from './prez/search/prez-form-search.component';

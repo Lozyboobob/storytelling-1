@@ -1,23 +1,22 @@
-<div fxLayout="column" fxLayoutAlign="center center">
+<div class="base" fxLayout="column" fxLayoutAlign="center center">
   <div class="logo" [class.hide]="showSlidesList">
     <img src="assets/logo.png" width="100%">
   </div>
   <div class="search-block" [class.center-mode]="!showSlidesList" [class.side-mode]="showSlidesList">
     <div class="search-wrap">
-      <app-search (textSearch)="searchSlides($event)" class="search"></app-search>
-      <!-- not use actually <app-filter class="filter" *ngIf="loggedIn$ | async" (filterState)="filterState($event)" [selectedValue]= "selectedValue" [states]="states"></app-filter>-->
+      <app-search (textSearch)="searchSlides($event)" kind="generic"></app-search>
     </div>
-    <p align="center" class="get-all center-mode" *ngIf="!showSlidesList" (click)="getAllslides()">Discover All</p>
+    <button *ngIf="!showSlidesList" class="buttonBottom floating" (click)="getAllslides()" md-fab><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
   </div>
 </div>
 
 <div fxLayout="row" fxLayoutWrap="wrap" fxLayoutAlign="space-around">
-  <div *ngFor="let s of slides" [class.display-div]="!(loggedIn$|async)&& !s.slidesSetting.public" fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="50" fxFlex.lg="30">
-    <app-slides-card [slides]="s" [editable]="false"></app-slides-card>
+  <div *ngFor="let s of slides" [class.display-div]="!(loggedIn$|async)&& !s.slidesSetting.public" fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="50" fxFlex.lg="33" fxFlex.xl="33">
+    <app-prez-list-card [slides]="s" [editable]="false"></app-prez-list-card>
   </div>
 </div>
 
-<div class="no" >
+<div class="error">
   <p *ngIf="noPublish">Sorry, no one publish slides yet! <br>Would you want to be the pioneer?</p>
   <p *ngIf="noResult">Opps, no result for these key words</p>
 </div>

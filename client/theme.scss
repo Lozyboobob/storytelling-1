@@ -59,3 +59,39 @@ $lg: 26px;
   background-color: mat-color($primary);
   border-color: mat-color($accent, A400);
 }
+
+
+/**
+ Project specifications
+ **/
+
+ .error{
+   display: block;
+   padding: 20px;
+   width: 100%;
+   text-align: center;
+ }
+
+ md-input-container .error {
+   padding: 0;
+   margin: 0;
+   font-size: 75%;
+   color: $warn;
+   text-align: right;
+   position: absolute;
+   top: 0;
+ }
+
+ /* base */
+ .base {
+   width: 100%;
+   padding: 20px;
+ }
+
+ .base.light {
+  background: #fff;
+ }
+
+ .base.dark {
+   background: #f6f6f6;
+ }

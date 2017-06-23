@@ -3,7 +3,7 @@
   z-index: 0;
 }
 
-.slides-card {
+.prez-list-card {
   background: #fff;
   box-shadow: none !important;
   color: #333;
@@ -51,7 +51,6 @@
         color: #333;
         padding: 2px;
         position: relative;
-        z-index: 99;
 
         &.favorite {
           color: $warn;

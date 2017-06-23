@@ -13,7 +13,7 @@ export class BarChartComponent extends Chart implements OnInit {
 
     @ViewChild('chart') private chartContainer: ElementRef;
     private data: Array<any> = sample;
-    private margin: any = { top: 0, bottom: 0, left: 100, right: 100 };
+    private margin: any = { top: 50, bottom: 50, left: 100, right: 100 };
     private chart: any;
     private width: number;
     private height: number;
@@ -84,6 +84,8 @@ export class BarChartComponent extends Chart implements OnInit {
         this.width = element.offsetWidth - this.margin.left - this.margin.right;
         this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
 
+        console.log('element.offsetHeight:', element.offsetHeight)
+
         let svg = d3.select(element).append('svg')
             .attr('width', element.offsetWidth)
             .attr('height', element.offsetHeight);
@@ -91,7 +93,7 @@ export class BarChartComponent extends Chart implements OnInit {
         // chart plot area
         this.chart = svg.append('g')
             .attr('class', 'bars')
-            .attr('transform', `translate(${this.margin.left}, ${this.height / 2})`);
+            .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`);
 
         // define X & Y domains
         let xDomain = this.data.map(d => d.index);
@@ -107,11 +109,11 @@ export class BarChartComponent extends Chart implements OnInit {
         // x & y axis
         this.xAxis = svg.append('g')
             .attr('class', 'axis axis-x')
-            .attr('transform', `translate(${this.margin.left}, ${this.height / 2 + this.height})`)
+            .attr('transform', `translate(${this.margin.left}, ${this.height + this.margin.top})`)
             .call(d3.axisBottom(this.xScale));
         this.yAxis = svg.append('g')
             .attr('class', 'axis axis-y')
-            .attr('transform', `translate(${this.margin.left}, ${this.height / 2})`)
+            .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`)
             .call(d3.axisLeft(this.yScale));
 
 

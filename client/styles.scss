@@ -1,7 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import url( 'https://fonts.googleapis.com/icon?family=Material+Icons');
 @import url( 'https://fonts.googleapis.com/css?family=Montserrat:700');
-@import 'theme.scss';
 @import 'spinner.scss';
 @import 'animation.css';
 /*@font-face {
@@ -58,6 +57,9 @@ a {
 textarea {
   border: 1px solid #ddd;
   height: 10em;
+}
+textarea:active, textarea:focus {
+  border: none !important;
 }
 button:disabled {
   cursor: no-drop;

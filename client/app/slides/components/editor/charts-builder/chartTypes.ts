@@ -1,7 +1,6 @@
 
 import { PieChartComponent, AdvancedPieChartComponent, BarChartComponent, ForceDirectedGraphComponent, GaugeChartComponent,
-  HierarchicalEdgeBundlingComponent, LineChartComponent, DendogramComponent,
-  NgGraphComponent
+  HierarchicalEdgeBundlingComponent, LineChartComponent, DendogramComponent, NgGraphComponent, TreemapChartComponent
 }  from "app/charts";
 
 
@@ -18,9 +17,12 @@ function createChartType({title, ...obj}) {
   }
 }
 
+
 export const chartTypes = [
   createChartType({ title: 'Bar Chart', simpleData: true, cmpName: 'barChart', convertData: BarChartComponent.convertData ,dimLabels: ['Name', 'Value', null] }),
   createChartType({ title: 'Pie Chart', simpleData: true, cmpName: 'pieChart', convertData: PieChartComponent.convertData ,dimLabels: ['Name', 'Value', null] }),
+  createChartType({ title: 'Dendogram', simpleData: true, cmpName: 'dendogram', convertData: DendogramComponent.convertData ,dimLabels: ['Hierarchy 1', 'Hierarchy 2', 'Value'] }),
+  createChartType({ title: 'Force Directed Graph', simpleData: true, cmpName: 'ForceDirectedGraph', convertData: ForceDirectedGraphComponent.convertData ,dimLabels: ['Source', 'Source Group', 'Target', 'Target Group', 'Value'] }),
   createChartType({ title: 'Bar Vertical 2D', convertData: NgGraphComponent.convertData }),
   createChartType({ title: 'Bar Horizontal 2D', convertData: NgGraphComponent.convertData }),
   createChartType({ title: 'Bar Vertical Stacked', convertData: NgGraphComponent.convertData }),
@@ -30,5 +32,9 @@ export const chartTypes = [
   createChartType({ title: 'Line Chart', convertData: NgGraphComponent.convertData, dimLabels: ['Group by', 'x-Values', 'y-Values', null] }),
   createChartType({ title: 'Heat Map', convertData: NgGraphComponent.convertData, dimLabels: ['x-Category', 'y-Category', 'Color', null] }),
   createChartType({ title: 'Bubble Chart', convertData: NgGraphComponent.convertData, dimLabels: ['GroupBy', 'x-Values', 'y-Values', 'Radius'] }),
-  createChartType({ title: 'Number Cards',simpleData: true, convertData: NgGraphComponent.convertSingleData, dimLabels: ['GroupBy', 'Card Name', 'Card Values', 'Color'] })
+
+  createChartType({ title: 'Number Cards',simpleData: true, convertData: NgGraphComponent.convertSingleData, dimLabels: ['Card Name', 'Card Values','Color',null ] }),
+
+  createChartType({ title: 'Treemap', simpleData: true, cmpName: 'treemapChart', convertData: TreemapChartComponent.convertData, dimLabels: ['GroupBy', 'Sum of values', null, null] })
+
 ];
