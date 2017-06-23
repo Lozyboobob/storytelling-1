@@ -1,78 +1,68 @@
-<md-card class="slide-creator secondery-theme">
+<form novalidate [formGroup]="form" (ngSubmit)="f.form.valid" #f="ngForm">
+  <md-card>
 
-  <md-toolbar class="title-bar" (click)="toggleForm()">
-    <span class="section-title">Slide {{slideIndex}}</span>
-    <span class="spacer"></span>
-    <span class="error" *ngIf=" !form.valid">Please complete the slide setting</span>
-  </md-toolbar>
-  <md-card-content *ngIf="showForm">
-    <form novalidate [formGroup]="form" (ngSubmit)="f.form.valid" #f="ngForm">
-      <div class="full-frame">
-        <div class="margin-frame">
-          <table cellspacing="0" class="full-line">
-            <tr>
+    <md-toolbar (click)="toggleForm()" *ngIf="!showForm" class="pointer">
+      <span class="section-title">{{slideIndex}} - {{slide.pageTitle.title}}</span>
+    </md-toolbar>
+    <md-toolbar class="title-bar" *ngIf="showForm">
+      <span class="section-title"> {{slideIndex}} -
+        <md-input-container>
+          <input mdInput formControlName="pageTitle" name="pageTitle" placeholder="title"/>
+        </md-input-container>
+        <md-select formControlName="titleAlign" name="titleAlign">
+          <md-option *ngFor="let align of titleAlign" [value]="align">
+            {{ align }}
+          </md-option>
+        </md-select>
+      </span>
+      <div (click)="toggleForm()" class="click"></div>
+    </md-toolbar>
 
-              <td>
-                <md-input-container class="page-title">
-                  <input mdInput placeholder="Page title" formControlName="pageTitle" name="pageTitle" class="input ">
-                </md-input-container>
-              </td>
-              <td>
-                <md-select placeholder="Select title align" formControlName="titleAlign" name="titleAlign" class="text-align">
-                  <md-option *ngFor="let align of titleAlign" [value]="align">
-                    {{ align }}
-                  </md-option>
-                </md-select>
-              </td>
-            </tr>
-            <br>
-            <tr>
-              <td>
-                <md-select placeholder="Page layout" formControlName="pageLayout" name="pageLayout" (change)="pageLayoutChange()">
-                  <md-option *ngFor="let layout of pageLayout" [value]="layout.value">
-                    {{ layout.type }}
-                  </md-option>
-                </md-select>
-              </td>
-              <td>
-                <md-select *ngIf="slide.hasGraph&&form.controls.pageLayout.value!='textInCenterImageBackground'" placeholder="Select graph" formControlName="slideGraph" name="slideGraph" (change)="graphChanged()">
-                  <md-option *ngFor="let graph of graphs" [value]="graph.value">
-                    {{ graph.type }}
-                  </md-option>
-                </md-select>
-              </td>
-            </tr>
-          </table>
+    <md-card-content *ngIf="showForm">
 
-          <div class="margin-ver-frame">
-            <md-tab-group *ngIf="slide.hasGraph &&(form.controls.slideGraph.value)&& !(form.controls.slideGraph.value=='image'||form.controls.slideGraph.value=='noGraph'||form.controls.slideGraph.value=='ngGraph')" [selectedIndex]="curTab" #dataInput>
+      <div fxLayout="row" fxLayoutWrap="wrap" fxLayoutAlign="space-around" class="base dark">
+        <md-select placeholder="Page layout" formControlName="pageLayout" name="pageLayout" (change)="pageLayoutChange()" fxFlex="50">
+          <md-option *ngFor="let layout of pageLayout" [value]="layout.value">
+            {{ layout.type }}
+          </md-option>
+        </md-select>
+        <md-select *ngIf="slide.hasGraph&&form.controls.pageLayout.value!='textInCenterImageBackground'" placeholder="Select graph" formControlName="slideGraph" name="slideGraph" (change)="graphChanged()" fxFlex="50">
+          <md-option *ngFor="let graph of graphs" [value]="graph.value">
+            {{ graph.type }}
+          </md-option>
+        </md-select>
+      </div>
 
-              <md-tab label="Json">
-                <textarea name="graphDataJson" formControlName="graphDataJson"></textarea>
-                <p class="error" *ngIf=" form.controls.graphDataJson.invalid">Invalidate json format</p>
+      <div fxLayout="row" fxLayoutWrap="wrap" fxLayoutAlign="space-around" class="base dark">
 
-              </md-tab>
-              <md-tab label="CSV">
-                <app-csv-input (csv2json)="getCsvJson($event)"></app-csv-input>
-              </md-tab>
-            </md-tab-group>
-            <app-image-upload (setImage)="setImageHtml($event)" [imagePath]="slide.slideImage" *ngIf="(slide.hasGraph&&form.controls.slideGraph.value=='image')||(this.form.value.pageLayout=='textInCenterImageBackground')"></app-image-upload>
+        <!-- <md-tab-group *ngIf="slide.hasGraph &&(form.controls.slideGraph.value)&& !(form.controls.slideGraph.value=='image'||form.controls.slideGraph.value=='noGraph'||form.controls.slideGraph.value=='ngGraph')" [selectedIndex]="curTab" #dataInput fxFlex="100">
+        <md-tab label="Json">
+          <textarea name="graphDataJson" formControlName="graphDataJson"></textarea>
+          <p class="error" *ngIf=" form.controls.graphDataJson.invalid">Invalidate json format</p>
+        </md-tab>
+        <md-tab label="CSV">
+          <app-csv-input (csv2json)="getCsvJson($event)"></app-csv-input>
+        </md-tab>
+      </md-tab-group> -->
 
-          </div>
-          <div class="margin-ver-frame" *ngIf="slide.hasText">
-            <textarea [froalaEditor]='editorOptions' [(froalaModel)]="slide.text"></textarea>
-          </div>
-          <div *ngIf="form.controls.slideGraph.value == 'ngGraph'">
-            <app-charts-builder [inputData]="slide.data" [inputOptions]="slide.config"  (configGraph)="confirmeSlideGRaphConfig($event)">
-            </app-charts-builder>
-          </div>
+        <app-image-upload (setImage)="setImageHtml($event)" [imagePath]="slide.slideImage" *ngIf="(slide.hasGraph&&form.controls.slideGraph.value=='image')||(this.form.value.pageLayout=='textInCenterImageBackground')" fxFlex="100"></app-image-upload>
+
+        <textarea [froalaEditor]='editorOptions' [(froalaModel)]="slide.text" fxFlex="100"></textarea>
+
+        <div *ngIf="form.controls.slideGraph.value == 'ngGraph'" fxFlex="100">
+          <app-charts-builder [inputData]="slide.data" [inputOptions]="slide.config" (configGraph)="confirmeSlideGRaphConfig($event)">
+          </app-charts-builder>
         </div>
       </div>
-      <br>
-      <button md-raised-button type="button" (click)="confirmSlide()" [disabled]="!form.valid||isInShuffle">OK</button>
-      <button md-raised-button type="button" (click)="deleteSlide($event)" [disabled]="isInShuffle" color="warn">DELETE</button>
-      <span class="error" *ngIf="isInShuffle"> Modification and delete are not allowed during shuffling </span>
-    </form>
-  </md-card-content>
-</md-card>
-<br>
+
+
+      <div class="base dark" fxLayout="row" fxLayoutAlign="center center">
+        <button md-raised-button type="button" (click)="confirmSlide()" [disabled]="!form.valid||isInShuffle">OK</button>
+        <button md-raised-button type="button" (click)="deleteSlide($event)" [disabled]="isInShuffle" color="warn">DELETE</button>
+        <span class="error" *ngIf="isInShuffle"> Modification and delete are not allowed during shuffling </span>
+      </div>
+
+    </md-card-content>
+
+  </md-card>
+</form>

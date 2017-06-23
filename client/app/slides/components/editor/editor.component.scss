@@ -35,19 +35,6 @@
   @include basic-frame-theme($theme);
 }
 
-textarea {
-  width: 100%;
-  //background: transparent;
-  &:active, &:focus {
-    border: 1px solid $primary;
-    outline: none;
-  }
-}
-/* dragula-specific example page styles */
-.shuffle-container {
-  //  background-color: rgba(255, 255, 255, 0.2);
-}
-
 .ex-moved {
   .slide-creator {
     .section-title {
@@ -60,4 +47,8 @@ textarea {
   .slide-creator {
     opacity: .5 !important;
   }
+}
+
+a.mat-fab {
+  margin: 5px;
 }
