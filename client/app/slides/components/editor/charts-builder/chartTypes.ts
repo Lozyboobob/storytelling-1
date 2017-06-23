@@ -36,6 +36,7 @@ export const chartTypes = [
   createChartType({ title: 'Heat Map', convertData: NgGraphComponent.convertData, dimLabels: [{column: 'x-Category', maxSize: 1} , {column: 'y-Category', maxSize: 1} ,{column: 'Color', maxSize: 1}] }),
   createChartType({ title: 'Bubble Chart', convertData: NgGraphComponent.convertData, dimLabels: [{column: 'GroupBy', maxSize: 1} , {column: 'x-Values', maxSize: 1} ,{column: 'y-Values', maxSize: 1}, {column: 'Radius', maxSize: 1}] }),
   createChartType({ title: 'Treemap', simpleData: true, cmpName: 'treemapChart', convertData: TreemapChartComponent.convertData, dimLabels: ['GroupBy', 'Sum of values', null, null] }),
-  createChartType({ title: 'Advanced Pie Chart', simpleData: true, cmpName: 'AdvancedPieChart', convertData: AdvancedPieChartComponent.convertData, dimLabels: ['Name', 'Value', null, null] })
+  createChartType({ title: 'Advanced Pie Chart', simpleData: true, cmpName: 'AdvancedPieChart', convertData: AdvancedPieChartComponent.convertData, dimLabels: ['Name', 'Value', null, null] }),
+  createChartType({ title: 'Gauge Chart', simpleData: true, cmpName: 'GaugeChart', convertData: GaugeChartComponent.convertData, dimLabels: ['GroupBy', 'Sum of values', null, null] })
 ];
 
