@@ -43,34 +43,86 @@ export class Treemap2ChartComponent extends Chart implements OnInit {
    */
    public static convertData(dataDims: string[], rawData: any) {
 
+
+       let dataSample = [{
+ name: 'continent',
+ children: [
+  {
+   name: 'Asie',
+   children: [
+    {name: 'china', value: 11497920624},
+    {name: 'japan', value: 1341105696}
+   ]
+  },
+  {
+   name: 'Europe',
+   children: [
+    {name: 'france', value: 635430772},
+    {name: 'germany', value: 930564520},
+    {name: 'United Kingdom', value: 673053608},
+    {name: 'Spain', value: 430221581}
+   ]
+  },
+  {
+   name: 'America',
+   children: [
+    {name: 'mexico', value: 820971569},
+    {name: 'united states', value: 2738534790},
+    {name: 'Canada', value: 293555608}
+   ]
+  },
+  {
+   name: 'Oceania',
+   children: [
+    {name: 'Australia', value: 175791750},
+   ]
+  }
+ ]
+}];
+
         const name$ = d => d[dataDims[0]];
         const name2$ = d => d[dataDims[1]];
         const value$ = d => d[dataDims[2]];
 
-        const toto = [ { id: dataDims[0], value: 0 } ];
-
+        let root =  { name: dataDims[0], children: []};
+        
         const level0 = _.chain(rawData)
                 .groupBy(dataDims[0])
-                .flatMap(d => sum(d, 1, dataDims[0] + '.', name$))
+                .flatMap(d => sum(d, 1, name$))
                 .value();
 
-        function sum(d, depth, prefix, fetchId$){
+
+        function sum(d, depth, fetchId$){
+            console.log('depth', depth);
+            console.log('d', d);
+            console.log('fetchId$', fetchId$);
 
             let level = [];
             depth -= 1;
             if(depth >= 0) {
                 level = _.chain(d)
                 .groupBy(dataDims[1])
-                .flatMap(d1 => sum(d1, depth, prefix + fetchId$(d[0]) + '.', name2$))
+                .flatMap(d1 => sum(d1, depth, name2$))
                 .value();
+
+                
             }
-            return level.concat({
-                id: prefix + fetchId$(d[0]),
+            
+            let titi = level.concat({
+                name: fetchId$(d[0]),
                 value: _.reduce(d, (total, el) => total + value$(el), 0)
-            })
+            }
+            )
+            console.log('titi', titi);
+            return titi;
         }
 
-        return toto.concat(level0);
+
+
+root.children = level0;
+        console.log(root);
+        //return root.concat(level0);
+        return dataSample[0];
     }
 
     init() {
@@ -89,7 +141,6 @@ export class Treemap2ChartComponent extends Chart implements OnInit {
      * Draw function for D3.js Bar chart
      */
     drawChart() {
-
         let element = this.chartContainer.nativeElement;
         this.width = element.offsetWidth - this.margin.left - this.margin.right;
         this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
@@ -115,56 +166,11 @@ export class Treemap2ChartComponent extends Chart implements OnInit {
             .size([this.width, this.height])
             .round(true);
 
-/*
-    d3.csv("./client/app/charts/treemap-chart/flare.csv", (error, flatData) => {
-        if (error) throw error;
-
-        // assign null correctly
-        flatData.forEach(function(d) {
-            if (d.size == "null") { d.size = null};
-        });
-
-        // convert the flat data into a hierarchy (treeData = json to record)
-        let treeData = d3.stratify()
-                        .id(function(d: any) { return d.name; })
-                        .parentId(function(d: any) {
-                var i = d.name.lastIndexOf(".");
-                return i >= 0 ? d.name.slice(0, i) : null;
-            })(flatData);
-
-        // assign the name to each node
-        treeData.each(function(d: any) {
-            var i = d.id.lastIndexOf(".");
-             d.name =  i >= 0 ? d.id.slice(i+1, d.id.length) : d.id;
-        });
-
-        //  assigns the data to a hierarchy using parent-child relationships
-        this.root = d3.hierarchy(treeData
-            .eachBefore(function(d: any) { d.data.id = (d.parent ? d.parent.data.id + "." : "") + d.data.name })
-            .sum(function(d: any) {return d.size})
-            .sort((a, b) =>  b.height - a.height || b.value - a.value));
-    });
-*/
-
-
-/*
-this.root = d3.hierarchy(this.data)
-            .eachBefore(d => { d.data.id = (d.parent ? d.parent.data.id + "." : "") + d.data.name })
-            .sum(d => d.size)
-            .sort((a, b) =>  b.height - a.height || b.value - a.value);
-*/
-
     
-        let stratify = d3.stratify()
-            .parentId(d => { return d['id'].substring(0, d['id'].lastIndexOf(".")); });
-
-        let treedata = stratify(this.data)
+        this.root = d3.hierarchy(this.data)
+            .eachBefore((d:any) => { d.data.id = (d.parent ? d.parent.data.id + "." : "") + d.data.name })
+            .sum((d:any)=> d.value)
             .sort((a, b) =>  b.height - a.height || b.value - a.value);
-
-
-        this.root = d3.hierarchy(treedata)
-            .sum((d: any) => d.data.value)
-            .sort((a, b) =>  b.height - a.height || b.data.value - a.data.value);
         
 
         this.node = this.root;
