@@ -15,9 +15,7 @@
         Copy and paste your tabular (TSV, CSV) data here.
         <button class="btn btn-link" (click)="useExample()">(Use example data)</button>
       </span>
-      <app-codemirror
-        [(ngModel)]="dataText"
-        [config]="editorConfig">
+      <app-codemirror [(ngModel)]="dataText" [config]="editorConfig">
       </app-codemirror>
 
       <p *ngIf="dataText.length > 1">
@@ -53,42 +51,30 @@
     <md-card-content *ngIf="hasChartSelected" class="section-content">
 
       <div fxLayout="row" fxLayoutAlign="space-around">
-        <md-select [placeholder]="chartType.dimLabels[0]" name="chartType"  [(ngModel)]="dataDims[0]" (change)="processData()">
-          <md-option *ngFor="let field of headerValues" [value]="field.name">
-            {{field.name}} <small>{{field.type}}</small>
-          </md-option>
-        </md-select>
+        
+        <ul class="list-unstyled dimensions-list">
+          Dimensions				
+          <li class="dimension" *ngFor="let dimension of headerValues" dnd-draggable [dragData]="dimension.name">
+              {{dimension.name}}
+            <span class="dimension-type">{{dimension.type}}</span>
+            <span class="dimension-icon pull-right"><i class="fa fa-arrow-right"></i></span>
+          </li>
+        </ul>
 
-        <md-select [placeholder]="chartType.dimLabels[1]" name="chartType"  [(ngModel)]="dataDims[1]" (change)="processData()">
-          <md-option *ngFor="let field of headerValues" [value]="field.name">
-            {{field.name}} <small>{{field.type}}</small>
-          </md-option>
-        </md-select>
-
-        <md-select *ngIf="chartType.dimLabels[2]" [placeholder]="chartType.dimLabels[2]" name="chartType"  [(ngModel)]="dataDims[2]" (change)="processData()">
-          <md-option *ngFor="let field of headerValues" [value]="field.name">
-            {{field.name}} <small>{{field.type}}</small>
-          </md-option>
-        </md-select>
-
-        <md-select *ngIf="chartType.dimLabels[3]" [placeholder]="chartType.dimLabels[3]" name="chartType"  [(ngModel)]="dataDims[3]"
-          (change)="processData()">
-          <md-option *ngFor="let field of headerValues" [value]="field.name">
-            {{field.name}} <small>{{field.type}}</small>
-          </md-option>
-        </md-select>
-
-        <md-select *ngIf="chartType.dimLabels[4]" [placeholder]="chartType.dimLabels[4]" name="chartType"  [(ngModel)]="dataDims[4]"
-          (change)="processData()">
-          <md-option *ngFor="let field of headerValues" [value]="field.name">
-            {{field.name}} <small>{{field.type}}</small>
-          </md-option>
-        </md-select>
+        <div *ngFor="let dimensionCol of chartType.dimLabels; let dimIndex = index" dnd-droppable class="panel" [allowDrop]="allowDropFunction(dimensionCol.maxSize, dimIndex)" (onDropSuccess)="addTobox1Items(dimIndex, $event)">
+            <div class="panel-heading">{{dimensionCol.column}}</div>
+            <ul class="list-unstyled dimensions-list" dnd-sortable-container [sortableData]="dataDims[dimIndex]">
+              <li class="dimension" *ngFor="let dimension of dataDims[dimIndex]; let i = index" dnd-sortable [sortableIndex]="i">
+                  {{dimension}}
+                <span class="dimension-icon pull-right" (click)="removeItem(dimIndex, dimension)"><i class="fa fa-times"></i></span>
+              </li>
+            </ul>
+          </div>
       </div>
     </md-card-content>
   </md-card>
+  <md-card class="ng-section">
 
-  <md-card class="ng-section" >
     <md-card-header class="section-header">
       <md-card-title> Your Visualization </md-card-title>
     </md-card-header>
@@ -151,11 +137,12 @@
           [showXAxisLabel]="chartOptions.showXAxisLabel" [showYAxisLabel]="chartOptions.showYAxisLabel" [xAxisLabel]="chartOptions.xAxisLabel"
           [yAxisLabel]="chartOptions.yAxisLabel" xxxinnerPadding="chartOptions.innerPadding" [tooltipDisabled]="chartOptions.tooltipDisabled">
         </ngx-charts-heat-map>
-        <ngx-charts-bubble-chart *ngIf="chartType.name === 'bubble-chart'" [view]="null"  class="chart-container" [results]="data" [showGridLines]="chartOptions.showGridLines"
-          [legend]="chartOptions.showLegend" [legendTitle]="chartOptions.legendTitle" [xAxis]="chartOptions.showXAxis" [yAxis]="chartOptions.showYAxis"
-          [showXAxisLabel]="chartOptions.showXAxisLabel" [showYAxisLabel]="chartOptions.showYAxisLabel" [xAxisLabel]="chartOptions.xAxisLabel"
-          [yAxisLabel]="chartOptions.yAxisLabel" [autoScale]="chartOptions.autoScale" [scheme]="chartOptions.colorScheme" [schemeType]="chartOptions.schemeType"
-          [roundDomains]="chartOptions.roundDomains" [tooltipDisabled]="chartOptions.tooltipDisabled" [minRadius]="3" [maxRadius]="20">
+        <ngx-charts-bubble-chart *ngIf="chartType.name === 'bubble-chart'" [view]="null" class="chart-container" [results]="data"
+          [showGridLines]="chartOptions.showGridLines" [legend]="chartOptions.showLegend" [legendTitle]="chartOptions.legendTitle"
+          [xAxis]="chartOptions.showXAxis" [yAxis]="chartOptions.showYAxis" [showXAxisLabel]="chartOptions.showXAxisLabel"
+          [showYAxisLabel]="chartOptions.showYAxisLabel" [xAxisLabel]="chartOptions.xAxisLabel" [yAxisLabel]="chartOptions.yAxisLabel"
+          [autoScale]="chartOptions.autoScale" [scheme]="chartOptions.colorScheme" [schemeType]="chartOptions.schemeType" [roundDomains]="chartOptions.roundDomains"
+          [tooltipDisabled]="chartOptions.tooltipDisabled" [minRadius]="3" [maxRadius]="20">
         </ngx-charts-bubble-chart>
         <ngx-charts-tree-map *ngIf="chartType.name === 'treemap'" [view]="null" [scheme]="chartOptions.colorScheme" [results]="data">
         </ngx-charts-tree-map>
