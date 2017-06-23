@@ -3,11 +3,13 @@ import { select } from '@angular-redux/store';
 import {Observable} from 'rxjs/Observable';
 import {SlidesService} from '../../services/index';
 import {Slides} from '../../models/index'
+
 @Component({
   selector: 'app-prez-list',
   templateUrl: './prez-list.component.html',
   styleUrls: ['./prez-list.component.scss']
 })
+
 export class PrezListComponent implements OnInit {
   @select(['session', 'token']) loggedIn$: Observable<string>;
   states = ['All', 'Private', 'Public'];

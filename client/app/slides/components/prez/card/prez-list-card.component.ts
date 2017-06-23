@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { select } from '@angular-redux/store';
-import {Observable} from 'rxjs/Observable';
-import { Slides} from '../../models/slides';
-import {SlidesService} from '../../services/slides.service';
-import {MdDialog} from '@angular/material';
-import {DialogComponent} from '../dialog/dialog.component';
+import { Observable } from 'rxjs/Observable';
+import { Slides } from '../../../models/slides';
+import { SlidesService } from '../../../services/slides.service';
+import { MdDialog } from '@angular/material';
+import { DialogComponent} from '../../dialog/dialog.component';
 @Component({
   selector: 'app-prez-list-card',
   templateUrl: './prez-list-card.component.html',

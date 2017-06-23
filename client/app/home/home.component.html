@@ -11,7 +11,7 @@
 </div>
 
 <div fxLayout="row" fxLayoutWrap="wrap" fxLayoutAlign="space-around">
-  <div *ngFor="let s of slides" [class.display-div]="!(loggedIn$|async)&& !s.slidesSetting.public" fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="50" fxFlex.lg="30">
+  <div *ngFor="let s of slides" [class.display-div]="!(loggedIn$|async)&& !s.slidesSetting.public" fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="50" fxFlex.lg="33" fxFlex.lg="20">
     <app-prez-list-card [slides]="s" [editable]="false"></app-prez-list-card>
   </div>
 </div>

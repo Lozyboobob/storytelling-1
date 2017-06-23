@@ -14,7 +14,7 @@ import { CodemirrorModule } from 'ng2-codemirror';
 
 
 
-import {SearchComponent} from './components/search/search.component';
+import {SearchComponent} from './components/prez/search/search.component';
 // SLIDES COMPONENTS
 import { SlidesPresentationComponent,
     FullScreenGraphSlideComponent,
@@ -64,7 +64,7 @@ import { ChartsBuilderComponent, CodeEditorComponent } from "./components/editor
 import { EditorComponent } from './components/editor/editor.component';
 
 import { PrezListComponent } from './components/prez/prez-list.component';
-import { PrezListCardComponent } from './components/prez/prez-list-card.component';
+import { PrezListCardComponent } from './components/prez/card/prez-list-card.component';
 import { DialogComponent } from './components/dialog/dialog.component';
 import { ToggleFullscreenDirective } from './components/slides-presentation/toggle-fullscreen.directive';
 

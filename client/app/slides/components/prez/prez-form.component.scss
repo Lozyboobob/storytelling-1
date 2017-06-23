@@ -1,13 +1,5 @@
 @import 'client/theme.scss';
 
-.prez-form {
-  @include basic-frame-theme($theme);
-
-  md-card {
-    @include basic-frame-theme($theme);
-  }
-}
-
 .slides {
   .slide {
     padding-bottom: 15px;
