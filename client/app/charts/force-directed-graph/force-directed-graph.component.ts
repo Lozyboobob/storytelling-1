@@ -41,11 +41,11 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
      */
     public static convertData(dataDims: string[], rawData: any) {
 
-        const source$ = d => d[dataDims[0]];
-        const sourceGroup$ = d => d[dataDims[1]];
-        const target$ = d => d[dataDims[2]];
-        const targetGroup$ = d => d[dataDims[3]];
-        const value$ = d => d[dataDims[4]];
+        const source$ = d => d[_.head(dataDims[0])];
+        const sourceGroup$ = d => d[_.head(dataDims[1])];
+        const target$ = d => d[_.head(dataDims[2])];
+        const targetGroup$ = d => d[_.head(dataDims[3])];
+        const value$ = d => d[_.head(dataDims[4])];
 
         let sources = _.chain(rawData)
             .map(r => getNode(r, source$, sourceGroup$))
