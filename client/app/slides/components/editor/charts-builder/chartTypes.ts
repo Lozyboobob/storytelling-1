@@ -1,6 +1,6 @@
 
 import { PieChartComponent, AdvancedPieChartComponent, BarChartComponent, ForceDirectedGraphComponent, GaugeChartComponent,
-  HierarchicalEdgeBundlingComponent, LineChartComponent, DendogramComponent, NgGraphComponent, TreemapChartComponent
+  HierarchicalEdgeBundlingComponent, PieGridChartComponent, LineChartComponent, DendogramComponent, NgGraphComponent, TreemapChartComponent
 }  from "app/charts";
 
 
@@ -19,10 +19,9 @@ function createChartType({title, ...obj}) {
 
 
 export const chartTypes = [
-  createChartType({ title: 'Bar Chart', simpleData: true, cmpName: 'barChart', convertData: BarChartComponent.convertData ,dimLabels: ['Name', 'Value', null] }),
-  createChartType({ title: 'Pie Chart', simpleData: true, cmpName: 'pieChart', convertData: PieChartComponent.convertData ,dimLabels: ['Name', 'Value', null] }),
-  createChartType({ title: 'Dendogram', simpleData: true, cmpName: 'dendogram', convertData: DendogramComponent.convertData ,dimLabels: ['Hierarchy 1', 'Hierarchy 2', 'Value'] }),
-  createChartType({ title: 'Force Directed Graph', simpleData: true, cmpName: 'ForceDirectedGraph', convertData: ForceDirectedGraphComponent.convertData ,dimLabels: ['Source', 'Source Group', 'Target', 'Target Group', 'Value'] }),
+  createChartType({ title: 'Bar Chart', simpleData: true, cmpName: 'barChart', convertData: BarChartComponent.convertData , dimLabels: ['Name', 'Value', null] }),
+  createChartType({ title: 'Pie Chart', simpleData: true, cmpName: 'pieChart', convertData: PieChartComponent.convertData , dimLabels: ['Name', 'Value', null] }),
+  createChartType({ title: 'Pie Grid Chart', simpleData: true, cmpName: 'gridPieChart', convertData: PieGridChartComponent.convertData, dimLabels: ['Name', 'Value', null] }),
   createChartType({ title: 'Bar Vertical 2D', convertData: NgGraphComponent.convertData }),
   createChartType({ title: 'Bar Horizontal 2D', convertData: NgGraphComponent.convertData }),
   createChartType({ title: 'Bar Vertical Stacked', convertData: NgGraphComponent.convertData }),
