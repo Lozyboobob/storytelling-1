@@ -1,7 +1,7 @@
 import { Injectable, Type, ComponentFactoryResolver } from '@angular/core';
-import { PieChartComponent, AdvancedPieChartComponent, BarChartComponent, ForceDirectedGraphComponent, GaugeChartComponent,
-  HierarchicalEdgeBundlingComponent, LineChartComponent, DendogramComponent,
-  NgGraphComponent,TreemapChartComponent
+import { PieChartComponent, AdvancedPieChartComponent, BarChartComponent, ForceDirectedGraphComponent, 
+  GaugeChartComponent, HierarchicalEdgeBundlingComponent, LineChartComponent, DendogramComponent,
+  NgGraphComponent, TreemapChartComponent, PieGridChartComponent
 }  from "app/charts";
 import {ImageComponent} from "../components/slides-presentation/slide-types/"
 
@@ -15,14 +15,14 @@ export class ChartsService {
     this.listWidget = new Map<string, Type<any>>([['PieChartComponent', PieChartComponent], ['AdvancedPieChartComponent', AdvancedPieChartComponent],
       ['BarChartComponent', BarChartComponent], ['ForceDirectedGraphComponent', ForceDirectedGraphComponent],
       ['GaugeChartComponent', GaugeChartComponent], ['HierarchicalEdgeBundlingComponent', HierarchicalEdgeBundlingComponent],
-      ['LineChartComponent', LineChartComponent], ['DendogramComponent', DendogramComponent], ['NgGraphComponent', NgGraphComponent], ['ImageComponent', ImageComponent],
+      ['LineChartComponent', LineChartComponent], ['PieGridChartComponent', PieGridChartComponent], ['DendogramComponent', DendogramComponent], ['NgGraphComponent', NgGraphComponent], ['ImageComponent', ImageComponent],
       ['TreemapChartComponent', TreemapChartComponent]
      ]);
   }
 
   getChartType(widgetType: string): Type<any> {
-     let cmpType = <Type<any>> this.listWidget.get(widgetType);
-     return cmpType;
+    let cmpType = <Type<any>> this.listWidget.get(widgetType);
+    return cmpType;
     // return <Type<any>>this.listWidget.find((x: any) => x.name === widgetType);
 
   }
