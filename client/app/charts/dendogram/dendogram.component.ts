@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
+import { Component, OnInit, OnChanges, ViewChild, ElementRef, Input } from '@angular/core';
 import * as d3 from 'd3';
 import { nest } from 'd3-collection';
 import { Chart } from '../chart.class';
@@ -9,7 +9,7 @@ import * as _ from 'lodash';
     templateUrl: './dendogram.component.html',
     styleUrls: ['./dendogram.component.scss']
 })
-export class DendogramComponent extends Chart implements OnInit {
+export class DendogramComponent extends Chart implements OnInit, OnChanges {
     @ViewChild('chart') private chartContainer: ElementRef;
     private element: any;
     private data: Array<any> = [];
@@ -17,6 +17,7 @@ export class DendogramComponent extends Chart implements OnInit {
     private height: number;
     private curtain: any; //for animation
     private chartOptions: any;
+    private svg: any;
 
     constructor() {
         super();
@@ -24,7 +25,12 @@ export class DendogramComponent extends Chart implements OnInit {
 
     ngOnInit() {
         this.chartOptions = { ...this.configInput };
+        d3.select("#DendogramComponent").remove();
+        this.init();
+    }
 
+    ngOnChanges(){
+        d3.select("#DendogramComponent").remove();
         this.init();
     }
 
@@ -35,25 +41,24 @@ export class DendogramComponent extends Chart implements OnInit {
      */
     public static convertData(dataDims: string[], rawData: any) {
 
-        const name$ = d => d[dataDims[0]];
-        const name2$ = d => d[dataDims[1]];
-        const value$ = d => d[dataDims[2]];
+        const hierarchy$ = depth => d => d[dataDims[0][depth]];
+        const value$ = d => d[dataDims[1]];
+        const depthDim = dataDims[0].length;
 
-        const root = [ { id: dataDims[0], value: 0 } ];
+        const root = [ { id: _.head(dataDims[0]), value: 0 } ];
 
         const level0 = _.chain(rawData)
-                .groupBy(dataDims[0])
-                .flatMap(d => sum(d, 1, dataDims[0] + '.', name$))
+                .groupBy(_.head(dataDims[0]))
+                .flatMap(d => sum(d, 0, _.head(dataDims[0]) + '.', hierarchy$(0)))
                 .value();
 
-        function sum(d, depth, prefix, fetchId$){
-
+        function sum(d, depth, prefix, fetchId$){            
             let level = [];
-            depth -= 1;
-            if(depth >= 0) {
+            depth += 1;
+            if(depth < depthDim) {
                 level = _.chain(d)
-                .groupBy(dataDims[1])
-                .flatMap(d1 => sum(d1, depth, prefix + fetchId$(d[0]) + '.', name2$))
+                .groupBy(dataDims[0][depth])
+                .flatMap(d1 => sum(d1, depth, prefix + fetchId$(d[0]) + '.', hierarchy$(depth)))
                 .value();
             }
             return level.concat({
@@ -72,7 +77,6 @@ export class DendogramComponent extends Chart implements OnInit {
             this.data = DendogramComponent.convertData(this.chartOptions.dataDims, this.dataInput);
         else
             this.data = this.dataInput;
-        
         this.drawChart();
         this.load();
     }
@@ -87,11 +91,11 @@ export class DendogramComponent extends Chart implements OnInit {
         this.width = this.element.offsetWidth;
         this.height = this.element.offsetHeight;
 
-        let svg = d3.select(this.element).append("svg");
-        this.curtain = svg.style('opacity', 0);
-        svg.attr("height", this.height)
+        this.svg = d3.select(this.element).append("svg").attr("id","DendogramComponent");
+        this.curtain = this.svg.style('opacity', 0);
+        this.svg.attr("height", this.height)
             .attr("width", this.width);
-        let g = svg.append("g").attr('transform', `translate(60,0)`);
+        let g = this.svg.append("g").attr('transform', `translate(60,0)`);
 
         let tree = d3.cluster()
             .size([this.height, this.width - 200]);

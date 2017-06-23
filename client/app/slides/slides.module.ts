@@ -12,6 +12,8 @@ import {XHRBackend, Http, RequestOptions} from '@angular/http';
 import { PieChartModule, GaugeModule, NgxChartsModule } from '@swimlane/ngx-charts';
 import { CodemirrorModule } from 'ng2-codemirror';
 
+// DRAG & DROP MODULE
+import { DndModule } from 'ng2-dnd';
 
 
 import {PrezFormSearchComponent} from './components/prez/search/prez-form-search.component';
@@ -84,6 +86,7 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         NgxChartsModule,
         CodemirrorModule,
         FlexLayoutModule,
+        DndModule.forRoot(),
         Ng2PageScrollModule.forRoot(),
         FroalaEditorModule.forRoot(),
         FroalaViewModule.forRoot(),
