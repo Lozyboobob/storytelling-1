@@ -14,7 +14,7 @@ import { CodemirrorModule } from 'ng2-codemirror';
 
 
 
-import {SearchComponent} from './components/prez/search/search.component';
+import {PrezFormSearchComponent} from './components/prez/search/prez-form-search.component';
 // SLIDES COMPONENTS
 import { SlidesPresentationComponent,
     FullScreenGraphSlideComponent,
@@ -111,7 +111,7 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         SlideCreatorComponent,
         CsvInputComponent,
         ImageUploadComponent,
-        SearchComponent,
+        PrezFormSearchComponent,
         BarChartComponent,
         ForceDirectedGraphComponent,
         LineChartComponent,
@@ -140,7 +140,7 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
     ],
     exports:[
       PrezListCardComponent,
-      SearchComponent
+      PrezFormSearchComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     providers: [OverlayContainer, SlidesService, ChartsService]

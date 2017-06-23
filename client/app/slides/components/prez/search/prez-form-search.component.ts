@@ -2,10 +2,10 @@ import {Component, OnInit, Output, Input, EventEmitter} from '@angular/core';
 
 @Component({
   selector: 'app-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+  templateUrl: './prez-form-search.component.html',
+  styleUrls: ['./prez-form-search.component.scss']
 })
-export class SearchComponent implements OnInit {
+export class PrezFormSearchComponent implements OnInit {
   @Output() textSearch: EventEmitter<string> = new EventEmitter();
   @Input() kind: string;
 
