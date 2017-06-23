@@ -6,3 +6,4 @@ export * from './hierarchical-edge-bundling/hierarchical-edge-bundling.component
 export * from './ngx-charts';
 export * from './pie-chart';
 export * from './dendogram/dendogram.component';
+export * from './treemap2-chart/treemap2-chart.component';

@@ -1,15 +1,18 @@
 import { Component, OnInit, OnChanges, ViewChild, ElementRef, Input, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import * as d3 from 'd3';
 import {HierarchyNode} from 'd3'
+import { nest } from 'd3-collection';
+import * as _ from 'lodash';
+import {treemapChartData} from './dataSample'
 
-import {Chart} from '../../chart.class';
+import {Chart} from '../chart.class';
 
 @Component({
-    selector: 'app-treemap-chart',
-    templateUrl: './treemap-chart.component.html',
-    styleUrls: ['./treemap-chart.component.scss']
+    selector: 'app-treemap2-chart',
+    templateUrl: './treemap2-chart.component.html',
+    styleUrls: ['./treemap2-chart.component.scss']
 })
-export class TreemapChartComponent extends Chart implements OnInit {
+export class Treemap2ChartComponent extends Chart implements OnInit {
     @ViewChild('chart') private chartContainer: ElementRef;
     private data: any;
     private curtain: any; //for animation
@@ -22,19 +25,71 @@ export class TreemapChartComponent extends Chart implements OnInit {
     private root: any;
     private node: any;
 
+    private chartOptions: any;
+
     constructor() {
        super()
     }
 
     ngOnInit() {
-        // Set data
-        (this.dataInput.length == 0) ? this.data = sample[0] : this.data = this.dataInput[0];
-
+        this.chartOptions = { ...this.configInput };
         this.init();
+    }
+
+    /**
+   * Process json Data to Ngx-charts format
+   * @param dataDims :  string[] Selected Dimentions 
+   * @param rawData : array<Object> Json data 
+   */
+   public static convertData(dataDims: string[], rawData: any) {
+
+        const name$ = d => d[dataDims[0]];
+        const name2$ = d => d[dataDims[1]];
+        const value$ = d => d[dataDims[2]];
+
+        const toto = [ { id: dataDims[0], value: 0 } ];
+
+        const level0 = _.chain(rawData)
+                .groupBy(dataDims[0])
+                .flatMap(d => sum(d, 1, dataDims[0] + '.', name$))
+                .value();
+
+        function sum(d, depth, prefix, fetchId$){
+
+            let level = [];
+            depth -= 1;
+            if(depth >= 0) {
+                level = _.chain(d)
+                .groupBy(dataDims[1])
+                .flatMap(d1 => sum(d1, depth, prefix + fetchId$(d[0]) + '.', name2$))
+                .value();
+            }
+            return level.concat({
+                id: prefix + fetchId$(d[0]),
+                value: _.reduce(d, (total, el) => total + value$(el), 0)
+            })
+        }
+
+        return toto.concat(level0);
     }
 
     init() {
         console.log('init');
+        if (this.configInput != null){
+            this.data = Treemap2ChartComponent.convertData(this.chartOptions.dataDims, this.dataInput);
+            }
+        else {
+            this.data = this.dataInput;
+        }
+        this.drawChart();
+        this.load();
+    }
+
+    /**
+     * Draw function for D3.js Bar chart
+     */
+    drawChart() {
+
         let element = this.chartContainer.nativeElement;
         this.width = element.offsetWidth - this.margin.left - this.margin.right;
         this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
@@ -91,20 +146,41 @@ export class TreemapChartComponent extends Chart implements OnInit {
     });
 */
 
-        this.root = d3.hierarchy(this.data)
+
+/*
+this.root = d3.hierarchy(this.data)
             .eachBefore(d => { d.data.id = (d.parent ? d.parent.data.id + "." : "") + d.data.name })
             .sum(d => d.size)
             .sort((a, b) =>  b.height - a.height || b.value - a.value);
+*/
+
+    
+        let stratify = d3.stratify()
+            .parentId(d => { return d['id'].substring(0, d['id'].lastIndexOf(".")); });
+
+        let treedata = stratify(this.data)
+            .sort((a, b) =>  b.height - a.height || b.value - a.value);
+
+
+        this.root = d3.hierarchy(treedata)
+            .sum((d: any) => d.data.value)
+            .sort((a, b) =>  b.height - a.height || b.data.value - a.data.value);
+        
 
         this.node = this.root;
 
         treemap(this.root);
 
+        console.log('this.root', this.root);
+
         let cell = this.chart.selectAll("g")
             .data(this.root.leaves())
             .enter().append("g")
             .attr("class", "cell")
-            .attr("transform", d => "translate(" + d['x0'] + "," + d['y0'] + ")")
+            .attr("transform", function (d)  {
+                //console.log('d',d)
+                return "translate(" + d['x0'] + "," + d['y0'] + ")"}
+                ) 
             .on("click", d => this.zoom(this.node == d.parent ? this.root : d.parent, this.xScale, this.yScale));
 
         cell.append("rect")
@@ -118,7 +194,7 @@ export class TreemapChartComponent extends Chart implements OnInit {
             .attr("y", d => (d['y1'] - d['y0'])/2)
             .attr("dy", ".35em")
             .attr("text-anchor", "middle")
-            .text(d => d.data.name)
+            .text(d => d.data.id)
             .style("opacity", function(d) {
                 let stringLength = (<SVGTSpanElement>this).getComputedTextLength();
                 return (d['x1'] - d['x0']) > stringLength ? 1 : 0;
@@ -139,7 +215,6 @@ export class TreemapChartComponent extends Chart implements OnInit {
 
         // When we click outside the graph, we reinit it
         d3.select(window).on("click", () => this.zoom(this.root, this.xScale, this.yScale));
-        this.load();
     }
 
     private zoom(d, x, y) {

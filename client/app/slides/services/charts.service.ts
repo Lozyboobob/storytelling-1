@@ -1,7 +1,7 @@
 import { Injectable, Type, ComponentFactoryResolver } from '@angular/core';
 import { PieChartComponent, AdvancedPieChartComponent, BarChartComponent, ForceDirectedGraphComponent, GaugeChartComponent,
   HierarchicalEdgeBundlingComponent, LineChartComponent, DendogramComponent,
-  NgGraphComponent,TreemapChartComponent
+  NgGraphComponent,TreemapChartComponent, Treemap2ChartComponent
 }  from "app/charts";
 import {ImageComponent} from "../components/slides-presentation/slide-types/"
 
@@ -16,7 +16,7 @@ export class ChartsService {
       ['BarChartComponent', BarChartComponent], ['ForceDirectedGraphComponent', ForceDirectedGraphComponent],
       ['GaugeChartComponent', GaugeChartComponent], ['HierarchicalEdgeBundlingComponent', HierarchicalEdgeBundlingComponent],
       ['LineChartComponent', LineChartComponent], ['DendogramComponent', DendogramComponent], ['NgGraphComponent', NgGraphComponent], ['ImageComponent', ImageComponent],
-      ['TreemapChartComponent', TreemapChartComponent]
+      ['TreemapChartComponent', TreemapChartComponent], ['Treemap2ChartComponent', Treemap2ChartComponent]
      ]);
   }
 
