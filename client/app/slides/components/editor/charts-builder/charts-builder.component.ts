@@ -172,13 +172,11 @@ export class ChartsBuilderComponent implements OnInit {
   }
 
   processData() {
-    console.log('process data');
     if (!this.hasValidDimensions) {
       return;
     }
 
     this.data = this.chartType.convertData(this.dataDims, this.rawData);
-    console.log('data: ', this.data);
     this.configGraph.emit({ data: this.rawData, chartOptions: { chartType: this.chartType, headerValues: this.headerValues, dataDims: this.dataDims, ...this.chartOptions } });
     return this.data;
 
