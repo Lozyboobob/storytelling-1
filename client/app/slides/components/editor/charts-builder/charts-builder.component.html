@@ -87,6 +87,7 @@
       </div>
     </md-card-content>
   </md-card>
+
   <md-card class="ng-section" >
     <md-card-header class="section-header">
       <md-card-title> Your Visualization </md-card-title>
@@ -156,16 +157,28 @@
           [yAxisLabel]="chartOptions.yAxisLabel" [autoScale]="chartOptions.autoScale" [scheme]="chartOptions.colorScheme" [schemeType]="chartOptions.schemeType"
           [roundDomains]="chartOptions.roundDomains" [tooltipDisabled]="chartOptions.tooltipDisabled" [minRadius]="3" [maxRadius]="20">
         </ngx-charts-bubble-chart>
-        <ngx-charts-tree-map *ngIf="chartType.name === 'treemap'" [view]="null" [scheme]="chartOptions.colorScheme" [results]="data">
+        <ngx-charts-tree-map 
+          *ngIf="chartType.name === 'treemap'" 
+          [view]="null" 
+          [scheme]="chartOptions.colorScheme" 
+          [results]="data">
         </ngx-charts-tree-map>
-        <ngx-charts-number-card *ngIf="chartType.name === 'number-cards'"
-        [scheme]="chartOptions.colorScheme"
-        [results]="data">
+    
+        <ngx-charts-number-card 
+           *ngIf="chartType.name === 'number-cards'"
+          [scheme]="chartOptions.colorScheme"
+          [results]="data">
         </ngx-charts-number-card>
+
         <app-bar-chart *ngIf="chartType.name === 'bar-chart'" [dataInput]="data">
         </app-bar-chart>
         <app-pie-chart *ngIf="chartType.name === 'pie-chart'" [dataInput]="data">
         </app-pie-chart>
+        <ngx-charts-pie-grid *ngIf="chartType.name === 'pie-grid-chart'" class="pie-grid-container"
+                             [view]="null"
+                             [scheme]="chartOptions.colorScheme"
+                             [results]="data">
+        </ngx-charts-pie-grid>
         <app-dendogram *ngIf="chartType.name === 'dendogram'" [dataInput]="data">
         </app-dendogram>
         <app-force-directed-graph *ngIf="chartType.name === 'force-directed-graph'" [dataInput]="data">
