@@ -30,8 +30,8 @@ export class DendogramComponent extends Chart implements OnInit {
 
     /**
      * Process json Data to D3.js Bar chart format
-     * @param dataDims :  string[] Selected Dimentions 
-     * @param rawData : array<Object> Json data 
+     * @param dataDims :  string[] Selected Dimentions
+     * @param rawData : array<Object> Json data
      */
     public static convertData(dataDims: string[], rawData: any) {
 
@@ -39,22 +39,22 @@ export class DendogramComponent extends Chart implements OnInit {
         const name2$ = d => d[dataDims[1]];
         const value$ = d => d[dataDims[2]];
 
-        const root = [ { id: dataDims[0], value: 0 } ];
+        const root = [{ id: dataDims[0], value: 0 }];
 
         const level0 = _.chain(rawData)
-                .groupBy(dataDims[0])
-                .flatMap(d => sum(d, 1, dataDims[0] + '.', name$))
-                .value();
+            .groupBy(dataDims[0])
+            .flatMap(d => sum(d, 1, dataDims[0] + '.', name$))
+            .value();
 
-        function sum(d, depth, prefix, fetchId$){
+        function sum(d, depth, prefix, fetchId$) {
 
             let level = [];
             depth -= 1;
-            if(depth >= 0) {
+            if (depth >= 0) {
                 level = _.chain(d)
-                .groupBy(dataDims[1])
-                .flatMap(d1 => sum(d1, depth, prefix + fetchId$(d[0]) + '.', name2$))
-                .value();
+                    .groupBy(dataDims[1])
+                    .flatMap(d1 => sum(d1, depth, prefix + fetchId$(d[0]) + '.', name2$))
+                    .value();
             }
             return level.concat({
                 id: prefix + fetchId$(d[0]),
@@ -72,7 +72,7 @@ export class DendogramComponent extends Chart implements OnInit {
             this.data = DendogramComponent.convertData(this.chartOptions.dataDims, this.dataInput);
         else
             this.data = this.dataInput;
-        
+
         this.drawChart();
         this.load();
     }
@@ -81,7 +81,6 @@ export class DendogramComponent extends Chart implements OnInit {
      * Draw function for D3.js Bar chart
      */
     drawChart() {
-
         this.element = this.chartContainer.nativeElement;
 
         this.width = this.element.offsetWidth;
@@ -137,7 +136,7 @@ export class DendogramComponent extends Chart implements OnInit {
             .duration(2000)
             .style('opacity', 1);
     }
-    
+
     ease() {
         this.curtain.transition()
             .duration(1000)

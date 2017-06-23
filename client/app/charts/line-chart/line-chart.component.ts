@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
+import * as _ from 'lodash';
 import * as d3 from 'd3';
+import { nest } from 'd3-collection';
 import {Chart} from '../chart.class';
 
 @Component({
@@ -18,18 +20,48 @@ export class LineChartComponent extends Chart implements OnInit {
     private tb;
     private paths;
     private dots;
+    private chartOptions: any;
     constructor() {
         super()
     }
 
     ngOnInit() {
-        // Set the data
-        this.data = [];
-        this.dateMode = false;
-        this.heightTB = 60;
-        this.setData(this.dataInput);
+        this.chartOptions = { ...this.configInput };
+
         this.init();
     }
+    /**
+     * Process json Data to D3.js Bar chart format
+     * @param dataDims :  string[] Selected Dimentions
+     * @param rawData : array<Object> Json data
+     */
+    public static convertData(dataDims: string[], rawData: any) {
+        const name$ = d => d[dataDims[0]];
+        const name2$ = d => d[dataDims[1]];
+        const value$ = d => d[dataDims[2]];
+
+        const root = [{ xAxis: dataDims[1], yAxis: dataDims[2], series: dataDims[0] }];
+        let result = nest()
+          //  .key(name$)
+            .key(name$)
+            .entries(rawData)
+            .map(series);
+        console.log(result)
+        return result;
+
+        function series(d) {
+            return d.values.map(seriesPoints)
+            ;
+        }
+        function seriesPoints(d) {
+            return {
+                xAxis: name2$(d),
+                yAxis: value$(d),
+                series:d[dataDims[0]]
+            };
+        }
+    }
+
     brushed(x, xTB, xAxis, svg, area, focus, zoom) {
         if (d3.event.sourceEvent && d3.event.sourceEvent.type === "zoom") return; // ignore brush-by-zoom
         var s = d3.event.selection || xTB.range();
@@ -51,8 +83,9 @@ export class LineChartComponent extends Chart implements OnInit {
     setData(data: any) {
 
         let parseDate = d3.timeParse("%b %Y");
-        if (parseDate(data[0][0].xAxis) != null) this.dateMode = true;
-        data.forEach((d) => {
+        this.data = JSON.parse(JSON.stringify(data));
+        if (parseDate(this.data[0][0].xAxis) != null) this.dateMode = true;
+        this.data.forEach((d) => {
             d.forEach((d) => {
                 if (this.dateMode) {
                     d['xAxis'] = parseDate(d['xAxis']);
@@ -60,11 +93,18 @@ export class LineChartComponent extends Chart implements OnInit {
                 d['yAxis'] = parseFloat(d['yAxis']);
             })
         });
-        this.data = data;
+        console.log(this.dataInput);
 
     }
-    init() {
-
+    drawChart() {
+      console.log("draw")
+        // Set the data
+        this.data = [];
+        this.dateMode = false;
+        this.heightTB = 60;
+        console.log(this.dataInput);
+        this.setData(this.dataInput);
+        console.log(this.dateMode);
         let element = this.chartContainer.nativeElement;
         let margin = { top: 0, right: 50, bottom: 0, left: 50 };
         this.width = element.offsetWidth - margin.left - margin.right;
@@ -269,8 +309,8 @@ export class LineChartComponent extends Chart implements OnInit {
                         .duration(200)
                         .style("opacity", .9);
                     div.html('<p>' + d["xAxis"] + "<br/>" + d["yAxis"] + '</p>')
-                      .style("left", (d3.event.pageX) + "px")
-                        .style("top", (d3.event.pageY+25) + "px");
+                        .style("left", (d3.event.pageX) + "px")
+                        .style("top", (d3.event.pageY + 25) + "px");
                 })
                 .on("mouseout", function(d) {
                     let curR = parseInt(d3.select(d3.event.srcElement).attr("r"))
@@ -294,6 +334,15 @@ export class LineChartComponent extends Chart implements OnInit {
             .attr('class', 'curtain')
             .attr('transform', "rotate(180) translate(" + (0 - margin.left) + "," + margin.top + ")")
             .style('fill', '#fafafa')
+
+    }
+    init() {
+        if (this.configInput != null)
+            this.data = LineChartComponent.convertData(this.chartOptions.dataDims, this.dataInput);
+        else
+            this.data = this.dataInput;
+            console.log(this.data);
+        this.drawChart();
         this.load();
     }
 

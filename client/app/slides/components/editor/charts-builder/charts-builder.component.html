@@ -170,6 +170,8 @@
         </app-dendogram>
         <app-force-directed-graph *ngIf="chartType.name === 'force-directed-graph'" [dataInput]="data">
         </app-force-directed-graph>
+        <app-line-chart *ngIf="chartType.name === 'line-chart-d3'" [dataInput]="data">
+        </app-line-chart>
       </div>
 
 
