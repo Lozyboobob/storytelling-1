@@ -74,6 +74,7 @@
     </md-card-content>
   </md-card>
   <md-card class="ng-section">
+
     <md-card-header class="section-header">
       <md-card-title> Your Visualization </md-card-title>
     </md-card-header>
@@ -150,6 +151,11 @@
         </app-bar-chart>
         <app-pie-chart *ngIf="chartType.name === 'pie-chart'" [dataInput]="data">
         </app-pie-chart>
+        <ngx-charts-pie-grid *ngIf="chartType.name === 'pie-grid-chart'" class="pie-grid-container"
+                             [view]="null"
+                             [scheme]="chartOptions.colorScheme"
+                             [results]="data">
+        </ngx-charts-pie-grid>
         <app-dendogram *ngIf="chartType.name === 'dendogram'" [dataInput]="data">
         </app-dendogram>
         <app-force-directed-graph *ngIf="chartType.name === 'force-directed-graph'" [dataInput]="data">

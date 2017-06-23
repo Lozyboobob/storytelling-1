@@ -48,6 +48,8 @@ import { BarChartComponent } from '../charts';
 import { GaugeChartComponent } from '../charts';
 import { NgGraphComponent } from "../charts";
 import { TreemapChartComponent } from "../charts";
+import { PieGridChartComponent } from '../charts';
+
 import { HierarchicalEdgeBundlingComponent } from '../charts/hierarchical-edge-bundling/hierarchical-edge-bundling.component';
 
 import { AdvancedPieChartComponent } from '../charts';
@@ -98,6 +100,7 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         ForceDirectedGraphComponent,
         HierarchicalEdgeBundlingComponent,
         PieChartComponent,
+        PieGridChartComponent,
         FullScreenGraphSlideComponent,
         GaugeChartComponent,
         AdvancedPieChartComponent,
@@ -106,6 +109,7 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         NgGraphComponent,
         TreemapChartComponent,
         ImageComponent],
+
     declarations: [
         ScrollDirective,
         KeySwitchDirective,
@@ -133,6 +137,7 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         PieChartComponent,
         PrezListCardComponent,
         HierarchicalEdgeBundlingComponent,
+        PieGridChartComponent,
         DialogComponent,
         NgGraphComponent,
         TreemapChartComponent,
