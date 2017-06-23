@@ -46,6 +46,8 @@ import { BarChartComponent } from '../charts';
 import { GaugeChartComponent } from '../charts';
 import { NgGraphComponent } from "../charts";
 import { TreemapChartComponent } from "../charts";
+import { PieGridChartComponent } from '../charts';
+
 import { HierarchicalEdgeBundlingComponent } from '../charts/hierarchical-edge-bundling/hierarchical-edge-bundling.component';
 
 import { AdvancedPieChartComponent } from '../charts';
@@ -54,7 +56,6 @@ import { LineChartComponent } from '../charts/line-chart/line-chart.component';
 import { FroalaEditorModule, FroalaViewModule } from 'angular2-froala-wysiwyg';
 import { DendogramComponent } from '../charts/dendogram/dendogram.component';
 import { PieChartComponent } from '../charts/pie-chart/pie-chart.component';
-import { PieGridChartComponent } from '../charts/ngx-charts/pie-grid-chart/pie-grid-chart.component';
 
 
 import { CsvInputComponent } from './components/editor/slide-creator/csv-input/csv-input.component';
@@ -105,6 +106,7 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         NgGraphComponent,
         TreemapChartComponent,
         ImageComponent],
+
     declarations: [
         ScrollDirective,
         KeySwitchDirective,

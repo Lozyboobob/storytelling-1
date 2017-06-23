@@ -21,7 +21,7 @@ function createChartType({title, ...obj}) {
 export const chartTypes = [
   createChartType({ title: 'Bar Chart', simpleData: true, cmpName: 'barChart', convertData: BarChartComponent.convertData , dimLabels: ['Name', 'Value', null] }),
   createChartType({ title: 'Pie Chart', simpleData: true, cmpName: 'pieChart', convertData: PieChartComponent.convertData , dimLabels: ['Name', 'Value', null] }),
-  createChartType({ title: 'Pie Grid Chart', simpleData: true, cmpName: 'gridPieChart', convertData: PieGridChartComponent.convertData, dimLabels: ['Name', 'Value', null] }),
+  createChartType({ title: 'Pie Grid Chart', simpleData: true, cmpName: 'pieGridChart', convertData: PieGridChartComponent.convertData, dimLabels: ['Name', 'Value', null] }),
   createChartType({ title: 'Bar Vertical 2D', convertData: NgGraphComponent.convertData }),
   createChartType({ title: 'Bar Horizontal 2D', convertData: NgGraphComponent.convertData }),
   createChartType({ title: 'Bar Vertical Stacked', convertData: NgGraphComponent.convertData }),
