@@ -58,6 +58,9 @@ textarea {
   border: 1px solid #ddd;
   height: 10em;
 }
+textarea:active, textarea:focus {
+  border: none !important;
+}
 button:disabled {
   cursor: no-drop;
   opacity: .5;
