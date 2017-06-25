@@ -7,7 +7,7 @@
     <md-toolbar class="title-bar" *ngIf="showForm">
       <span class="section-title"> {{slideIndex}} -
         <md-input-container>
-          <input mdInput formControlName="pageTitle" name="pageTitle" placeholder="title"/>
+          <input mdInput formControlName="pageTitle" name="pageTitle" />
         </md-input-container>
         <md-select formControlName="titleAlign" name="titleAlign">
           <md-option *ngFor="let align of titleAlign" [value]="align">
