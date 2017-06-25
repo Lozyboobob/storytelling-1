@@ -58,8 +58,7 @@ import { LineChartComponent } from '../charts/line-chart/line-chart.component';
 import { FroalaEditorModule, FroalaViewModule } from 'angular2-froala-wysiwyg';
 import { DendogramComponent } from '../charts/dendogram/dendogram.component';
 import { PieChartComponent } from '../charts/pie-chart/pie-chart.component';
-
-
+import { BubbleChartComponent } from "../charts";
 import { CsvInputComponent } from './components/editor/slide-creator/csv-input/csv-input.component';
 import { ImageUploadComponent } from './components/editor/slide-creator/image-upload/image-upload.component';
 
@@ -108,6 +107,7 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         DendogramComponent,
         NgGraphComponent,
         TreemapChartComponent,
+        BubbleChartComponent,
         ImageComponent],
 
     declarations: [
@@ -142,6 +142,7 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         NgGraphComponent,
         TreemapChartComponent,
         DendogramComponent,
+        BubbleChartComponent,
         KeySwitchDirective,
         ToggleFullscreenDirective,
         ImageComponent
