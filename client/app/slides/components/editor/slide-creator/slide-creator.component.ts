@@ -34,6 +34,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
     heightMin: 200,
     heightMax: 400,
     charCounterMax: 1000,
+    toolbarSticky: false,
     imageUploadURL: 'http://127.0.0.1:3000/api/imagesServer',
     imageManagerLoadURL: 'http://127.0.0.1:3000/api/imagesServer'
   }

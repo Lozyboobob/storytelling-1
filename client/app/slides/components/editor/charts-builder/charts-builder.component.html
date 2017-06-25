@@ -51,25 +51,25 @@
     <md-card-content *ngIf="hasChartSelected" class="section-content">
 
       <div fxLayout="row" fxLayoutAlign="space-around">
-        
+
         <ul class="list-unstyled dimensions-list">
-          Dimensions				
+          Dimensions
           <li class="dimension" *ngFor="let dimension of headerValues" dnd-draggable [dragData]="dimension.name">
-              {{dimension.name}}
+            {{dimension.name}}
             <span class="dimension-type">{{dimension.type}}</span>
             <span class="dimension-icon pull-right"><i class="fa fa-arrow-right"></i></span>
           </li>
         </ul>
 
         <div *ngFor="let dimensionCol of chartType.dimLabels; let dimIndex = index" dnd-droppable class="panel" [allowDrop]="allowDropFunction(dimensionCol.maxSize, dimIndex)" (onDropSuccess)="addTobox1Items(dimIndex, $event)">
-            <div class="panel-heading">{{dimensionCol.column}}</div>
-            <ul class="list-unstyled dimensions-list" dnd-sortable-container [sortableData]="dataDims[dimIndex]">
-              <li class="dimension" *ngFor="let dimension of dataDims[dimIndex]; let i = index" dnd-sortable [sortableIndex]="i">
-                  {{dimension}}
-                <span class="dimension-icon pull-right" (click)="removeItem(dimIndex, dimension)"><i class="fa fa-times"></i></span>
-              </li>
-            </ul>
-          </div>
+          <div class="panel-heading">{{dimensionCol.column}}</div>
+          <ul class="list-unstyled dimensions-list" dnd-sortable-container [sortableData]="dataDims[dimIndex]">
+            <li class="dimension" *ngFor="let dimension of dataDims[dimIndex]; let i = index" dnd-sortable [sortableIndex]="i">
+              {{dimension}}
+              <span class="dimension-icon pull-right" (click)="removeItem(dimIndex, dimension)"><i class="fa fa-times"></i></span>
+            </li>
+          </ul>
+        </div>
       </div>
     </md-card-content>
   </md-card>
@@ -80,69 +80,46 @@
     </md-card-header>
     <md-card-content *ngIf="hasValidDimensions" class="section-content viz-container">
       <div fxFlex="100%">
-        <ngx-charts-bar-vertical-2d *ngIf="chartType.name === 'bar-vertical-2d'" class="chart-container" [scheme]="chartOptions.colorScheme"
-          [schemeType]="chartOptions.schemeType" [results]="data" [gradient]="chartOptions.gradient" [xAxis]="chartOptions.showXAxis"
-          [yAxis]="chartOptions.showYAxis" [legend]="chartOptions.showLegend" [legendTitle]="chartOptions.legendTitle" [showXAxisLabel]="chartOptions.showXAxisLabel"
-          [showYAxisLabel]="chartOptions.showYAxisLabel" [tooltipDisabled]="chartOptions.tooltipDisabled" [xAxisLabel]="chartOptions.xAxisLabel"
-          [yAxisLabel]="chartOptions.yAxisLabel" [showGridLines]="chartOptions.showGridLines" xxxbarPadding="chartOptions.barPadding"
-          xxxgroupPadding="chartOptions.groupPadding" [roundDomains]="chartOptions.roundDomains">
+        <ngx-charts-bar-vertical-2d *ngIf="chartType.name === 'bar-vertical-2d'" class="chart-container" [scheme]="chartOptions.colorScheme" [schemeType]="chartOptions.schemeType" [results]="data" [gradient]="chartOptions.gradient" [xAxis]="chartOptions.showXAxis"
+          [yAxis]="chartOptions.showYAxis" [legend]="chartOptions.showLegend" [legendTitle]="chartOptions.legendTitle" [showXAxisLabel]="chartOptions.showXAxisLabel" [showYAxisLabel]="chartOptions.showYAxisLabel" [tooltipDisabled]="chartOptions.tooltipDisabled"
+          [xAxisLabel]="chartOptions.xAxisLabel" [yAxisLabel]="chartOptions.yAxisLabel" [showGridLines]="chartOptions.showGridLines" xxxbarPadding="chartOptions.barPadding" xxxgroupPadding="chartOptions.groupPadding" [roundDomains]="chartOptions.roundDomains">
         </ngx-charts-bar-vertical-2d>
-        <ngx-charts-bar-horizontal-2d *ngIf="chartType.name === 'bar-horizontal-2d'" class="chart-container" [scheme]="chartOptions.colorScheme"
-          [schemeType]="chartOptions.schemeType" [results]="data" [gradient]="chartOptions.gradient" [tooltipDisabled]="chartOptions.tooltipDisabled"
-          [xAxis]="chartOptions.showXAxis" [yAxis]="chartOptions.showYAxis" [legend]="chartOptions.showLegend" [legendTitle]="chartOptions.legendTitle"
-          [showXAxisLabel]="chartOptions.showXAxisLabel" [showYAxisLabel]="chartOptions.showYAxisLabel" [xAxisLabel]="chartOptions.xAxisLabel"
+        <ngx-charts-bar-horizontal-2d *ngIf="chartType.name === 'bar-horizontal-2d'" class="chart-container" [scheme]="chartOptions.colorScheme" [schemeType]="chartOptions.schemeType" [results]="data" [gradient]="chartOptions.gradient" [tooltipDisabled]="chartOptions.tooltipDisabled"
+          [xAxis]="chartOptions.showXAxis" [yAxis]="chartOptions.showYAxis" [legend]="chartOptions.showLegend" [legendTitle]="chartOptions.legendTitle" [showXAxisLabel]="chartOptions.showXAxisLabel" [showYAxisLabel]="chartOptions.showYAxisLabel" [xAxisLabel]="chartOptions.xAxisLabel"
           [yAxisLabel]="chartOptions.yAxisLabel" [showGridLines]="chartOptions.showGridLines" [roundDomains]="chartOptions.roundDomains">
         </ngx-charts-bar-horizontal-2d>
-        <ngx-charts-bar-vertical-stacked *ngIf="chartType.name === 'bar-vertical-stacked'" class="chart-container" [scheme]="chartOptions.colorScheme"
-          [schemeType]="chartOptions.schemeType" [results]="data" [gradient]="chartOptions.gradient" [tooltipDisabled]="chartOptions.tooltipDisabled"
-          [xAxis]="chartOptions.showXAxis" [yAxis]="chartOptions.showYAxis" [legend]="chartOptions.showLegend" [legendTitle]="chartOptions.legendTitle"
-          [showXAxisLabel]="chartOptions.showXAxisLabel" [showYAxisLabel]="chartOptions.showYAxisLabel" [xAxisLabel]="chartOptions.xAxisLabel"
+        <ngx-charts-bar-vertical-stacked *ngIf="chartType.name === 'bar-vertical-stacked'" class="chart-container" [scheme]="chartOptions.colorScheme" [schemeType]="chartOptions.schemeType" [results]="data" [gradient]="chartOptions.gradient" [tooltipDisabled]="chartOptions.tooltipDisabled"
+          [xAxis]="chartOptions.showXAxis" [yAxis]="chartOptions.showYAxis" [legend]="chartOptions.showLegend" [legendTitle]="chartOptions.legendTitle" [showXAxisLabel]="chartOptions.showXAxisLabel" [showYAxisLabel]="chartOptions.showYAxisLabel" [xAxisLabel]="chartOptions.xAxisLabel"
           [yAxisLabel]="chartOptions.yAxisLabel" [showGridLines]="chartOptions.showGridLines" [roundDomains]="chartOptions.roundDomains">
         </ngx-charts-bar-vertical-stacked>
-        <ngx-charts-bar-horizontal-stacked *ngIf="chartType.name === 'bar-horizontal-stacked'" class="chart-container" [scheme]="chartOptions.colorScheme"
-          [schemeType]="chartOptions.schemeType" [results]="data" [gradient]="chartOptions.gradient" [xAxis]="chartOptions.showXAxis"
-          [yAxis]="chartOptions.showYAxis" [legend]="chartOptions.showLegend" [legendTitle]="chartOptions.legendTitle" [showXAxisLabel]="chartOptions.showXAxisLabel"
-          [showYAxisLabel]="chartOptions.showYAxisLabel" [xAxisLabel]="chartOptions.xAxisLabel" [yAxisLabel]="chartOptions.yAxisLabel"
+        <ngx-charts-bar-horizontal-stacked *ngIf="chartType.name === 'bar-horizontal-stacked'" class="chart-container" [scheme]="chartOptions.colorScheme" [schemeType]="chartOptions.schemeType" [results]="data" [gradient]="chartOptions.gradient" [xAxis]="chartOptions.showXAxis"
+          [yAxis]="chartOptions.showYAxis" [legend]="chartOptions.showLegend" [legendTitle]="chartOptions.legendTitle" [showXAxisLabel]="chartOptions.showXAxisLabel" [showYAxisLabel]="chartOptions.showYAxisLabel" [xAxisLabel]="chartOptions.xAxisLabel" [yAxisLabel]="chartOptions.yAxisLabel"
           [showGridLines]="chartOptions.showGridLines" [roundDomains]="chartOptions.roundDomains">
         </ngx-charts-bar-horizontal-stacked>
-        <ngx-charts-bar-vertical-normalized *ngIf="chartType.name === 'bar-vertical-normalized'" class="chart-container" [scheme]="chartOptions.colorScheme"
-          [schemeType]="chartOptions.schemeType" [results]="data" [gradient]="chartOptions.gradient" [tooltipDisabled]="chartOptions.tooltipDisabled"
-          [xAxis]="chartOptions.showXAxis" [yAxis]="chartOptions.showYAxis" [legend]="chartOptions.showLegend" [legendTitle]="chartOptions.legendTitle"
-          [showXAxisLabel]="chartOptions.showXAxisLabel" [showYAxisLabel]="chartOptions.showYAxisLabel" [xAxisLabel]="chartOptions.xAxisLabel"
+        <ngx-charts-bar-vertical-normalized *ngIf="chartType.name === 'bar-vertical-normalized'" class="chart-container" [scheme]="chartOptions.colorScheme" [schemeType]="chartOptions.schemeType" [results]="data" [gradient]="chartOptions.gradient" [tooltipDisabled]="chartOptions.tooltipDisabled"
+          [xAxis]="chartOptions.showXAxis" [yAxis]="chartOptions.showYAxis" [legend]="chartOptions.showLegend" [legendTitle]="chartOptions.legendTitle" [showXAxisLabel]="chartOptions.showXAxisLabel" [showYAxisLabel]="chartOptions.showYAxisLabel" [xAxisLabel]="chartOptions.xAxisLabel"
           [yAxisLabel]="chartOptions.yAxisLabel" [showGridLines]="chartOptions.showGridLines" [roundDomains]="chartOptions.roundDomains">
         </ngx-charts-bar-vertical-normalized>
-        <ngx-charts-bar-horizontal-normalized *ngIf="chartType.name === 'bar-horizontal-normalized'" class="chart-container" [scheme]="chartOptions.colorScheme"
-          [schemeType]="chartOptions.schemeType" [results]="data" [gradient]="chartOptions.gradient" [tooltipDisabled]="chartOptions.tooltipDisabled"
-          [xAxis]="chartOptions.showXAxis" [yAxis]="chartOptions.showYAxis" [legend]="chartOptions.showLegend" [legendTitle]="chartOptions.legendTitle"
-          [showXAxisLabel]="chartOptions.showXAxisLabel" [showYAxisLabel]="chartOptions.showYAxisLabel" [xAxisLabel]="chartOptions.xAxisLabel"
+        <ngx-charts-bar-horizontal-normalized *ngIf="chartType.name === 'bar-horizontal-normalized'" class="chart-container" [scheme]="chartOptions.colorScheme" [schemeType]="chartOptions.schemeType" [results]="data" [gradient]="chartOptions.gradient" [tooltipDisabled]="chartOptions.tooltipDisabled"
+          [xAxis]="chartOptions.showXAxis" [yAxis]="chartOptions.showYAxis" [legend]="chartOptions.showLegend" [legendTitle]="chartOptions.legendTitle" [showXAxisLabel]="chartOptions.showXAxisLabel" [showYAxisLabel]="chartOptions.showYAxisLabel" [xAxisLabel]="chartOptions.xAxisLabel"
           [yAxisLabel]="chartOptions.yAxisLabel" [showGridLines]="chartOptions.showGridLines" [roundDomains]="chartOptions.roundDomains">
         </ngx-charts-bar-horizontal-normalized>
-        <ngx-charts-polar-chart *ngIf="chartType.name === 'polar-chart'" class="chart-container" [scheme]="chartOptions.colorScheme"
-          [schemeType]="chartOptions.schemeType" [results]="data" [legend]="chartOptions.showLegend" [legendTitle]="chartOptions.legendTitle"
-          [gradient]="chartOptions.gradient" [xAxis]="chartOptions.showXAxis" [yAxis]="chartOptions.showYAxis" [showXAxisLabel]="chartOptions.showXAxisLabel"
-          [showYAxisLabel]="chartOptions.showYAxisLabel" [xAxisLabel]="chartOptions.xAxisLabel" [yAxisLabel]="chartOptions.yAxisLabel"
-          [autoScale]="chartOptions.autoScale" [showGridLines]="chartOptions.showGridLines" [rangeFillOpacity]="chartOptions.rangeFillOpacity"
-          [roundDomains]="chartOptions.roundDomains" [tooltipDisabled]="chartOptions.tooltipDisabled" [curve]="chartOptions.curveClosed"
+        <ngx-charts-polar-chart *ngIf="chartType.name === 'polar-chart'" class="chart-container" [scheme]="chartOptions.colorScheme" [schemeType]="chartOptions.schemeType" [results]="data" [legend]="chartOptions.showLegend" [legendTitle]="chartOptions.legendTitle"
+          [gradient]="chartOptions.gradient" [xAxis]="chartOptions.showXAxis" [yAxis]="chartOptions.showYAxis" [showXAxisLabel]="chartOptions.showXAxisLabel" [showYAxisLabel]="chartOptions.showYAxisLabel" [xAxisLabel]="chartOptions.xAxisLabel" [yAxisLabel]="chartOptions.yAxisLabel"
+          [autoScale]="chartOptions.autoScale" [showGridLines]="chartOptions.showGridLines" [rangeFillOpacity]="chartOptions.rangeFillOpacity" [roundDomains]="chartOptions.roundDomains" [tooltipDisabled]="chartOptions.tooltipDisabled" [curve]="chartOptions.curveClosed"
           [showSeriesOnHover]="chartOptions.showSeriesOnHover">
         </ngx-charts-polar-chart>
-        <ngx-charts-line-chart *ngIf="chartType.name === 'line-chart'" class="chart-container" [scheme]="chartOptions.colorScheme"
-          [schemeType]="chartOptions.schemeType" [results]="data" [legend]="chartOptions.showLegend" [legendTitle]="chartOptions.legendTitle"
-          [gradient]="chartOptions.gradient" [xAxis]="chartOptions.showXAxis" [yAxis]="chartOptions.showYAxis" [showXAxisLabel]="chartOptions.showXAxisLabel"
-          [showYAxisLabel]="chartOptions.showYAxisLabel" [xAxisLabel]="chartOptions.xAxisLabel" [yAxisLabel]="chartOptions.yAxisLabel"
-          [autoScale]="chartOptions.autoScale" [showGridLines]="chartOptions.showGridLines" [curve]="chartOptions.curve" [rangeFillOpacity]="chartOptions.rangeFillOpacity"
-          [roundDomains]="chartOptions.roundDomains" [tooltipDisabled]="chartOptions.tooltipDisabled" [showSeriesOnHover]="chartOptions.showSeriesOnHover">
+        <ngx-charts-line-chart *ngIf="chartType.name === 'line-chart'" class="chart-container" [scheme]="chartOptions.colorScheme" [schemeType]="chartOptions.schemeType" [results]="data" [legend]="chartOptions.showLegend" [legendTitle]="chartOptions.legendTitle"
+          [gradient]="chartOptions.gradient" [xAxis]="chartOptions.showXAxis" [yAxis]="chartOptions.showYAxis" [showXAxisLabel]="chartOptions.showXAxisLabel" [showYAxisLabel]="chartOptions.showYAxisLabel" [xAxisLabel]="chartOptions.xAxisLabel" [yAxisLabel]="chartOptions.yAxisLabel"
+          [autoScale]="chartOptions.autoScale" [showGridLines]="chartOptions.showGridLines" [curve]="chartOptions.curve" [rangeFillOpacity]="chartOptions.rangeFillOpacity" [roundDomains]="chartOptions.roundDomains" [tooltipDisabled]="chartOptions.tooltipDisabled"
+          [showSeriesOnHover]="chartOptions.showSeriesOnHover">
         </ngx-charts-line-chart>
-        <ngx-charts-heat-map *ngIf="chartType.name === 'heat-map'" class="chart-container" [scheme]="chartOptions.colorScheme" [results]="data"
-          [legend]="chartOptions.showLegend" [gradient]="chartOptions.gradient" [xAxis]="chartOptions.showXAxis" [yAxis]="chartOptions.showYAxis"
-          [showXAxisLabel]="chartOptions.showXAxisLabel" [showYAxisLabel]="chartOptions.showYAxisLabel" [xAxisLabel]="chartOptions.xAxisLabel"
-          [yAxisLabel]="chartOptions.yAxisLabel" xxxinnerPadding="chartOptions.innerPadding" [tooltipDisabled]="chartOptions.tooltipDisabled">
+        <ngx-charts-heat-map *ngIf="chartType.name === 'heat-map'" class="chart-container" [scheme]="chartOptions.colorScheme" [results]="data" [legend]="chartOptions.showLegend" [gradient]="chartOptions.gradient" [xAxis]="chartOptions.showXAxis" [yAxis]="chartOptions.showYAxis"
+          [showXAxisLabel]="chartOptions.showXAxisLabel" [showYAxisLabel]="chartOptions.showYAxisLabel" [xAxisLabel]="chartOptions.xAxisLabel" [yAxisLabel]="chartOptions.yAxisLabel" xxxinnerPadding="chartOptions.innerPadding" [tooltipDisabled]="chartOptions.tooltipDisabled">
         </ngx-charts-heat-map>
-        <ngx-charts-bubble-chart *ngIf="chartType.name === 'bubble-chart'" [view]="null" class="chart-container" [results]="data"
-          [showGridLines]="chartOptions.showGridLines" [legend]="chartOptions.showLegend" [legendTitle]="chartOptions.legendTitle"
-          [xAxis]="chartOptions.showXAxis" [yAxis]="chartOptions.showYAxis" [showXAxisLabel]="chartOptions.showXAxisLabel"
-          [showYAxisLabel]="chartOptions.showYAxisLabel" [xAxisLabel]="chartOptions.xAxisLabel" [yAxisLabel]="chartOptions.yAxisLabel"
-          [autoScale]="chartOptions.autoScale" [scheme]="chartOptions.colorScheme" [schemeType]="chartOptions.schemeType" [roundDomains]="chartOptions.roundDomains"
-          [tooltipDisabled]="chartOptions.tooltipDisabled" [minRadius]="3" [maxRadius]="20">
+        <ngx-charts-bubble-chart *ngIf="chartType.name === 'bubble-chart'" [view]="null" class="chart-container" [results]="data" [showGridLines]="chartOptions.showGridLines" [legend]="chartOptions.showLegend" [legendTitle]="chartOptions.legendTitle" [xAxis]="chartOptions.showXAxis"
+          [yAxis]="chartOptions.showYAxis" [showXAxisLabel]="chartOptions.showXAxisLabel" [showYAxisLabel]="chartOptions.showYAxisLabel" [xAxisLabel]="chartOptions.xAxisLabel" [yAxisLabel]="chartOptions.yAxisLabel" [autoScale]="chartOptions.autoScale" [scheme]="chartOptions.colorScheme"
+          [schemeType]="chartOptions.schemeType" [roundDomains]="chartOptions.roundDomains" [tooltipDisabled]="chartOptions.tooltipDisabled" [minRadius]="3" [maxRadius]="20">
         </ngx-charts-bubble-chart>
         <ngx-charts-tree-map *ngIf="chartType.name === 'treemap'" [view]="null" [scheme]="chartOptions.colorScheme" [results]="data">
         </ngx-charts-tree-map>
@@ -151,10 +128,7 @@
         </app-bar-chart>
         <app-pie-chart *ngIf="chartType.name === 'pie-chart'" [dataInput]="data">
         </app-pie-chart>
-        <ngx-charts-pie-grid *ngIf="chartType.name === 'pie-grid-chart'" class="pie-grid-container"
-                             [view]="null"
-                             [scheme]="chartOptions.colorScheme"
-                             [results]="data">
+        <ngx-charts-pie-grid *ngIf="chartType.name === 'pie-grid-chart'" class="pie-grid-container" [view]="null" [scheme]="chartOptions.colorScheme" [results]="data">
         </ngx-charts-pie-grid>
         <app-dendogram *ngIf="chartType.name === 'dendogram'" [dataInput]="data">
         </app-dendogram>
