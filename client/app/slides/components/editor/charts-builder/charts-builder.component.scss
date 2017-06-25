@@ -1,261 +1,45 @@
 
+md-card {
+  padding: 0;
 
-:host {
-
-/**
-  * Backgrounds
-  */
-$color-bg-darkest: #13141b;
-$color-bg-darker: #1b1e27;
-$color-bg-dark: #232837;
-$color-bg-med: #2f3646;
-$color-bg-light: #455066;
-$color-bg-lighter: #5b6882;
-
-/**
-  * Text
-  */
-$color-text-dark: #72809b;
-$color-text-med-dark: #919db5;
-$color-text-med: #a8b2c7;
-$color-text-med-light: #d9dce1;
-$color-text-light: #f0f1f6;
-$color-text-lighter: #fff;
-
-
-  .main {
-    justify-content: center;
-
-    .CodeMirror {
-      height: 250px;
-    }
-  }
-
-  .light {
-    background: #fff;
-  }
-
-  .dark {
-    background: $color-bg-darker;
-
-    .ngx-charts {
-
-      text {
-        fill: $color-text-med;
-      }
-
-      .tooltip-anchor {
-        fill: rgb(255,255,255);
-      }
-
-      .gridline-path {
-        stroke: $color-bg-med;
-      }
-
-      .grid-panel {
-        &.odd {
-          rect {
-            fill: rgba(255,255,255,0.05);
-          }
-        }
-      }
-
-      .force-directed-graph {
-        .edge {
-          stroke: $color-bg-light;
-        }
-      }
-
-      .number-card {
-        p {
-          color: $color-text-light;
-        }
-      }
-
-      .gauge {
-        .background-arc{
-          path {
-            fill: $color-bg-med;
-          }
-        }
-
-        .gauge-tick {
-          path {
-            stroke: $color-text-med;
-          }
-          text {
-            fill: $color-text-med;
-          }
-        }
-      }
-
-      .linear-gauge {
-        .background-bar {
-          path {
-            fill: $color-bg-med;
-          }
-        }
-
-        .units {
-          fill: $color-text-dark;
-        }
-      }
-
-      .timeline {
-        .brush-background {
-          fill: rgba(255,255,255,0.05);
-        }
-
-        .brush {
-          .selection {
-            fill: rgba(255, 255, 255, 0.1);
-            stroke: #aaa;
-          }
-        }
-      }
-
-      .polar-chart .polar-chart-background {
-        fill: rgb(30, 34, 46);
-      }
-
-    }
-
-    .chart-legend {
-      .legend-labels {
-        background: rgba(255,255,255,0.05) !important;
-      }
-
-      .legend-item {
-        &:hover {
-          color: #fff;
-        }
-      }
-
-      .legend-label {
-        &:hover {
-          color: #fff !important;
-        }
-
-        .active {
-          .legend-label-text {
-            color: #fff !important;
-          }
-        }
-      }
-
-      .scale-legend-label {
-        color: $color-text-med;
-      }
-    }
-
-    .advanced-pie-legend {
-      color: $color-text-med;
-
-      .legend-item {
-        &:hover {
-          color: #fff !important;
-        }
-      }
-    }
-
-    .number-card .number-card-label {
-      font-size: 0.8em;
-      color: $color-text-med;
-    }
-  }
-
-  $color-text-dark: #72809b;
-
-  /**
-  * Header
-  */
-  .style-header {
-    text-transform: uppercase;
-    color: $color-text-dark;
-    font-size: 1rem;
-    position: relative;
-    padding-bottom: 5px;
-    margin: 20px 0;
-    font-weight: 600;
-
-    &:after {
-      content: "";
-      width: 25px;
-      height: 1px;
-      background: $color-text-dark;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-    }
-  }
-
-  .viz-container {
-    position: relative;
-    display: flow-root;
-    min-height: 600px;
-  }
-
-  svg.ngx-charts {
-    float: left;
-    overflow: visible;
-  }
-
-  .ngx-charts-outer {
-    width: 900px !important;
-    display: flow-root;
-    position: relative;
-  }
-
-  .pull-right {
-    float: right;
+  md-card-content {
+    padding: 15px;
   }
 }
-
-:host /deep/ .visible {
-    overflow-y: auto;
-    max-height: 400px;
-}
-
-.text-green {
-  color: #1ac7a4;
-
-}
-
-.text-red {
-  color: #ff4514;
-}
-
-.panel {
-  min-width: 10%;
-}
-// .dimensions-list{
-//   min-width: 10%;
-// }
 
 .dimension {
-  cursor: move;
-  color: #ffffff;
-  background-color: #0dc4a3;
-  border-bottom: 1px solid rgba(0,0,0,.1);
-}
-.dimension {
-  width: 100%;
-  padding: 8px 10px;
-  position: relative;
-  margin-bottom: 3px;
-  line-height: 18px;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
-  opacity: .85;
-  font-weight: 400;
-  -webkit-transition: background .1s ease-in-out;
-  -moz-transition: background .1s ease-in-out;
-  -ms-transition: background .1s ease-in-out;
-  -o-transition: background .1s ease-in-out;
-  transition: background .1s ease-in-out;
+  min-height: 200px;
+  padding: 20px;
 
+  ul {
+    background: #ecf0f1;
+    list-style: none;
+    padding: 20px;
+  }
+
+  ul li {
+    background-color: #0dc4a3;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    color: #ffffff;
+    cursor: move;
+    font-weight: 400;
+    line-height: 18px;
+    margin-bottom: 3px;
+    opacity: .85;
+    padding: 8px 10px;
+    position: relative;
+    -webkit-transition: background .1s ease-in-out;
+    -moz-transition: background .1s ease-in-out;
+    -ms-transition: background .1s ease-in-out;
+    -o-transition: background .1s ease-in-out;
+    transition: background .1s ease-in-out;
+    width: 100%;
+  }
 }
+
 
 .ng-section {
   display: block;
@@ -263,19 +47,253 @@ $color-text-lighter: #fff;
 
   .section-header {
     background: #313847;
+    color: #cfcfcf;
     display: block;
-    width: auto;
     height: 40px;
     line-height: 40px;
     padding: 0 10px;
-    color: #cfcfcf;
     position: relative;
+    width: auto;
   }
 
   .section-content {
     margin-top: 20px;
   }
   .pie-grid-container {
-    margin : 5%
+    margin: 5%;
   }
 }
+
+/**************************/
+
+// :host {
+//
+// /**
+//   * Backgrounds
+//   */
+// $color-bg-darkest: #13141b;
+// $color-bg-darker: #1b1e27;
+// $color-bg-dark: #232837;
+// $color-bg-med: #2f3646;
+// $color-bg-light: #455066;
+// $color-bg-lighter: #5b6882;
+//
+// /**
+//   * Text
+//   */
+// $color-text-dark: #72809b;
+// $color-text-med-dark: #919db5;
+// $color-text-med: #a8b2c7;
+// $color-text-med-light: #d9dce1;
+// $color-text-light: #f0f1f6;
+// $color-text-lighter: #fff;
+//
+//
+//   .main {
+//     justify-content: center;
+//
+//     .CodeMirror {
+//       height: 250px;
+//     }
+//   }
+//
+//   .light {
+//     background: #fff;
+//   }
+//
+//   .dark {
+//     background: $color-bg-darker;
+//
+//     .ngx-charts {
+//
+//       text {
+//         fill: $color-text-med;
+//       }
+//
+//       .tooltip-anchor {
+//         fill: rgb(255,255,255);
+//       }
+//
+//       .gridline-path {
+//         stroke: $color-bg-med;
+//       }
+//
+//       .grid-panel {
+//         &.odd {
+//           rect {
+//             fill: rgba(255,255,255,0.05);
+//           }
+//         }
+//       }
+//
+//       .force-directed-graph {
+//         .edge {
+//           stroke: $color-bg-light;
+//         }
+//       }
+//
+//       .number-card {
+//         p {
+//           color: $color-text-light;
+//         }
+//       }
+//
+//       .gauge {
+//         .background-arc{
+//           path {
+//             fill: $color-bg-med;
+//           }
+//         }
+//
+//         .gauge-tick {
+//           path {
+//             stroke: $color-text-med;
+//           }
+//           text {
+//             fill: $color-text-med;
+//           }
+//         }
+//       }
+//
+//       .linear-gauge {
+//         .background-bar {
+//           path {
+//             fill: $color-bg-med;
+//           }
+//         }
+//
+//         .units {
+//           fill: $color-text-dark;
+//         }
+//       }
+//
+//       .timeline {
+//         .brush-background {
+//           fill: rgba(255,255,255,0.05);
+//         }
+//
+//         .brush {
+//           .selection {
+//             fill: rgba(255, 255, 255, 0.1);
+//             stroke: #aaa;
+//           }
+//         }
+//       }
+//
+//       .polar-chart .polar-chart-background {
+//         fill: rgb(30, 34, 46);
+//       }
+//
+//     }
+//
+//     .chart-legend {
+//       .legend-labels {
+//         background: rgba(255,255,255,0.05) !important;
+//       }
+//
+//       .legend-item {
+//         &:hover {
+//           color: #fff;
+//         }
+//       }
+//
+//       .legend-label {
+//         &:hover {
+//           color: #fff !important;
+//         }
+//
+//         .active {
+//           .legend-label-text {
+//             color: #fff !important;
+//           }
+//         }
+//       }
+//
+//       .scale-legend-label {
+//         color: $color-text-med;
+//       }
+//     }
+//
+//     .advanced-pie-legend {
+//       color: $color-text-med;
+//
+//       .legend-item {
+//         &:hover {
+//           color: #fff !important;
+//         }
+//       }
+//     }
+//
+//     .number-card .number-card-label {
+//       font-size: 0.8em;
+//       color: $color-text-med;
+//     }
+//   }
+//
+//   $color-text-dark: #72809b;
+//
+//   /**
+//   * Header
+//   */
+//   .style-header {
+//     text-transform: uppercase;
+//     color: $color-text-dark;
+//     font-size: 1rem;
+//     position: relative;
+//     padding-bottom: 5px;
+//     margin: 20px 0;
+//     font-weight: 600;
+//
+//     &:after {
+//       content: "";
+//       width: 25px;
+//       height: 1px;
+//       background: $color-text-dark;
+//       position: absolute;
+//       bottom: 0;
+//       left: 0;
+//     }
+//   }
+//
+//   .viz-container {
+//     position: relative;
+//     display: flow-root;
+//     min-height: 600px;
+//   }
+//
+//   svg.ngx-charts {
+//     float: left;
+//     overflow: visible;
+//   }
+//
+//   .ngx-charts-outer {
+//     width: 900px !important;
+//     display: flow-root;
+//     position: relative;
+//   }
+//
+//   .pull-right {
+//     float: right;
+//   }
+// }
+//
+// :host /deep/ .visible {
+//     overflow-y: auto;
+//     max-height: 400px;
+// }
+//
+// .text-green {
+//   color: #1ac7a4;
+//
+// }
+//
+// .text-red {
+//   color: #ff4514;
+// }
+//
+// .panel {
+//   min-width: 10%;
+// }
+// .dimensions-list{
+//   min-width: 10%;
+// }
