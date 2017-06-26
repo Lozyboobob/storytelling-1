@@ -4,6 +4,7 @@ import * as shape from 'd3-shape';
 import * as dsv from 'd3-dsv';
 import { nest } from 'd3-collection';
 import * as babyparse from 'babyparse';
+import * as _ from 'lodash';
 
 import { chartTypes } from './chartTypes';
 import { gapminder } from './data';
@@ -74,7 +75,7 @@ export class ChartsBuilderComponent implements OnInit {
   errors: any[];
   chartType: any;
   theme: string;
-  dataDims: string[];
+  dataDims: string[][];
   chartOptions: any;
   @Output() configGraph = new EventEmitter();
 
@@ -98,7 +99,7 @@ export class ChartsBuilderComponent implements OnInit {
 
   get hasValidDimensions() {
     return this.hasChartSelected &&
-      !this.chartType.dimLabels.some((l, i) => l ? !this.dataDims[i] : false);
+      !this.chartType.dimLabels.some((l, i) => l ? !(this.dataDims[i] && this.dataDims[i].length > 0)  : false);
   }
 
   editorConfig = {
@@ -109,6 +110,23 @@ export class ChartsBuilderComponent implements OnInit {
     }
   };
 
+  allowDropFunction(size: number, dimIndex: number): any {
+        return (dragData: any) => this.dataDims[dimIndex] == null || this.dataDims[dimIndex].length < size;
+  }
+
+  addTobox1Items(dimIndex: number, $event: any) {
+    if(this.dataDims[dimIndex] == null)
+      this.dataDims[dimIndex] =[];
+    this.dataDims[dimIndex].push($event.dragData);
+    this.processData();
+  }
+
+  removeItem(dimIndex: number, item: string){
+    if(this.dataDims[dimIndex] == null)
+      return;
+    _.remove(this.dataDims[dimIndex], col => col === item);
+    this.processData();
+  }
 
   ngOnInit() {
     if (this.inputData != null) {
@@ -129,8 +147,7 @@ export class ChartsBuilderComponent implements OnInit {
     this._dataText = babyparse.unparse(this.inputData);
     this.rawData = this.inputData;
     this.chartOptions = { ...defaultOptions };
-    // console.log('this.dataDims:' , this.dataDims);
-    // console.log('this.chartType:' , this.chartType);
+
     this.processData();
   }
 
@@ -155,79 +172,16 @@ export class ChartsBuilderComponent implements OnInit {
   }
 
   processData() {
-
     if (!this.hasValidDimensions) {
       return;
     }
-    if (this.chartType.simpleData) {
-      this.data = this.chartType.convertData(this.dataDims, this.rawData);
-    } else {
-      this.data = this.convertGroupedData();
-    }
-
+    this.data = this.chartType.convertData(this.dataDims, this.rawData);
     this.configGraph.emit({ data: this.rawData, chartOptions: { chartType: this.chartType, headerValues: this.headerValues, dataDims: this.dataDims, ...this.chartOptions } });
     return this.data;
 
   }
 
-
-  // FIXME
-  convertSimpleData() {
-
-    const name$ = d => d[this.dataDims[0]];
-    const value$ = d => d[this.dataDims[1]];
-    const value2$ = d => d[this.dataDims[2]];
-
-    function seriesPoints(d) {
-      return {
-        name: name$(d),
-        index: name$(d),
-        value: value$(d),
-        x: name$(d),
-        y: value$(d),
-        r: value2$(d)
-      };
-    }
-
-    return nest()
-      .entries(this.rawData)
-      .map(seriesPoints);
-  }
-
-  // FIXME
-  convertGroupedData() {
-    const key$ = d => d[this.dataDims[0]];
-    const name$ = d => d[this.dataDims[1]];
-    const value$ = d => d[this.dataDims[2]];
-    const value2$ = d => d[this.dataDims[3]];
-
-    function series(d) {
-      return {
-        name: d.key,
-        series: d.values.map(seriesPoints)
-      };
-    }
-
-    function seriesPoints(d) {
-      return {
-        name: name$(d),
-        value: value$(d),
-        x: name$(d),
-        y: value$(d),
-        r: value2$(d)
-      };
-    }
-
-    return nest()
-      .key(key$)
-      .entries(this.rawData)
-      .map(series);
-
-  }
-
-
   updateData(value = this._dataText) {
-
     this._dataText = value;
     const parsed = babyparse.parse(this._dataText, {
       header: true,

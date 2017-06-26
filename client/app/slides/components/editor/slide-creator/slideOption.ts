@@ -1,14 +1,14 @@
-export const titleAlign: Array<string>=[
-  "left","right","center"
+export const titleAlign: Array<string> = [
+    "left", "right", "center"
 ]
 export const graphType: Array<any> = [
     {
-        value: "ngGraph",
-        type: "Graph builder"
+        value: "noGraph",
+        type: "No Graph"
     },
     {
-        value: "forceDirectedGraph",
-        type: "Force Directed Graph"
+        value: "ngGraph",
+        type: "Graph builder"
     },
     {
         value: "HierarchicalEdgeBundling",
@@ -27,17 +27,8 @@ export const graphType: Array<any> = [
         type: "Gauge Chart"
     },
     {
-        value: "dendogramChart",
-        type: "Dendrogram chart"
-    },
-  {
-      value: "image",
-      type: "Image"
-  },
-
-    {
-        value: "noGraph",
-        type: "No Graph"
+        value: "image",
+        type: "Image"
     }];
 
 export const pageLayoutOption: Array<any> = [

@@ -1,6 +1,7 @@
 import { Component, OnInit, OnChanges, ViewChild, ElementRef, Input, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import * as d3 from 'd3';
 import { nest } from 'd3-collection';
+import * as _ from 'lodash';
 import { Chart } from '../chart.class';
 
 
@@ -9,7 +10,7 @@ import { Chart } from '../chart.class';
     templateUrl: './bar-chart.component.html',
     styleUrls: ['./bar-chart.component.scss']
 })
-export class BarChartComponent extends Chart implements OnInit {
+export class BarChartComponent extends Chart implements OnInit, OnChanges {
 
     @ViewChild('chart') private chartContainer: ElementRef;
     private data: Array<any> = sample;
@@ -31,6 +32,12 @@ export class BarChartComponent extends Chart implements OnInit {
 
     ngOnInit() {
         this.chartOptions = { ...this.configInput };
+        d3.select("#BarChartComponent").remove();
+        this.init();
+    }
+
+    ngOnChanges(){
+        d3.select("#BarChartComponent").remove();
         this.init();
     }
 
@@ -40,25 +47,24 @@ export class BarChartComponent extends Chart implements OnInit {
      * @param rawData : array<Object> Json data 
      */
     public static convertData(dataDims: string[], rawData: any) {
+        const name$ = d => d[_.head(dataDims[0])];
+        const value$ = d => d[_.head(dataDims[1])];
 
-        const name$ = d => d[dataDims[0]];
-        const value$ = d => d[dataDims[1]];
-        const value2$ = d => d[dataDims[2]];
-
-        function seriesPoints(d) {
+        function sum(d: any){
             return {
-                name: name$(d),
-                index: name$(d),
-                value: value$(d),
-                x: name$(d),
-                y: value$(d),
-                r: value2$(d)
-            };
+                name: name$(_.head(d)),
+                index: name$(_.head(d)),
+                value: _.reduce(d, (total, el) => total + value$(el), 0),
+                x: name$(_.head(d)),
+                y: _.reduce(d, (total, el) => total + value$(el), 0)
+            }
         }
 
-        return nest()
-            .entries(rawData)
-            .map(seriesPoints);
+        return _.chain(rawData)
+            .groupBy(_.head(dataDims[0]))
+            .map(sum)
+            .value();
+
     }
 
     setData(data) {
@@ -87,6 +93,7 @@ export class BarChartComponent extends Chart implements OnInit {
         console.log('element.offsetHeight:', element.offsetHeight)
 
         let svg = d3.select(element).append('svg')
+            .attr("id","BarChartComponent")
             .attr('width', element.offsetWidth)
             .attr('height', element.offsetHeight);
 

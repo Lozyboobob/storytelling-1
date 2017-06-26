@@ -1,4 +1,75 @@
 
+md-card {
+  padding: 0;
+
+  md-card-content {
+    padding: 15px;
+  }
+}
+
+.dimension {
+  min-height: 200px;
+  min-width: 250px;
+  padding: 20px;
+
+  ul {
+    background: #ecf0f1;
+    list-style: none;
+    padding: 20px;
+  }
+
+  ul li {
+    background-color: #0dc4a3;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    color: #ffffff;
+    cursor: move;
+    font-weight: 400;
+    line-height: 18px;
+    margin-bottom: 3px;
+    opacity: .85;
+    padding: 8px 10px;
+    position: relative;
+    -webkit-transition: background .1s ease-in-out;
+    -moz-transition: background .1s ease-in-out;
+    -ms-transition: background .1s ease-in-out;
+    -o-transition: background .1s ease-in-out;
+    transition: background .1s ease-in-out;
+    width: 100%;
+  }
+
+  .pull-right {
+    float: right;
+  }
+}
+
+
+.ng-section {
+  display: block;
+  margin-bottom: 2em;
+
+  .section-header {
+    background: #313847;
+    color: #cfcfcf;
+    display: block;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 10px;
+    position: relative;
+    width: auto;
+  }
+
+  .section-content {
+    margin-top: 20px;
+  }
+  .pie-grid-container {
+    margin: 5%;
+  }
+}
+
+/**************************/
 
 :host {
 
@@ -22,27 +93,6 @@ $color-text-med-light: #d9dce1;
 $color-text-light: #f0f1f6;
 $color-text-lighter: #fff;
 
-  html, body {
-    margin: 10px;
-    padding: 0;
-    height: 100%;
-    background: $color-bg-darker;
-    color: $color-text-med;
-  }
-
-  body {
-    font-family: 'RobotoDraft', 'Roboto', 'Helvetica Neue, Helvetica, Arial', sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
-
-    min-height: 100vh;
-    color: $color-text-med;
-  }
-
-  * {
-    box-sizing: border-box;
-  }
 
   .main {
     justify-content: center;
@@ -227,45 +277,9 @@ $color-text-lighter: #fff;
     position: relative;
   }
 
-  .pull-right {
-    float: right;
-  }
 }
 
 :host /deep/ .visible {
     overflow-y: auto;
     max-height: 400px;
-}
-
-.text-green {
-  color: #1ac7a4;
-
-}
-
-.text-red {
-  color: #ff4514;
-}
-
-
-.ng-section {
-  display: block;
-  margin-bottom: 2em;
-
-  .section-header {
-    background: #313847;
-    display: block;
-    width: auto;
-    height: 40px;
-    line-height: 40px;
-    padding: 0 10px;
-    color: #cfcfcf;
-    position: relative;
-  }
-
-  .section-content {
-    margin-top: 20px;
-  }
-  .pie-grid-container {
-    margin : 5%
-  }
 }

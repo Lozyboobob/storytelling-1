@@ -3,6 +3,7 @@ import * as shape from 'd3-shape';
 import { colorSets } from '@swimlane/ngx-charts/release/utils/color-sets';
 import { Chart } from '../../chart.class';
 import { nest } from 'd3-collection';
+import * as _ from 'lodash';
 
 const defaultOptions = {
     view: [900, 600],
@@ -48,6 +49,7 @@ export class NgGraphComponent extends Chart implements OnInit, OnDestroy {
 
         this.init();
 
+
     }
 
     /**
@@ -55,15 +57,13 @@ export class NgGraphComponent extends Chart implements OnInit, OnDestroy {
      * @param dataDims :  string[] Selected Dimentions
      * @param rawData : array<Object> Json data
      */
+    public static convertData(dataDims: string[][], rawData: any) {
 
-    public static convertData(dataDims: string[], rawData: any) {
-        console.log("dataDims", dataDims);
-        console.log("rawData", rawData);
-        const key$ = d => d[dataDims[0]];
-        const name$ = d => d[dataDims[1]];
-        const value$ = d => d[dataDims[2]];
-        const value2$ = d => d[dataDims[3]];
-        console.log(key$, name$, value$, value2$)
+        const key$ = d => d[_.head(dataDims[0])];
+        const name$ = d => d[_.head(dataDims[1])];
+        const value$ = d => d[_.head(dataDims[2])];
+        const value2$ = d => d[_.head(dataDims[3])];
+
         return nest()
             .key(key$)
             .entries(rawData)
@@ -74,6 +74,7 @@ export class NgGraphComponent extends Chart implements OnInit, OnDestroy {
                 name: d.key,
                 series: d.values.map(seriesPoints)
             };
+
         }
 
         function seriesPoints(d) {
