@@ -135,8 +135,12 @@
       </app-dendogram>
       <app-force-directed-graph *ngIf="chartType.name === 'force-directed-graph'" [dataInput]="data">
       </app-force-directed-graph>
+      <app-advanced-pie-chart *ngIf="chartType.name ==='advanced-pie-chart'" [dataInput]="data"></app-advanced-pie-chart>
+      <app-gauge-chart *ngIf="chartType.name ==='gauge-chart'" [dataInput]="data"></app-gauge-chart>
+      <app-area-chart *ngIf="chartType.name ==='area-chart'" [dataInput]="data" ></app-area-chart>
       <app-zoomable-treemap-chart *ngIf="chartType.name === 'zoomable-treemap'" [dataInput]="data">
       </app-zoomable-treemap-chart>
+
       <app-bubble-chart *ngIf="chartType.name === 'force-layout-bubble'" [dataInput]="data">
       </app-bubble-chart>
     </div>

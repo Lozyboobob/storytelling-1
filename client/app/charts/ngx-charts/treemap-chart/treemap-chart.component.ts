@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, OnChanges, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import * as shape from 'd3-shape';
 import { colorSets } from '@swimlane/ngx-charts/release/utils/color-sets';
 import { Chart } from '../../chart.class';
@@ -33,7 +33,7 @@ const defaultOptions = {
   templateUrl: './treemap-chart.component.html',
   styleUrls: ['./treemap-chart.component.scss']
 })
-export class TreemapChartComponent extends Chart implements OnInit, OnDestroy {
+export class TreemapChartComponent extends Chart implements OnInit, OnChanges,OnDestroy {
 
   chartOptions: any;
 
@@ -43,6 +43,10 @@ export class TreemapChartComponent extends Chart implements OnInit, OnDestroy {
 
   constructor() { super() }
 
+  ngOnChanges(){
+    d3.select("#TreemapChartComponent").remove();
+    this.init();
+  }
   ngOnInit() {
     // Set the config
     this.chartOptions = { ...defaultOptions, ...this.configInput };
