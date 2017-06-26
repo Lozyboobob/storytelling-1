@@ -19,19 +19,25 @@
     </md-toolbar>
 
     <md-card-content *ngIf="showForm">
-
+      <div fxLayout="row" fxLayoutWrap="wrap" fxLayoutAlign="space-around" class="base dark layout-selector">
+        <div *ngFor="let layout of pageLayout">
+          <input type="radio" [attr.id]="layout.value" name="layout-selector" (change)="pageLayoutChange(layout.value)" [attr.checked]="layout.value==slide.pageLayout?true:null" />
+          <label for={{layout.value}}><a md-raised-button><i class="fa {{layout.icon}} fa-fw"></i>{{ layout.type }} </a></label>
+        </div>
+      </div>
       <div fxLayout="row" fxLayoutWrap="wrap" fxLayoutAlign="space-around" class="base dark">
-        <md-select placeholder="Page layout" formControlName="pageLayout" name="pageLayout" (change)="pageLayoutChange()" fxFlex="50">
+        <!--  <md-select placeholder="Page layout" formControlName="pageLayout" name="pageLayout" (change)="pageLayoutChange()" fxFlex="50">
           <md-option *ngFor="let layout of pageLayout" [value]="layout.value">
             {{ layout.type }}
           </md-option>
-        </md-select>
-        <md-select *ngIf="slide.hasGraph&&form.controls.pageLayout.value!='textInCenterImageBackground'" placeholder="Select graph" formControlName="slideGraph" name="slideGraph" (change)="graphChanged()" fxFlex="50">
+        </md-select>-->
+        <md-select *ngIf="slide.hasGraph&&slide.pageLayout.value!='textInCenterImageBackground'" placeholder="Select graph" formControlName="slideGraph" name="slideGraph" (change)="graphChanged()" fxFlex="50">
           <md-option *ngFor="let graph of graphs" [value]="graph.value">
             {{ graph.type }}
           </md-option>
         </md-select>
       </div>
+
 
       <div fxLayout="row" fxLayoutWrap="wrap" fxLayoutAlign="space-around" class="base dark">
 

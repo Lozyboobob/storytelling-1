@@ -75,7 +75,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
       titleAlign: new FormControl(this.slide.pageTitle.align, Validators.nullValidator),
       slideText: new FormControl(this.slide.text, Validators.nullValidator),
       slideGraph: new FormControl(this.slide.graph, Validators.nullValidator),
-      pageLayout: new FormControl(this.slide.pageLayout, Validators.required),
+      //pageLayout: new FormControl(this.slide.pageLayout, Validators.required),
       graphDataJson: new FormControl(this.dataExample, Validators.compose([JsonValidator()])),
       graphData: this._fb.array([
         this.initData(),
@@ -131,7 +131,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
     if (this.slide.hasGraph)
       this.slide.graph = this.form.value.slideGraph;
     else this.slide.graph = "";
-    this.slide.pageLayout = this.form.value.pageLayout;
+    //this.slide.pageLayout = this.form.value.pageLayout;
     if (!this.slide.hasText)
       this.slide.text = "";
     if (this.slideIndex) {
@@ -194,8 +194,8 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
     }
 
   }
-  pageLayoutChange() {
-    switch (this.form.value.pageLayout) {
+  pageLayoutChange(value) {
+    switch (value) {
       case "FullScreenGraph":
         this.slide.hasGraph = true;
         this.slide.hasText = false;
@@ -206,6 +206,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
       case "LeftTextRightGraph": this.slide.hasGraph = true; this.slide.hasText = true; break;
       default: ;
     }
+    this.slide.pageLayout=value;
   }
   getCsvJson(json) {
     try {
