@@ -283,3 +283,16 @@ $color-text-lighter: #fff;
     overflow-y: auto;
     max-height: 400px;
 }
+
+.format.selected {
+    color: #3F403F;
+}
+
+.format {
+    color: #999;
+    cursor: pointer;
+}
+
+.breath-left {
+    margin-left: 8px;
+}

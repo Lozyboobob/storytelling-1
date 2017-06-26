@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-data-table',
@@ -6,64 +6,27 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./data-table.component.scss']
 })
 export class DataTableComponent implements OnInit {
+  @Input() 
+  data: any[] = [];
+  @Input() 
+  columns: string[] = [];
+  
+  @Output() 
+  updatedData = new EventEmitter();
+  colHeaders: string[];
 
   constructor() { }
 
   ngOnInit() {
+    this.colHeaders = this.columns.map((col:any) =>  col.name );
   }
 
-  private data: any[] = [{id: '1',  first: '', last: '', address: 'adress'}];
 
-  private colHeaders: string[] = ['ID', 'First Name', 'Last Name', 'Address', 'Address2','Address3','Address4','Address5','Address6','Address7','Address8'];
-  private columns: any[] = [
-    {
-      data: 'id'
-    },
-    {
-      data: 'first',
-      renderer: 'text',
-      readOnly: true
-    },
-    {
-      data: 'last',
-      readOnly: true
-    },
-    {
-      data: 'address'
-    },
-    {
-      data: 'address2'
-    },
-    {
-      data: 'address3'
-    },
-    {
-      data: 'address4'
-    },
-    {
-      data: 'address5'
-    },
-    {
-      data: 'address6'
-    },
-    {
-      data: 'address7'
-    },
-    {
-      data: 'address8'
-    }
-  ];
-  private options: any = {
-    stretchH: 'all',
-    // columnSorting: true,
-    // contextMenu: [
-    //   'row_above', 'row_below', 'remove_row'
-    // ]
-  };
 
   private afterChange(e: any) {
     // tslint:disable-next-line:no-console
-    console.log(e);
+    this.updatedData.emit(this.data);
+    console.log(this.data);
   }
 
   private afterOnCellMouseDown(e: any) {
