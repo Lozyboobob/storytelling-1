@@ -72,6 +72,16 @@ $lg: 26px;
    text-align: center;
  }
 
+ md-input-container .error {
+   padding: 0;
+   margin: 0;
+   font-size: 75%;
+   color: $warn;
+   text-align: right;
+   position: absolute;
+   top: 0;
+ }
+
  /* base */
  .base {
    width: 100%;
@@ -79,7 +89,7 @@ $lg: 26px;
  }
 
  .base.light {
-   width: 100%;
+  background: #fff;
  }
 
  .base.dark {

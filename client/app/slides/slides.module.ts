@@ -12,6 +12,8 @@ import {XHRBackend, Http, RequestOptions} from '@angular/http';
 import { PieChartModule, GaugeModule, NgxChartsModule } from '@swimlane/ngx-charts';
 import { CodemirrorModule } from 'ng2-codemirror';
 
+// DRAG & DROP MODULE
+import { DndModule } from 'ng2-dnd';
 
 
 import {PrezFormSearchComponent} from './components/prez/search/prez-form-search.component';
@@ -47,6 +49,7 @@ import { GaugeChartComponent } from '../charts';
 import { NgGraphComponent } from "../charts";
 import { TreemapChartComponent } from "../charts";
 import { Treemap2ChartComponent } from "../charts";
+import { PieGridChartComponent } from '../charts';
 import { HierarchicalEdgeBundlingComponent } from '../charts/hierarchical-edge-bundling/hierarchical-edge-bundling.component';
 
 import { AdvancedPieChartComponent } from '../charts';
@@ -85,6 +88,7 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         NgxChartsModule,
         CodemirrorModule,
         FlexLayoutModule,
+        DndModule.forRoot(),
         Ng2PageScrollModule.forRoot(),
         FroalaEditorModule.forRoot(),
         FroalaViewModule.forRoot(),
@@ -96,6 +100,7 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         ForceDirectedGraphComponent,
         HierarchicalEdgeBundlingComponent,
         PieChartComponent,
+        PieGridChartComponent,
         FullScreenGraphSlideComponent,
         GaugeChartComponent,
         AdvancedPieChartComponent,
@@ -105,6 +110,7 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         TreemapChartComponent,
         Treemap2ChartComponent,
         ImageComponent],
+
     declarations: [
         ScrollDirective,
         KeySwitchDirective,
@@ -132,6 +138,7 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         PieChartComponent,
         PrezListCardComponent,
         HierarchicalEdgeBundlingComponent,
+        PieGridChartComponent,
         DialogComponent,
         NgGraphComponent,
         TreemapChartComponent,

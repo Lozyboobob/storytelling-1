@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
+import { Component, OnInit, OnChanges, ViewChild, ElementRef, Input } from '@angular/core';
 import * as d3 from 'd3';
 import { nest } from 'd3-collection';
+import * as _ from 'lodash';
 import { Chart } from '../chart.class';
 
 @Component({
@@ -8,7 +9,7 @@ import { Chart } from '../chart.class';
     templateUrl: './pie-chart.component.html',
     styleUrls: ['./pie-chart.component.scss']
 })
-export class PieChartComponent extends Chart implements OnInit {
+export class PieChartComponent extends Chart implements OnInit, OnChanges {
 
     @ViewChild('chart') private chartContainer: ElementRef;
     private element: any;
@@ -29,23 +30,37 @@ export class PieChartComponent extends Chart implements OnInit {
 
     ngOnInit() {
         this.chartOptions = { ...this.configInput };
-        this.element = this.chartContainer.nativeElement;
+        d3.select("#PieChartComponent").remove();
         this.init();
     }
 
+    ngOnChanges(){
+        d3.select("#PieChartComponent").remove();
+        this.init();
+    }
 
     init() {
         if (this.configInput != null)
             this.data = PieChartComponent.convertData(this.chartOptions.dataDims, this.dataInput);
         else
             this.data = this.dataInput;
+        
+        this.drawChart();
+    }
 
-        this.width = this.element.offsetWidth - this.margin.left - this.margin.right;
-        this.height = this.element.offsetHeight - this.margin.top - this.margin.bottom;
-        const svg = d3.select(this.element)
-            .append('svg')
-            .attr('width', this.element.offsetWidth)
-            .attr('height', this.element.offsetHeight)
+    /**
+     * Draw function for D3.js Bar chart
+     */
+    drawChart() {
+
+        let element = this.chartContainer.nativeElement;
+        this.width = element.offsetWidth - this.margin.left - this.margin.right;
+        this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
+        const svg = d3.select(element)
+            .append('svg')        
+            .attr("id","PieChartComponent")
+            .attr('width', element.offsetWidth)
+            .attr('height', element.offsetHeight)
             .append('g')
             .attr('transform', `translate(${this.width / 2},${this.height / 2})`);
         this.radius = Math.min(this.width, this.height) / 2;
@@ -59,7 +74,7 @@ export class PieChartComponent extends Chart implements OnInit {
             .style("opacity", 1);
         arcSelection.append('path');
         arcSelection.append('text');
-        d3.select(this.element).select('svg').selectAll('.arc')
+        d3.select(element).select('svg').selectAll('.arc')
             .style("opacity", 1);
 
         const outerRadius = this.radius - 10;
@@ -67,7 +82,7 @@ export class PieChartComponent extends Chart implements OnInit {
             .innerRadius(0)
             .outerRadius(outerRadius);
 
-        d3.select(this.element).selectAll('.arc').select('path')
+        d3.select(element).selectAll('.arc').select('path')
             .attr('fill', (datum, index) => {
                 return this.pieColor(this.data[index].name);
             })
@@ -75,7 +90,7 @@ export class PieChartComponent extends Chart implements OnInit {
             .duration(1500)
             .attrTween('d', tweenPie);
 
-        d3.select(this.element).selectAll('.arc').select('text')
+        d3.select(element).selectAll('.arc').select('text')
             .transition()
             .duration(1500)
             .style("opacity", 1)
@@ -116,25 +131,24 @@ export class PieChartComponent extends Chart implements OnInit {
      * @param rawData : array<Object> Json data 
      */
     public static convertData(dataDims: string[], rawData: any) {
+        const name$ = d => d[_.head(dataDims[0])];
+        const value$ = d => d[_.head(dataDims[1])];
 
-        const name$ = d => d[dataDims[0]];
-        const value$ = d => d[dataDims[1]];
-        const value2$ = d => d[dataDims[2]];
-
-        function seriesPoints(d) {
+        function sum(d: any){
             return {
-                name: name$(d),
-                index: name$(d),
-                value: value$(d),
-                x: name$(d),
-                y: value$(d),
-                r: value2$(d)
-            };
+                name: name$(_.head(d)),
+                index: name$(_.head(d)),
+                value: _.reduce(d, (total, el) => total + value$(el), 0),
+                x: name$(_.head(d)),
+                y: _.reduce(d, (total, el) => total + value$(el), 0)
+            }
         }
 
-        return nest()
-            .entries(rawData)
-            .map(seriesPoints);
+        return _.chain(rawData)
+            .groupBy(_.head(dataDims[0]))
+            .map(sum)
+            .value();
+
     }
 
 
@@ -146,7 +160,7 @@ export class PieChartComponent extends Chart implements OnInit {
 
     // FIXME 
     ease() {
-        d3.select(this.element).selectAll('.arc')
+        d3.selectAll('.arc')
             .transition()
             .duration(900)
             .style("opacity", 0);
