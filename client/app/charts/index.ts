@@ -5,4 +5,5 @@ export * from './line-chart/line-chart.component';
 export * from './hierarchical-edge-bundling/hierarchical-edge-bundling.component';
 export * from './ngx-charts';
 export * from './pie-chart';
+export * from './bubble-chart';
 export * from './dendogram/dendogram.component';

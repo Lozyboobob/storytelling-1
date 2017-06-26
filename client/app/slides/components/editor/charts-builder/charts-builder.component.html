@@ -135,6 +135,8 @@
       </app-dendogram>
       <app-force-directed-graph *ngIf="chartType.name === 'force-directed-graph'" [dataInput]="data">
       </app-force-directed-graph>
+      <app-bubble-chart *ngIf="chartType.name === 'force-layout-bubble'" [dataInput]="data">
+      </app-bubble-chart>
     </div>
   </md-card-content>
 </md-card>
