@@ -51,8 +51,8 @@ import { BarChartComponent } from '../charts';
 import { GaugeChartComponent } from '../charts';
 import { NgGraphComponent } from "../charts";
 import { TreemapChartComponent } from "../charts";
+import { ZoomableTreemapChartComponent } from "../charts";
 import { PieGridChartComponent } from '../charts';
-
 import { HierarchicalEdgeBundlingComponent } from '../charts/hierarchical-edge-bundling/hierarchical-edge-bundling.component';
 
 import { AdvancedPieChartComponent } from '../charts';
@@ -62,6 +62,8 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular2-froala-wysiwyg';
 import { DendogramComponent } from '../charts/dendogram/dendogram.component';
 import { PieChartComponent } from '../charts/pie-chart/pie-chart.component';
 import { BubbleChartComponent } from "../charts";
+import { AreaChartComponent } from '../charts/ngx-charts/area-chart';
+
 import { CsvInputComponent } from './components/editor/slide-creator/csv-input/csv-input.component';
 import { ImageUploadComponent } from './components/editor/slide-creator/image-upload/image-upload.component';
 
@@ -111,7 +113,9 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         DendogramComponent,
         NgGraphComponent,
         TreemapChartComponent,
+        ZoomableTreemapChartComponent,
         BubbleChartComponent,
+        AreaChartComponent,
         ImageComponent],
 
     declarations: [
@@ -142,10 +146,12 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         PieChartComponent,
         PrezListCardComponent,
         HierarchicalEdgeBundlingComponent,
+        AreaChartComponent,
         PieGridChartComponent,
         DialogComponent,
         NgGraphComponent,
         TreemapChartComponent,
+        ZoomableTreemapChartComponent,
         DendogramComponent,
         BubbleChartComponent,
         KeySwitchDirective,

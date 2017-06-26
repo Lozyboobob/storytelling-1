@@ -129,17 +129,23 @@
       </ngx-charts-bubble-chart>
       <ngx-charts-tree-map *ngIf="chartType.name === 'treemap'" [view]="null" [scheme]="chartOptions.colorScheme" [results]="data">
       </ngx-charts-tree-map>
+      <ngx-charts-pie-grid *ngIf="chartType.name === 'pie-grid-chart'" class="pie-grid-container" [view]="null" [scheme]="chartOptions.colorScheme" [results]="data">
+      </ngx-charts-pie-grid>
 
       <app-bar-chart *ngIf="chartType.name === 'bar-chart'" [dataInput]="data">
       </app-bar-chart>
       <app-pie-chart *ngIf="chartType.name === 'pie-chart'" [dataInput]="data">
       </app-pie-chart>
-      <ngx-charts-pie-grid *ngIf="chartType.name === 'pie-grid-chart'" class="pie-grid-container" [view]="null" [scheme]="chartOptions.colorScheme" [results]="data">
-      </ngx-charts-pie-grid>
       <app-dendogram *ngIf="chartType.name === 'dendogram'" [dataInput]="data">
       </app-dendogram>
       <app-force-directed-graph *ngIf="chartType.name === 'force-directed-graph'" [dataInput]="data">
       </app-force-directed-graph>
+      <app-advanced-pie-chart *ngIf="chartType.name ==='advanced-pie-chart'" [dataInput]="data"></app-advanced-pie-chart>
+      <app-gauge-chart *ngIf="chartType.name ==='gauge-chart'" [dataInput]="data"></app-gauge-chart>
+      <app-area-chart *ngIf="chartType.name ==='area-chart'" [dataInput]="data" ></app-area-chart>
+      <app-zoomable-treemap-chart *ngIf="chartType.name === 'zoomable-treemap'" [dataInput]="data">
+      </app-zoomable-treemap-chart>
+
       <app-bubble-chart *ngIf="chartType.name === 'force-layout-bubble'" [dataInput]="data">
       </app-bubble-chart>
     </div>
