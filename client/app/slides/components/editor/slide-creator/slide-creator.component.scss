@@ -29,11 +29,13 @@ md-card {
 .layout-selector {
     input[type="radio"] {
         display: none;
+
         & + label {
-          a{
-          //  margin-top: 5px;
-            margin-bottom: 15px;
-          }
+            a {
+                //  margin-top: 5px;
+                margin-bottom: 15px;
+            }
+
             &:hover {
                 a {
                     background-color: $accent;
@@ -51,4 +53,23 @@ md-card {
             }
         }
     }
+}
+/*title bar for each step*/
+.sub-title-bar {
+    width: 100%;
+    font-weight: bold;
+    font-size: 20px;
+    height: 50px;
+
+    .fa {
+        color: grey;
+
+        &.checked {
+            color: $accent;
+        }
+    }
+}
+.step-block{
+  //margin-bottom: 15px;
+  //border-bottom: solid 1px grey;
 }
