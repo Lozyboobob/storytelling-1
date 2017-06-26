@@ -1,6 +1,7 @@
 
 import { PieChartComponent, AdvancedPieChartComponent, BarChartComponent, ForceDirectedGraphComponent, GaugeChartComponent,
-  HierarchicalEdgeBundlingComponent, PieGridChartComponent, LineChartComponent, DendogramComponent, NgGraphComponent, TreemapChartComponent
+  HierarchicalEdgeBundlingComponent, PieGridChartComponent, LineChartComponent, DendogramComponent, NgGraphComponent, 
+  TreemapChartComponent, BubbleChartComponent
 }  from "app/charts";
 
 
@@ -23,6 +24,7 @@ export const chartTypes = [
   createChartType({ title: 'Pie Chart', simpleData: true, cmpName: 'pieChart', convertData: PieChartComponent.convertData ,dimLabels: [ {column: 'Name', maxSize: 1} , {column: 'Value', maxSize: 1} ] }),
   createChartType({ title: 'Dendogram', simpleData: true, cmpName: 'dendogram', convertData: DendogramComponent.convertData ,dimLabels: [ {column: 'Group by', maxSize: 10}, {column: 'Value', maxSize: 1} ] }),
   createChartType({ title: 'Pie Grid Chart', simpleData: true, cmpName: 'pieGridChart', convertData: PieGridChartComponent.convertData, dimLabels: [ {column: 'Name', maxSize: 1} ,{column: 'Value', maxSize: 1} ] }),
+  createChartType({ title: 'Force Layout Bubble', simpleData: true, cmpName: 'bubbleChart', convertData: BubbleChartComponent.convertData, dimLabels: [ {column: 'category', maxSize: 1} ,{column: 'Label', maxSize: 1} ,{column: 'Value', maxSize: 1} ,{column: 'Description', maxSize: 1} ] }),
   createChartType({ title: 'Force Directed Graph', simpleData: true, cmpName: 'ForceDirectedGraph', convertData: ForceDirectedGraphComponent.convertData ,dimLabels: [{column: 'Source', maxSize: 1} , {column: 'Source Group', maxSize: 1}, {column: 'Target', maxSize: 1} ,{column: 'Target Group', maxSize: 1} ,{column: 'Value', maxSize: 1}] }),
   createChartType({ title: 'Bar Vertical 2D', convertData: NgGraphComponent.convertData }),
   createChartType({ title: 'Bar Horizontal 2D', convertData: NgGraphComponent.convertData }),
