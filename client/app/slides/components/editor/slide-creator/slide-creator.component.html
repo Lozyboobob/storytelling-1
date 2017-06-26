@@ -22,7 +22,7 @@
       <div fxLayout="row" fxLayoutWrap="wrap" fxLayoutAlign="space-around" class="base dark layout-selector">
         <div *ngFor="let layout of pageLayout">
           <input type="radio" [attr.id]="layout.value" name="layout-selector" (change)="pageLayoutChange(layout.value)" [attr.checked]="layout.value==slide.pageLayout?true:null" />
-          <label for={{layout.value}}><a md-raised-button><i class="fa {{layout.icon}} fa-fw"></i>{{ layout.type }} </a></label>
+          <label for={{layout.value}}><a md-raised-button mdTooltip={{layout.type}}><i class="fa {{layout.icon}} fa-fw"></i></a></label>
         </div>
       </div>
       <div fxLayout="row" fxLayoutWrap="wrap" fxLayoutAlign="space-around" class="base dark">
