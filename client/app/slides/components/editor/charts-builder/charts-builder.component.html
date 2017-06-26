@@ -135,8 +135,8 @@
       </app-dendogram>
       <app-force-directed-graph *ngIf="chartType.name === 'force-directed-graph'" [dataInput]="data">
       </app-force-directed-graph>
-      <app-treemap2-chart *ngIf="chartType.name === 'treemap2'" [dataInput]="data">
-      </app-treemap2-chart>
+      <app-zoomable-treemap-chart *ngIf="chartType.name === 'zoomable-treemap'" [dataInput]="data">
+      </app-zoomable-treemap-chart>
     </div>
   </md-card-content>
 </md-card>

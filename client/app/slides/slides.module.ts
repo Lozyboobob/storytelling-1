@@ -48,7 +48,7 @@ import { BarChartComponent } from '../charts';
 import { GaugeChartComponent } from '../charts';
 import { NgGraphComponent } from "../charts";
 import { TreemapChartComponent } from "../charts";
-import { Treemap2ChartComponent } from "../charts";
+import { ZoomableTreemapChartComponent } from "../charts";
 import { PieGridChartComponent } from '../charts';
 import { HierarchicalEdgeBundlingComponent } from '../charts/hierarchical-edge-bundling/hierarchical-edge-bundling.component';
 
@@ -108,7 +108,7 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         DendogramComponent,
         NgGraphComponent,
         TreemapChartComponent,
-        Treemap2ChartComponent,
+        ZoomableTreemapChartComponent,
         ImageComponent],
 
     declarations: [
@@ -142,7 +142,7 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         DialogComponent,
         NgGraphComponent,
         TreemapChartComponent,
-        Treemap2ChartComponent,
+        ZoomableTreemapChartComponent,
         DendogramComponent,
         KeySwitchDirective,
         ToggleFullscreenDirective,
