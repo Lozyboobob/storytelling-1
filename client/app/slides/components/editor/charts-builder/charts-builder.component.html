@@ -13,8 +13,10 @@
         Copy and paste your tabular (TSV, CSV) data here.
         <button class="btn btn-link" (click)="useExample()">(Use example data)</button>
       </span>
-    <app-codemirror [(ngModel)]="dataText" [config]="editorConfig">
-    </app-codemirror>
+    <!--<app-codemirror [(ngModel)]="dataText" [config]="editorConfig">
+    </app-codemirror>-->
+
+
 
     <p *ngIf="dataText.length > 1">
       <span *ngFor="let error of errors" class="text-red">
@@ -26,6 +28,9 @@
     </p>
   </md-card-content>
 </md-card>
+
+    <app-data-table>
+    </app-data-table>
 
 <md-card class="ng-section">
   <md-card-header class="section-header">

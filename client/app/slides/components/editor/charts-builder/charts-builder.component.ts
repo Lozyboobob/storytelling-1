@@ -143,6 +143,7 @@ export class ChartsBuilderComponent implements OnInit {
     this.data = [];
     this.chartType = this.chartTypes.find(chart => chart.name === this.inputOptions.chartType.name);
 
+    console.log('this.headerValues: ', this.headerValues);
     this.errors = [];
     this._dataText = babyparse.unparse(this.inputData);
     this.rawData = this.inputData;

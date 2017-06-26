@@ -66,7 +66,7 @@ import { CsvInputComponent } from './components/editor/slide-creator/csv-input/c
 import { ImageUploadComponent } from './components/editor/slide-creator/image-upload/image-upload.component';
 
 import { SlidesSettingComponent } from './components/editor/slides-setting/slides-setting.component';
-import { ChartsBuilderComponent, CodeEditorComponent } from "./components/editor/charts-builder";
+import { ChartsBuilderComponent, CodeEditorComponent, DataTableComponent } from "./components/editor/charts-builder";
 import { EditorComponent } from './components/editor/editor.component';
 
 import { PrezListComponent } from './components/prez/prez-list.component';
@@ -128,6 +128,7 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         LineChartComponent,
         SlidesSettingComponent,
         CodeEditorComponent,
+        DataTableComponent,
         ChartsBuilderComponent,
         EditorComponent,
         PrezListComponent,
