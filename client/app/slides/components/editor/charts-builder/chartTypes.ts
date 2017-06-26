@@ -1,7 +1,8 @@
 
 import { PieChartComponent, AdvancedPieChartComponent, BarChartComponent, ForceDirectedGraphComponent, GaugeChartComponent,
   HierarchicalEdgeBundlingComponent, PieGridChartComponent, LineChartComponent, DendogramComponent, NgGraphComponent,
-  TreemapChartComponent, BubbleChartComponent
+  TreemapChartComponent, AreaChartComponent,
+    BubbleChartComponent
 }  from "app/charts";
 
 
@@ -38,6 +39,8 @@ export const chartTypes = [
   createChartType({ title: 'Bubble Chart', convertData: NgGraphComponent.convertData, dimLabels: [{column: 'GroupBy', maxSize: 1} , {column: 'x-Values', maxSize: 1} , {column: 'y-Values', maxSize: 1}, {column: 'Radius', maxSize: 1}] }),
   createChartType({ title: 'Treemap', simpleData: true, cmpName: 'treemapChart', convertData: TreemapChartComponent.convertData, dimLabels: [{ column: 'Group by', maxSize: 10 }, { column: 'Value', maxSize: 1 }]}),
   createChartType({ title: 'Advanced Pie Chart', simpleData: true, cmpName: 'AdvancedPieChart', convertData: AdvancedPieChartComponent.convertData, dimLabels: [{ column: 'Group by', maxSize: 1 }, { column: 'Value', maxSize: 1 }] }),
-  createChartType({ title: 'Gauge Chart', simpleData: true, cmpName: 'GaugeChart', convertData: GaugeChartComponent.convertData, dimLabels: [{ column: 'Group by', maxSize: 1 }, { column: 'Value', maxSize: 1 }] })
+  createChartType({ title: 'Gauge Chart', simpleData: true, cmpName: 'GaugeChart', convertData: GaugeChartComponent.convertData, dimLabels: [{ column: 'Group by', maxSize: 1 }, { column: 'Value', maxSize: 1 }] }),
+  createChartType({ title: 'Area Chart', simpleData: true, cmpName: 'areaChart', convertData: AreaChartComponent.convertData, dimLabels: [{ column: 'Group by', maxSize: 1 }, { column: 'x-Values', maxSize: 1 }, { column: 'y-Values', maxSize: 1 }] })
+
 ];
 

@@ -59,6 +59,8 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular2-froala-wysiwyg';
 import { DendogramComponent } from '../charts/dendogram/dendogram.component';
 import { PieChartComponent } from '../charts/pie-chart/pie-chart.component';
 import { BubbleChartComponent } from "../charts";
+import { AreaChartComponent } from '../charts/ngx-charts/area-chart';
+
 import { CsvInputComponent } from './components/editor/slide-creator/csv-input/csv-input.component';
 import { ImageUploadComponent } from './components/editor/slide-creator/image-upload/image-upload.component';
 
@@ -108,6 +110,7 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         NgGraphComponent,
         TreemapChartComponent,
         BubbleChartComponent,
+        AreaChartComponent,
         ImageComponent],
 
     declarations: [
@@ -137,6 +140,7 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         PieChartComponent,
         PrezListCardComponent,
         HierarchicalEdgeBundlingComponent,
+        AreaChartComponent,
         PieGridChartComponent,
         DialogComponent,
         NgGraphComponent,

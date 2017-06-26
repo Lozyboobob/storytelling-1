@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input , OnChanges} from '@angular/core';
 import {Chart} from '../../chart.class';
 import { nest } from 'd3-collection';
 import * as d3 from 'd3';
@@ -7,7 +7,7 @@ import * as d3 from 'd3';
   templateUrl: './gauge-chart.component.html',
   styleUrls: ['./gauge-chart.component.scss']
 })
-export class GaugeChartComponent extends Chart implements OnInit {
+export class GaugeChartComponent extends Chart implements OnInit, OnChanges {
   
   data: Array<any> = [];
 
@@ -53,6 +53,11 @@ export class GaugeChartComponent extends Chart implements OnInit {
 
     // Set data
     this.chartOptions = { ...this.configInput };
+    this.init();
+  }
+
+  ngOnChanges(){
+    d3.select("#GaugeChartComponent").remove();
     this.init();
   }
 

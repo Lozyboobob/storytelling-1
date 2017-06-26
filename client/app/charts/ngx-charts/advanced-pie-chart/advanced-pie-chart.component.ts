@@ -74,6 +74,10 @@ export class AdvancedPieChartComponent extends Chart implements OnInit, OnDestro
       };
     }
   }
+  ngOnChanges(){
+    d3.select("#AdvancedPieChartComponent").remove();
+    this.init();
+  }
   ease() {
   }
 
