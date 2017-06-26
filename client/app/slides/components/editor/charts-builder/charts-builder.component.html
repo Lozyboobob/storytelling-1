@@ -12,9 +12,17 @@
     <span>
         Copy and paste your tabular (TSV, CSV) data here.
         <button class="btn btn-link" (click)="useExample()">(Use example data)</button>
+        
+        <i class="format fa fa-align-left breath-left" [class.selected]="!formatTable" data-toggle="tooltip" data-title="View as Table" (click)="formatTable = false"></i>
+        <i class="format fa fa-table breath-left" [class.selected]="formatTable" data-toggle="tooltip" data-title="View as Table" (click)="formatTable = true"></i>
+
       </span>
-    <app-codemirror [(ngModel)]="dataText" [config]="editorConfig">
+    <app-codemirror *ngIf="!formatTable" [(ngModel)]="dataText" [config]="editorConfig">
     </app-codemirror>
+
+
+    <app-data-table *ngIf="formatTable" [data]="rawData" [columns]="headerValues" (updatedData)="editData($event)" >
+    </app-data-table>
 
     <p *ngIf="dataText.length > 1">
       <span *ngFor="let error of errors" class="text-red">
@@ -26,6 +34,7 @@
     </p>
   </md-card-content>
 </md-card>
+
 
 <md-card class="ng-section">
   <md-card-header class="section-header">

@@ -22,6 +22,8 @@
         "theme.scss",
         "../node_modules/codemirror/lib/codemirror.css",
         "../node_modules/font-awesome/css/font-awesome.css",
+        "../node_modules/handsontable/dist/handsontable.full.css",
+        "../node_modules/handsontable/dist/handsontable.css",
         "../node_modules/froala-editor/css/froala_editor.pkgd.min.css"
       ],
       "scripts": [

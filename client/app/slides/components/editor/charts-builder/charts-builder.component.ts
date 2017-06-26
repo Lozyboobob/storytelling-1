@@ -69,6 +69,7 @@ export class ChartsBuilderComponent implements OnInit {
     mode: "htmlmixed"
   };
 
+  formatTable: boolean = false;
   data: any[];
   rawData: any[];
   headerValues: any[];
@@ -136,6 +137,15 @@ export class ChartsBuilderComponent implements OnInit {
     }
   }
 
+  editData(updatedData){
+    this._dataText = babyparse.unparse(updatedData);
+    this.rawData = updatedData;
+    this.processData();
+  }
+  changeFormat() {
+    this.formatTable = !this.formatTable;
+    console.log('formatTable: ', this.formatTable);
+  }
 
   loadData() {
     this.headerValues = this.inputOptions.headerValues;
@@ -143,6 +153,7 @@ export class ChartsBuilderComponent implements OnInit {
     this.data = [];
     this.chartType = this.chartTypes.find(chart => chart.name === this.inputOptions.chartType.name);
 
+    console.log('this.headerValues: ', this.headerValues);
     this.errors = [];
     this._dataText = babyparse.unparse(this.inputData);
     this.rawData = this.inputData;

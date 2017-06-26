@@ -15,6 +15,9 @@ import { CodemirrorModule } from 'ng2-codemirror';
 // DRAG & DROP MODULE
 import { DndModule } from 'ng2-dnd';
 
+// HANDSONTABLE MODULE
+import { HotTableModule } from 'ng2-handsontable';
+
 
 import {PrezFormSearchComponent} from './components/prez/search/prez-form-search.component';
 // SLIDES COMPONENTS
@@ -65,7 +68,7 @@ import { CsvInputComponent } from './components/editor/slide-creator/csv-input/c
 import { ImageUploadComponent } from './components/editor/slide-creator/image-upload/image-upload.component';
 
 import { SlidesSettingComponent } from './components/editor/slides-setting/slides-setting.component';
-import { ChartsBuilderComponent, CodeEditorComponent } from "./components/editor/charts-builder";
+import { ChartsBuilderComponent, CodeEditorComponent, DataTableComponent } from "./components/editor/charts-builder";
 import { EditorComponent } from './components/editor/editor.component';
 
 import { PrezListComponent } from './components/prez/prez-list.component';
@@ -90,6 +93,7 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         CodemirrorModule,
         FlexLayoutModule,
         DndModule.forRoot(),
+        HotTableModule,
         Ng2PageScrollModule.forRoot(),
         FroalaEditorModule.forRoot(),
         FroalaViewModule.forRoot(),
@@ -128,6 +132,7 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         LineChartComponent,
         SlidesSettingComponent,
         CodeEditorComponent,
+        DataTableComponent,
         ChartsBuilderComponent,
         EditorComponent,
         PrezListComponent,
