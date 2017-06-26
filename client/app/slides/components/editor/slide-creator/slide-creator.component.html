@@ -19,7 +19,7 @@
     </md-toolbar>
 
     <md-card-content *ngIf="showForm">
-      <div fxLayout="row" fxLayoutWrap="wrap" fxLayoutAlign="space-around" class="base dark layout-selector step-block">
+      <div fxLayout="row" fxLayoutWrap="wrap" fxLayoutAlign="space-around" class="base dark layout-selector ">
         <md-toolbar-row class="sub-title-bar">
           <span><i class="fa fa-check-circle-o fa-fw" [class.checked]="slide.pageLayout"></i>Select Page Layout*</span>
         </md-toolbar-row>
@@ -30,7 +30,7 @@
       </div>
 
       <div fxLayout="column" fxLayoutWrap="wrap" fxLayoutAlign="space-between none" class="base dark">
-        <div class="step-block"  *ngIf="slide.hasGraph&&slide.pageLayout!='textInCenterImageBackground'">
+        <div   *ngIf="slide.hasGraph&&slide.pageLayout!='textInCenterImageBackground'">
           <!--  <md-select placeholder="Page layout" formControlName="pageLayout" name="pageLayout" (change)="pageLayoutChange()" fxFlex="50">
             <md-option *ngFor="let layout of pageLayout" [value]="layout.value">
               {{ layout.type }}
@@ -57,21 +57,21 @@
           <app-csv-input (csv2json)="getCsvJson($event)"></app-csv-input>
         </md-tab>
       </md-tab-group> -->
-        <div *ngIf="(slide.hasGraph&&form.controls.slideGraph.value=='image')||(slide.pageLayout=='textInCenterImageBackground')" class="step-block">
+        <div *ngIf="(slide.hasGraph&&form.controls.slideGraph.value=='image')||(slide.pageLayout=='textInCenterImageBackground')" >
           <md-toolbar-row class="sub-title-bar">
             <span><i class="fa fa-check-circle-o fa-fw" [class.checked]="slide.slideImage"></i>Upload Image*</span>
           </md-toolbar-row>
           <app-image-upload (setImage)="setImageHtml($event)" [imagePath]="slide.slideImage" align="center"></app-image-upload>
         </div>
 
-        <div *ngIf="slide.hasText" class="step-block">
+        <div *ngIf="slide.hasText" >
           <md-toolbar-row class="sub-title-bar">
             <span><i class="fa fa-check-circle-o fa-fw" [class.checked]="slide.text"></i>Input Text Content*</span>
           </md-toolbar-row>
           <textarea [froalaEditor]='editorOptions' [(froalaModel)]="slide.text"></textarea>
         </div>
 
-        <div *ngIf="form.controls.slideGraph.value == 'ngGraph'" class="step-block">
+        <div *ngIf="form.controls.slideGraph.value == 'ngGraph'" >
           <app-charts-builder [inputData]="slide.data" [inputOptions]="slide.config" (configGraph)="confirmeSlideGRaphConfig($event)">
           </app-charts-builder>
         </div>
