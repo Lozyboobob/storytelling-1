@@ -201,7 +201,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
         this.slide.hasText = false;
         break;
       case "textInCenter": this.slide.hasGraph = false; this.slide.hasText = true; break;
-      case "textInCenterImageBackground": this.slide.hasGraph = true; this.slide.hasText = true; break;
+      case "textInCenterImageBackground": this.slide.hasGraph = false; this.slide.hasText = true; break;
       case "LeftGraphRightText": this.slide.hasGraph = true; this.slide.hasText = true; break;
       case "LeftTextRightGraph": this.slide.hasGraph = true; this.slide.hasText = true; break;
       default: ;

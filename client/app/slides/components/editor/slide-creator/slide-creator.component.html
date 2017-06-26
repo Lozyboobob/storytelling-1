@@ -30,12 +30,7 @@
       </div>
 
       <div fxLayout="column" fxLayoutWrap="wrap" fxLayoutAlign="space-between none" class="base dark">
-        <div   *ngIf="slide.hasGraph&&slide.pageLayout!='textInCenterImageBackground'">
-          <!--  <md-select placeholder="Page layout" formControlName="pageLayout" name="pageLayout" (change)="pageLayoutChange()" fxFlex="50">
-            <md-option *ngFor="let layout of pageLayout" [value]="layout.value">
-              {{ layout.type }}
-            </md-option>
-          </md-select>-->
+      <!--  <div   *ngIf="slide.hasGraph&&slide.pageLayout!='textInCenterImageBackground'">
           <md-toolbar-row class="sub-title-bar">
             <span><i class="fa fa-check-circle-o fa-fw" [class.checked]="form.value.slideGraph"></i>Select Graph Type*</span>
           </md-toolbar-row>
@@ -47,7 +42,7 @@
               </md-option>
             </md-select>
           </div>
-        </div>
+        </div>-->
         <!-- <md-tab-group *ngIf="slide.hasGraph &&(form.controls.slideGraph.value)&& !(form.controls.slideGraph.value=='image'||form.controls.slideGraph.value=='noGraph'||form.controls.slideGraph.value=='ngGraph')" [selectedIndex]="curTab" #dataInput fxFlex="100">
         <md-tab label="Json">
           <textarea name="graphDataJson" formControlName="graphDataJson"></textarea>
@@ -71,7 +66,7 @@
           <textarea [froalaEditor]='editorOptions' [(froalaModel)]="slide.text"></textarea>
         </div>
 
-        <div *ngIf="form.controls.slideGraph.value == 'ngGraph'" >
+        <div *ngIf="slide.hasGraph" >
           <app-charts-builder [inputData]="slide.data" [inputOptions]="slide.config" (configGraph)="confirmeSlideGRaphConfig($event)">
           </app-charts-builder>
         </div>
