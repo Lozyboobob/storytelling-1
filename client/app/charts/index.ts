@@ -7,3 +7,4 @@ export * from './ngx-charts';
 export * from './pie-chart';
 export * from './bubble-chart';
 export * from './dendogram/dendogram.component';
+export * from './zoomable-treemap-chart/zoomable-treemap-chart.component';
