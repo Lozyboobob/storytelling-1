@@ -3,36 +3,26 @@ import * as shape from 'd3-shape';
 import { colorSets } from '@swimlane/ngx-charts/release/utils/color-sets';
 import { Chart } from '../../chart.class';
 import { nest } from 'd3-collection';
-
+import * as d3 from 'd3';
 const defaultOptions = {
-    view: [900, 600],
-    colorScheme: colorSets.find(s => s.name === 'cool'),
-    schemeType: 'ordinal',
-    showLegend: true,
-    legendTitle: 'Legend',
-    gradient: false,
+    view: [1200, 800],
     showXAxis: true,
     showYAxis: true,
+    gradient: false,
+    showLegend: true,
     showXAxisLabel: true,
     showYAxisLabel: true,
-    yAxisLabel: '',
-    xAxisLabel: '',
-    autoScale: true,
-    showGridLines: true,
-    rangeFillOpacity: 0.5,
-    roundDomains: false,
-    tooltipDisabled: false,
-    showSeriesOnHover: true,
-    curve: shape.curveLinear,
-    curveClosed: shape.curveCardinalClosed
+    colorScheme: {
+        domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
+    },
+    autoScale: true
 };
-
 @Component({
-    selector: 'app-ng-graph',
-    templateUrl: './ng-graph.component.html',
-    styleUrls: ['./ng-graph.component.scss']
+    selector: 'app-number-card',
+    templateUrl: './number-card.component.html',
+    styleUrls: ['./number-card.component.scss']
 })
-export class NgGraphComponent extends Chart implements OnInit, OnDestroy {
+export class NumberCardComponent extends Chart implements OnInit, OnDestroy {
 
     chartOptions: any;
 
@@ -55,44 +45,37 @@ export class NgGraphComponent extends Chart implements OnInit, OnDestroy {
      * @param dataDims :  string[] Selected Dimentions
      * @param rawData : array<Object> Json data
      */
-
     public static convertData(dataDims: string[], rawData: any) {
-        console.log("dataDims", dataDims);
-        console.log("rawData", rawData);
+      console.log("conver")
         const key$ = d => d[dataDims[0]];
         const name$ = d => d[dataDims[1]];
         const value$ = d => d[dataDims[2]];
         const value2$ = d => d[dataDims[3]];
         console.log(key$, name$, value$, value2$)
-        return nest()
+        let result = nest()
             .key(key$)
+            //  .key(name$)
+            .rollup((v): any => { return d3.sum(v, d => d[dataDims[2]]); })
             .entries(rawData)
             .map(series);
 
+        return result;
         function series(d) {
             return {
                 name: d.key,
-                series: d.values.map(seriesPoints)
-            };
-        }
-
-        function seriesPoints(d) {
-            return {
-                name: name$(d),
-                value: value$(d),
-                x: name$(d),
-                y: value$(d),
-                r: value2$(d)
+                value: d.value
             };
         }
     }
+
     setData(graphData, graphConfig) {
         this.chartOptions = { ...this.chartOptions, ...graphConfig };
         this.data = graphData;
     }
 
     init() {
-        this.data = NgGraphComponent.convertData(this.chartOptions.dataDims, this.dataInput);
+      console.log("init");
+        this.data = NumberCardComponent.convertData(this.chartOptions.dataDims, this.dataInput);
     }
 
     load() {

@@ -43,12 +43,14 @@ export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit, 
 
         if (this.slide.graph === 'noGraph') return;
         let cmpName: string;
-
+        console.log(this.slide)
         if (this.slide.config && this.slide.config.chartType
             && this.slide.config.chartType.cmpName != null) {
             cmpName = this.slide.config.chartType.cmpName;
+            console.log("h");
         } else {
             cmpName = this.slide.graph;
+            console.log("h2");
         }
         console.log(cmpName)
         let cmpType: string = cmpName.charAt(0).toUpperCase() + cmpName.slice(1) + 'Component';
@@ -67,7 +69,7 @@ export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit, 
         } else {
             cmpName = this.slide.graph;
         }
-        let cmpType: string = cmpName.charAt(0).toUpperCase() + cmpName.slice(1) + 'Component'; 
+        let cmpType: string = cmpName.charAt(0).toUpperCase() + cmpName.slice(1) + 'Component';
 
     }
 
