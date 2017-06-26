@@ -15,6 +15,9 @@ import { CodemirrorModule } from 'ng2-codemirror';
 // DRAG & DROP MODULE
 import { DndModule } from 'ng2-dnd';
 
+// HANDSONTABLE MODULE
+import { HotTableModule } from 'ng2-handsontable';
+
 
 import {PrezFormSearchComponent} from './components/prez/search/prez-form-search.component';
 // SLIDES COMPONENTS
@@ -89,6 +92,7 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         CodemirrorModule,
         FlexLayoutModule,
         DndModule.forRoot(),
+        HotTableModule,
         Ng2PageScrollModule.forRoot(),
         FroalaEditorModule.forRoot(),
         FroalaViewModule.forRoot(),
