@@ -17,6 +17,9 @@
           <a (click)="open($event); false" [routerLink]="['slides', slides._id]" mdTooltip="Edit">
             <md-icon md-ripple mdRippleCentered="true" mdRippleUnbounded="true">edit</md-icon>
           </a>
+          <a (click)="duplicateSlides($event,slides); false"  mdTooltip="Copy">
+            <md-icon md-ripple mdRippleCentered="true" mdRippleUnbounded="true">content_copy</md-icon>
+          </a>
         </div>
       </div>
       <md-chip-list>

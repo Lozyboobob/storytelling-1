@@ -1,20 +1,25 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { select } from '@angular-redux/store';
-import { Observable } from 'rxjs/Observable';
-import { Slides } from '../../../models/slides';
-import { SlidesService } from '../../../services/slides.service';
-import { MdDialog } from '@angular/material';
-import { DialogComponent} from '../../dialog/dialog.component';
+import {Observable} from 'rxjs/Observable';
+import { Slides} from '../../models/slides';
+import {SlidesService} from '../../services/slides.service';
+import {MdDialog} from '@angular/material';
+import {DialogComponent} from '../dialog/dialog.component';
 @Component({
-    selector: 'app-prez-list-card',
-    templateUrl: './prez-list-card.component.html',
-    styleUrls: ['./prez-list-card.component.scss']
+    selector: 'app-slides-card',
+    templateUrl: './slides-card.component.html',
+    styleUrls: ['./slides-card.component.scss']
 })
-export class PrezListCardComponent implements OnInit {
+export class SlidesCardComponent implements OnInit {
     @Input() slides: Slides;
     @Input() editable: boolean; //whether the slides can be edited;
     @Output() deletedSlides = new EventEmitter();
-    @Output() duplicateslidesOpt = new EventEmitter();
+
+    isFavorite: Boolean;
+    @Output() duplicateslidesOpt=new EventEmitter();
+
+
+
     @select(['session', 'token']) loggedIn$: Observable<string>;
     @select(['session', 'user', 'username']) username$: Observable<Object>;
 
@@ -24,25 +29,18 @@ export class PrezListCardComponent implements OnInit {
     ngOnInit() {
     }
 
-    open(e) {
-        e.stopPropagation();
-    }
-
     publish(e) {
-        e.stopPropagation();
         this.slides.slidesSetting.public = !this.slides.slidesSetting.public;
         this.slidesService.updateSlide(this.slides, this.slides._id)
             .subscribe(elm => console.log(elm.slidesSetting.public));
     }
-    toggleFavorite(e) {
-        e.stopPropagation();
+    toggleFavorite() {
         this.slides.slidesSetting.favorite = !this.slides.slidesSetting.favorite;
         this.slidesService.updateSlide(this.slides, this.slides._id)
             .subscribe(elm => console.log(elm.slidesSetting.favorite));
     }
     /*delete the whole slides*/
-    deleteSlides(e, id) {
-        e.stopPropagation();
+    deleteSlides(id) {
         const dialog = this.dialog.open(DialogComponent);
         dialog.afterClosed().subscribe(result => {
             if (result === 'YES') {
@@ -57,9 +55,9 @@ export class PrezListCardComponent implements OnInit {
         });
 
     }
+
     /*duplicate slides*/
-    duplicateSlides(e,slides) {
-        e.stopPropagation();
+    duplicateSlides(slides) {
         let newSlide: Slides = new Slides(slides);
         this.slidesService.submitSlides(newSlide)
             .subscribe(

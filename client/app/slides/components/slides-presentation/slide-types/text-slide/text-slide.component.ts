@@ -46,6 +46,7 @@ export class TextSlideComponent implements OnInit {
 
     }
 
+
     private loadContent() {
         if (this.config.hasText) {
             if (this.slide.text.length) {

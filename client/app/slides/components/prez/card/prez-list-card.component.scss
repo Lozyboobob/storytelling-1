@@ -51,7 +51,9 @@
         color: #333;
         padding: 2px;
         position: relative;
-
+        display: inline-block;;
+        height: 24px;
+        width:24px;
         &.favorite {
           color: $warn;
         }

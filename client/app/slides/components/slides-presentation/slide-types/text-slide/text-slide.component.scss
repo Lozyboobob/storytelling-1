@@ -1,5 +1,6 @@
 @import 'client/theme.scss'; //  background-color: $accent;
 
+
 :host {
     position: relative;
 
@@ -7,6 +8,7 @@
         padding: 20px;
         width: 100%;
     }
+
 
   md-grid-tile {
     overflow: visible;
@@ -24,14 +26,9 @@
         position: relative;
         display: flex;
         height: 100%;
+        display: flex;
         align-items: center;
-        margin-left: 40px;
-        margin-right: 40px;
-    }
-
-    h2 {
-        color: $accent;
-        font-size: $lg;
+        //justify-content: center;
     }
 
     .img-bkg {
