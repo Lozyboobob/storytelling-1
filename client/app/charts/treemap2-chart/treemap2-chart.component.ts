@@ -80,49 +80,46 @@ export class Treemap2ChartComponent extends Chart implements OnInit {
  ]
 }];
 
-        const name$ = d => d[dataDims[0]];
-        const name2$ = d => d[dataDims[1]];
-        const value$ = d => d[dataDims[2]];
+        const hierarchy$ = depth => d => d[dataDims[0][depth]];
+        const value$ = d => d[dataDims[1]];
+        const depthDim = dataDims[0].length;
 
-        let root =  { name: dataDims[0], children: []};
-        
+        const root =  { name: _.head(dataDims[0]), children: []};
+
+
         const level0 = _.chain(rawData)
-                .groupBy(dataDims[0])
-                .flatMap(d => sum(d, 1, name$))
+                .groupBy(_.head(dataDims[0]))
+                .flatMap(d => sum(d, 0, hierarchy$(0)))
                 .value();
 
+        function sum(d, depth, fetchId$){        
+            let level = {
+                name: fetchId$(d[0])
+            }; 
 
-        function sum(d, depth, fetchId$){
-            console.log('depth', depth);
-            console.log('d', d);
-            console.log('fetchId$', fetchId$);
+            let upperLevel;
 
-            let level = [];
-            depth -= 1;
-            if(depth >= 0) {
-                level = _.chain(d)
-                .groupBy(dataDims[1])
-                .flatMap(d1 => sum(d1, depth, name2$))
+            depth += 1;
+            if(depth < depthDim) {
+                upperLevel = Object.assign({}, level, {children:[]});
+
+                upperLevel.children = _.chain(d)
+                .groupBy(dataDims[0][depth])
+                .flatMap(d1 => sum(d1, depth, hierarchy$(depth)))
                 .value();
+            }
 
-                
+            if(upperLevel) {
+                level = upperLevel;
+            } else {
+                level = Object.assign(level, {value: _.reduce(d, (total, el) => total + value$(el), 0)})
             }
-            
-            let titi = level.concat({
-                name: fetchId$(d[0]),
-                value: _.reduce(d, (total, el) => total + value$(el), 0)
-            }
-            )
-            console.log('titi', titi);
-            return titi;
+
+            return level;
         }
 
-
-
-root.children = level0;
-        console.log(root);
-        //return root.concat(level0);
-        return dataSample[0];
+        root.children = root.children.concat(level0);
+        return root;
     }
 
     init() {
