@@ -2,6 +2,8 @@ import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRe
 import * as shape from 'd3-shape';
 import { colorSets } from '@swimlane/ngx-charts/release/utils/color-sets';
 import { Chart } from '../../chart.class';
+import { nest } from 'd3-collection';
+import * as _ from 'lodash';
 
 const defaultOptions = {
   view: [900, 600],
@@ -32,9 +34,9 @@ const defaultOptions = {
   styleUrls: ['./ng-graph.component.scss']
 })
 export class NgGraphComponent extends Chart implements OnInit, OnDestroy {
-  
+
   chartOptions: any;
-  
+
   data: any[];
   private activated: boolean = true;
   private _setIntervalHandler: any;
@@ -42,25 +44,55 @@ export class NgGraphComponent extends Chart implements OnInit, OnDestroy {
   constructor() { super() }
 
   ngOnInit() {
-    this.chartOptions = {...defaultOptions};
+    // Set the config
+    this.chartOptions = { ...defaultOptions, ...this.configInput };
 
-        // Set the data
-    this.data =  this.dataInput;
-    this.chartOptions = { ...this.chartOptions, ...this.configInput } ;
-    
     this.init();
 
   }
 
+  /**
+   * Process json Data to Ngx-charts format
+   * @param dataDims :  string[] Selected Dimentions 
+   * @param rawData : array<Object> Json data 
+   */
+  public static convertData(dataDims: string[][], rawData: any) {
+
+    const key$ = d => d[_.head(dataDims[0])];
+    const name$ = d => d[_.head(dataDims[1])];
+    const value$ = d => d[_.head(dataDims[2])];
+    const value2$ = d => d[_.head(dataDims[3])];
+
+    return nest()
+      .key(key$)
+      .entries(rawData)
+      .map(series);
+
+    function series(d) {
+      return {
+        name: d.key,
+        series: d.values.map(seriesPoints)
+      };
+    }
+
+    function seriesPoints(d) {
+      return {
+        name: name$(d),
+        value: value$(d),
+        x: name$(d),
+        y: value$(d),
+        r: value2$(d)
+      };
+    }
+  }
+
   setData(graphData, graphConfig) {
-    this.chartOptions = { ...this.chartOptions, ...graphConfig } ;
-    this.data =  graphData;
+    this.chartOptions = { ...this.chartOptions, ...graphConfig };
+    this.data = graphData;
   }
 
   init() {
-    // this.width = 700;
-    // this.height = 300;
-    // this.view = [this.width, this.height];
+    this.data = NgGraphComponent.convertData(this.chartOptions.dataDims, this.dataInput);
   }
 
   load() {

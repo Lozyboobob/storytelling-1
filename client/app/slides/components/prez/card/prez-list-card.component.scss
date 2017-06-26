@@ -1,0 +1,111 @@
+@import 'client/theme.scss';
+.toto {
+  z-index: 0;
+}
+
+.prez-list-card {
+  background: #fff;
+  box-shadow: none !important;
+  color: #333;
+  font-family: 'SF Pro Display','SF Pro Icons','Helvetica Neue','Helvetica','Arial',sans-serif !important;
+  margin: 10px;
+  padding: 0;
+
+  h2 {
+    height: auto;
+    line-height: 50px;
+    margin: auto;
+    padding: 10px;
+    text-align: center;
+    width: 100% !important;
+  }
+
+  .mat-card-header-text {
+    margin: 10px auto;
+    text-align: center;
+    width: 100%;
+  }
+
+  .md-card-image {
+    background-position: center;
+    background-size: cover;
+    height: 225px;
+    position: relative;
+    width: 100%;
+
+    .options {
+      display: inline-block;
+      position: absolute;
+      right: 10px;
+      top: 10px;
+
+      md-icon {
+        font-size: 125%;
+      }
+
+      div {
+        display: inline-block;
+      }
+
+      a {
+        color: #333;
+        padding: 2px;
+        position: relative;
+        display: inline-block;;
+        height: 24px;
+        width:24px;
+        &.favorite {
+          color: $warn;
+        }
+
+        &.unfavorite {
+          color: $primary;
+          opacity: .5;
+        }
+
+        &.published {
+          color: $accent;
+        }
+
+        &.unpublished {
+          color: $primary;
+          opacity: .5;
+        }
+      }
+    }
+
+    md-chip-list {
+      bottom: 10px;
+      left: 10px;
+      position: absolute;
+
+      md-chip {
+        background: rgb(36, 39, 45);
+        background: rgba(36, 39, 45, .7);
+        border-radius: 10px;
+        color: #dedede;
+        font-size: 75%;
+        padding: 4px 8px;
+      }
+    }
+  }
+
+  md-card-content {
+    margin: 5px;
+
+    p {
+      padding: 10px;
+    }
+
+    .description {
+      height: 100px;
+      overflow-y: auto;
+      text-align: justify;
+    }
+
+    .author {
+      color: #999;
+      text-align: right;
+    }
+  }
+}

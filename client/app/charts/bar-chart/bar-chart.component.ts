@@ -1,16 +1,20 @@
 import { Component, OnInit, OnChanges, ViewChild, ElementRef, Input, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import * as d3 from 'd3';
-import {Chart} from '../chart.class';
+import { nest } from 'd3-collection';
+import * as _ from 'lodash';
+import { Chart } from '../chart.class';
+
+
 @Component({
     selector: 'app-bar-chart',
     templateUrl: './bar-chart.component.html',
     styleUrls: ['./bar-chart.component.scss']
 })
-export class BarChartComponent extends Chart implements OnInit {
+export class BarChartComponent extends Chart implements OnInit, OnChanges {
 
     @ViewChild('chart') private chartContainer: ElementRef;
     private data: Array<any> = sample;
-    private margin: any = { top: 0, bottom: 0, left: 40, right: 40 };
+    private margin: any = { top: 50, bottom: 50, left: 100, right: 100 };
     private chart: any;
     private width: number;
     private height: number;
@@ -20,31 +24,83 @@ export class BarChartComponent extends Chart implements OnInit {
     private xAxis: any;
     private yAxis: any;
     private loaded: boolean = true;
+    private chartOptions: any;
 
     constructor() {
-       super()
+        super()
     }
 
     ngOnInit() {
-        // Set data
-        this.data = this.dataInput;
-
+        this.chartOptions = { ...this.configInput };
+        d3.select("#BarChartComponent").remove();
         this.init();
     }
 
-    createChart() {
+    ngOnChanges(){
+        d3.select("#BarChartComponent").remove();
+        this.init();
+    }
+
+    /**
+     * Process json Data to D3.js Bar chart format
+     * @param dataDims :  string[] Selected Dimentions 
+     * @param rawData : array<Object> Json data 
+     */
+    public static convertData(dataDims: string[], rawData: any) {
+        const name$ = d => d[_.head(dataDims[0])];
+        const value$ = d => d[_.head(dataDims[1])];
+
+        function sum(d: any){
+            return {
+                name: name$(_.head(d)),
+                index: name$(_.head(d)),
+                value: _.reduce(d, (total, el) => total + value$(el), 0),
+                x: name$(_.head(d)),
+                y: _.reduce(d, (total, el) => total + value$(el), 0)
+            }
+        }
+
+        return _.chain(rawData)
+            .groupBy(_.head(dataDims[0]))
+            .map(sum)
+            .value();
+
+    }
+
+    setData(data) {
+        if (data.length == 0) return;
+        this.data = data;
+    }
+
+    init() {
+        if (this.configInput != null)
+            this.data = BarChartComponent.convertData(this.chartOptions.dataDims, this.dataInput);
+        else
+            this.data = this.dataInput;
+
+        this.drawChart();
+        this.load();
+    }
+
+    /**
+     * Draw function for D3.js Bar chart
+     */
+    drawChart() {
         let element = this.chartContainer.nativeElement;
         this.width = element.offsetWidth - this.margin.left - this.margin.right;
         this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
 
+        console.log('element.offsetHeight:', element.offsetHeight)
+
         let svg = d3.select(element).append('svg')
+            .attr("id","BarChartComponent")
             .attr('width', element.offsetWidth)
             .attr('height', element.offsetHeight);
 
         // chart plot area
         this.chart = svg.append('g')
             .attr('class', 'bars')
-            .attr('transform', `translate(${this.margin.left}, ${this.height / 2})`);
+            .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`);
 
         // define X & Y domains
         let xDomain = this.data.map(d => d.index);
@@ -60,11 +116,11 @@ export class BarChartComponent extends Chart implements OnInit {
         // x & y axis
         this.xAxis = svg.append('g')
             .attr('class', 'axis axis-x')
-            .attr('transform', `translate(${this.margin.left}, ${this.height / 2 + this.height})`)
+            .attr('transform', `translate(${this.margin.left}, ${this.height + this.margin.top})`)
             .call(d3.axisBottom(this.xScale));
         this.yAxis = svg.append('g')
             .attr('class', 'axis axis-y')
-            .attr('transform', `translate(${this.margin.left}, ${this.height / 2})`)
+            .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`)
             .call(d3.axisLeft(this.yScale));
 
 
@@ -129,18 +185,6 @@ export class BarChartComponent extends Chart implements OnInit {
 
     }
 
-    updateChart() {
-
-
-    }
-    setData(data) {
-        if (data.length == 0) return;
-        this.data = data;
-    }
-    init() {
-        this.createChart();
-        this.load();
-    }
     load() {
         this.loaded = true;
         this.chart.selectAll('.bar')
@@ -160,33 +204,23 @@ export class BarChartComponent extends Chart implements OnInit {
             .attr('opacity', 1);
 
     }
+
+    // FIXME
     ease() {
         this.loaded = false;
         this.chart.selectAll('.bar').transition()
-            .delay((d,i)=>i*100)
+            .delay((d, i) => i * 100)
             .attr('y', d => this.yScale(0))
             .attr('height', d => this.height - this.yScale(0))
         this.chart.selectAll('.value-text').transition()
             .duration(200)
             .attr('opacity', 0);
         let waitingTime = this.chart.selectAll('.bar')._groups[0].length * 100;
-        /* if the chart doesn't load after certain time ( the time allows chart ease and then load again*/
-        /*setTimeout(_ => {
-            if (this.loaded) return;
-            this.chart.selectAll('.bar').transition()
-                .duration(1500)
-                .delay(waitingTime * 2 + 400)
-                .attr('y', d => this.yScale(d.value))
-                .attr('height', d => this.height - this.yScale(d.value));
-            this.chart.selectAll('.value-text').transition()
-                .delay(1500)
-                .duration(200)
-                .attr('opacity', 1);
-
-        }, waitingTime * 2 + 400);*/
     }
 
 }
+
+// FIXME
 const sample = [
     {
         "value": "21",

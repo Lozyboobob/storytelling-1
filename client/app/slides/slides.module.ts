@@ -12,17 +12,20 @@ import {XHRBackend, Http, RequestOptions} from '@angular/http';
 import { PieChartModule, GaugeModule, NgxChartsModule } from '@swimlane/ngx-charts';
 import { CodemirrorModule } from 'ng2-codemirror';
 
+// DRAG & DROP MODULE
+import { DndModule } from 'ng2-dnd';
 
 
-import {SearchComponent} from './components/search/search.component';
+import {PrezFormSearchComponent} from './components/prez/search/prez-form-search.component';
 // SLIDES COMPONENTS
 import { SlidesPresentationComponent,
     FullScreenGraphSlideComponent,
+    ImageComponent,
     TitleSlideComponent,
     LeftGraphRightTextSlideComponent,
     RightGraphLeftTextSlideComponent,
     TextSlideComponent,
-    SlidesCreatorComponent,
+    PrezFormComponent,
     SlideCreatorComponent
 } from '.';
 
@@ -39,36 +42,35 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { ScrollDirective } from './components/slides-presentation/scroll.directive';
 import { KeySwitchDirective } from './components/slides-presentation/key-switch.directive';
 
-import {Ng2PageScrollModule} from 'ng2-page-scroll';
-import {DragulaModule} from 'ng2-dragula';
+import { Ng2PageScrollModule } from 'ng2-page-scroll';
+import { DragulaModule } from 'ng2-dragula';
 import { BarChartComponent } from '../charts';
 import { GaugeChartComponent } from '../charts';
 import { NgGraphComponent } from "../charts";
+import { TreemapChartComponent } from "../charts";
+import { ZoomableTreemapChartComponent } from "../charts";
+import { PieGridChartComponent } from '../charts';
 import { HierarchicalEdgeBundlingComponent } from '../charts/hierarchical-edge-bundling/hierarchical-edge-bundling.component';
 
 import { AdvancedPieChartComponent } from '../charts';
 import { ForceDirectedGraphComponent } from '../charts/force-directed-graph/force-directed-graph.component';
 import { LineChartComponent } from '../charts/line-chart/line-chart.component';
-import { TreemapChartComponent } from '../charts/treemap-chart/treemap-chart.component';
-import { SunburstChartComponent } from '../charts/sunburst-chart/sunburst-chart.component';
 import { FroalaEditorModule, FroalaViewModule } from 'angular2-froala-wysiwyg';
 import { DendogramComponent } from '../charts/dendogram/dendogram.component';
 import { PieChartComponent } from '../charts/pie-chart/pie-chart.component';
-
+import { BubbleChartComponent } from "../charts";
+import { AreaChartComponent } from '../charts/ngx-charts/area-chart';
 
 import { CsvInputComponent } from './components/editor/slide-creator/csv-input/csv-input.component';
 import { ImageUploadComponent } from './components/editor/slide-creator/image-upload/image-upload.component';
 
-import { SlidesEditorComponent } from './components/slides-editor/slides-editor.component';
 import { SlidesSettingComponent } from './components/editor/slides-setting/slides-setting.component';
 import { ChartsBuilderComponent, CodeEditorComponent } from "./components/editor/charts-builder";
 import { EditorComponent } from './components/editor/editor.component';
 
-import { FilterComponent } from './components/filter/filter.component';
-import { SlidesManagerComponent } from './components/slides-manager/slides-manager.component';
-import { SlidesCardComponent } from './components/slides-card/slides-card.component';
+import { PrezListComponent } from './components/prez/prez-list.component';
+import { PrezListCardComponent } from './components/prez/card/prez-list-card.component';
 import { DialogComponent } from './components/dialog/dialog.component';
-import { FavoriteFilterComponent } from './components/favorite-filter/favorite-filter.component';
 import { ToggleFullscreenDirective } from './components/slides-presentation/toggle-fullscreen.directive';
 
 
@@ -87,6 +89,7 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         NgxChartsModule,
         CodemirrorModule,
         FlexLayoutModule,
+        DndModule.forRoot(),
         Ng2PageScrollModule.forRoot(),
         FroalaEditorModule.forRoot(),
         FroalaViewModule.forRoot(),
@@ -96,37 +99,38 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         BarChartComponent,
         LineChartComponent,
         ForceDirectedGraphComponent,
-        TreemapChartComponent,
-        SunburstChartComponent,
         HierarchicalEdgeBundlingComponent,
         PieChartComponent,
+        PieGridChartComponent,
         FullScreenGraphSlideComponent,
         GaugeChartComponent,
         AdvancedPieChartComponent,
         DialogComponent,
-        DendogramComponent, 
-        NgGraphComponent],
+        DendogramComponent,
+        NgGraphComponent,
+        TreemapChartComponent,
+        ZoomableTreemapChartComponent,
+        BubbleChartComponent,
+        AreaChartComponent,
+        ImageComponent],
+
     declarations: [
         ScrollDirective,
         KeySwitchDirective,
         SlidesPresentationComponent,
-        SlidesCreatorComponent,
+        PrezFormComponent,
         SlideCreatorComponent,
         CsvInputComponent,
         ImageUploadComponent,
-        SearchComponent,
+        PrezFormSearchComponent,
         BarChartComponent,
         ForceDirectedGraphComponent,
         LineChartComponent,
-        TreemapChartComponent,
-        SunburstChartComponent,
-        SlidesEditorComponent,
         SlidesSettingComponent,
         CodeEditorComponent,
         ChartsBuilderComponent,
         EditorComponent,
-        FilterComponent,
-        SlidesManagerComponent,
+        PrezListComponent,
         FullScreenGraphSlideComponent,
         GaugeChartComponent,
         AdvancedPieChartComponent,
@@ -135,19 +139,23 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         RightGraphLeftTextSlideComponent,
         TextSlideComponent,
         PieChartComponent,
-        SlidesCardComponent,
+        PrezListCardComponent,
         HierarchicalEdgeBundlingComponent,
+        AreaChartComponent,
+        PieGridChartComponent,
         DialogComponent,
         NgGraphComponent,
+        TreemapChartComponent,
+        ZoomableTreemapChartComponent,
         DendogramComponent,
-        FavoriteFilterComponent,
+        BubbleChartComponent,
         KeySwitchDirective,
-        ToggleFullscreenDirective
+        ToggleFullscreenDirective,
+        ImageComponent
     ],
     exports:[
-      FilterComponent,
-      SlidesCardComponent,
-      SearchComponent
+      PrezListCardComponent,
+      PrezFormSearchComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     providers: [OverlayContainer, SlidesService, ChartsService]

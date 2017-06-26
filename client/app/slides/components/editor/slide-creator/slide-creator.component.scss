@@ -1,43 +1,25 @@
-@import 'client/theme.scss';
+.pointer {
+  cursor: pointer;
+}
 
-.slide-creator {
-    background: $accent;
-    @include basic-frame-theme($theme);
+md-card {
+  box-shadow: none !important;
+  padding: 20px;
 
-    .title-bar{
-        cursor: pointer;
-        background-color: transparent !important;
+  md-toolbar {
+    border-bottom: 5px solid #333;
 
-        .spacer {
-            flex: 1 1 auto;
-        }
-
-        .icon {
-            padding: 0 14px;
-        }
-        .error{
-          font-size: 14px;
-        }
+    .click {
+      cursor: pointer;
+      height: 100%;
+      margin-left: 50px;
+      width: 100%;
     }
-}
-.page-title{
-  width: 80%;
-  position: relative;
-  top: 5px;
-}
-.text-align{
-  //padding-left: 20px;
-}
-:host /deep/ .fr-box {
-    width: 100%;
-    //background: transparent;
-    ul, ol{
-      padding:40px;
-      list-style-position: inside;
+
+    md-select {
+      margin: 0 5px;
+      position: absolute;
+      top: 37px;
     }
-    /*&:active,
-    &:focus {
-        outline: none;
-        border: 1px solid $primary;
-    }*/
+  }
 }

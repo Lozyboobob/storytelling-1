@@ -1,29 +1,28 @@
 
 * {
-  -webkit-transition: all 0.3s ease;
-  -moz-transition: all 0.3s ease;
-  -ms-transition: all 0.3s ease;
-  -o-transition: all 0.3s ease;
-  transition: all 0.3s ease;
+  -webkit-transition: all .3s ease;
+  -moz-transition: all .3s ease;
+  -ms-transition: all .3s ease;
+  -o-transition: all .3s ease;
+  transition: all .3s ease;
 }
-.app-container{
-  //margin-top: 50px;
-  padding-top: 65px;
-   padding-left: 60px;
-   overflow: hidden;
-   &.toggled{
-      padding-left: 250px;
-   }
+.app-container {
+  overflow: hidden;
+  padding-left: 60px;
+  padding-top: 50px;
+  &.toggled {
+    padding-left: 250px;
+  }
 }
-.toggle-mask{
+.toggle-mask {
+  background-color: grey;
+  display: none;
   height: 100%;
+  opacity: .6;
+  position: absolute;
   width: 100%;
   z-index: 48;
-  background-color: grey;
-  opacity: 0.6;
-  position: absolute;
-  display: none;
-  &.toggled{
-      display: block;
+  &.toggled {
+    display: block;
   }
 }

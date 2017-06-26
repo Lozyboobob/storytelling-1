@@ -1,20 +1,14 @@
-export const titleAlign: Array<string>=[
-  "left","right","center"
+export const titleAlign: Array<string> = [
+    "left", "right", "center"
 ]
 export const graphType: Array<any> = [
     {
-        value: "ngGraph",
-        type: "Graph builder"
+        value: "noGraph",
+        type: "No Graph"
     },
     {
-        value: "barChart",
-        type: "Bar Chart"
-    }, {
-        value: "forceDirectedGraph",
-        type: "Force Directed Graph"
-    }, {
-        value: "pieChart",
-        type: "Pie chart"
+        value: "ngGraph",
+        type: "Graph builder"
     },
     {
         value: "HierarchicalEdgeBundling",
@@ -33,25 +27,8 @@ export const graphType: Array<any> = [
         type: "Gauge Chart"
     },
     {
-        value: "treemapChart",
-        type: "Treemap Chart"
-    },
-    {
-        value: "sunburstChart",
-        type: "Sunburst Chart"
-    },{
-        value: "dendogramChart",
-        type: "Dendrogram chart"
-    },
-    /* hide image part
-  {
-      value: "image",
-      type: "Image"
-  },
-  */
-    {
-        value: "noGraph",
-        type: "No Graph"
+        value: "image",
+        type: "Image"
     }];
 
 export const pageLayoutOption: Array<any> = [
@@ -62,12 +39,10 @@ export const pageLayoutOption: Array<any> = [
         value: "textInCenter",
         type: "Text in Center"
     },
-    /* hide image part
     {
         value: "textInCenterImageBackground",
-        type: "Text in Center + Image Background"
+        type: "Text + Image Background"
     },
-    */
     {
         value: "LeftGraphRightText",
         type: "Graph on Left +  Text on Right"

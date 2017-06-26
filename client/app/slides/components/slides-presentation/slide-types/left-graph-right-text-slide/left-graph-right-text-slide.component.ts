@@ -11,7 +11,7 @@ import { ChartsService } from "../../../../services";
     templateUrl: './left-graph-right-text-slide.component.html',
     styleUrls: ['./left-graph-right-text-slide.component.scss']
 })
-export class LeftGraphRightTextSlideComponent implements OnInit, AfterContentInit, OnChanges  {
+export class LeftGraphRightTextSlideComponent implements OnInit, AfterContentInit, OnChanges {
 
 
     @Input() slide: Slide;
@@ -21,7 +21,7 @@ export class LeftGraphRightTextSlideComponent implements OnInit, AfterContentIni
 
     @ViewChild('parent', { read: ViewContainerRef })
     parent: ViewContainerRef;
-    private componentRef: ComponentRef<Chart>;
+    private componentRef: ComponentRef<any>;
 
     config: PageConfig;
     loadContentAni: boolean = false;
@@ -39,14 +39,34 @@ export class LeftGraphRightTextSlideComponent implements OnInit, AfterContentIni
     }
 
     ngAfterContentInit() {
+
         if (this.slide.graph === 'noGraph') return;
-        let cmpType = this.slide.graph.charAt(0).toUpperCase() + this.slide.graph.slice(1) + 'Component';
+        let cmpName: string;
+
+        if(this.slide.config && this.slide.config.chartType
+        && this.slide.config.chartType.cmpName != null){
+            cmpName = this.slide.config.chartType.cmpName;
+        } else {
+            cmpName = this.slide.graph;
+        }
+
+        let cmpType: string = cmpName.charAt(0).toUpperCase() + cmpName.slice(1) + 'Component';
         this.setChart(cmpType);
     }
 
     ngOnChanges(changes: SimpleChanges) {
         if (this.slide.graph === 'noGraph') return;
-        let cmpType: string = this.slide.graph.charAt(0).toUpperCase() + this.slide.graph.slice(1) + 'Component';
+        let cmpName: string;
+
+        if(this.slide.config && this.slide.config.chartType
+        && this.slide.config.chartType.cmpName != null){
+            cmpName = this.slide.config.chartType.cmpName;
+        } else {
+            cmpName = this.slide.graph;
+        }
+
+        let cmpType: string = cmpName.charAt(0).toUpperCase() + cmpName.slice(1) + 'Component';
+        console.log(cmpType);
         this.setChart(cmpType);
     }
 
@@ -58,8 +78,15 @@ export class LeftGraphRightTextSlideComponent implements OnInit, AfterContentIni
             this.componentRef.destroy();
         }
         this.componentRef = this.parent.createComponent(componentFactory);
-        this.componentRef.instance.dataInput = this.slide.data; // set the input inputData of the abstract class Chart
-        this.componentRef.instance.configInput = this.slide.config; // set the input inputData of the abstract class Chart
+        if (chartType == 'ImageComponent') {
+          console.log("get path");
+            if (this.slide.slideImage) this.componentRef.instance.path = this.slide.slideImage.path;
+        }
+        else {
+            this.componentRef.instance.dataInput = this.slide.data; // set the input inputData of the abstract class Chart
+            this.componentRef.instance.configInput = this.slide.config; // set the input inputData of the abstract class Chart
+        }
+
     }
 
     private setConfig() {
@@ -67,20 +94,17 @@ export class LeftGraphRightTextSlideComponent implements OnInit, AfterContentIni
         Object.assign(this.config, HALF_HALF_LAYOUT);
 
         if (this.slide.graph == "image") {
-            if (this.slide.fullScreenHtml.length)
-                this.slide.fullScreenHtml = this.sanitizer.bypassSecurityTrustHtml(this.slide.fullScreenHtml) as string;
             this.config.hasImage = true;
         }
         else {
             this.config.hasChart = true;
-
-            if (this.slide.text.length) {
-                this.slide.text = this.sanitizer.bypassSecurityTrustHtml(this.slide.text) as string;
-            }
         };
     }
 
     private loadChart() {
+      if (this.slide.text.length) {
+          this.slide.text = this.sanitizer.bypassSecurityTrustHtml(this.slide.text) as string;
+      }
         if (this.config.hasChart) {
             (<Chart>this.componentRef.instance).load();
         }

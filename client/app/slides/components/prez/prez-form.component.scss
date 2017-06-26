@@ -1,0 +1,12 @@
+@import 'client/theme.scss';
+
+.slides {
+  .slide {
+    padding-bottom: 15px;
+
+    .graph-img {
+      height: 100%;
+      margin: 15px;
+    }
+  }
+}
