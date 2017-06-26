@@ -5,17 +5,11 @@ import { PieChartComponent, AdvancedPieChartComponent, BarChartComponent, ForceD
 
 
 function createChartType({title, ...obj}) {
-<<<<<<< HEAD
+
     return {
         title,
         name: titleToName(title),
-        dimLabels: ['Group by', 'Name', 'Value', null],
-=======
-  return {
-    title,
-    name: titleToName(title),
-    dimLabels: [{column: 'Group by', maxSize: 1} , {column: 'Name', maxSize: 1} ,{column: 'Value', maxSize: 1}],
->>>>>>> 1f6f245e346ddcec13bd6115fae4ca0789c08f21
+        dimLabels: [{ column: 'Group by', maxSize: 1 }, { column: 'Name', maxSize: 1 }, { column: 'Value', maxSize: 1 }],
     ...obj
     };
 
@@ -26,40 +20,22 @@ function createChartType({title, ...obj}) {
 
 
 export const chartTypes = [
-<<<<<<< HEAD
-    createChartType({ title: 'Bar Chart', simpleData: true, cmpName: 'barChart', convertData: BarChartComponent.convertData, dimLabels: ['Name', 'Value', null] }),
-    createChartType({ title: 'Pie Chart', simpleData: true, cmpName: 'pieChart', convertData: PieChartComponent.convertData, dimLabels: ['Name', 'Value', null] }),
-    createChartType({ title: 'Pie Grid Chart', simpleData: true, cmpName: 'pieGridChart', convertData: PieGridChartComponent.convertData, dimLabels: ['Name', 'Value', null] }),
+
+    createChartType({ title: 'Bar Chart', simpleData: true, cmpName: 'barChart', convertData: BarChartComponent.convertData, dimLabels: [{ column: 'Name', maxSize: 1 }, { column: 'Value', maxSize: 1 }] }),
+    createChartType({ title: 'Pie Chart', simpleData: true, cmpName: 'pieChart', convertData: PieChartComponent.convertData, dimLabels: [{ column: 'Name', maxSize: 1 }, { column: 'Value', maxSize: 1 }] }),
+    createChartType({ title: 'Dendogram', simpleData: true, cmpName: 'dendogram', convertData: DendogramComponent.convertData, dimLabels: [{ column: 'Group by', maxSize: 10 }, { column: 'Value', maxSize: 1 }] }),
+    createChartType({ title: 'Pie Grid Chart', simpleData: true, cmpName: 'pieGridChart', convertData: PieGridChartComponent.convertData, dimLabels: [{ column: 'Name', maxSize: 1 }, { column: 'Value', maxSize: 1 }] }),
+    createChartType({ title: 'Force Directed Graph', simpleData: true, cmpName: 'ForceDirectedGraph', convertData: ForceDirectedGraphComponent.convertData, dimLabels: [{ column: 'Source', maxSize: 1 }, { column: 'Source Group', maxSize: 1 }, { column: 'Target', maxSize: 1 }, { column: 'Target Group', maxSize: 1 }, { column: 'Value', maxSize: 1 }] }),
     createChartType({ title: 'Bar Vertical 2D', convertData: NgGraphComponent.convertData }),
     createChartType({ title: 'Bar Horizontal 2D', convertData: NgGraphComponent.convertData }),
     createChartType({ title: 'Bar Vertical Stacked', convertData: NgGraphComponent.convertData }),
     createChartType({ title: 'Bar Vertical Normalized', convertData: NgGraphComponent.convertData }),
     createChartType({ title: 'Bar Horizontal Normalized', convertData: NgGraphComponent.convertData }),
-    createChartType({ title: 'Polar Chart', convertData: NgGraphComponent.convertData, dimLabels: ['Group by', 'Angle Values', 'Radius Values', null] }),
-    createChartType({ title: 'Line Chart', convertData: NgGraphComponent.convertData, dimLabels: ['Group by', 'x-Values', 'y-Values', null] }),
-    createChartType({ title: 'Heat Map', convertData: NgGraphComponent.convertData, dimLabels: ['x-Category', 'y-Category', 'Color', null] }),
-    createChartType({ title: 'Bubble Chart', convertData: NgGraphComponent.convertData, dimLabels: ['GroupBy', 'x-Values', 'y-Values', 'Radius'] }),
-
+    createChartType({ title: 'Polar Chart', convertData: NgGraphComponent.convertData, dimLabels: [{ column: 'Group by', maxSize: 1 }, { column: 'Angle Values', maxSize: 1 }, { column: 'Radius Values', maxSize: 1 }] }),
+    createChartType({ title: 'Line Chart', convertData: NgGraphComponent.convertData, dimLabels: [{ column: 'GroupBy', maxSize: 1 }, { column: 'x-Values', maxSize: 1 }, { column: 'y-Values', maxSize: 1 }] }),
+    createChartType({ title: 'Heat Map', convertData: NgGraphComponent.convertData, dimLabels: [{ column: 'x-Category', maxSize: 1 }, { column: 'y-Category', maxSize: 1 }, { column: 'Color', maxSize: 1 }] }),
+    createChartType({ title: 'Bubble Chart', convertData: NgGraphComponent.convertData, dimLabels: [{ column: 'GroupBy', maxSize: 1 }, { column: 'x-Values', maxSize: 1 }, { column: 'y-Values', maxSize: 1 }, { column: 'Radius', maxSize: 1 }] }),
     createChartType({ title: 'Number Cards', simpleData: true, convertData: NumberCardComponent.convertData, dimLabels: ['Card Name', 'Card Values', 'Color', null] }),
-
     createChartType({ title: 'Treemap', simpleData: true, cmpName: 'treemapChart', convertData: TreemapChartComponent.convertData, dimLabels: ['GroupBy', 'Sum of values', null, null] })
 
-=======
-  createChartType({ title: 'Bar Chart', simpleData: true, cmpName: 'barChart', convertData: BarChartComponent.convertData ,dimLabels: [ {column: 'Name', maxSize: 1} , {column: 'Value', maxSize: 1} ]}),
-  createChartType({ title: 'Pie Chart', simpleData: true, cmpName: 'pieChart', convertData: PieChartComponent.convertData ,dimLabels: [ {column: 'Name', maxSize: 1} , {column: 'Value', maxSize: 1} ] }),
-  createChartType({ title: 'Dendogram', simpleData: true, cmpName: 'dendogram', convertData: DendogramComponent.convertData ,dimLabels: [ {column: 'Group by', maxSize: 10}, {column: 'Value', maxSize: 1} ] }),
-  createChartType({ title: 'Pie Grid Chart', simpleData: true, cmpName: 'pieGridChart', convertData: PieGridChartComponent.convertData, dimLabels: [ {column: 'Name', maxSize: 1} ,{column: 'Value', maxSize: 1} ] }),
-  createChartType({ title: 'Force Directed Graph', simpleData: true, cmpName: 'ForceDirectedGraph', convertData: ForceDirectedGraphComponent.convertData ,dimLabels: [{column: 'Source', maxSize: 1} , {column: 'Source Group', maxSize: 1}, {column: 'Target', maxSize: 1} ,{column: 'Target Group', maxSize: 1} ,{column: 'Value', maxSize: 1}] }),
-  createChartType({ title: 'Bar Vertical 2D', convertData: NgGraphComponent.convertData }),
-  createChartType({ title: 'Bar Horizontal 2D', convertData: NgGraphComponent.convertData }),
-  createChartType({ title: 'Bar Vertical Stacked', convertData: NgGraphComponent.convertData }),
-  createChartType({ title: 'Bar Vertical Normalized', convertData: NgGraphComponent.convertData }),
-  createChartType({ title: 'Bar Horizontal Normalized', convertData: NgGraphComponent.convertData }),
-  createChartType({ title: 'Polar Chart', convertData: NgGraphComponent.convertData, dimLabels: [{column: 'Group by', maxSize: 1} , {column: 'Angle Values', maxSize: 1} ,{column: 'Radius Values', maxSize: 1}] }),
-  createChartType({ title: 'Line Chart', convertData: NgGraphComponent.convertData, dimLabels: [{column: 'GroupBy', maxSize: 1} , {column: 'x-Values', maxSize: 1} ,{column: 'y-Values', maxSize: 1}] }),
-  createChartType({ title: 'Heat Map', convertData: NgGraphComponent.convertData, dimLabels: [{column: 'x-Category', maxSize: 1} , {column: 'y-Category', maxSize: 1} ,{column: 'Color', maxSize: 1}] }),
-  createChartType({ title: 'Bubble Chart', convertData: NgGraphComponent.convertData, dimLabels: [{column: 'GroupBy', maxSize: 1} , {column: 'x-Values', maxSize: 1} ,{column: 'y-Values', maxSize: 1}, {column: 'Radius', maxSize: 1}] }),
-  createChartType({ title: 'Treemap', simpleData: true, cmpName: 'treemapChart', convertData: TreemapChartComponent.convertData, dimLabels: ['GroupBy', 'Sum of values', null, null] })
->>>>>>> 1f6f245e346ddcec13bd6115fae4ca0789c08f21
 ];
-
