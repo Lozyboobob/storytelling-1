@@ -89,8 +89,8 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
   confirmSlide() {
     /* to decide which data to take from tab*/
 
-    if (this.slide.hasGraph && !(this.form.value.slideGraph == 'noGraph' || this.form.value.slideGraph == 'ngGraph' || this.form.value.slideGraph == 'image')) {
-      switch (this.dataInputTab.selectedIndex) {
+    if (this.slide.hasGraph) {
+  /*    switch (this.dataInputTab.selectedIndex) {
         //json input
         case 0: {
           let data;
@@ -120,10 +120,10 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
         }
         default: this.slide.data = '';
       }
-    } else if (this.form.value.slideGraph == 'ngGraph') {
-      // if(this.dataBuilder.chartOptions.chartType
-      //     && this.dataBuilder.chartOptions.chartType.cmpName != null)
-      //     this.form.value.slideGraph = this.dataBuilder.chartOptions.chartType.cmpName;
+    } else if (this.form.value.slideGraph == 'ngGraph') {*/
+       if(this.dataBuilder.chartOptions.chartType
+           && this.dataBuilder.chartOptions.chartType.cmpName != null)
+           this.form.value.slideGraph = this.dataBuilder.chartOptions.chartType.cmpName;
       this.slide.data = this.dataBuilder.data;
       this.slide.config = this.dataBuilder.chartOptions;
     }
