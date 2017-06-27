@@ -55,21 +55,21 @@
           <app-csv-input (csv2json)="getCsvJson($event)"></app-csv-input>
         </md-tab>
       </md-tab-group> -->
-        <div *ngIf="(slide.hasGraph&&form.controls.slideGraph.value=='image')||(slide.pageLayout=='textInCenterImageBackground')">
+        <div *ngIf="(slide.hasGraph && form.controls.slideGraph.value=='image')||(slide.pageLayout=='textInCenterImageBackground')" class="step">
           <md-toolbar-row class="sub-title-bar">
             <span><i class="fa fa-check-circle-o fa-fw" [class.checked]="slide.slideImage"></i>Upload Image*</span>
           </md-toolbar-row>
           <app-image-upload (setImage)="setImageHtml($event)" [imagePath]="slide.slideImage" align="center"></app-image-upload>
         </div>
 
-        <div *ngIf="slide.hasText">
+        <div *ngIf="slide.hasText" class="step">
           <md-toolbar-row class="sub-title-bar">
             <span><i class="fa fa-check-circle-o fa-fw" [class.checked]="slide.text"></i>Input Text Content*</span>
           </md-toolbar-row>
           <textarea [froalaEditor]='editorOptions' [(froalaModel)]="slide.text"></textarea>
         </div>
 
-        <div *ngIf="slide.hasGraph">
+        <div *ngIf="slide.hasGraph" class="step">
           <app-charts-builder [inputData]="slide.data" [inputOptions]="slide.config" (configGraph)="confirmeSlideGRaphConfig($event)">
           </app-charts-builder>
         </div>

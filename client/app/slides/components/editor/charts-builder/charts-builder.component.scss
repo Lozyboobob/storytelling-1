@@ -1,4 +1,7 @@
 
+@import 'client/theme.scss';
+
+
 md-card {
   padding: 0;
 
@@ -295,4 +298,25 @@ $color-text-lighter: #fff;
 
 .breath-left {
     margin-left: 8px;
+}
+
+
+/*title bar for each step*/
+.sub-title-bar {
+  width: 100%;
+  font-weight: bold;
+  font-size: 20px;
+  height: 50px;
+
+  .pull-right {
+    float: right;
+  }
+
+  .fa {
+    color: grey;
+
+    &.checked {
+      color: $accent;
+    }
+  }
 }
