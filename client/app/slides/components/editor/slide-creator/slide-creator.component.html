@@ -63,9 +63,11 @@
         </div>
 
         <div *ngIf="slide.hasText" class="step">
-          <md-toolbar-row class="sub-title-bar">
-            <span><i class="fa fa-check-circle-o fa-fw" [class.checked]="slide.text"></i>Input Text Content*</span>
-          </md-toolbar-row>
+          <div class="sub-title-bar">
+            <md-toolbar-row>
+              <span><i class="fa fa-check-circle-o fa-fw" [class.checked]="slide.text"></i>Input Text Content*</span>
+            </md-toolbar-row>
+          </div>
           <textarea [froalaEditor]='editorOptions' [(froalaModel)]="slide.text"></textarea>
         </div>
 

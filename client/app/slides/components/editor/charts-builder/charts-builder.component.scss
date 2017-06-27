@@ -64,6 +64,8 @@ md-card {
     width: auto;
   }
 
+
+
   .section-content {
     margin-top: 20px;
   }
@@ -72,6 +74,16 @@ md-card {
   }
 }
 
+.card-sub-header {
+    display: block;
+    height: 30px;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 30px;
+    padding: 0 10px;
+    position: relative;
+    width: auto;
+}
 /**************************/
 
 :host {
@@ -401,7 +413,7 @@ md-chip {
   }
 }
 
-.format.selected {
+.format.checked {
     color: #3F403F;
 }
 
@@ -421,6 +433,7 @@ md-chip {
   font-weight: bold;
   font-size: 20px;
   height: 50px;
+  padding-bottom: 20px;
 
   .pull-right {
     float: right;
@@ -433,4 +446,14 @@ md-chip {
       color: $accent;
     }
   }
+}
+
+.dimensions-container {
+    padding: 0px;
+    margin-bottom: 0px;
+}
+
+.list-unstyled {
+    padding-left: 0;
+    list-style: none;
 }
