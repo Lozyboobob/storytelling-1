@@ -183,18 +183,6 @@ export class SunburstChartComponent extends Chart implements OnInit, OnChanges {
         this.totalSize = path.datum().value;
 
         /* Add 'curtain' rectangle to hide entire graph */
-        /*this.curtain = d3.select(element).select('#SunburstComponent')
-            .append("g")
-            .append('rect')
-            .attr('x', -1 * this.width)
-            .attr('y', -1 * this.height)
-            .attr('height', this.height)
-            .attr('width', 0)
-            .attr('class', 'curtain')
-            .attr('transform', 'rotate(180)')
-            .style('fill', '#fafafa');
-        this.load();*/
-        /* Add 'curtain' rectangle to hide entire graph */
         this.curtain = this.chart.style('opacity', 0);
     }
 
