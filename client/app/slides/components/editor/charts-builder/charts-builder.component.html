@@ -56,16 +56,18 @@
         </md-card>
 
       </div>
-      <div class="content">
-        <md-card class="chart-card" (click)="this.chartType = chart ; processData()" *ngFor="let chart of chartTypes">
-          <h2>{{chart.title}}</h2>
-          <div class="md-card-image" [ngStyle]="{'background-image': 'url('+ chart.image+')'}">
-            <md-chip class="categorie">{{chart.categorie}}</md-chip>
-          </div>
-          <div class="layout-check" [ngClass]="{'selected': chartType===chart} ">
-            <md-icon class="check-icon">done</md-icon>
-          </div>
-        </md-card>
+    <div class="content">
+      <md-card class="chart-card" (click)="this.chartType = chart ; processData()" *ngFor="let chart of chartTypes">
+        <h2>{{chart.title}}</h2>
+        <div class="md-card-image" [ngStyle]="{'background-image': 'url('+ chart.image+')'}">
+        </div>
+        <md-card-content>
+          <md-chip class="categorie" >{{chart.categorie}}</md-chip>
+        </md-card-content>
+        <div class="layout-check" [ngClass]="{'selected': chartType===chart} ">
+          <md-icon class="check-icon">done</md-icon>
+        </div>
+      </md-card>
 
       </div>
     </div>
@@ -87,7 +89,7 @@
             </li>
           </ul>
         </div>
-
+        
         <div class="dimension" *ngFor="let dimensionCol of chartType.dimLabels; let dimIndex = index" dnd-droppable [allowDrop]="allowDropFunction(dimensionCol.maxSize, dimIndex)"
           (onDropSuccess)="addTobox1Items(dimIndex, $event)">
           <div class="title">{{dimensionCol.column}} <i>(Drop on me)</i></div>
