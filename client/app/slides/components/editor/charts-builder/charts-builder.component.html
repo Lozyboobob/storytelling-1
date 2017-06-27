@@ -166,6 +166,8 @@
       <app-area-chart *ngIf="chartType.name ==='area-chart'" [dataInput]="data" ></app-area-chart>
       <app-zoomable-treemap-chart *ngIf="chartType.name === 'zoomable-treemap'" [dataInput]="data">
       </app-zoomable-treemap-chart>
+      <app-sunburst-chart *ngIf="chartType.name === 'sunburst'" [dataInput]="data">
+      </app-sunburst-chart>
 
       <app-bubble-chart *ngIf="chartType.name === 'force-layout-bubble'" [dataInput]="data">
       </app-bubble-chart>
