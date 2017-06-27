@@ -80,7 +80,6 @@ export class ChartsBuilderComponent implements OnInit {
   chartOptions: any;
   @Output() configGraph = new EventEmitter();
 
-
   _dataText: string;
   get dataText() {
     return this._dataText || ' ';
@@ -131,7 +130,7 @@ export class ChartsBuilderComponent implements OnInit {
 
   ngOnInit() {
     if (this.inputData != null) {
-      this.loadData()
+      this.loadData();
     } else {
       this.clearAll();
     }
@@ -152,8 +151,6 @@ export class ChartsBuilderComponent implements OnInit {
     this.dataDims = this.inputOptions.dataDims;
     this.data = [];
     this.chartType = this.chartTypes.find(chart => chart.name === this.inputOptions.chartType.name);
-
-    console.log('this.headerValues: ', this.headerValues);
     this.errors = [];
     this._dataText = babyparse.unparse(this.inputData);
     this.rawData = this.inputData;
@@ -165,6 +162,7 @@ export class ChartsBuilderComponent implements OnInit {
   useExample() {
     this.clear();
     this.dataText = gapminder;
+
   }
 
   clear() {
@@ -186,11 +184,9 @@ export class ChartsBuilderComponent implements OnInit {
     if (!this.hasValidDimensions) {
       return;
     }
-
     this.data = this.chartType.convertData(this.dataDims, this.rawData);
     this.configGraph.emit({ data: this.rawData, chartOptions: { chartType: this.chartType, headerValues: this.headerValues, dataDims: this.dataDims, ...this.chartOptions } });
     return this.data;
-
   }
 
   updateData(value = this._dataText) {

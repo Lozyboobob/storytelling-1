@@ -286,6 +286,120 @@ $color-text-lighter: #fff;
     overflow-y: auto;
     max-height: 400px;
 }
+.space{
+  margin : 1%;
+}
+.card-view{
+  order: 1;
+  flex: 2;
+}
+.container-fluid{
+  background: #fafafa;
+  display: flex;
+  width: 100%;
+}
+.content {
+  display: flex;
+  flex-direction : row;
+  flex-wrap : wrap;
+  order: 1;
+  flex: 5;
+}
+md-chip {
+  background: rgb(36, 39, 45);
+  background: rgba(36, 39, 45, .7);
+  border-radius: 10px;
+  color: #dedede;
+  font-size: 75%;
+  padding: 4px 8px;
+  bottom: 10px;
+  left: 10px;
+  position: absolute;
+}
+.layout-check{
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  font-size: 50px;
+  text-align: center;
+  color: #FFF;
+  opacity: .9;
+  line-height: 85px;
+}
+.selected .layout-check {
+  display: block;
+  position: absolute;
+  z-index: 1000;
+  opacity: .9;
+}
+.selected {
+  background-color:  #00acc1;
+  display: block;
+  position: absolute;
+  z-index: 0;
+  opacity: .7;
+}
+.layout {
+  position: relative;
+  z-index: 0;
+  cursor: pointer;
+}
+.check-icon{
+  margin-top : 50%;
+}
+.card-header .mat-card-image {
+  margin : 0 -10px 0 -24px;
+}
+.chart-card {
+  background: #fff;
+  box-shadow: none !important;
+  color: #333;
+  font-family: 'SF Pro Display','SF Pro Icons','Helvetica Neue','Helvetica','Arial',sans-serif !important;
+  margin : 10px;
+  padding: 0;
+  min-width: 25%;
+
+
+  h2 {
+    height: auto;
+    line-height: 50px;
+    margin: auto;
+    padding: 10px;
+    text-align: center;
+    width: 100% !important;
+  }
+
+  .mat-card-header-text {
+    margin: 10px auto;
+    text-align: center;
+    width: 100%;
+  }
+
+  .md-card-image {
+    background-position: center;
+    background-size: cover;
+    height: 225px;
+    position: relative;
+    width: 100%;
+
+  }
+  .image-selected {
+    width: 90% !important;
+    margin: 0 auto;
+  }
+  md-card-content {
+    margin: 5px;
+    .categorie {
+      height: 100px;
+      text-align: justify;
+    }
+
+
+  }
+}
 
 .format.selected {
     color: #3F403F;
