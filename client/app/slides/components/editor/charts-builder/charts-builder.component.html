@@ -58,8 +58,10 @@
       <md-card class="chart-card" (click)="this.chartType = chart ; processData()" *ngFor="let chart of chartTypes">
         <h2>{{chart.title}}</h2>
         <div class="md-card-image" [ngStyle]="{'background-image': 'url('+ chart.image+')'}">
-          <md-chip class="categorie" >{{chart.categorie}}</md-chip>
         </div>
+        <md-card-content>
+          <md-chip class="categorie" >{{chart.categorie}}</md-chip>
+        </md-card-content>
         <div class="layout-check" [ngClass]="{'selected': chartType===chart} ">
           <md-icon class="check-icon">done</md-icon>
         </div>
