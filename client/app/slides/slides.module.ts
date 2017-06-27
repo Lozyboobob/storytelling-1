@@ -53,6 +53,7 @@ import { NgGraphComponent } from "../charts";
 import { TreemapChartComponent } from "../charts";
 import { ZoomableTreemapChartComponent } from "../charts";
 import { PieGridChartComponent } from '../charts';
+import { SunburstChartComponent } from '../charts';
 import { HierarchicalEdgeBundlingComponent } from '../charts/hierarchical-edge-bundling/hierarchical-edge-bundling.component';
 
 import { AdvancedPieChartComponent } from '../charts';
@@ -115,6 +116,7 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         TreemapChartComponent,
         ZoomableTreemapChartComponent,
         BubbleChartComponent,
+        SunburstChartComponent,
         AreaChartComponent,
         ImageComponent],
 
@@ -154,6 +156,7 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         ZoomableTreemapChartComponent,
         DendogramComponent,
         BubbleChartComponent,
+        SunburstChartComponent,
         KeySwitchDirective,
         ToggleFullscreenDirective,
         ImageComponent

@@ -1,8 +1,7 @@
 
 import { PieChartComponent, AdvancedPieChartComponent, BarChartComponent, ForceDirectedGraphComponent, GaugeChartComponent,
   HierarchicalEdgeBundlingComponent, PieGridChartComponent, LineChartComponent, DendogramComponent, NgGraphComponent,
-  TreemapChartComponent, AreaChartComponent,
-    BubbleChartComponent, ZoomableTreemapChartComponent
+  TreemapChartComponent, AreaChartComponent, BubbleChartComponent, ZoomableTreemapChartComponent, SunburstChartComponent
 }  from "app/charts";
 
 
@@ -36,6 +35,10 @@ export const chartTypes = [
       image :"assets/img-graph/dendogram.jpg"}),
   createChartType({ title: 'Zoomable Treemap', simpleData: true, cmpName: 'zoomableTreemapChart', convertData: ZoomableTreemapChartComponent.convertData, dimLabels: [ {column: 'Hierarchy', maxSize: 2} , {column: 'Value', maxSize: 1}, ],
       description :'Treemaps for visualizing hierarchical data. Click to zoom to the next level. Click on the top orange band to zoom out.',
+      categorie : "Hierarchy",
+      image :"assets/img-graph/ZoomableTreeMap.jpg"}),
+  createChartType({ title: 'Sunburst', simpleData: true, cmpName: 'sunburstChart', convertData: SunburstChartComponent.convertData, dimLabels: [ {column: 'Hierarchy', maxSize: 10} , {column: 'Value', maxSize: 1}, ],
+      description :'Sunburst for visualizing hierarchical data. Click to zoom to the next level. Click on the center to zoom out.',
       categorie : "Hierarchy",
       image :"assets/img-graph/ZoomableTreeMap.jpg"}),
   createChartType({ title: 'Pie Grid Chart', simpleData: true, cmpName: 'pieGridChart', convertData: PieGridChartComponent.convertData, dimLabels: [ {column: 'Name', maxSize: 1} ,{column: 'Value', maxSize: 1} ],
