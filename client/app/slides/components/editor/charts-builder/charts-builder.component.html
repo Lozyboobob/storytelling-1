@@ -12,7 +12,7 @@
     <span>
         Copy and paste your tabular (TSV, CSV) data here.
         <button class="btn btn-link" (click)="useExample()">(Use example data)</button>
-        
+
         <i class="format fa fa-align-left breath-left" [class.selected]="!formatTable" data-toggle="tooltip" data-title="View as Table" (click)="formatTable = false"></i>
         <i class="format fa fa-table breath-left" [class.selected]="formatTable" data-toggle="tooltip" data-title="View as Table" (click)="formatTable = true"></i>
 
@@ -35,23 +35,40 @@
   </md-card-content>
 </md-card>
 
-
 <md-card class="ng-section">
   <md-card-header class="section-header">
     <md-card-title> Select your Chart </md-card-title>
   </md-card-header>
-  <md-card-content class="section-content">
-    <div fxLayout="row" fxLayoutAlign="center">
-      <md-select fxFlex="95%" placeholder="Chart Type" name="chartType" [(ngModel)]="chartType" (change)="processData()">
-        <md-option *ngFor="let chart of chartTypes" [value]="chart">
-          {{chart.title}}
-        </md-option>
-      </md-select>
-    </div>
-  </md-card-content>
-</md-card>
+  <div class="container-fluid">
+    <div fxflex="25" class="card-view" *ngIf="chartType">
+      <md-card class="chart-card">
+        <md-card-header class="section-header">
+          <md-card-title> Chart selected  </md-card-title>
+        </md-card-header>
+        <h2>{{chartType.title}}</h2>
+        <div class="md-card-image image-selected" [ngStyle]="{'background-image': 'url('+ chartType.image+')'}">
+        </div>
+        <md-card-content>
+          <p class="categorie">{{chartType.description}}</p>
+        </md-card-content>
+      </md-card>
 
-<md-card class="ng-section">
+    </div>
+    <div class="content">
+      <md-card class="chart-card" (click)="this.chartType = chart ; processData()" *ngFor="let chart of chartTypes">
+        <h2>{{chart.title}}</h2>
+        <div class="md-card-image" [ngStyle]="{'background-image': 'url('+ chart.image+')'}">
+          <md-chip class="categorie" >{{chart.categorie}}</md-chip>
+        </div>
+        <div class="layout-check" [ngClass]="{'selected': chartType===chart} ">
+          <md-icon class="check-icon">done</md-icon>
+        </div>
+      </md-card>
+
+    </div>
+  </div>
+</md-card>
+<md-card class="ng-section"  *ngIf="chartType && dataText && !errors.length">
   <md-card-header class="section-header">
     <md-card-title> Map your Dimensions </md-card-title>
   </md-card-header>
@@ -84,7 +101,7 @@
 </md-card>
 
 
-<md-card class="ng-section">
+<md-card class="ng-section" *ngIf="hasValidDimensions && chartType && dataText && !errors.length">
   <md-card-header class="section-header">
     <md-card-title> Your Visualization </md-card-title>
   </md-card-header>

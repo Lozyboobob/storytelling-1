@@ -11,7 +11,7 @@ import {Chart} from '../chart.class';
     templateUrl: './zoomable-treemap-chart.component.html',
     styleUrls: ['./zoomable-treemap-chart.component.scss']
 })
-export class ZoomableTreemapChartComponent extends Chart implements OnInit {
+export class ZoomableTreemapChartComponent extends Chart implements OnInit, OnChanges {
     @ViewChild('chart') private chartContainer: ElementRef;
     private data: any;
     private curtain: any; //for animation
@@ -32,6 +32,12 @@ export class ZoomableTreemapChartComponent extends Chart implements OnInit {
 
     ngOnInit() {
         this.chartOptions = { ...this.configInput };
+        d3.select("#ZoomableTreemapComponent").remove();
+        this.init();
+    }
+
+    ngOnChanges(){
+        d3.select("#ZoomableTreemapComponent").remove();
         this.init();
     }
 
@@ -83,7 +89,6 @@ export class ZoomableTreemapChartComponent extends Chart implements OnInit {
     }
 
     init() {
-        console.log('init');
         if (this.configInput != null){
             this.data = ZoomableTreemapChartComponent.convertData(this.chartOptions.dataDims, this.dataInput);
             }
@@ -114,6 +119,7 @@ export class ZoomableTreemapChartComponent extends Chart implements OnInit {
 
         // Chart construction
         this.chart = d3.select(element).append('svg')
+            .attr("id","ZoomableTreemapComponent")
             .attr("class", "svg")
             .attr('width', this.width)
             .attr('height', this.height);
@@ -134,14 +140,11 @@ export class ZoomableTreemapChartComponent extends Chart implements OnInit {
 
         treemap(this.root);
 
-        console.log('this.root', this.root);
-
         let cell = this.chart.selectAll("g")
             .data(this.root.leaves())
             .enter().append("g")
             .attr("class", "cell")
             .attr("transform", function (d)  {
-                //console.log('d',d)
                 return "translate(" + d['x0'] + "," + d['y0'] + ")"}
                 ) 
             .on("click", d => this.zoom(this.node == d.parent ? this.root : d.parent, this.xScale, this.yScale));
