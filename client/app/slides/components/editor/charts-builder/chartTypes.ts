@@ -109,6 +109,5 @@ export const chartTypes = [
       description :'A small multiple is a series of small similar graphics or charts, allowing them to be easily compared',
       categorie : "Comparison",
       image :"assets/img-graph/areaChart.png"})
-
 ];
 
