@@ -42,6 +42,9 @@
   <div class="container-fluid">
     <div fxflex="25" class="card-view" *ngIf="chartType">
       <md-card class="chart-card">
+        <md-card-header class="section-header">
+          <md-card-title> Chart selected  </md-card-title>
+        </md-card-header>
         <h2>{{chartType.title}}</h2>
         <div class="md-card-image image-selected" [ngStyle]="{'background-image': 'url('+ chartType.image+')'}">
         </div>
@@ -55,10 +58,8 @@
       <md-card class="chart-card" (click)="this.chartType = chart ; processData()" *ngFor="let chart of chartTypes">
         <h2>{{chart.title}}</h2>
         <div class="md-card-image" [ngStyle]="{'background-image': 'url('+ chart.image+')'}">
+          <md-chip class="categorie" >{{chart.categorie}}</md-chip>
         </div>
-        <md-card-content>
-          <p class="categorie">{{chart.categorie}}</p>
-        </md-card-content>
         <div class="layout-check" [ngClass]="{'selected': chartType===chart} ">
           <md-icon class="check-icon">done</md-icon>
         </div>
@@ -67,7 +68,7 @@
     </div>
   </div>
 </md-card>
-<md-card class="ng-section">
+<md-card class="ng-section"  *ngIf="chartType && dataText && !errors.length">
   <md-card-header class="section-header">
     <md-card-title> Map your Dimensions </md-card-title>
   </md-card-header>
@@ -100,7 +101,7 @@
 </md-card>
 
 
-<md-card class="ng-section">
+<md-card class="ng-section" *ngIf="hasValidDimensions && chartType && dataText && !errors.length">
   <md-card-header class="section-header">
     <md-card-title> Your Visualization </md-card-title>
   </md-card-header>

@@ -302,6 +302,17 @@ $color-text-lighter: #fff;
   order: 1;
   flex: 5;
 }
+md-chip {
+  background: rgb(36, 39, 45);
+  background: rgba(36, 39, 45, .7);
+  border-radius: 10px;
+  color: #dedede;
+  font-size: 75%;
+  padding: 4px 8px;
+  bottom: 10px;
+  left: 10px;
+  position: absolute;
+}
 .layout-check{
   display: none;
   position: absolute;
