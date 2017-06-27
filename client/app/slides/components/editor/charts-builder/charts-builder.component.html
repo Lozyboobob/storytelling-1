@@ -1,26 +1,25 @@
 <div>
   <div class="sub-title-bar">
-      <md-toolbar-row>
-        <span><i class="fa fa-check-circle-o fa-fw" [class.checked]="hasValidDimensions"></i>Graph builder*</span>
-        <small class="pull-right">
+    <md-toolbar-row>
+      <span><i class="fa fa-check-circle-o fa-fw" [class.checked]="hasValidDimensions"></i>Graph builder*</span>
+      <small class="pull-right">
         <button md-raised-button type="button" (click)="clearAll()"  color="primary">Reset</button>
       </small>
-      </md-toolbar-row>
+    </md-toolbar-row>
   </div>
   <md-card class="ng-section">
     <md-card-header class="section-header">
       <md-card-title> Your Data </md-card-title>
     </md-card-header>
     <md-card-content class="section-content">
-        <span>
+      <span>
           Copy and paste your tabular (TSV, CSV) data here.
           <button class="btn btn-link" (click)="useExample()">(Use example data)</button>
         </span>
-
-        <i class="format fa fa-align-left breath-left" [class.checked]="!formatTable" mdTooltip="View as Text" mdTooltipPosition="above"
-          (click)="formatTable = false"></i>
-        <i class="format fa fa-table breath-left" [class.checked]="formatTable" mdTooltip="View as Table" mdTooltipPosition="above"
-          (click)="formatTable = true"></i>
+      <i class="format fa fa-align-left breath-left" [class.checked]="!formatTable" mdTooltip="View as Text" mdTooltipPosition="above"
+        (click)="formatTable = false"></i>
+      <i class="format fa fa-table breath-left" [class.checked]="formatTable" mdTooltip="View as Table" mdTooltipPosition="above"
+        (click)="formatTable = true"></i>
       <app-codemirror *ngIf="!formatTable" [(ngModel)]="dataText" [config]="editorConfig">
       </app-codemirror>
 
@@ -75,7 +74,7 @@
     <md-card-header class="section-header">
       <md-card-title> Map your Dimensions </md-card-title>
     </md-card-header>
-    <md-card-content  class="section-content">
+    <md-card-content class="section-content">
       <div fxLayout="row" fxLayoutWrap="wrap" fxLayoutAlign="space-around">
 
         <div class="dimension" fxFlex.xs="50" fxFlex.sm="50" fxFlex.md="33" fxFlex.lg="20" fxFlex.xl="20">
@@ -194,6 +193,8 @@
         <app-area-chart *ngIf="chartType.name ==='area-chart'" [dataInput]="data"></app-area-chart>
         <app-zoomable-treemap-chart *ngIf="chartType.name === 'zoomable-treemap'" [dataInput]="data">
         </app-zoomable-treemap-chart>
+        <app-sunburst-chart *ngIf="chartType.name === 'sunburst'" [dataInput]="data">
+        </app-sunburst-chart>
 
         <app-bubble-chart *ngIf="chartType.name === 'force-layout-bubble'" [dataInput]="data">
         </app-bubble-chart>

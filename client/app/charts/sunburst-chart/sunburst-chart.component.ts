@@ -2,14 +2,14 @@ import { Component, OnInit, OnChanges, ViewChild, ElementRef, Input, ViewEncapsu
 import * as d3 from 'd3';
 import * as _ from "lodash";
 
-import { Chart } from '../../chart.class';
+import { Chart } from '../chart.class';
 
 @Component({
     selector: 'app-sunburst-chart',
     templateUrl: './sunburst-chart.component.html',
     styleUrls: ['./sunburst-chart.component.scss']
 })
-export class SunburstChartComponent extends Chart implements OnInit {
+export class SunburstChartComponent extends Chart implements OnInit, OnChanges {
     @ViewChild('chart') private chartContainer: ElementRef;
     private data: any;
     private curtain: any; //for animation
@@ -31,23 +31,86 @@ export class SunburstChartComponent extends Chart implements OnInit {
     private radius: any;
     private formatNumber: any
 
+    private chartOptions: any;
+
     constructor() {
         super()
     }
 
     ngOnInit() {
-        // Set data
-        (this.dataInput.length == 0) ? this.data = sample[0] : this.data = this.dataInput[0];
-
+        this.chartOptions = { ...this.configInput };
+        d3.select("#SunburstComponent").remove();
         this.init();
     }
 
-    setData(data) {
-        (data.length == 0) ? this.data = sample[0] : this.data = data[0];
+    ngOnChanges(){
+        d3.select("#SunburstComponent").remove();
+        this.init();
+    }
+
+    /**
+   * Process json Data to Ngx-charts format
+   * @param dataDims :  string[] Selected Dimentions 
+   * @param rawData : array<Object> Json data 
+   */
+   public static convertData(dataDims: string[], rawData: any) {
+        const hierarchy$ = depth => d => d[dataDims[0][depth]];
+        const value$ = d => d[dataDims[1]];
+        const depthDim = dataDims[0].length;
+
+        const root =  { name: _.head(dataDims[0]), children: []};
+
+        const level0 = _.chain(rawData)
+                .groupBy(_.head(dataDims[0]))
+                .flatMap(d => sum(d, 0, hierarchy$(0)))
+                .value();
+
+        function sum(d, depth, fetchId$){        
+            let level = {
+                name: fetchId$(d[0])
+            }; 
+
+            let upperLevel;
+
+            depth += 1;
+            if(depth < depthDim) {
+                upperLevel = Object.assign({}, level, {children:[]});
+
+                upperLevel.children = _.chain(d)
+                .groupBy(dataDims[0][depth])
+                .flatMap(d1 => sum(d1, depth, hierarchy$(depth)))
+                .value();
+            }
+
+            if(upperLevel) {
+                level = upperLevel;
+            } else {
+                level = Object.assign(level, {value: _.reduce(d, (total, el) => total + value$(el), 0)})
+            }
+
+            return level;
+        }
+
+        root.children = root.children.concat(level0);
+        return root;
     }
 
     init() {
+        if (this.configInput != null){
+            this.data = SunburstChartComponent.convertData(this.chartOptions.dataDims, this.dataInput);
+            }
+        else {
+            this.data = this.dataInput;
+        }
+        this.drawChart();
+        this.load();
+    }
 
+    /**
+     * Draw function for D3.js Bar chart
+     */
+    drawChart() {
+        console.log('this.data', this.data);
         // Set size of the svg
         let element = this.chartContainer.nativeElement;
         this.width = element.offsetWidth - this.margin.left - this.margin.right;
@@ -90,15 +153,15 @@ export class SunburstChartComponent extends Chart implements OnInit {
         this.chart = d3.select(element).append('svg')
             .attr('width', this.width)
             .attr('height', this.height)
-            .attr("id", "sunBurstSvg")
+            .attr("id", "SunburstComponent")
             .append("g")
             .attr("id", "container")
             .attr("transform", "translate(" + this.width / 2 + "," + this.height / 2 + ")");
 
         // Turn the data into a d3 hierarchy and calculate the sums.
         let root = d3.hierarchy(this.data)
-            .sum((d: any) => d.size)
-            .sort((a, b) => b.value - a.value);
+            .sum((d: any) => d.value)
+            .sort((a, b) =>  b.height - a.height || b.value - a.value);
 
         let nodes = partition(root)
             .descendants();
@@ -120,7 +183,7 @@ export class SunburstChartComponent extends Chart implements OnInit {
         this.totalSize = path.datum().value;
 
         /* Add 'curtain' rectangle to hide entire graph */
-        this.curtain = d3.select(element).select('#sunBurstSvg')
+        /*this.curtain = d3.select(element).select('#SunburstComponent')
             .append("g")
             .append('rect')
             .attr('x', -1 * this.width)
@@ -130,16 +193,19 @@ export class SunburstChartComponent extends Chart implements OnInit {
             .attr('class', 'curtain')
             .attr('transform', 'rotate(180)')
             .style('fill', '#fafafa');
-        this.load();
+        this.load();*/
+        /* Add 'curtain' rectangle to hide entire graph */
+        this.curtain = this.chart.style('opacity', 0);
     }
 
     // Basic setup of page elements.
     private initializeBreadcrumbTrail(element, radius) {
+        d3.select("#trail").remove();
         // Add the svg area.
         d3.select(element).select("#sequence").append("svg")
             .attr("height", 50)
             .attr("id", "trail")
-            .style("width", 'auto');
+            .style("width", '100%');
 
         // Place the breadcrumb trail lower
         d3.select(element).select('#sequence')
@@ -322,17 +388,15 @@ export class SunburstChartComponent extends Chart implements OnInit {
     }
 
     load() {
-        this.curtain.attr('width', this.width);
-
         this.curtain.transition()
-            .duration(1500)
-            .attr('width', 0);
+            .duration(2000)
+            .style('opacity', 1)
     }
 
     ease() {
         this.curtain.transition()
-            .duration(600)
-            .attr('width', this.width);
+            .duration(1000)
+            .style('opacity', 0);
     }
 }
 
