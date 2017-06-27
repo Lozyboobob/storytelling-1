@@ -124,6 +124,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
        if(this.dataBuilder.chartOptions.chartType
            && this.dataBuilder.chartOptions.chartType.cmpName != null)
            this.form.value.slideGraph = this.dataBuilder.chartOptions.chartType.cmpName;
+           console.log("get slidesGraph",this.form.value.slideGraph);
       this.slide.data = this.dataBuilder.data;
       this.slide.config = this.dataBuilder.chartOptions;
     }
