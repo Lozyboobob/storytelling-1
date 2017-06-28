@@ -30,9 +30,9 @@ export const chartTypes = [
       categorie : 'Comparison',
       image : 'assets/img-graph/pieChart.png'}),
   createChartType({ title: 'Word Cloud Chart', simpleData: true, cmpName: 'wordCloud', convertData: WordCloudComponent.convertData , dimLabels: [ {column: 'Name', maxSize: 1} , {column: 'Value', maxSize: 1} ],
-      description : 'A word cloud chart (or a circle chart) is a circular statistical graphic which is divided into slices to illustrate numerical proportion.',
+      description : 'A word cloud chart is a visual representation of text data, typically used to depict keyword metadata (tags) on websites, or to visualize free form text.',
       categorie : 'Comparison',
-      image : 'assets/img-graph/pieChart.png'}),
+      image : 'assets/img-graph/wordCloud-chart.jpg'}),
   createChartType({ title: 'Dendogram', simpleData: true, cmpName: 'dendogram', convertData: DendogramComponent.convertData , dimLabels: [ {column: 'Group by', maxSize: 10}, {column: 'Value', maxSize: 1} ],
       description : 'Dendrograms are tree-like diagrams used to represent the distribution of a hierarchical clustering.' +
       ' The different depth levels represented by each node are visualized on the horizontal axes and it is useful to visualize a non-weighted hierarchy.',

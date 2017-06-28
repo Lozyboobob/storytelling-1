@@ -93,6 +93,8 @@ export class WordCloudComponent extends Chart implements OnInit, OnChanges {
     const element = this.chartContainer.nativeElement;
     this.width = element.offsetWidth - this.margin.left - this.margin.right;
     this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
+    const size = [_.min([50 * this.data.length,  this.width]),  _.min([50 * this.data.length,  this.height])];
+    console.log(size);
 
     const fill = D3.scaleOrdinal(D3.schemeCategory20);
 
@@ -116,7 +118,7 @@ export class WordCloudComponent extends Chart implements OnInit, OnChanges {
       .attr('font-size', 1)
       .text(function (d) { return d.name; });
 
-    d3.layout.cloud().size([this.width, this.height])
+    d3.layout.cloud().size(size)
       .words(this.data)
       .padding(5)
       .rotate(function () { return ~~(Math.random() * 2) * 90; })
