@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import * as d3 from 'd3';
+import * as _ from 'lodash';
+import { nest } from 'd3-collection';
 import {Chart} from '../chart.class';
 
 @Component({
@@ -18,22 +20,25 @@ export class LineChartComponent extends Chart implements OnInit {
     private tb;
     private paths;
     private dots;
+    private chartOptions: any;
     constructor() {
         super()
     }
 
     ngOnInit() {
-        // Set the data
-        this.data = [];
-        this.dateMode = false;
-        this.heightTB = 60;
-        this.setData(this.dataInput);
+        this.chartOptions = { ...this.configInput };
+        d3.select("#LineChartComponent").remove();
+        this.init();
+    }
+
+    ngOnChanges() {
+        d3.select("#LineChartComponent").remove();
         this.init();
     }
     brushed(x, xTB, xAxis, svg, area, focus, zoom) {
         if (d3.event.sourceEvent && d3.event.sourceEvent.type === "zoom") return; // ignore brush-by-zoom
         var s = d3.event.selection || xTB.range();
-        x.domain(s.map(xTB.invert, xTB));
+        //  x.domain(s.map(xTB.invert, xTB));
         focus.select(".area").attr("d", area);
         focus.select(".axis--x").call(xAxis);
         svg.select(".zoom").call(zoom.transform, d3.zoomIdentity
@@ -46,7 +51,8 @@ export class LineChartComponent extends Chart implements OnInit {
         x.domain(t.rescaleX(xTB).domain());
         focus.select(".area").attr("d", area);
         focus.select(".axis--x").call(xAxis);
-        context.select(".brush").call(brush.move, x.range().map(t.invertX, t));
+        //context.select(".brush").call(brush.move, x.range().map(t.invertX, t));
+        context.select(".brush").call(brush.move, x.range().map(t, t));
     }
     setData(data: any) {
 
@@ -63,7 +69,56 @@ export class LineChartComponent extends Chart implements OnInit {
         this.data = data;
 
     }
+    /**
+     * Process json Data to D3.js Bar chart format
+     * @param dataDims :  string[] Selected Dimentions
+     * @param rawData : array<Object> Json data
+     */
+    public static convertData(dataDims: string[], rawData: any) {
+        const series$ = d => d[_.head(dataDims[0])];
+        const xaxis$ = d => d[_.head(dataDims[1])];
+        const yaxis$ = d => d[_.head(dataDims[2])];
+        let result = _.chain(rawData)
+            .groupBy(_.head(dataDims[0]))
+            .map(series)
+            .value();
+        function series(d: any) {
+            return _.map(d, d => {
+                return {
+                    series: series$(d),
+                    xAxis: xaxis$(d),
+                    yAxis: yaxis$(d)
+                }
+            })
+        }
+        return result;
+
+    }
     init() {
+        if (this.configInput != null)
+            this.data = LineChartComponent.convertData(this.chartOptions.dataDims, this.dataInput);
+        else
+            this.data = this.dataInput;
+        this.data = [[
+            {
+                "yAxis": "64.56",
+                "xAxis": "Jan 2000",
+                "series": "AMZN"
+            },
+            {
+                "yAxis": "68.87",
+                "xAxis": "Feb 2000",
+                "series": "AMZN"
+            }]]
+        this.dateMode = false;
+        this.heightTB = 60;//set height of thumbnail
+        this.setData(this.data);
+        this.drawChart();
+        this.load();
+    }
+    drawChart() {
+        console.log("thisdata", this.data);
+
 
         let element = this.chartContainer.nativeElement;
         let margin = { top: 0, right: 50, bottom: 0, left: 50 };
@@ -91,7 +146,6 @@ export class LineChartComponent extends Chart implements OnInit {
             xDomain = [d3.min(value, d => d['xAxis']), d3.max(value, d => d['xAxis'])];
         else xDomain = value.map(d => d['xAxis']);
         let yDomain = [0, d3.max(value, d => d['yAxis'])];
-
         /*zoom */
         let zoomScale = 1;
         let zoom = d3.zoom()
@@ -100,12 +154,13 @@ export class LineChartComponent extends Chart implements OnInit {
             .extent([[0, 0], [this.width, this.height]])
             .on("zoom", _ => {
                 if (d3.event.sourceEvent && d3.event.sourceEvent.type === "brush") return; // ignore zoom-by-brush
-
+                console.log("zoom 1");
                 var t = d3.event.transform;
                 x.domain(t.rescaleX(xTB).domain());
                 focus.selectAll(".line").attr("d", line);
                 focus.selectAll(".xAxis").call(xAxis);
                 this.tb.select(".brush").call(brush.move, x.range().map(t.invertX, t));
+                //this.tb.select(".brush").call(brush.move, x.range().map(t, t));
                 //t.k is the scale
                 zoomScale = t.k
                 svg.selectAll('.dot')
@@ -223,26 +278,33 @@ export class LineChartComponent extends Chart implements OnInit {
         let brush = d3.brushX()
             .extent([[0, 0], [this.width, this.heightTB]])
             .on("brush end", _ => {
+
                 if (d3.event.sourceEvent && d3.event.sourceEvent.type === "zoom") return; // ignore brush-by-zoom
+
                 svg.selectAll('.dot').transition()
                     .duration(0)
                     .attr('opacity', 0);
+
                 var s = d3.event.selection || xTB.range();
+                console.log("brush end", xTB.invert);
                 x.domain(s.map(xTB.invert, xTB));
+                console.log("brush end2");
                 focus.selectAll(".line").attr("d", line);
                 focus.selectAll(".xAxis").call(xAxis);
+
                 svg.select(".zoom").call(zoom.transform, d3.zoomIdentity
                     .scale(this.width / (s[1] - s[0]))
                     .translate(-s[0], 0));
+                console.log("brush end3");
             });
 
-
+        console.log("break point1");
         /*brush*/
         this.tb.append("g")
             .attr("class", "brush")
             .call(brush)
             .call(brush.move, x.range());
-
+        console.log("break point2");
         // Add the scatterplot
         let dotContainer = focus.append("svg").attr("class", "dotContainer").attr("width", this.width)
             .attr("height", this.height).attr("transform", "translate(1500,0)")
@@ -269,8 +331,8 @@ export class LineChartComponent extends Chart implements OnInit {
                         .duration(200)
                         .style("opacity", .9);
                     div.html('<p>' + d["xAxis"] + "<br/>" + d["yAxis"] + '</p>')
-                      .style("left", (d3.event.pageX) + "px")
-                        .style("top", (d3.event.pageY+25) + "px");
+                        .style("left", (d3.event.pageX) + "px")
+                        .style("top", (d3.event.pageY + 25) + "px");
                 })
                 .on("mouseout", function(d) {
                     let curR = parseInt(d3.select(d3.event.srcElement).attr("r"))

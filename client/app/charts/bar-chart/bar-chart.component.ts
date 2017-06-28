@@ -43,8 +43,8 @@ export class BarChartComponent extends Chart implements OnInit, OnChanges {
 
     /**
      * Process json Data to D3.js Bar chart format
-     * @param dataDims :  string[] Selected Dimentions 
-     * @param rawData : array<Object> Json data 
+     * @param dataDims :  string[] Selected Dimentions
+     * @param rawData : array<Object> Json data
      */
     public static convertData(dataDims: string[], rawData: any) {
         const name$ = d => d[_.head(dataDims[0])];

@@ -169,6 +169,8 @@
 
       <app-bubble-chart *ngIf="chartType.name === 'force-layout-bubble'" [dataInput]="data">
       </app-bubble-chart>
+      <app-line-chart *ngIf="chartType.name === 'line-chart-d3'" [dataInput]="data">
+      </app-line-chart>
     </div>
   </md-card-content>
 </md-card>
