@@ -24,7 +24,6 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
     @Input() isInShuffle: boolean;
     slide: Slide = new Slide();
     form: FormGroup;
-
     graphs: Array<any>;
     pageLayout: Array<any>;
     titleAlign: Array<string>
@@ -55,6 +54,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
 
   }
   ngOnChanges() {
+
     if (this.slideSetting) {
       this.slide = this.slideSetting;
     }
@@ -65,7 +65,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
     this.validService.changeSlideValid(this.form.valid, this.slideIndex);
     this.form.valueChanges.subscribe(data => {
       this.validService.changeSlideValid(this.form.valid, this.slideIndex);
-    })
+    });
     this.graphChanged();
     this.showForm = !this.form.valid;
   }
@@ -86,10 +86,12 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
   toggleForm() {
     this.showForm = !this.showForm;
   }
-  confirmSlide() {
-    /* to decide which data to take from tab*/
-
-        if (this.slide.hasGraph) {
+  validChildForm (isValid) {
+      this.validService.changeSlideValid(isValid, this.slideIndex);
+  }
+  confirmSlide(isValid) {
+      /* to decide which data to take from tab*/
+    if (this.slide.hasGraph) {
             if (this.dataBuilder.chartOptions.chartType
                 && this.dataBuilder.chartOptions.chartType.cmpName != null)
                 this.slide.graph = this.dataBuilder.chartOptions.chartType.cmpName;
@@ -110,6 +112,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
         this.slide.pageTitle.title = this.form.value.pageTitle;
         this.slide.pageTitle.align = this.form.value.titleAlign;
         this.csvJson = [];
+
 
     }
 

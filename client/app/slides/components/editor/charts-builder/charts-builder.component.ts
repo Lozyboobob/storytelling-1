@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, Input, Output, EventEmitter,DoCheck, ChangeDetectionStrategy } from '@angular/core';
 import { colorSets } from '@swimlane/ngx-charts/release/utils/color-sets';
 import * as shape from 'd3-shape';
 import * as dsv from 'd3-dsv';
@@ -58,11 +58,11 @@ const curves = {
   templateUrl: './charts-builder.component.html',
   styleUrls: ['./charts-builder.component.scss']
 })
-export class ChartsBuilderComponent implements OnInit{
+export class ChartsBuilderComponent implements OnInit, DoCheck{
   @Input() inputData: any[];
   @Input() inputOptions: any;
   @Output() validSlide = new EventEmitter();
-
+  @Output() validForm = new EventEmitter();
   chartTypes = chartTypes;
 
   config = {
@@ -139,6 +139,9 @@ export class ChartsBuilderComponent implements OnInit{
       this.clearAll();
     }
   }
+  ngDoCheck() {
+    this.validForm.emit(this.isValidSlide);
+  };
   editData(updatedData){
     this._dataText = babyparse.unparse(updatedData);
     this.rawData = updatedData;
@@ -148,7 +151,6 @@ export class ChartsBuilderComponent implements OnInit{
     this.formatTable = !this.formatTable;
     console.log('formatTable: ', this.formatTable);
   }
-
   loadData() {
     this.headerValues = this.inputOptions.headerValues;
     this.dataDims = this.inputOptions.dataDims;
