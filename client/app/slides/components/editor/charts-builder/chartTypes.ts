@@ -20,6 +20,7 @@ function createChartType({title, ...obj}) {
 
 
 export const chartTypes = [
+
   createChartType({ title: 'Bar Chart', simpleData: true, cmpName: 'barChart', convertData: BarChartComponent.convertData ,dimLabels: [ {column: 'Name', maxSize: 1} , {column: 'Value', maxSize: 1} ],
       description :'A bar chart or bar graph is a chart or graph that presents grouped data with rectangular bars with heights proportional to the values that they represent.',
       categorie : "Comparison",
@@ -114,4 +115,3 @@ export const chartTypes = [
       image :"assets/img-graph/areaChart.jpg"})
 
 ];
-

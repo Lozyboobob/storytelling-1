@@ -57,7 +57,7 @@
 
       </div>
     <div class="content">
-      <md-card class="chart-card" (click)="this.chartType = chart ; processData()" *ngFor="let chart of chartTypes">
+      <md-card class="chart-card" (click)="choseChartType(chart)" *ngFor="let chart of chartTypes">
         <h2>{{chart.title}}</h2>
         <div class="md-card-image" [ngStyle]="{'background-image': 'url('+ chart.image+')'}">
         </div>

@@ -179,7 +179,10 @@ export class ChartsBuilderComponent implements OnInit {
     this.theme = 'light';
     this.chartOptions = { ...defaultOptions };
   }
-
+  choseChartType(chart){
+    this.chartType = chart ;
+    this.processData();
+  }
   processData() {
     if (!this.hasValidDimensions) {
       return;

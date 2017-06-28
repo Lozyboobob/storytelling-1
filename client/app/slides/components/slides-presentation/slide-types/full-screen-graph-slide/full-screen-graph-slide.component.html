@@ -2,7 +2,7 @@
   <div fxFlex="100%" [attr.id]="slide.graph">
     <ng-template #parent ></ng-template>
   </div>
-  <div fxFlex="100%" [attr.id]="slide.graph" fxLayoutAlign="center center" *ngIf="config.hasText">
+  <div fxFlex="100%"  fxLayoutAlign="center center" *ngIf="config.hasText">
     <div [innerHTML]="slide.text" align="left" [class.slideLeft]="loadContentAni" [class.slideRightOut]="easeContentAni" style="width:100%"> </div>
   </div>
 <!--
