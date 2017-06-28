@@ -49,9 +49,9 @@ import { Ng2PageScrollModule } from 'ng2-page-scroll';
 import { DragulaModule } from 'ng2-dragula';
 import { BarChartComponent } from '../charts';
 import { GaugeChartComponent } from '../charts';
-import { NgGraphComponent } from "../charts";
-import { TreemapChartComponent } from "../charts";
-import { ZoomableTreemapChartComponent } from "../charts";
+import { NgGraphComponent } from '../charts';
+import { TreemapChartComponent } from '../charts';
+import { ZoomableTreemapChartComponent } from '../charts';
 import { PieGridChartComponent } from '../charts';
 import { SunburstChartComponent } from '../charts';
 import { HierarchicalEdgeBundlingComponent } from '../charts/hierarchical-edge-bundling/hierarchical-edge-bundling.component';
@@ -62,14 +62,16 @@ import { LineChartComponent } from '../charts/line-chart/line-chart.component';
 import { FroalaEditorModule, FroalaViewModule } from 'angular2-froala-wysiwyg';
 import { DendogramComponent } from '../charts/dendogram/dendogram.component';
 import { PieChartComponent } from '../charts/pie-chart/pie-chart.component';
-import { BubbleChartComponent } from "../charts";
+import { BubbleChartComponent } from '../charts';
+import { WordCloudComponent } from '../charts';
+
 import { AreaChartComponent } from '../charts/ngx-charts/area-chart';
 
 import { CsvInputComponent } from './components/editor/slide-creator/csv-input/csv-input.component';
 import { ImageUploadComponent } from './components/editor/slide-creator/image-upload/image-upload.component';
 
 import { SlidesSettingComponent } from './components/editor/slides-setting/slides-setting.component';
-import { ChartsBuilderComponent, CodeEditorComponent, DataTableComponent } from "./components/editor/charts-builder";
+import { ChartsBuilderComponent, CodeEditorComponent, DataTableComponent } from './components/editor/charts-builder';
 import { EditorComponent } from './components/editor/editor.component';
 
 import { PrezListComponent } from './components/prez/prez-list.component';
@@ -116,6 +118,7 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         TreemapChartComponent,
         ZoomableTreemapChartComponent,
         BubbleChartComponent,
+        WordCloudComponent,
         SunburstChartComponent,
         AreaChartComponent,
         ImageComponent],
@@ -156,12 +159,13 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         ZoomableTreemapChartComponent,
         DendogramComponent,
         BubbleChartComponent,
+        WordCloudComponent,
         SunburstChartComponent,
         KeySwitchDirective,
         ToggleFullscreenDirective,
         ImageComponent
     ],
-    exports:[
+    exports: [
       PrezListCardComponent,
       PrezFormSearchComponent
     ],
