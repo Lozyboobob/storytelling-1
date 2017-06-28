@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, ViewChil
 import { FormGroup, FormControl, FormBuilder, Validators, FormArray  } from '@angular/forms';
 import {ValidService} from '../../../services/valid.service';
 import {JsonValidator } from '../json-validator';
-
+import { environment } from '../../../../../environments/environment';
 import *  as sampleData from './data';
 import *  as slideOption from './slideOption';
 
@@ -30,14 +30,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
     titleAlign: Array<string>
     dataExample: string = '{}';
     dataBuilder: any = {};
-    editorOptions: Object = {
-        heightMin: 200,
-        heightMax: 400,
-        charCounterMax: 1000,
-        toolbarSticky: false,
-        imageUploadURL: 'http://127.0.0.1:3000/api/imagesServer',
-        imageManagerLoadURL: 'http://127.0.0.1:3000/api/imagesServer'
-    }
+    editorOptions: Object;
 
     @ViewChild("dataInput") dataInputTab;
     @ViewChild("graphSelector") graphSelector;
@@ -50,6 +43,19 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
         this.titleAlign = slideOption.titleAlign;
         this.graphs = slideOption.graphType;
         this.pageLayout = slideOption.pageLayoutOption;
+        //set server path
+        let baseURL =`${environment.backend.protocol}://${environment.backend.host}`;
+        if (environment.backend.port) {
+            baseURL += `:${environment.backend.port}`;
+        };
+        this.editorOptions = {
+            heightMin: 200,
+            heightMax: 400,
+            charCounterMax: 1000,
+            toolbarSticky: false,
+            imageUploadURL:`${baseURL}${environment.backend.endpoints.imagesServer}`,
+            imageManagerLoadURL: `${baseURL}${environment.backend.endpoints.imagesServer}`
+        }
     }
     ngAfterViewInit() {
 
@@ -74,7 +80,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
             pageTitle: new FormControl(this.slide.pageTitle.title, Validators.nullValidator),
             titleAlign: new FormControl(this.slide.pageTitle.align, Validators.nullValidator),
             slideText: new FormControl(this.slide.text, Validators.nullValidator),
-              slideGraph: new FormControl(this.slide.graph, Validators.nullValidator),
+            slideGraph: new FormControl(this.slide.graph, Validators.nullValidator),
             //pageLayout: new FormControl(this.slide.pageLayout, Validators.required),
             graphDataJson: new FormControl(this.dataExample, Validators.compose([JsonValidator()])),
             graphData: this._fb.array([
@@ -93,7 +99,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
             if (this.dataBuilder.chartOptions.chartType
                 && this.dataBuilder.chartOptions.chartType.cmpName != null)
                 this.slide.graph = this.dataBuilder.chartOptions.chartType.cmpName;
-                else this.slide.graph="ngGraph"
+            else this.slide.graph = "ngGraph"
             /*  else if (this.dataBuilder.chartOptions.chartType
                   && this.dataBuilder.chartOptions.chartType.name != null)
                   this.form.value.slideGraph = this.dataBuilder.chartOptions.chartType.name;*/
