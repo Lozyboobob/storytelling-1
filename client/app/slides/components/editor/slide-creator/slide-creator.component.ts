@@ -155,7 +155,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
             case "gaugeChart": this.form.controls['graphDataJson'].setValue(ngxSingleChartDataExample); break;
             case "advancedPieChart": this.form.controls['graphDataJson'].setValue(ngxSingleChartDataExample); break;
             case "forceDirectedGraph": this.form.controls['graphDataJson'].setValue(forceDirectedGraphDataExample); break;
-            case "lineChart": this.form.controls['graphDataJson'].setValue(lineChartExample); break;
+            case 'lineChart': this.form.controls['graphDataJson'].setValue(lineChartExample); break;
             case "pieChart": this.form.controls['graphDataJson'].setValue(pieChartExample); break;
             case "HierarchicalEdgeBundling": this.form.controls['graphDataJson'].setValue(HierarchicalEdgeExample); break;
             case "dendogramChart": this.form.controls['graphDataJson'].setValue(dendogramChartExemple); break;
@@ -181,10 +181,10 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
     try {
       console.log(json);
       let j = json;
-      //for the chars has many series
+      // for the chars has many series
       if (this.form.value.slideGraph == "lineChart") {
         this.csvJson = this.sortSeries(json);
-        //this.csvJson.push(j)
+        // this.csvJson.push(j)
       }
       else this.csvJson = j;
     }
@@ -220,10 +220,10 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
             else {
                 series.push(obj["series"])
                 console.log(series);
-                let newSeries: Array<any> = [];
+                const newSeries: Array<any> = [];
                 newSeries.push(obj);
                 newJson.push(newSeries);
-                console.log("create new series", obj["series"]);
+                console.log('create new series', obj['series']);
             }
         });
         console.log(newJson);
