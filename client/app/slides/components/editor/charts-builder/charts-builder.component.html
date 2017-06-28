@@ -197,9 +197,10 @@
         </app-zoomable-treemap-chart>
         <app-sunburst-chart *ngIf="chartType.name === 'sunburst'" [dataInput]="data">
         </app-sunburst-chart>
-
         <app-bubble-chart *ngIf="chartType.name === 'force-layout-bubble'" [dataInput]="data">
         </app-bubble-chart>
+        <app-word-cloud *ngIf="chartType.name === 'word-cloud-chart'" [dataInput]="data">
+        </app-word-cloud>
       </div>
     </md-card-content>
   </md-card>
