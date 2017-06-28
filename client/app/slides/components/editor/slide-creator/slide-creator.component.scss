@@ -11,12 +11,12 @@ md-card {
     md-toolbar {
         border-bottom: 5px solid #333;
 
-        .click {
-            cursor: pointer;
-            height: 100%;
-            margin-left: 50px;
-            width: 100%;
-        }
+        //.click {
+        //    cursor: pointer;
+        //    height: 100%;
+        //    margin-left: 50px;
+        //    width: 100%;
+        //}
 
         md-select {
             margin: 0 5px;
@@ -76,4 +76,19 @@ md-card {
             color: $accent;
         }
     }
+}
+.delete{
+    color: #e53935;
+    margin-left: 88%;
+    position: absolute;
+    cursor: pointer;
+}
+.align-right {
+    margin-left: 90%;
+    position: absolute;
+    cursor: pointer;
+}
+a.disabled {
+    pointer-events: none;
+    cursor: not-allowed;
 }

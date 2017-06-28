@@ -3,6 +3,7 @@ import { colorSets } from '@swimlane/ngx-charts/release/utils/color-sets';
 import * as shape from 'd3-shape';
 import * as dsv from 'd3-dsv';
 import { nest } from 'd3-collection';
+import { Observable } from "rxjs";
 import * as babyparse from 'babyparse';
 import * as _ from 'lodash';
 
@@ -57,9 +58,10 @@ const curves = {
   templateUrl: './charts-builder.component.html',
   styleUrls: ['./charts-builder.component.scss']
 })
-export class ChartsBuilderComponent implements OnInit {
+export class ChartsBuilderComponent implements OnInit{
   @Input() inputData: any[];
   @Input() inputOptions: any;
+  @Output() validSlide = new EventEmitter();
 
   chartTypes = chartTypes;
 
@@ -90,7 +92,7 @@ export class ChartsBuilderComponent implements OnInit {
   }
 
   get hasValidData() {
-    return this._dataText.length > 0 && this.errors.length === 0;
+    return this._dataText && this._dataText.length > 0 && this.errors.length === 0;
   }
 
   get hasChartSelected() {
@@ -101,6 +103,9 @@ export class ChartsBuilderComponent implements OnInit {
     return this.hasChartSelected &&
       !this.chartType.dimLabels.some((l, i) => l ? !(this.dataDims[i] && this.dataDims[i].length > 0)  : false);
   }
+  get isValidSlide () {
+    return this.hasValidDimensions && this.hasChartSelected && this.hasValidData;
+  }
 
   editorConfig = {
     lineNumbers: true,
@@ -109,7 +114,6 @@ export class ChartsBuilderComponent implements OnInit {
       name: 'json'
     }
   };
-
   allowDropFunction(size: number, dimIndex: number): any {
         return (dragData: any) => this.dataDims[dimIndex] == null || this.dataDims[dimIndex].length < size;
   }
@@ -135,7 +139,6 @@ export class ChartsBuilderComponent implements OnInit {
       this.clearAll();
     }
   }
-
   editData(updatedData){
     this._dataText = babyparse.unparse(updatedData);
     this.rawData = updatedData;
@@ -189,6 +192,10 @@ export class ChartsBuilderComponent implements OnInit {
     }
     this.data = this.chartType.convertData(this.dataDims, this.rawData);
     this.configGraph.emit({ data: this.rawData, chartOptions: { chartType: this.chartType, headerValues: this.headerValues, dataDims: this.dataDims, ...this.chartOptions } });
+    if (this.isValidSlide) {
+      this.validSlide.emit('this slid is valid');
+
+    }
     return this.data;
   }
 
