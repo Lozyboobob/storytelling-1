@@ -1,7 +1,7 @@
 export class Slide {
     index: number = 1;
     /* graph setting*/
-    graph: string = 'noGraph'; //graph type
+    graph: string = ''; //graph type
     data: any = undefined; //data for graph
     config: any = undefined; // config for graph
     /* slide content*/
