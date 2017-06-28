@@ -3,6 +3,7 @@ import {Slides} from '../../models/slides';
 import {Slide} from '../../models/slide';
 import { DragulaService } from 'ng2-dragula';
 import {ValidService} from '../../services/valid.service';
+
 @Component({
     selector: 'app-editor',
     templateUrl: './editor.component.html',
@@ -28,7 +29,7 @@ export class EditorComponent implements OnInit, OnChanges {
     @Output() bannerImageUpload = new EventEmitter();
     //  @Output() validate= new EventEmitter();
 
-    constructor(private dragulaService: DragulaService,private validService: ValidService) {
+    constructor(private dragulaService: DragulaService, private validService: ValidService) {
         dragulaService.drag.subscribe(value => {
             // value[0] will always be bag name
             this.onDrag(value.slice(1));
@@ -120,7 +121,6 @@ export class EditorComponent implements OnInit, OnChanges {
     settingValidateChange(status) {
         this.isValidatedSetting = status;
         this.checkValid();
-        console.log("is valid",this.isValidated)
         //this.validate.emit(status);
     }
     slideValidateChange(status) {
@@ -151,6 +151,7 @@ export class EditorComponent implements OnInit, OnChanges {
     }
     /*submit a new slide*/
     submitSlide(slide) {
+
         /* modify slide*/
         if (slide.index < this.curSlideIndex) {
             this.slider.slides[slide.index - 1] = Object.assign({}, slide);
@@ -164,9 +165,6 @@ export class EditorComponent implements OnInit, OnChanges {
             this.slider.slides.push(s);
             console.log("slide new");
         }
-
-
-
     }
     /* delete a page of slide*/
     deleteSlide(index) {
@@ -208,7 +206,6 @@ export class EditorComponent implements OnInit, OnChanges {
                 this.slider.slides[i] = slides[order];
                 this.slider.slides[i].index = i + 1;
             })
-            console.log("after shuffle save", this.slider.slides);
             this.isInShuffle = false;
         }
         //start to shuffle
@@ -229,6 +226,5 @@ export class EditorComponent implements OnInit, OnChanges {
         /*  t_slides.forEach((s) => {
               this.slider.slides[s.index-1]=s;
           })*/
-        console.log("clear shuffle", this.slider);
     }
 }
