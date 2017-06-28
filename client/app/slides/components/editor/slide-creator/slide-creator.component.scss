@@ -10,20 +10,25 @@ md-card {
 
     md-toolbar {
         border-bottom: 5px solid #333;
+        cursor: pointer;
+        //.click {
+        //    cursor: pointer;
+        //    height: 100%;
+        //    margin-left: 50px;
+        //    width: 100%;
+        //}
 
-        .click {
-            cursor: pointer;
-            height: 100%;
-            margin-left: 50px;
-            width: 100%;
-        }
 
-        md-select {
-            margin: 0 5px;
-            position: absolute;
-            top: 37px;
-        }
     }
+    md-select {
+        margin: 0 7px;
+        position: relative;
+        top: 2px;
+    }
+    .titleDiv {
+        margin-top : 1%;
+    }
+
 }
 /*page layout selector*/
 .layout-selector {
@@ -76,4 +81,19 @@ md-card {
             color: $accent;
         }
     }
+}
+.delete{
+    color: #e53935;
+    margin-left: 93%;
+    position: absolute;
+    cursor: pointer;
+}
+.align-right {
+    margin-left: 95%;
+    position: absolute;
+    cursor: pointer;
+}
+a.disabled {
+    pointer-events: none;
+    cursor: not-allowed;
 }

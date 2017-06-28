@@ -63,7 +63,7 @@ export class PrezFormComponent implements OnInit, AfterViewChecked {
     }
   }
   ngAfterViewChecked() {
-    this.cdRef.detectChanges();
+    //this.cdRef.detectChanges();
   }
   /* validate status change*/
   formValidateChange(status) {

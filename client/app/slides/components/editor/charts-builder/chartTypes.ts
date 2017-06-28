@@ -119,4 +119,3 @@ export const chartTypes = [
       image : 'assets/img-graph/areaChart.jpg'})
 
 ];
-
