@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, ViewChil
 import { FormGroup, FormControl, FormBuilder, Validators, FormArray  } from '@angular/forms';
 import {ValidService} from '../../../services/valid.service';
 import {JsonValidator } from '../json-validator';
-
+import { environment } from '../../../../../environments/environment';
 import *  as sampleData from './data';
 import *  as slideOption from './slideOption';
 
@@ -29,14 +29,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
     titleAlign: Array<string>
     dataExample: string = '{}';
     dataBuilder: any = {};
-    editorOptions: Object = {
-        heightMin: 200,
-        heightMax: 400,
-        charCounterMax: 1000,
-        toolbarSticky: false,
-        imageUploadURL: 'http://127.0.0.1:3000/api/imagesServer',
-        imageManagerLoadURL: 'http://127.0.0.1:3000/api/imagesServer'
-    }
+    editorOptions: Object;
 
     @ViewChild("dataInput") dataInputTab;
     @ViewChild("graphSelector") graphSelector;
@@ -49,6 +42,19 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
         this.titleAlign = slideOption.titleAlign;
         this.graphs = slideOption.graphType;
         this.pageLayout = slideOption.pageLayoutOption;
+        //set server path
+        let baseURL =`${environment.backend.protocol}://${environment.backend.host}`;
+        if (environment.backend.port) {
+            baseURL += `:${environment.backend.port}`;
+        };
+        this.editorOptions = {
+            heightMin: 200,
+            heightMax: 400,
+            charCounterMax: 1000,
+            toolbarSticky: false,
+            imageUploadURL:`${baseURL}${environment.backend.endpoints.imagesServer}`,
+            imageManagerLoadURL: `${baseURL}${environment.backend.endpoints.imagesServer}`
+        }
     }
     ngAfterViewInit() {
 
@@ -95,7 +101,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
             if (this.dataBuilder.chartOptions.chartType
                 && this.dataBuilder.chartOptions.chartType.cmpName != null)
                 this.slide.graph = this.dataBuilder.chartOptions.chartType.cmpName;
-                else this.slide.graph="ngGraph"
+            else this.slide.graph = "ngGraph"
             /*  else if (this.dataBuilder.chartOptions.chartType
                   && this.dataBuilder.chartOptions.chartType.name != null)
                   this.form.value.slideGraph = this.dataBuilder.chartOptions.chartType.name;*/
@@ -156,7 +162,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
             case "advancedPieChart": this.form.controls['graphDataJson'].setValue(ngxSingleChartDataExample); break;
             case "forceDirectedGraph": this.form.controls['graphDataJson'].setValue(forceDirectedGraphDataExample); break;
             case 'lineChart': this.form.controls['graphDataJson'].setValue(lineChartExample); break;
-            case "pieChart": this.form.controls['graphDataJson'].setValue(pieChartExample); break;
+            case 'pieChart': this.form.controls['graphDataJson'].setValue(pieChartExample); break;
             case "HierarchicalEdgeBundling": this.form.controls['graphDataJson'].setValue(HierarchicalEdgeExample); break;
             case "dendogramChart": this.form.controls['graphDataJson'].setValue(dendogramChartExemple); break;
             default: ;
@@ -180,7 +186,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
   getCsvJson(json) {
     try {
       console.log(json);
-      let j = json;
+      const j = json;
       // for the chars has many series
       if (this.form.value.slideGraph == "lineChart") {
         this.csvJson = this.sortSeries(json);
@@ -212,13 +218,13 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
             return index;
         };
         data.forEach(obj => {
-            let seriesIndex = isInSeries(obj["series"]);
+            const seriesIndex = isInSeries(obj['series']);
             if (seriesIndex != -1) {
                 newJson[seriesIndex].push(obj)
-                console.log("add to series", obj["series"]);
+                console.log('add to series', obj['series']);
             }
             else {
-                series.push(obj["series"])
+                series.push(obj['series']);
                 console.log(series);
                 const newSeries: Array<any> = [];
                 newSeries.push(obj);
