@@ -23,6 +23,7 @@ export class EditorComponent implements OnInit, OnChanges {
         drag: 0,
         drop: 0
     }
+    slideOpendIndex :number;
     @ViewChildren("creator") _creatorEle: any;
     @Input() sliderIpt: Slides;
     @Output() submit = new EventEmitter();
@@ -102,6 +103,9 @@ export class EditorComponent implements OnInit, OnChanges {
 
     }
 
+    openSlideIndex(index) {
+        this.slideOpendIndex = index;
+    }
     ngOnInit() {
     }
     ngOnChanges() {

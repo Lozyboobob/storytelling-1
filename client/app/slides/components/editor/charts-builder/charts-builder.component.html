@@ -178,8 +178,9 @@
         </app-bubble-chart>
         <app-word-cloud *ngIf="chartType.name === 'word-cloud-chart'" [dataInput]="data">
         </app-word-cloud>
+        <app-line-chart *ngIf="chartType.name === 'line-chart-d3'" [dataInput]="data">
+        </app-line-chart>
       </div>
     </md-card-content>
   </md-card>
-
 </div>

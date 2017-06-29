@@ -2,10 +2,10 @@
 
 
 <div *ngIf="!isInShuffle" #slideBlock>
-  <app-slide-creator *ngFor="let slide of slider.slides;let i=index" [slideIndex]="i+1" [slideSetting]="slide" (confirmSlideOpt)="submitSlide($event)" (deleteSlideOpt)="deleteSlide($event)" (formValidateChange)="slideValidateChange($event)" #creator></app-slide-creator>
+  <app-slide-creator *ngFor="let slide of slider.slides;let i=index" [slideIndex]="i+1"  [slideOpendIndex]="slideOpendIndex" (openSlideIndex)="openSlideIndex($event)" [slideSetting]="slide" (confirmSlideOpt)="submitSlide($event)" (deleteSlideOpt)="deleteSlide($event)" (formValidateChange)="slideValidateChange($event)" #creator></app-slide-creator>
 </div>
 <div *ngIf="isInShuffle" class="shuffle-container" [dragula]="'shuffle-bag'">
-  <app-slide-creator *ngFor="let slide of slider.slides;let i=index" [slideIndex]="i+1" [slideSetting]="slide" [isInShuffle]="isInShuffle" (confirmSlideOpt)="submitSlide($event)" (deleteSlideOpt)="deleteSlide($event)" (formValidateChange)="slideValidateChange($event)"></app-slide-creator>
+  <app-slide-creator *ngFor="let slide of slider.slides;let i=index" [slideIndex]="i+1" [slideOpendIndex]="slideOpendIndex" (openSlideIndex)="openSlideIndex($event)" [slideSetting]="slide" [isInShuffle]="isInShuffle" (confirmSlideOpt)="submitSlide($event)" (deleteSlideOpt)="deleteSlide($event)" (formValidateChange)="slideValidateChange($event)"></app-slide-creator>
 </div>
 
 <div class="base light" fxLayout="row" fxLayoutAlign="center center">

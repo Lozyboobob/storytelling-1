@@ -1,4 +1,7 @@
-import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectorRef, OnChanges  } from '@angular/core';
+import {
+    Component, OnInit, AfterViewInit, Input, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectorRef,
+    OnChanges
+} from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators, FormArray  } from '@angular/forms';
 import {ValidService} from '../../../services/valid.service';
 import {JsonValidator } from '../json-validator';
@@ -20,22 +23,25 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
     @Output() deleteSlideOpt: EventEmitter<number> = new EventEmitter();
     @Input() slideIndex: number;
     @Input() slideSetting: Slide;
+    @Input() slideOpendIndex: number;
+    @Output() openSlideIndex: EventEmitter<number> =  new EventEmitter();
     showForm: boolean = true; // indicator for showing slide setting
     @Input() isInShuffle: boolean;
     slide: Slide = new Slide();
     form: FormGroup;
     graphs: Array<any>;
     pageLayout: Array<any>;
-    titleAlign: Array<string>
+    titleAlign: Array<string>;
     dataExample: string = '{}';
     dataBuilder: any = {};
     editorOptions: Object;
-
     @ViewChild("dataInput") dataInputTab;
     @ViewChild("graphSelector") graphSelector;
     csvJson: any = [];
     curTab: number = 0;
-    constructor(private _fb: FormBuilder, private validService: ValidService) { }
+    constructor(private _fb: FormBuilder, private validService: ValidService) {
+
+    }
 
     ngOnInit() {
         if (!this.slide.pageTitle.title) this.slide.pageTitle.title = 'title';
@@ -73,7 +79,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
       this.validService.changeSlideValid(this.form.valid, this.slideIndex);
     });
     this.graphChanged();
-    this.showForm = !this.form.valid;
+    this.showForm = this.slideIndex === this.slideOpendIndex;
   }
   private _buildForm() {
     return this._fb.group({
@@ -90,11 +96,16 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
   }
   /* toggle the slideSetting*/
   toggleForm() {
+    this.slideOpendIndex = null;
     this.showForm = !this.showForm;
+    if (this.showForm) {
+        this.openSlideIndex.emit(this.slideIndex);
+    }
   }
   validChildForm (isValid) {
       this.validService.changeSlideValid(isValid, this.slideIndex);
   }
+
   confirmSlide(isValid) {
       /* to decide which data to take from tab*/
     if (this.slide.hasGraph) {
