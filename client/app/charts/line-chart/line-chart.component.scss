@@ -34,7 +34,7 @@ $axisColor: #4c4c4c;
     }
 }
 
-/*:host /deep/ .tooltip {
+:host /deep/ .tooltip {
     position: absolute;
     text-align: center;
     padding: 2px;
@@ -44,4 +44,4 @@ $axisColor: #4c4c4c;
     border-radius: 8px;
     pointer-events: none;
     width: 10%;
-}*/
+}

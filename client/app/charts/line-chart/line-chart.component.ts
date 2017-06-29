@@ -16,6 +16,9 @@ export class LineChartComponent extends Chart implements OnInit {
     private height: number;
     private heightTB: number; //height of thumbnail
     private curtain: any; //for animation
+    /*
+    this line chart is more compatible for continous data like timeline,but also can be uesd for uncontinous data like number or string. the format for time: "Jan 09"
+    */
     private dateMode: boolean;//date data in xAxis
     private tb;
     private paths;
@@ -26,14 +29,14 @@ export class LineChartComponent extends Chart implements OnInit {
     }
 
     ngOnInit() {
-        console.log("66666666666666666666init");
+
         this.chartOptions = { ...this.configInput };
         d3.select("#LineChartComponent").remove();
         this.init();
     }
 
     ngOnChanges() {
-        console.log("change");
+
         d3.select("#LineChartComponent").remove();
         this.init();
     }
@@ -41,9 +44,13 @@ export class LineChartComponent extends Chart implements OnInit {
         if (d3.event.sourceEvent && d3.event.sourceEvent.type === "zoom") return; // ignore brush-by-zoom
         var s = d3.event.selection || xTB.range();
         if (this.dateMode) x.domain(s.map(xTB.invert, xTB));
+        else {
+            let x1 = 0 - this.width * s[0] / (s[1] - s[0]);
+            x.range([x1, this.width * (this.width - s[0]) / (s[1] - s[0])]);
+        }
         focus.select(".area").attr("d", area);
         focus.select(".axis--x").call(xAxis);
-        console.log("brush")
+
         if (this.dateMode) svg.select(".zoom").call(zoom.transform, d3.zoomIdentity
             .scale(this.width / (s[1] - s[0]))
             .translate(-s[0], 0));
@@ -53,15 +60,18 @@ export class LineChartComponent extends Chart implements OnInit {
         if (d3.event.sourceEvent && d3.event.sourceEvent.type === "brush") return; // ignore zoom-by-brush
         var t = d3.event.transform;
         if (this.dateMode) x.domain(t.rescaleX(xTB).domain());
+        else x.range([t.x, this.width * t.k]);
         focus.select(".area").attr("d", area);
         focus.select(".axis--x").call(xAxis);
-        console.log("brush 2")
+
         if (this.dateMode) context.select(".brush").call(brush.move, x.range().map(t.invertX, t));
     }
     setData(data: any) {
-        console.log(data);
+
         let parseDate = d3.timeParse("%b %Y");
+
         this.data = JSON.parse(JSON.stringify(data));
+
         if (parseDate(this.data[0][0].xAxis) != null) this.dateMode = true;
         this.data.forEach((d) => {
             d.forEach((d) => {
@@ -99,17 +109,15 @@ export class LineChartComponent extends Chart implements OnInit {
 
     }
     init() {
-
+        this.data = []
         if (this.configInput != null)
             this.data = LineChartComponent.convertData(this.chartOptions.dataDims, this.dataInput);
         else
             this.data = this.dataInput;
-
         this.dateMode = false;
         this.heightTB = 60;//set height of thumbnail
-        this.data = []
-        this.setData(this.dataInput);
-        console.log(this.data)
+
+        this.setData(this.data);
         this.drawChart();
         this.load();
     }
@@ -123,7 +131,7 @@ export class LineChartComponent extends Chart implements OnInit {
         var div = d3.select(element).append("div")
             .attr("class", "tooltip")
             .style("opacity", 0);
-        console.log(element.offsetHeight, this.heightTB)
+
         let svg = d3.select(element).append('svg')
             .attr("id", "LineChartComponent")
             .attr('width', element.offsetWidth)
@@ -149,21 +157,21 @@ export class LineChartComponent extends Chart implements OnInit {
             .translateExtent([[0, 0], [this.width, this.height]])
             .extent([[0, 0], [this.width, this.height]])
             .on("zoom", _ => {
+
                 if (d3.event.sourceEvent && d3.event.sourceEvent.type === "brush") return; // ignore zoom-by-brush
 
                 var t = d3.event.transform;
-                console.log("ttttttt",t);
-
                 focus.selectAll(".line").attr("d", line);
                 focus.selectAll(".xAxis").call(xAxis);
                 this.tb.select(".brush").call(brush.move, xTB.range().map(t.invertX, t));
-                if (this.dateMode) x.domain(t.rescaleX(xTB).domain());
-                else x.range([t.x,this.width*t.k]);
-                //t.k is the scale
-                zoomScale = t.k
                 svg.selectAll('.dot')
                     .attr("cx", d => x(d['xAxis']))
                     .attr("cy", d => y(d['yAxis']));
+                if (this.dateMode) x.domain(t.rescaleX(xTB).domain());
+                else x.range([t.x, this.width * t.k]);
+                //t.k is the scale
+                zoomScale = t.k
+
                 if (t.k > 3) {
                     svg.selectAll('.dot').transition()
                         .duration(500)
@@ -192,7 +200,7 @@ export class LineChartComponent extends Chart implements OnInit {
         }
 
         else {
-            x = d3.scaleBand().padding(0.1).domain(xDomain).rangeRound([0, this.width]);
+            x = d3.scalePoint().padding(0.1).domain(xDomain).rangeRound([0, this.width]);
         }
         let y = d3.scaleLinear().domain(yDomain).range([this.height, 0]);
 
@@ -246,7 +254,7 @@ export class LineChartComponent extends Chart implements OnInit {
             xTB = d3.scaleTime().domain(xDomain).rangeRound([0, this.width]);
         }
         else {
-            xTB = d3.scaleBand().padding(0.1).domain(xDomain).rangeRound([0, this.width]);
+            xTB = d3.scalePoint().padding(0.1).domain(xDomain).rangeRound([0, this.width]);
         }
         let yTB = d3.scaleLinear().domain(yDomain).range([this.heightTB, 0]);
 
@@ -281,26 +289,25 @@ export class LineChartComponent extends Chart implements OnInit {
                     .duration(0)
                     .attr('opacity', 0);
                 var s = d3.event.selection || xTB.range();
-                console.log(s);
+
                 if (this.dateMode) x.domain(s.map(xTB.invert, xTB));
                 else {
-                    /*  var xScale = d3.scaleLinear().domain(xDomain).range([0, this.width]);
-                      console.log(xScale);
-                      var xRangePos = s.map(function(d) {console.log(d); return xScale(d); });
-                      console.log(xRangePos);
-                      var xNewDomainPos = xRangePos.map(function(d) { return xScale.invert(d); });
-                      x.domain(xNewDomainPos);*/
-                      let x1=0-this.width * s[0] / (s[1] - s[0]);
+                    let x1 = 0 - this.width * s[0] / (s[1] - s[0]);
                     x.range([x1, this.width * (this.width - s[0]) / (s[1] - s[0])]);
                 }
                 focus.selectAll(".line").attr("d", line);
                 focus.selectAll(".xAxis").call(xAxis);
-
+                svg.selectAll('.dot')
+                    .attr("cx", d => x(d['xAxis']))
+                    .attr("cy", d => y(d['yAxis']));
                 if (this.dateMode) svg.select(".zoom").call(zoom.transform, d3.zoomIdentity
                     .scale(this.width / (s[1] - s[0]))
                     .translate(-s[0], 0));
                 else {
-
+                    svg.select(".zoom").call(zoom.transform, d3.zoomIdentity
+                        .scale(this.width / (s[1] - s[0]))
+                        .translate(-s[0], 0)
+                    );
                 }
             });
 
@@ -336,9 +343,10 @@ export class LineChartComponent extends Chart implements OnInit {
                     div.transition()
                         .duration(200)
                         .style("opacity", .9);
+
                     div.html('<p>' + d["xAxis"] + "<br/>" + d["yAxis"] + '</p>')
-                        .style("left", (d3.event.pageX) + "px")
-                        .style("top", (d3.event.pageY + 25) + "px");
+                        .style("left", (d3.event.layerX) + "px")
+                        .style("top", (d3.event.layerY + 25) + "px");
                 })
                 .on("mouseout", function(d) {
                     let curR = parseInt(d3.select(d3.event.srcElement).attr("r"))
@@ -361,7 +369,7 @@ export class LineChartComponent extends Chart implements OnInit {
             .attr('width', 0)
             .attr('class', 'curtain')
             .attr('transform', "rotate(180) translate(" + (0 - margin.left) + "," + margin.top + ")")
-            .style('fill', '#fafafa')
+            .style('fill', '#f2f2f2')
     }
 
     load() {
