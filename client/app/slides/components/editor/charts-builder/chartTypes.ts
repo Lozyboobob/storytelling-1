@@ -164,9 +164,9 @@ export const chartTypes = [
     }),
     createChartType({
         title: 'Line Chart d3', simpleData: true, cmpName: 'lineChart', convertData: LineChartComponent.convertData, dimLabels: [{ column: 'Series', maxSize: 1 }, { column: 'xAxis', maxSize: 1 }, { column: 'yAxis', maxSize: 1 }],
-        description: 'A bar chart or bar graph is a chart or graph that presents grouped data with rectangular bars with heights proportional to the values that they represent.',
+        description: 'A line chart or line graph is a type of chart which displays information as a series of data points called "markers" connected by straight line segments.',
         categorie: "Comparison",
-        image: "assets/img-graph/barChart.jpg"
+        image: "assets/img-graph/lineChartD3.png"
     })
 
 ];
