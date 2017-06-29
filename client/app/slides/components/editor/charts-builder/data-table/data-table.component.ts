@@ -6,30 +6,30 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./data-table.component.scss']
 })
 export class DataTableComponent implements OnInit {
-  @Input() 
+  @Input()
   data: any[] = [];
-  @Input() 
+  @Input()
   columns: string[] = [];
-  
-  @Output() 
+
+  @Output()
   updatedData = new EventEmitter();
   colHeaders: string[];
 
   constructor() { }
 
   ngOnInit() {
-    this.colHeaders = this.columns.map((col:any) =>  col.name );
+    this.colHeaders = this.columns.map((col: any) =>  col.name );
   }
 
 
 
-  private afterChange(e: any) {
+  afterChange(e: any) {
     // tslint:disable-next-line:no-console
     this.updatedData.emit(this.data);
     console.log(this.data);
   }
 
-  private afterOnCellMouseDown(e: any) {
+  afterOnCellMouseDown(e: any) {
     // tslint:disable-next-line:no-console
     console.log(e);
   }

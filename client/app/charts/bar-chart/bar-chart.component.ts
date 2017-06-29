@@ -13,7 +13,7 @@ import { Chart } from '../chart.class';
 export class BarChartComponent extends Chart implements OnInit, OnChanges {
 
     @ViewChild('chart') private chartContainer: ElementRef;
-    private data: Array<any> = sample;
+    private data: Array<any> = [ ];
     private margin: any = { top: 50, bottom: 50, left: 100, right: 100 };
     private chart: any;
     private width: number;
@@ -23,23 +23,23 @@ export class BarChartComponent extends Chart implements OnInit, OnChanges {
     private colors: any;
     private xAxis: any;
     private yAxis: any;
-    private loaded: boolean = true;
+    private loaded = true;
     private chartOptions: any;
 
     constructor() {
-        super()
+        super();
     }
 
     ngOnInit() {
       console.log("init");
         this.chartOptions = { ...this.configInput };
-        d3.select("#BarChartComponent").remove();
+        d3.select('#BarChartComponent').remove();
         this.init();
     }
 
-    ngOnChanges(){
-      console.log("change");
-        d3.select("#BarChartComponent").remove();
+
+    ngOnChanges() {
+        d3.select('#BarChartComponent').remove();
         this.init();
     }
 
@@ -52,14 +52,14 @@ export class BarChartComponent extends Chart implements OnInit, OnChanges {
         const name$ = d => d[_.head(dataDims[0])];
         const value$ = d => d[_.head(dataDims[1])];
 
-        function sum(d: any){
+        function sum(d: any) {
             return {
                 name: name$(_.head(d)),
                 index: name$(_.head(d)),
                 value: _.reduce(d, (total, el) => total + value$(el), 0),
                 x: name$(_.head(d)),
                 y: _.reduce(d, (total, el) => total + value$(el), 0)
-            }
+            };
         }
 
         return _.chain(rawData)
@@ -70,7 +70,7 @@ export class BarChartComponent extends Chart implements OnInit, OnChanges {
     }
 
     setData(data) {
-        if (data.length == 0) return;
+        if (data.length === 0) return;
         this.data = data;
     }
 
@@ -89,14 +89,12 @@ export class BarChartComponent extends Chart implements OnInit, OnChanges {
      * Draw function for D3.js Bar chart
      */
     drawChart() {
-        let element = this.chartContainer.nativeElement;
+        const element = this.chartContainer.nativeElement;
         this.width = element.offsetWidth - this.margin.left - this.margin.right;
         this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
 
-        console.log('element.offsetHeight:', element.offsetHeight)
-
-        let svg = d3.select(element).append('svg')
-            .attr("id","BarChartComponent")
+        const svg = d3.select(element).append('svg')
+            .attr('id', 'BarChartComponent')
             .attr('width', element.offsetWidth)
             .attr('height', element.offsetHeight);
 
@@ -106,8 +104,8 @@ export class BarChartComponent extends Chart implements OnInit, OnChanges {
             .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`);
 
         // define X & Y domains
-        let xDomain = this.data.map(d => d.index);
-        let yDomain = [0, d3.max(this.data, d => d.value)];
+        const xDomain = this.data.map(d => d.index);
+        const yDomain = [0, d3.max(this.data, d => d.value)];
 
         // create scales
         this.xScale = d3.scaleBand().padding(0.1).domain(xDomain).rangeRound([0, this.width]);
@@ -131,12 +129,12 @@ export class BarChartComponent extends Chart implements OnInit, OnChanges {
         // update scales & axis
         this.xScale.domain(this.data.map(d => d.index));
         this.yScale.domain([0, d3.max(this.data, d => d.value)]);
-        //this.colors.domain([0, this.data.length]);
+        // this.colors.domain([0, this.data.length]);
         this.xAxis.transition().call(d3.axisBottom(this.xScale));
         this.yAxis.transition().call(d3.axisLeft(this.yScale));
 
 
-        let bars = this.chart.selectAll('.bar')
+        const bars = this.chart.selectAll('.bar');
 
         bars.transition()
             .attr('x', d => this.xScale(d.index))
@@ -148,15 +146,15 @@ export class BarChartComponent extends Chart implements OnInit, OnChanges {
 
         bars.data(this.data)
             .enter()
-            .append("g")
+            .append('g')
             .attr('class', 'bar-block')
             .on('mouseover', _ => {
-                d3.select(d3.event.srcElement).attr('opacity', 1)
-                d3.select(d3.event.target.nextElementSibling).attr('font-size', '24px')
+                d3.select(d3.event.srcElement).attr('opacity', 1);
+                d3.select(d3.event.target.nextElementSibling).attr('font-size', '24px');
             })
             .on('mouseout', _ => {
-                d3.select(d3.event.srcElement).attr('opacity', 0.8)
-                d3.select(d3.event.target.nextElementSibling).attr('font-size', '14px')
+                d3.select(d3.event.srcElement).attr('opacity', 0.8);
+                d3.select(d3.event.target.nextElementSibling).attr('font-size', '14px');
             });
 
         this.chart.selectAll('.bar-block')
@@ -167,7 +165,7 @@ export class BarChartComponent extends Chart implements OnInit, OnChanges {
             .attr('width', this.xScale.bandwidth())
             .attr('height', 0)
             .attr('opacity', 0.8)
-            .style('fill', (d, i) => this.colors(i))
+            .style('fill', (d, i) => this.colors(i));
 
 
         this.chart.selectAll('.bar-block')
@@ -176,13 +174,13 @@ export class BarChartComponent extends Chart implements OnInit, OnChanges {
             .attr('font-weight', 600)
             .attr('x', d => this.xScale(d.index) + this.xScale.bandwidth() / 2)
             .attr('y', d => this.yScale(d.value) - 5)
-            .attr("text-anchor", "middle")
+            .attr('text-anchor', 'middle')
             .attr('fill', (d, i) => this.colors(i))
             .attr('opacity', 1)
             .text(d => d.value);
 
         this.chart.selectAll('.bar').transition()
-            //.delay((d, i) => i * 100 + 400)
+            // .delay((d, i) => i * 100 + 400)
             .attr('y', d => this.yScale(d.value))
             .attr('height', d => this.height - this.yScale(d.value));
 
@@ -192,10 +190,10 @@ export class BarChartComponent extends Chart implements OnInit, OnChanges {
         this.loaded = true;
         this.chart.selectAll('.bar')
             .attr('y', d => this.yScale(0))
-            .attr('height', d => this.height - this.yScale(0))
+            .attr('height', d => this.height - this.yScale(0));
 
         this.chart.selectAll('.value-text')
-            .attr('opacity', 0)
+            .attr('opacity', 0);
 
         this.chart.selectAll('.bar').transition()
             .duration(1500)
@@ -205,7 +203,6 @@ export class BarChartComponent extends Chart implements OnInit, OnChanges {
             .delay(1300)
             .duration(200)
             .attr('opacity', 1);
-
     }
 
     // FIXME
@@ -214,39 +211,11 @@ export class BarChartComponent extends Chart implements OnInit, OnChanges {
         this.chart.selectAll('.bar').transition()
             .delay((d, i) => i * 100)
             .attr('y', d => this.yScale(0))
-            .attr('height', d => this.height - this.yScale(0))
+            .attr('height', d => this.height - this.yScale(0));
         this.chart.selectAll('.value-text').transition()
             .duration(200)
             .attr('opacity', 0);
-        let waitingTime = this.chart.selectAll('.bar')._groups[0].length * 100;
+        const waitingTime = this.chart.selectAll('.bar')._groups[0].length * 100;
     }
 
 }
-
-// FIXME
-const sample = [
-    {
-        "value": "21",
-        "index": "index1"
-    },
-    {
-        "value": "20",
-        "index": "index2"
-    },
-    {
-        "value": "20",
-        "index": "index3"
-    },
-    {
-        "value": "20",
-        "index": "index4"
-    },
-    {
-        "value": "20",
-        "index": "index5"
-    },
-    {
-        "value": "20",
-        "index": "index6"
-    }
-]

@@ -1,4 +1,7 @@
 
+@import 'client/theme.scss';
+
+
 md-card {
   padding: 0;
 
@@ -61,6 +64,8 @@ md-card {
     width: auto;
   }
 
+
+
   .section-content {
     margin-top: 20px;
   }
@@ -69,6 +74,16 @@ md-card {
   }
 }
 
+.card-sub-header {
+    display: block;
+    height: 30px;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 30px;
+    padding: 0 10px;
+    position: relative;
+    width: auto;
+}
 /**************************/
 
 :host {
@@ -308,10 +323,6 @@ md-chip {
   border-radius: 10px;
   color: #dedede;
   font-size: 75%;
-  padding: 4px 8px;
-  bottom: 10px;
-  left: 10px;
-  position: absolute;
 }
 .layout-check{
   display: none;
@@ -378,7 +389,7 @@ md-chip {
   .md-card-image {
     background-position: center;
     background-size: cover;
-    height: 225px;
+    height: 200px;
     position: relative;
     width: 100%;
 
@@ -388,9 +399,8 @@ md-chip {
     margin: 0 auto;
   }
   md-card-content {
-    margin: 5px;
+    margin: 0;
     .categorie {
-      height: 100px;
       text-align: justify;
     }
 
@@ -398,7 +408,7 @@ md-chip {
   }
 }
 
-.format.selected {
+.format.checked {
     color: #3F403F;
 }
 
@@ -409,4 +419,36 @@ md-chip {
 
 .breath-left {
     margin-left: 8px;
+}
+
+
+/*title bar for each step*/
+.sub-title-bar {
+  width: 100%;
+  font-weight: bold;
+  font-size: 20px;
+  height: 50px;
+  padding-bottom: 20px;
+
+  .pull-right {
+    float: right;
+  }
+
+  .fa {
+    color: grey;
+
+    &.checked {
+      color: $accent;
+    }
+  }
+}
+
+.dimensions-container {
+    padding: 0px;
+    margin-bottom: 0px;
+}
+
+.list-unstyled {
+    padding-left: 0;
+    list-style: none;
 }
