@@ -28,12 +28,10 @@ import { HomeModule } from 'app/home';
 import { SlidesConfigModule } from 'app/slides';
 // USER MODULE
 import { UsersModule } from "app/users";
-import { NumberCardComponent } from './charts/ngx-charts/number-card/number-card.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    NumberCardComponent
+    AppComponent
   ],
   imports: [
     ReactiveFormsModule,

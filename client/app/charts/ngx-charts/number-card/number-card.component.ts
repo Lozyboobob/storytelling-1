@@ -46,16 +46,13 @@ export class NumberCardComponent extends Chart implements OnInit, OnDestroy {
      * @param rawData : array<Object> Json data
      */
     public static convertData(dataDims: string[], rawData: any) {
-      console.log("conver")
+
         const key$ = d => d[dataDims[0]];
-        const name$ = d => d[dataDims[1]];
-        const value$ = d => d[dataDims[2]];
-        const value2$ = d => d[dataDims[3]];
-        console.log(key$, name$, value$, value2$)
+        const value$ = d => d[dataDims[1]];
         let result = nest()
             .key(key$)
             //  .key(name$)
-            .rollup((v): any => { return d3.sum(v, d => d[dataDims[2]]); })
+            .rollup((v): any => { return d3.sum(v, d => d[dataDims[1]]); })
             .entries(rawData)
             .map(series);
 
@@ -74,7 +71,6 @@ export class NumberCardComponent extends Chart implements OnInit, OnDestroy {
     }
 
     init() {
-      console.log("init");
         this.data = NumberCardComponent.convertData(this.chartOptions.dataDims, this.dataInput);
     }
 

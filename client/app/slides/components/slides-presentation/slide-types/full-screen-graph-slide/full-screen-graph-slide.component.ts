@@ -52,14 +52,13 @@ export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit, 
             cmpName = this.slide.graph;
             console.log("h2");
         }
-        console.log(cmpName)
-        let cmpType: string = cmpName.charAt(0).toUpperCase() + cmpName.slice(1) + 'Component';
 
+        let cmpType: string = cmpName.charAt(0).toUpperCase() + cmpName.slice(1) + 'Component';
+  console.log(cmpType)
         this.setChart(cmpType);
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        console.log('ngOnChanges: ', changes);
         if (this.slide.graph === 'noGraph') return;
         let cmpName: string;
 
@@ -91,7 +90,7 @@ export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit, 
             this.componentRef.instance.dataInput = this.slide.data; // set the input inputData of the abstract class Chart
             this.componentRef.instance.configInput = this.slide.config; // set the input inputData of the abstract class Chart
         }
-
+        console.log(  "ddddddddddddddddd",this.componentRef);
     }
 
 
