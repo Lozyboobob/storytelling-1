@@ -10,6 +10,7 @@ export const environment = {
           articles: '/api/articles',
           users : '/api/users',
           slides: '/api/slides',
+          slidesFix: '/api/slidesFix',
           images: '/api/images',
           imagesServer : '/api/imagesServer',
           search : '/api/search/slides',

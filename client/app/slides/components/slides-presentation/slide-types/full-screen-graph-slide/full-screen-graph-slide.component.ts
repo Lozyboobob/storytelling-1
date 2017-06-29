@@ -81,6 +81,7 @@ export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit, 
         if (this.componentRef) {
             this.componentRef.destroy();
         }
+        if (this.chartsService.getChartType(chartType) === undefined) return;
         let componentFactory = this._componentFactoryResolver.resolveComponentFactory(this.chartsService.getChartType(chartType));
         this.componentRef = this.parent.createComponent(componentFactory);
         if (chartType == 'ImageComponent') {

@@ -1,5 +1,6 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, OnChanges } from '@angular/core';
 import * as shape from 'd3-shape';
+import * as d3 from 'd3';
 import { colorSets } from '@swimlane/ngx-charts/release/utils/color-sets';
 import { Chart } from '../../chart.class';
 import { nest } from 'd3-collection';
@@ -21,7 +22,7 @@ const defaultOptions = {
   templateUrl: './pie-grid-chart.component.html',
   styleUrls: ['./pie-grid-chart.component.scss']
 })
-export class PieGridChartComponent extends Chart implements OnInit, OnDestroy {
+export class PieGridChartComponent extends Chart implements OnInit, OnDestroy, OnChanges {
 
   chartOptions: any;
 
@@ -68,7 +69,10 @@ export class PieGridChartComponent extends Chart implements OnInit, OnDestroy {
     this.chartOptions = { ...this.chartOptions, ...graphConfig };
     this.data = graphData;
   }
-
+  ngOnChanges() {
+    d3.select("#PieGridChartComponent").remove();
+    this.init();
+  }
   init() {
     this.data = PieGridChartComponent.convertData(this.chartOptions.dataDims, this.dataInput);
   }

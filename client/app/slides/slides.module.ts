@@ -15,10 +15,14 @@ import { CodemirrorModule } from 'ng2-codemirror';
 // DRAG & DROP MODULE
 import { DndModule } from 'ng2-dnd';
 
+// HANDSONTABLE MODULE
+import { HotTableModule } from 'ng2-handsontable';
+
 
 import {PrezFormSearchComponent} from './components/prez/search/prez-form-search.component';
 // SLIDES COMPONENTS
 import { SlidesPresentationComponent,
+    SlidesCardComponent,
     FullScreenGraphSlideComponent,
     ImageComponent,
     TitleSlideComponent,
@@ -46,10 +50,11 @@ import { Ng2PageScrollModule } from 'ng2-page-scroll';
 import { DragulaModule } from 'ng2-dragula';
 import { BarChartComponent } from '../charts';
 import { GaugeChartComponent } from '../charts';
-import { NgGraphComponent } from "../charts";
-import { TreemapChartComponent } from "../charts";
+import { NgGraphComponent } from '../charts';
+import { TreemapChartComponent } from '../charts';
+import { ZoomableTreemapChartComponent } from '../charts';
 import { PieGridChartComponent } from '../charts';
-
+import { SunburstChartComponent } from '../charts';
 import { HierarchicalEdgeBundlingComponent } from '../charts/hierarchical-edge-bundling/hierarchical-edge-bundling.component';
 
 import { AdvancedPieChartComponent } from '../charts';
@@ -58,13 +63,16 @@ import { LineChartComponent } from '../charts/line-chart/line-chart.component';
 import { FroalaEditorModule, FroalaViewModule } from 'angular2-froala-wysiwyg';
 import { DendogramComponent } from '../charts/dendogram/dendogram.component';
 import { PieChartComponent } from '../charts/pie-chart/pie-chart.component';
+import { BubbleChartComponent } from '../charts';
+import { WordCloudComponent } from '../charts';
 
+import { AreaChartComponent } from '../charts/ngx-charts/area-chart';
 
 import { CsvInputComponent } from './components/editor/slide-creator/csv-input/csv-input.component';
 import { ImageUploadComponent } from './components/editor/slide-creator/image-upload/image-upload.component';
 
 import { SlidesSettingComponent } from './components/editor/slides-setting/slides-setting.component';
-import { ChartsBuilderComponent, CodeEditorComponent } from "./components/editor/charts-builder";
+import { ChartsBuilderComponent, CodeEditorComponent, DataTableComponent } from './components/editor/charts-builder';
 import { EditorComponent } from './components/editor/editor.component';
 
 import { PrezListComponent } from './components/prez/prez-list.component';
@@ -89,6 +97,7 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         CodemirrorModule,
         FlexLayoutModule,
         DndModule.forRoot(),
+        HotTableModule,
         Ng2PageScrollModule.forRoot(),
         FroalaEditorModule.forRoot(),
         FroalaViewModule.forRoot(),
@@ -108,12 +117,18 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         DendogramComponent,
         NgGraphComponent,
         TreemapChartComponent,
+        ZoomableTreemapChartComponent,
+        BubbleChartComponent,
+        WordCloudComponent,
+        SunburstChartComponent,
+        AreaChartComponent,
         ImageComponent],
 
     declarations: [
         ScrollDirective,
         KeySwitchDirective,
         SlidesPresentationComponent,
+        SlidesCardComponent,
         PrezFormComponent,
         SlideCreatorComponent,
         CsvInputComponent,
@@ -124,6 +139,7 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         LineChartComponent,
         SlidesSettingComponent,
         CodeEditorComponent,
+        DataTableComponent,
         ChartsBuilderComponent,
         EditorComponent,
         PrezListComponent,
@@ -137,16 +153,21 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         PieChartComponent,
         PrezListCardComponent,
         HierarchicalEdgeBundlingComponent,
+        AreaChartComponent,
         PieGridChartComponent,
         DialogComponent,
         NgGraphComponent,
         TreemapChartComponent,
+        ZoomableTreemapChartComponent,
         DendogramComponent,
+        BubbleChartComponent,
+        WordCloudComponent,
+        SunburstChartComponent,
         KeySwitchDirective,
         ToggleFullscreenDirective,
         ImageComponent
     ],
-    exports:[
+    exports: [
       PrezListCardComponent,
       PrezFormSearchComponent
     ],
