@@ -344,7 +344,7 @@ export class LineChartComponent extends Chart implements OnInit {
                         .duration(200)
                         .style("opacity", .9);
 
-                    div.html('<p>' + d["xAxis"] + "<br/>" + d["yAxis"] + '</p>')
+                    div.html('<p>'  +d["series"] + "<br/>"+ d["xAxis"] + "<br/>" + d["yAxis"] + '</p>')
                         .style("left", (d3.event.layerX) + "px")
                         .style("top", (d3.event.layerY + 25) + "px");
                 })
