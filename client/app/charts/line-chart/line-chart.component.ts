@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import * as d3 from 'd3';
+import * as _ from 'lodash';
+import { nest } from 'd3-collection';
 import {Chart} from '../chart.class';
 
 @Component({
@@ -14,45 +16,64 @@ export class LineChartComponent extends Chart implements OnInit {
     private height: number;
     private heightTB: number; //height of thumbnail
     private curtain: any; //for animation
+    /*
+    this line chart is more compatible for continous data like timeline,but also can be uesd for uncontinous data like number or string. the format for time: "Jan 09"
+    */
     private dateMode: boolean;//date data in xAxis
     private tb;
     private paths;
     private dots;
+    private chartOptions: any;
     constructor() {
         super()
     }
 
     ngOnInit() {
-        // Set the data
-        this.data = [];
-        this.dateMode = false;
-        this.heightTB = 60;
-        this.setData(this.dataInput);
+
+        this.chartOptions = { ...this.configInput };
+        d3.select("#LineChartComponent").remove();
+        this.init();
+    }
+
+    ngOnChanges() {
+
+        d3.select("#LineChartComponent").remove();
         this.init();
     }
     brushed(x, xTB, xAxis, svg, area, focus, zoom) {
         if (d3.event.sourceEvent && d3.event.sourceEvent.type === "zoom") return; // ignore brush-by-zoom
         var s = d3.event.selection || xTB.range();
-        x.domain(s.map(xTB.invert, xTB));
+        if (this.dateMode) x.domain(s.map(xTB.invert, xTB));
+        else {
+            let x1 = 0 - this.width * s[0] / (s[1] - s[0]);
+            x.range([x1, this.width * (this.width - s[0]) / (s[1] - s[0])]);
+        }
         focus.select(".area").attr("d", area);
         focus.select(".axis--x").call(xAxis);
-        svg.select(".zoom").call(zoom.transform, d3.zoomIdentity
+
+        if (this.dateMode) svg.select(".zoom").call(zoom.transform, d3.zoomIdentity
             .scale(this.width / (s[1] - s[0]))
             .translate(-s[0], 0));
+
     }
     zoomed(x, xTB, area, xAxis, brush, focus, context) {
         if (d3.event.sourceEvent && d3.event.sourceEvent.type === "brush") return; // ignore zoom-by-brush
         var t = d3.event.transform;
-        x.domain(t.rescaleX(xTB).domain());
+        if (this.dateMode) x.domain(t.rescaleX(xTB).domain());
+        else x.range([t.x, this.width * t.k]);
         focus.select(".area").attr("d", area);
         focus.select(".axis--x").call(xAxis);
-        context.select(".brush").call(brush.move, x.range().map(t.invertX, t));
+
+        if (this.dateMode) context.select(".brush").call(brush.move, x.range().map(t.invertX, t));
     }
     setData(data: any) {
 
         let parseDate = d3.timeParse("%b %Y");
-        if (parseDate(data[0][0].xAxis) != null) this.dateMode = true;
-        data.forEach((d) => {
+
+        this.data = JSON.parse(JSON.stringify(data));
+
+        if (parseDate(this.data[0][0].xAxis) != null) this.dateMode = true;
+        this.data.forEach((d) => {
             d.forEach((d) => {
                 if (this.dateMode) {
                     d['xAxis'] = parseDate(d['xAxis']);
@@ -60,15 +81,51 @@ export class LineChartComponent extends Chart implements OnInit {
                 d['yAxis'] = parseFloat(d['yAxis']);
             })
         });
-        this.data = data;
+
+    }
+    /**
+     * Process json Data to D3.js Bar chart format
+     * @param dataDims :  string[] Selected Dimentions
+     * @param rawData : array<Object> Json data
+     */
+    public static convertData(dataDims: string[], rawData: any) {
+        const series$ = d => d[_.head(dataDims[0])];
+        const xaxis$ = d => d[_.head(dataDims[1])];
+        const yaxis$ = d => d[_.head(dataDims[2])];
+        let result = _.chain(rawData)
+            .groupBy(_.head(dataDims[0]))
+            .map(series)
+            .value();
+        function series(d: any) {
+            return _.map(d, d => {
+                return {
+                    series: series$(d),
+                    xAxis: xaxis$(d),
+                    yAxis: yaxis$(d)
+                }
+            })
+        }
+        return result;
 
     }
     init() {
+        this.data = []
+        if (this.configInput != null)
+            this.data = LineChartComponent.convertData(this.chartOptions.dataDims, this.dataInput);
+        else
+            this.data = this.dataInput;
+        this.dateMode = false;
+        this.heightTB = 60;//set height of thumbnail
 
+        this.setData(this.data);
+        this.drawChart();
+        this.load();
+    }
+    drawChart() {
         let element = this.chartContainer.nativeElement;
         let margin = { top: 0, right: 50, bottom: 0, left: 50 };
         this.width = element.offsetWidth - margin.left - margin.right;
-        this.height = element.offsetHeight - margin.top - margin.bottom - this.heightTB;
+        this.height = element.offsetHeight - margin.top - margin.bottom - this.heightTB - 60;
 
         // Define the div for the tooltip
         var div = d3.select(element).append("div")
@@ -76,9 +133,10 @@ export class LineChartComponent extends Chart implements OnInit {
             .style("opacity", 0);
 
         let svg = d3.select(element).append('svg')
+            .attr("id", "LineChartComponent")
             .attr('width', element.offsetWidth)
-            .attr('height', element.offsetHeight - this.heightTB)
-            .attr('transform', 'translate(' + 0 + ',' + this.height / 2 + ')');
+            .attr('height', element.offsetHeight)
+        //.attr('transform', 'translate(' + 0 + ',' + this.height / 2 + ')');
 
         let value = [];
         this.data.forEach((d) => {
@@ -99,18 +157,21 @@ export class LineChartComponent extends Chart implements OnInit {
             .translateExtent([[0, 0], [this.width, this.height]])
             .extent([[0, 0], [this.width, this.height]])
             .on("zoom", _ => {
+
                 if (d3.event.sourceEvent && d3.event.sourceEvent.type === "brush") return; // ignore zoom-by-brush
 
                 var t = d3.event.transform;
-                x.domain(t.rescaleX(xTB).domain());
                 focus.selectAll(".line").attr("d", line);
                 focus.selectAll(".xAxis").call(xAxis);
-                this.tb.select(".brush").call(brush.move, x.range().map(t.invertX, t));
-                //t.k is the scale
-                zoomScale = t.k
+                this.tb.select(".brush").call(brush.move, xTB.range().map(t.invertX, t));
                 svg.selectAll('.dot')
                     .attr("cx", d => x(d['xAxis']))
                     .attr("cy", d => y(d['yAxis']));
+                if (this.dateMode) x.domain(t.rescaleX(xTB).domain());
+                else x.range([t.x, this.width * t.k]);
+                //t.k is the scale
+                zoomScale = t.k
+
                 if (t.k > 3) {
                     svg.selectAll('.dot').transition()
                         .duration(500)
@@ -139,7 +200,7 @@ export class LineChartComponent extends Chart implements OnInit {
         }
 
         else {
-            x = d3.scaleBand().padding(0.1).domain(xDomain).rangeRound([0, this.width]);
+            x = d3.scalePoint().padding(0.1).domain(xDomain).rangeRound([0, this.width]);
         }
         let y = d3.scaleLinear().domain(yDomain).range([this.height, 0]);
 
@@ -193,7 +254,7 @@ export class LineChartComponent extends Chart implements OnInit {
             xTB = d3.scaleTime().domain(xDomain).rangeRound([0, this.width]);
         }
         else {
-            xTB = d3.scaleBand().padding(0.1).domain(xDomain).rangeRound([0, this.width]);
+            xTB = d3.scalePoint().padding(0.1).domain(xDomain).rangeRound([0, this.width]);
         }
         let yTB = d3.scaleLinear().domain(yDomain).range([this.heightTB, 0]);
 
@@ -228,12 +289,26 @@ export class LineChartComponent extends Chart implements OnInit {
                     .duration(0)
                     .attr('opacity', 0);
                 var s = d3.event.selection || xTB.range();
-                x.domain(s.map(xTB.invert, xTB));
+
+                if (this.dateMode) x.domain(s.map(xTB.invert, xTB));
+                else {
+                    let x1 = 0 - this.width * s[0] / (s[1] - s[0]);
+                    x.range([x1, this.width * (this.width - s[0]) / (s[1] - s[0])]);
+                }
                 focus.selectAll(".line").attr("d", line);
                 focus.selectAll(".xAxis").call(xAxis);
-                svg.select(".zoom").call(zoom.transform, d3.zoomIdentity
+                svg.selectAll('.dot')
+                    .attr("cx", d => x(d['xAxis']))
+                    .attr("cy", d => y(d['yAxis']));
+                if (this.dateMode) svg.select(".zoom").call(zoom.transform, d3.zoomIdentity
                     .scale(this.width / (s[1] - s[0]))
                     .translate(-s[0], 0));
+                else {
+                    svg.select(".zoom").call(zoom.transform, d3.zoomIdentity
+                        .scale(this.width / (s[1] - s[0]))
+                        .translate(-s[0], 0)
+                    );
+                }
             });
 
 
@@ -268,9 +343,10 @@ export class LineChartComponent extends Chart implements OnInit {
                     div.transition()
                         .duration(200)
                         .style("opacity", .9);
-                    div.html('<p>' + d["xAxis"] + "<br/>" + d["yAxis"] + '</p>')
-                      .style("left", (d3.event.pageX) + "px")
-                        .style("top", (d3.event.pageY+25) + "px");
+
+                    div.html('<p>'  +d["series"] + "<br/>"+ d["xAxis"] + "<br/>" + d["yAxis"] + '</p>')
+                        .style("left", (d3.event.layerX) + "px")
+                        .style("top", (d3.event.layerY + 25) + "px");
                 })
                 .on("mouseout", function(d) {
                     let curR = parseInt(d3.select(d3.event.srcElement).attr("r"))
@@ -293,8 +369,7 @@ export class LineChartComponent extends Chart implements OnInit {
             .attr('width', 0)
             .attr('class', 'curtain')
             .attr('transform', "rotate(180) translate(" + (0 - margin.left) + "," + margin.top + ")")
-            .style('fill', '#fafafa')
-        this.load();
+            .style('fill', '#f2f2f2')
     }
 
     load() {

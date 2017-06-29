@@ -31,10 +31,12 @@ export class BarChartComponent extends Chart implements OnInit, OnChanges {
     }
 
     ngOnInit() {
+      console.log("init");
         this.chartOptions = { ...this.configInput };
         d3.select('#BarChartComponent').remove();
         this.init();
     }
+
 
     ngOnChanges() {
         d3.select('#BarChartComponent').remove();
@@ -73,6 +75,7 @@ export class BarChartComponent extends Chart implements OnInit, OnChanges {
     }
 
     init() {
+
         if (this.configInput != null)
             this.data = BarChartComponent.convertData(this.chartOptions.dataDims, this.dataInput);
         else

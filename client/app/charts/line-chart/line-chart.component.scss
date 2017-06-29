@@ -1,14 +1,14 @@
 $axisColor: #4c4c4c;
 
 :host {
-    width: 100%;
+  width: 100%;
 
-    .d3-chart {
+   .d3-chart {
         width: 100%;
-        height: 50%;
+       height: 60vh;
     }
 
-    /deep/ .axis {
+   /deep/ .axis {
         text {
             fill: $axisColor;
             font-size: 14px;
@@ -26,10 +26,7 @@ $axisColor: #4c4c4c;
     /deep/ .dots {
         //clip-path: url("#clip2");
     }
-    /*.area {
-        fill: steelblue;
-        clip-path: url("#clip");
-    }*/
+
     /deep/ .zoom {
         cursor: move;
         fill: none;
