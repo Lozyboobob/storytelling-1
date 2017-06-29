@@ -20,7 +20,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
     @Output() deleteSlideOpt: EventEmitter<number> = new EventEmitter();
     @Input() slideIndex: number;
     @Input() slideSetting: Slide;
-    showForm: boolean = true; //indicator for showing slide setting
+    showForm: boolean = true; // indicator for showing slide setting
     @Input() isInShuffle: boolean;
     slide: Slide = new Slide();
     form: FormGroup;
