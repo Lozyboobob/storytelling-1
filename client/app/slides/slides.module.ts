@@ -22,6 +22,7 @@ import { HotTableModule } from 'ng2-handsontable';
 import {PrezFormSearchComponent} from './components/prez/search/prez-form-search.component';
 // SLIDES COMPONENTS
 import { SlidesPresentationComponent,
+    SlidesCardComponent,
     FullScreenGraphSlideComponent,
     ImageComponent,
     TitleSlideComponent,
@@ -127,6 +128,7 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         ScrollDirective,
         KeySwitchDirective,
         SlidesPresentationComponent,
+        SlidesCardComponent,
         PrezFormComponent,
         SlideCreatorComponent,
         CsvInputComponent,
