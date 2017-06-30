@@ -3,7 +3,7 @@ import {
   PieChartComponent, AdvancedPieChartComponent, BarChartComponent, ForceDirectedGraphComponent,
   GaugeChartComponent, HierarchicalEdgeBundlingComponent, LineChartComponent, DendogramComponent,
   NgGraphComponent, TreemapChartComponent, ZoomableTreemapChartComponent, PieGridChartComponent,
-  BubbleChartComponent, SunburstChartComponent, WordCloudComponent
+  BubbleChartComponent, SunburstChartComponent, WordCloudComponent,AreaChartComponent
 } from 'app/charts';
 import { ImageComponent } from '../components/slides-presentation/slide-types/';
 
@@ -21,7 +21,7 @@ export class ChartsService {
       ['PieGridChartComponent', PieGridChartComponent], ['DendogramComponent', DendogramComponent],
       ['NgGraphComponent', NgGraphComponent], ['ImageComponent', ImageComponent], ['TreemapChartComponent', TreemapChartComponent],
       ['ZoomableTreemapChartComponent', ZoomableTreemapChartComponent], ['BubbleChartComponent', BubbleChartComponent],
-      ['SunburstChartComponent', SunburstChartComponent], ['WordCloudComponent', WordCloudComponent]
+      ['SunburstChartComponent', SunburstChartComponent],['AreaChartComponent', AreaChartComponent],['WordCloudComponent', WordCloudComponent]
     ]);
   }
 
