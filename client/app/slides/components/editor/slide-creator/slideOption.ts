@@ -49,11 +49,11 @@ export const pageLayoutOption: Array<any> = [
     {
         value: "LeftGraphRightText",
         type: "Graph on Left +  Text on Right",
-        icon: ["fa-align-right", "fa-area-chart"]
+        icon: [ "fa-area-chart","fa-align-right"]
     },
     {
         value: "LeftTextRightGraph",
         type: "Text on Left +  Graph on Right",
-        icon: ["fa-area-chart", "fa-align-left"]
+        icon: ["fa-align-left","fa-area-chart" ]
     }
 ];
