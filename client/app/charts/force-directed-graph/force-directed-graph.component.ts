@@ -36,68 +36,77 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
 
     /**
      * Process json Data to D3.js Bar chart format
-     * @param dataDims :  string[] Selected Dimentions 
-     * @param rawData : array<Object> Json data 
+     * @param dataDims :  string[] Selected Dimentions
+     * @param rawData : array<Object> Json data
      */
     public static convertData(dataDims: string[], rawData: any) {
 
-        const source$ = d => d[_.head(dataDims[0])];
-        const sourceGroup$ = d => d[_.head(dataDims[1])];
-        const target$ = d => d[_.head(dataDims[2])];
-        const targetGroup$ = d => d[_.head(dataDims[3])];
-        const value$ = d => d[_.head(dataDims[4])];
+        const hierarchy$ = depth => d => d[dataDims[0][depth]];
+        const value$ = d => d[dataDims[1]];
+        const depthDim = dataDims[0].length;
 
-        let sources = _.chain(rawData)
-            .map(r => getNode(r, source$, sourceGroup$))
-            .uniqBy('id')
+        const root = [{ id: _.head(dataDims[0]), value: 0 }];
+
+        const level0 = _.chain(rawData)
+            .groupBy(_.head(dataDims[0]))
+            .flatMap(d => sum(d, 0, _.head(dataDims[0]) + '.', hierarchy$(0)))
             .value();
 
-        let targets = _.chain(rawData)
-            .map(r => getNode(r, target$, targetGroup$))
-            .uniqBy('id')
-            .value();
-
-        let nodes = _.chain(sources.concat(targets))
-            .uniqBy('id')
-            .value();
-        
-        let links = _.chain(rawData)
-            .map(r => getLink(r, source$, target$, value$))
-            .value();
-
-
-        console.log('nodes: ', nodes);
-        console.log('links: ', links);
-
-        function getNode(raw:any, node$ : Function , nodeGroup$: Function) {
-            return {
-                id: node$(raw),
-                group: nodeGroup$(raw)
+        function sum(d, depth, prefix, fetchId$) {
+            let level = [];
+            depth += 1;
+            if (depth < depthDim) {
+                level = _.chain(d)
+                    .groupBy(dataDims[0][depth])
+                    .flatMap(d1 => sum(d1, depth, prefix + fetchId$(d[0]) + '.', hierarchy$(depth)))
+                    .value();
             }
+            return level.concat({
+                id: prefix + fetchId$(d[0]),
+                value: _.reduce(d, (total, el) => total + value$(el), 0)
+            })
         }
+        let stratify = d3.stratify()
+            .parentId(d => { return d['id'].substring(0, d['id'].lastIndexOf(".")); });
 
-        function getLink(raw:any, source$: Function, target$: Function, value$: Function) {
-            return {
-                source: source$(raw),
-                target: target$(raw),
-                value: value$(raw)
-            }
-        }
-
-        return {
-            nodes: nodes,
-            links: links
-        }
+        let result = stratify(root.concat(level0))
+            .sort((a, b) => { return (a.height - b.height) || a.id.localeCompare(b.id); });
+        return result;
 
     }
 
     init() {
-
         if (this.configInput != null)
             this.data = ForceDirectedGraphComponent.convertData(this.chartOptions.dataDims, this.dataInput);
         else
             this.data = this.dataInput;
+        let nodes = flatten(this.data);
+        let Hierachylinks = d3.hierarchy(this.data).links();
+        let links: { source: number; target: number }[] = simplizeLink(Hierachylinks);
+        console.log(nodes, links)
+        function flatten(root) {
+            var nodes = [], i = 0;
 
+            function recurse(node) {
+                if (node.children) node.children.forEach(recurse);
+                if (!node.id) node.id = ++i;
+                nodes.push(node);
+            }
+
+            recurse(root);
+            return nodes;
+        }
+        function simplizeLink(links) {
+            let result = _.chain(links)
+                .map(d => {
+                    return {
+                        source: d.source.data.id,
+                        target: d.target.data.id
+                    }
+                })
+                .value();
+            return result;
+        }
         let element = this.chartContainer.nativeElement;
         this.width = element.offsetWidth;
         this.height = element.offsetHeight;
@@ -115,30 +124,28 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
         let color = d3.scaleOrdinal(d3.schemeCategory20);
 
         this.simulation = d3.forceSimulation()
-            .force("link", d3.forceLink().id(function (d: { id: string, group: number }) { return d.id; }).distance(50))
-            .force("charge", d3.forceManyBody().strength(-40))
+
+            .force("link", d3.forceLink().id(d => d['id']).distance(30).strength(1))
+            .force("charge", d3.forceManyBody())
             .force("center", d3.forceCenter((element.offsetWidth) / 2, element.offsetHeight / 2))
             .force("x", d3.forceX().strength(0).x(this.width / 2))
             .force("y", d3.forceY().strength(0).y(this.height / 2))
 
-        //      .force("center", d3.forceCenter(width / 2, height / 2))
-
-
-
+        console.log(element.offsetWidth, element.offsetHeight);
         this.link = svg.append("g")
             .attr("class", "links")
             .selectAll(".link")
-            .data(this.data.links)
+            .data(links)
             .enter().append("line")
             .attr("class", "link")
-            .attr("stroke-width", function (d) { return Math.sqrt(d['value']); })
+            //  .attr("stroke-width", function(d) { return Math.sqrt(d['value']); })
             .attr("stroke", "#999")
 
 
         this.node = svg.append("g")
             .attr("class", "nodes")
             .selectAll(".node")
-            .data(this.data.nodes)
+            .data(nodes)
             .enter().append("circle")
             .attr("class", "node")
             .attr("r", 8)
@@ -173,23 +180,23 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
             this.reset()
         });
         this.node.append("title")
-            .text(function (d) { return d.id; });
+            .text(function(d) { return d.id; });
 
         this.simulation
-            .nodes(this.data.nodes)
+            .nodes(nodes)
             .on("tick", () => { return this.ticked() });
 
         this.simulation.force("link")
-            .links(this.data.links)
+            .links(links)
 
 
         //*********legend
         /*  let legendBox = svg.append("g")
               .attr("class", "legends")
               .attr("transform", "translate(120,200)")
-  
-  
-  
+
+
+
           let legendRectSize = 12;
           let legendSpacing = 24;
           let legends = legendBox.selectAll('.legend')
@@ -200,22 +207,22 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
               .attr('transform', function(d, i) {
                   var height = legendRectSize + legendSpacing;
                   var offset = height * color.domain().length / 2;
-  
+
                   var vert = i * height;
                   return 'translate(' + 0 + ',' + vert + ')';
               });
-  
+
           legends.append('circle')
               .attr("r", legendRectSize / 2)
               .style('fill', color)
               .style('stroke', color);
-  
+
           legends.append('text')
               .attr('x', legendRectSize + legendSpacing)
               .attr('y', legendRectSize - legendSpacing / 2)
               .attr("transform", "translate(0,5)")
               .text(d => "group" + d);
-  */
+        */
 
         this.load();
 
@@ -223,17 +230,18 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
     }
 
     ticked() {
+
         this.link
-            .attr("x1", function (d) {
+            .attr("x1", function(d) {
                 return d.source.x;
             })
-            .attr("y1", function (d) { return d.source.y; })
-            .attr("x2", function (d) { return d.target.x; })
-            .attr("y2", function (d) { return d.target.y; });
+            .attr("y1", function(d) { return d.source.y; })
+            .attr("x2", function(d) { return d.target.x; })
+            .attr("y2", function(d) { return d.target.y; });
 
         this.node
-            .attr("cx", function (d) { return d.x; })
-            .attr("cy", function (d) { return d.y; });
+            .attr("cx", function(d) { return d.x; })
+            .attr("cy", function(d) { return d.y; });
     }
 
     dragged(d) {
@@ -291,7 +299,7 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
         this.shrink();
         setTimeout(_ => {
             this.expand()
-        }, 800);
+        }, 500);
     }
     setData(data) {
         //  this.data=data[0];
