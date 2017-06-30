@@ -115,7 +115,7 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
             //  .attr('height', element.offsetHeight);
             //    .atrr("overflow", "visible")
             .attr("preserveAspectRatio", "xMidYMid meet")
-            .attr("viewBox", "100 0 " + (element.offsetWidth) + " " + element.offsetHeight)
+            .attr("viewBox", "0 0 " + (element.offsetWidth) + " " + element.offsetHeight)
             .classed("allow-overflow", true);
 
         //var width = +this.svg.attr("width");
@@ -131,7 +131,7 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
             .force("x", d3.forceX().strength(0).x(this.width / 2))
             .force("y", d3.forceY().strength(0).y(this.height / 2))
 
-        console.log(element.offsetWidth, element.offsetHeight);
+        console.log(element.offsetWidth, element.offsetHeight,this.height,this.width);
         this.link = svg.append("g")
             .attr("class", "links")
             .selectAll(".link")
