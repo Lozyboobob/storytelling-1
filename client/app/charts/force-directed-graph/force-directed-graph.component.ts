@@ -18,6 +18,9 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
     private link: any;
     private node: any;
     private chartOptions: any;
+    private maxValue: any;
+    private minValue: any;
+    private maxDepth: number;
 
     constructor() {
         super()
@@ -66,11 +69,9 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
                 value: _.reduce(d, (total, el) => total + value$(el), 0)
             })
         }
-        let stratify = d3.stratify()
-            .parentId(d => { return d['id'].substring(0, d['id'].lastIndexOf(".")); });
+        let result = root.concat(level0);
 
-        let result = stratify(root.concat(level0))
-            .sort((a, b) => { return (a.height - b.height) || a.id.localeCompare(b.id); });
+
         return result;
 
     }
@@ -80,6 +81,19 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
             this.data = ForceDirectedGraphComponent.convertData(this.chartOptions.dataDims, this.dataInput);
         else
             this.data = this.dataInput;
+
+        //convert data to hierachy
+        let convertedData = this.data;
+        this.maxValue = d3.max(convertedData, d => d['value']);
+        this.minValue = d3.min(convertedData, d => d['value']);
+        let stratify = d3.stratify()
+            .parentId(d => { return d['id'].substring(0, d['id'].lastIndexOf(".")); });
+
+        this.data = stratify(convertedData)
+            .sort((a, b) => { return (a.height - b.height) || a.id.localeCompare(b.id); });
+
+        this.maxDepth = this.data.height;
+
         let nodes = flatten(this.data);
         let Hierachylinks = d3.hierarchy(this.data).links();
         let links: { source: number; target: number }[] = simplizeLink(Hierachylinks);
@@ -107,6 +121,7 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
                 .value();
             return result;
         }
+        console.log(nodes);
         let element = this.chartContainer.nativeElement;
         this.width = element.offsetWidth;
         this.height = element.offsetHeight;
@@ -115,7 +130,7 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
             //  .attr('height', element.offsetHeight);
             //    .atrr("overflow", "visible")
             .attr("preserveAspectRatio", "xMidYMid meet")
-            .attr("viewBox", "0 0 " + (element.offsetWidth) + " " + element.offsetHeight)
+            .attr("viewBox", "-100 0 " + (element.offsetWidth) + " " + element.offsetHeight)
             .classed("allow-overflow", true);
 
         //var width = +this.svg.attr("width");
@@ -131,7 +146,7 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
             .force("x", d3.forceX().strength(0).x(this.width / 2))
             .force("y", d3.forceY().strength(0).y(this.height / 2))
 
-        console.log(element.offsetWidth, element.offsetHeight,this.height,this.width);
+        console.log(element.offsetWidth, element.offsetHeight, this.height, this.width);
         this.link = svg.append("g")
             .attr("class", "links")
             .selectAll(".link")
@@ -148,8 +163,10 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
             .data(nodes)
             .enter().append("circle")
             .attr("class", "node")
-            .attr("r", 8)
-            .attr("fill", (d) => { return color(d['group']); })
+            .attr("r", d => {
+                return d['data']['value'] * 15 / this.maxValue + 5;
+            })
+            .attr("fill", (d) => { return (d['parent'] && d["depth"] == this.maxDepth) ? color(d['parent']['id']) : "grey"; })
             .on("click", _ => {
                 let targetId = d3.select(d3.event.target).datum()['id'];
                 //fade all node
@@ -191,7 +208,7 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
 
 
         //*********legend
-        /*  let legendBox = svg.append("g")
+          let legendBox = svg.append("g")
               .attr("class", "legends")
               .attr("transform", "translate(120,200)")
 
@@ -221,8 +238,8 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
               .attr('x', legendRectSize + legendSpacing)
               .attr('y', legendRectSize - legendSpacing / 2)
               .attr("transform", "translate(0,5)")
-              .text(d => "group" + d);
-        */
+              .text(d =>  d);
+
 
         this.load();
 
@@ -282,17 +299,17 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
         this.link.filter((d, i) => i == link["index"]).attr("opacity", .1);
     }
     centerPoint(node) {
-        this.node.filter((d, i) => i == node["index"]).attr("r", 15).attr("opacity", 1);
+        this.node.filter((d, i) => i == node["index"]).attr("r", d => d['data']['value'] * 15 / this.maxValue + 20).attr("opacity", 1);
     }
     focus(node) {
         this.node.filter((d, i) => i == node["index"]).attr("opacity", 1);
     }
     fade(node) {
-        this.node.filter((d, i) => i == node["index"]).attr("r", 8).attr("opacity", .1);
+        this.node.filter((d, i) => i == node["index"]).attr("r", d => d['data']['value'] * 15 / this.maxValue + 5).attr("opacity", .1);
     }
     reset() {
         console.log("reset");
-        this.node.transition().duration(200).attr("r", 8).attr("opacity", 1);
+        this.node.transition().duration(200).attr("r", d => d['data']['value'] * 15 / this.maxValue + 5).attr("opacity", 1);
         this.link.transition().duration(200).attr("opacity", 1);
     }
     transition() {
