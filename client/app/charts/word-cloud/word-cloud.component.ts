@@ -1,5 +1,6 @@
 import { Component, OnInit, OnChanges, ViewChild, ElementRef, Input, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import * as D3 from 'd3';
+import * as d3Scale from 'd3-scale';
 import * as _ from 'lodash';
 import { Chart } from '../chart.class';
 
@@ -14,7 +15,7 @@ export class WordCloudComponent extends Chart implements OnInit, OnChanges {
 
   @ViewChild('chart') private chartContainer: ElementRef;
   private data: Array<any> = [];
-  private margin: any = { top: 50, bottom: 50, left: 100, right: 100 };
+  private margin: any = { top: 0, bottom: 0, left: 0, right: 0 };
   private chart: any;
   private width: number;
   private height: number;
@@ -25,6 +26,7 @@ export class WordCloudComponent extends Chart implements OnInit, OnChanges {
   private yAxis: any;
   private loaded = true;
   private chartOptions: any;
+  private max: any;
 
   constructor() {
     super();
@@ -46,6 +48,7 @@ export class WordCloudComponent extends Chart implements OnInit, OnChanges {
   * @param dataDims :  string[] Selected Dimentions
   * @param rawData : array<Object> Json data
   */
+  // tslint:disable-next-line:member-ordering
   public static convertData(dataDims: string[], rawData: any) {
     const name$ = d => d[_.head(dataDims[0])];
     const value$ = d => d[_.head(dataDims[1])];
@@ -62,15 +65,18 @@ export class WordCloudComponent extends Chart implements OnInit, OnChanges {
       .map(sum)
       .value();
 
-    const max =  _.maxBy(data, 'value');
+    const max = _.maxBy(data, 'value');
+    const totalV = _.reduce(data, (total, el) => total + el.value, 0);
 
     return _.chain(data)
-      .map((d: any) => { return {name: d.name, value: 10 + (d.value / max.value) * 90 }; } )
+      .map((d: any) => { return {name: d.name, value:  Math.trunc((d.value / totalV) * 100) }; } )
       .value();
   }
 
   setData(data) {
-    if (data.length === 0) return;
+    if (data.length === 0){
+      return;
+    }
     this.data = data;
   }
 
@@ -80,7 +86,6 @@ export class WordCloudComponent extends Chart implements OnInit, OnChanges {
     } else {
       this.data = this.dataInput;
     }
-
     this.drawChart();
     this.load();
   }
@@ -94,17 +99,18 @@ export class WordCloudComponent extends Chart implements OnInit, OnChanges {
     this.width = element.offsetWidth - this.margin.left - this.margin.right;
     this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
     const size = [_.min([50 * this.data.length,  this.width]),  _.min([50 * this.data.length,  this.height])];
-    console.log(size);
 
     const fill = D3.scaleOrdinal(D3.schemeCategory20);
+
+    const xScale = d3Scale.scaleSqrt().domain([0, 100]).range([10, 100]);
 
     // Construct the word cloud's SVG element
     const svg = D3.select(element).append('svg')
       .attr('id', 'WordCloudComponent')
-      .attr('width', element.offsetWidth)
-      .attr('height', element.offsetHeight)
+      .attr('width', this.width)
+      .attr('height', this.height)
       .append('g')
-      .attr('transform', `translate(${element.offsetWidth / 2}, ${element.offsetHeight / 2})`);
+      .attr('transform', `translate(${element.offsetWidth >> 1}, ${element.offsetHeight >> 1})`);
 
     const cloud = svg.selectAll('g text')
       .data(this.data, function (d: any) { return d.name; });
@@ -118,32 +124,36 @@ export class WordCloudComponent extends Chart implements OnInit, OnChanges {
       .attr('font-size', 1)
       .text(function (d) { return d.name; });
 
-    d3.layout.cloud().size(size)
+    d3.layout.cloud().size([this.width, this.height])
+      .timeInterval(20)
       .words(this.data)
       .padding(5)
       .rotate(function () { return ~~(Math.random() * 2) * 90; })
       .font('Impact')
-      .fontSize(function (d) { return d.value; })
-      .on('end', draw)
+      .spiral('archimedean')
+      .fontSize(function (d) {  return xScale(+d.value); })
+      .text(function(d) { return d.name; })
+      .on('end', w => { this.draw(svg, xScale, w); })
       .start();
+  }
 
-    // Draw the word cloud
-    function draw(words) {
-      const cloud = svg.selectAll('g text')
+  // Draw the word cloud
+  draw(svg, xScale, words) {
+
+      const clouds = svg.selectAll('g text')
         .data(words, function (d: any) { return d.name; });
 
       // Entering and existing words
-      cloud
+      clouds
         .transition()
         .duration(600)
-        .style('font-size', function (d) { return d.value + 'px'; })
+        .style('font-size', function (d) { return xScale(+d.value) + 'px'; })
         .attr('transform', function (d) {
           return 'translate(' + [d.x, d.y] + ')rotate(' + d.rotate + ')';
         })
         .style('fill-opacity', 1);
     }
 
-  }
   // FIXME
   load() { }
 
