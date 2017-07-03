@@ -109,7 +109,7 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit, AfterV
         let nodes = flatten(this.data);
         let Hierachylinks = d3.hierarchy(this.data).links();
         let links: { source: number; target: number }[] = simplizeLink(Hierachylinks);
-        console.log(nodes, links)
+
         function flatten(root) {
             var nodes = [], i = 0;
 
@@ -161,7 +161,7 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit, AfterV
             .force("x", d3.forceX().strength(0).x(this.width / 2))
             .force("y", d3.forceY().strength(0).y(this.height / 2))
 
-        console.log(element.offsetWidth, element.offsetHeight, this.height, this.width);
+
         this.link = svg.append("g")
             .attr("class", "links")
             .selectAll(".link")
@@ -222,7 +222,7 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit, AfterV
 
 
         //*********legend
-        console.log(legendEle);
+
         let legendBox = d3.select(legendEle).append('svg')
             .attr("id", "ForceDirectedGraphComponentLegend")
             .attr("class", "legends")
@@ -259,7 +259,7 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit, AfterV
             .attr('y', legendRectSize - legendSpacing / 2)
             .attr("transform", "translate(0,5)")
             .text(d => d.split('.')[this.maxDepth - 1]);
-        console.log(document.getElementById("ForceDirectedGraphComponentLegend"), document.getElementsByClassName('legend')[0], document.getElementsByClassName('legend')[0].getBoundingClientRect());
+
         let d = document.getElementById("ForceDirectedGraphComponentLegend").getBoundingClientRect();
 
         //get legend max width
@@ -269,7 +269,7 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit, AfterV
         for (let i = 0; i < lEle.length; i++) {
             if (lEle[i].getBoundingClientRect().width > maxWL) maxWL = lEle[i].getBoundingClientRect().width;
         }
-        console.log(maxWL)
+
         legendBox.attr("width", (maxWL+26) + "px")
             .attr("height", (document.getElementsByClassName('legend').length * (legendRectSize + legendSpacing) + 20) + "px")
 
@@ -343,7 +343,7 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit, AfterV
         this.node.filter((d, i) => i == node["index"]).attr("r", d => d['data']['value'] * 15 / this.maxValue + 5).attr("opacity", .1);
     }
     reset() {
-        console.log("reset");
+
         this.node.transition().duration(200).attr("r", d => d['data']['value'] * 15 / this.maxValue + 5).attr("opacity", 1);
         this.link.transition().duration(200).attr("opacity", 1);
     }
