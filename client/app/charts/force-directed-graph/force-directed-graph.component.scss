@@ -4,16 +4,19 @@
     .d3-chart {
         width: 100%;
         height: 80vh;
+        display: flex;
 
-        display:flex;
         .legend-container {
             //overflow: scroll !important;
             flex: initial;
             width: 200px;
             min-width: 100px;
+            height: 60vh;
+            overflow-y: scroll;
         }
-        .svg-container{
-          flex:1;
+
+        .svg-container {
+            flex: 1;
         }
     }
 }

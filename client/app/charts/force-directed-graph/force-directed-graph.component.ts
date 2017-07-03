@@ -32,12 +32,20 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit, AfterV
         // FIXME
         this.data = this.dataInput[0];
 
-        this.chartOptions = { ...this.configInput };
+
 
 
     }
 
     ngAfterViewInit() {
+        this.chartOptions = { ...this.configInput };
+        d3.select("#ForceDirectedGraphComponent").remove();
+        d3.select("#ForceDirectedGraphComponentLegend").remove();
+        this.init();
+    }
+    ngOnChanges() {
+        d3.select("#ForceDirectedGraphComponent").remove();
+        d3.select("#ForceDirectedGraphComponentLegend").remove();
         this.init();
     }
 
@@ -130,8 +138,9 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit, AfterV
         let legendEle = this.legendContainer.nativeElement;
         this.width = element.offsetWidth;
         this.height = element.offsetHeight;
-        console.log(element.width);
+
         let svg = d3.select(element).append('svg')
+            .attr("id", "ForceDirectedGraphComponent")
             .attr('width', element.offsetWidth)
             .attr('height', element.offsetHeight)
             //    .atrr("overflow", "visible")
@@ -215,11 +224,14 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit, AfterV
         //*********legend
         console.log(legendEle);
         let legendBox = d3.select(legendEle).append('svg')
+            .attr("id", "ForceDirectedGraphComponentLegend")
             .attr("class", "legends")
-            .attr('width', legendEle.offsetWidth)
-            .attr('height', legendEle.offsetHeight)
-            .attr("transform", "translate(40,20)")
-            .attr("overflow", "visible");
+            //.attr('width', legendEle.offsetWidth)
+            //.attr('height', legendEle.offsetHeight)
+          //  .attr("viewBox", "0 0 " + (legendEle.offsetWidth) + " " + legendEle.offsetHeight)
+            //.attr("transform", "translate(40,20)")
+            .attr("overflow", "scroll");
+
 
 
 
@@ -233,9 +245,8 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit, AfterV
             .attr('transform', function(d, i) {
                 var height = legendRectSize + legendSpacing;
                 var offset = height * color.domain().length / 2;
-
                 var vert = i * height + 20;
-                return 'translate(' + 0 + ',' + vert + ')';
+                return 'translate(' + 26 + ',' + vert + ')';
             });
 
         legends.append('circle')
@@ -248,7 +259,19 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit, AfterV
             .attr('y', legendRectSize - legendSpacing / 2)
             .attr("transform", "translate(0,5)")
             .text(d => d.split('.')[this.maxDepth - 1]);
+        console.log(document.getElementById("ForceDirectedGraphComponentLegend"), document.getElementsByClassName('legend')[0], document.getElementsByClassName('legend')[0].getBoundingClientRect());
+        let d = document.getElementById("ForceDirectedGraphComponentLegend").getBoundingClientRect();
 
+        //get legend max width
+        let maxWL = 0;
+
+        let lEle = document.getElementsByClassName('legend')
+        for (let i = 0; i < lEle.length; i++) {
+            if (lEle[i].getBoundingClientRect().width > maxWL) maxWL = lEle[i].getBoundingClientRect().width;
+        }
+        console.log(maxWL)
+        legendBox.attr("width", (maxWL+26) + "px")
+            .attr("height", (document.getElementsByClassName('legend').length * (legendRectSize + legendSpacing) + 20) + "px")
 
 
 
