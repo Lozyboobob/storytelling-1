@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input, AfterViewInit } from '@angular/core';
 import * as d3 from 'd3';
 import * as _ from 'lodash';
 import { Chart } from '../chart.class';
@@ -8,8 +8,9 @@ import { Chart } from '../chart.class';
     templateUrl: './force-directed-graph.component.html',
     styleUrls: ['./force-directed-graph.component.scss']
 })
-export class ForceDirectedGraphComponent extends Chart implements OnInit {
+export class ForceDirectedGraphComponent extends Chart implements OnInit, AfterViewInit {
     @ViewChild('chart') private chartContainer: ElementRef;
+    @ViewChild('legend') private legendContainer: ElementRef;
     private chart: any;
     private width: number;
     private height: number;
@@ -33,9 +34,12 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
 
         this.chartOptions = { ...this.configInput };
 
-        this.init();
+
     }
 
+    ngAfterViewInit() {
+        this.init();
+    }
 
     /**
      * Process json Data to D3.js Bar chart format
@@ -121,16 +125,18 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
                 .value();
             return result;
         }
-        console.log(nodes);
+
         let element = this.chartContainer.nativeElement;
+        let legendEle = this.legendContainer.nativeElement;
         this.width = element.offsetWidth;
         this.height = element.offsetHeight;
+        console.log(element.width);
         let svg = d3.select(element).append('svg')
-            //    .attr('width', element.offsetWidth)
-            //  .attr('height', element.offsetHeight);
+            .attr('width', element.offsetWidth)
+            .attr('height', element.offsetHeight)
             //    .atrr("overflow", "visible")
-            .attr("preserveAspectRatio", "xMidYMid meet")
-            .attr("viewBox", "-100 0 " + (element.offsetWidth) + " " + element.offsetHeight)
+            //    .attr("preserveAspectRatio", "xMidYMid meet")
+            //  .attr("viewBox", "0 0 " + (element.offsetWidth) + " " + element.offsetHeight)
             .classed("allow-overflow", true);
 
         //var width = +this.svg.attr("width");
@@ -197,8 +203,7 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
             this.reset()
         });
         this.node.append("title")
-            .text(function(d) { return d.id; });
-
+            .text(d => (d.data) ? d.id + " : " + d.data.value : d.id);
         this.simulation
             .nodes(nodes)
             .on("tick", () => { return this.ticked() });
@@ -208,37 +213,44 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit {
 
 
         //*********legend
-          let legendBox = svg.append("g")
-              .attr("class", "legends")
-              .attr("transform", "translate(120,200)")
+        console.log(legendEle);
+        let legendBox = d3.select(legendEle).append('svg')
+            .attr("class", "legends")
+            .attr('width', legendEle.offsetWidth)
+            .attr('height', legendEle.offsetHeight)
+            .attr("transform", "translate(40,20)")
+            .attr("overflow", "visible");
 
 
 
-          let legendRectSize = 12;
-          let legendSpacing = 24;
-          let legends = legendBox.selectAll('.legend')
-              .data(color.domain())
-              .enter()
-              .append('g')
-              .attr('class', 'legend')
-              .attr('transform', function(d, i) {
-                  var height = legendRectSize + legendSpacing;
-                  var offset = height * color.domain().length / 2;
+        let legendRectSize = 12;
+        let legendSpacing = 24;
+        let legends = legendBox.selectAll('.legend')
+            .data(color.domain())
+            .enter()
+            .append('g')
+            .attr('class', 'legend')
+            .attr('transform', function(d, i) {
+                var height = legendRectSize + legendSpacing;
+                var offset = height * color.domain().length / 2;
 
-                  var vert = i * height;
-                  return 'translate(' + 0 + ',' + vert + ')';
-              });
+                var vert = i * height + 20;
+                return 'translate(' + 0 + ',' + vert + ')';
+            });
 
-          legends.append('circle')
-              .attr("r", legendRectSize / 2)
-              .style('fill', color)
-              .style('stroke', color);
+        legends.append('circle')
+            .attr("r", legendRectSize / 2)
+            .style('fill', color)
+            .style('stroke', color);
 
-          legends.append('text')
-              .attr('x', legendRectSize + legendSpacing)
-              .attr('y', legendRectSize - legendSpacing / 2)
-              .attr("transform", "translate(0,5)")
-              .text(d =>  d);
+        legends.append('text')
+            .attr('x', legendRectSize + legendSpacing)
+            .attr('y', legendRectSize - legendSpacing / 2)
+            .attr("transform", "translate(0,5)")
+            .text(d => d.split('.')[this.maxDepth - 1]);
+
+
+
 
 
         this.load();
