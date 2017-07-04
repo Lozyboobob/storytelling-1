@@ -212,7 +212,7 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit, AfterV
             this.reset()
         });
         this.node.append("title")
-            .text(d => (d.data) ? d.id + " : " + d.data.value : d.id);
+            .text(d => (d.data) ? d.id.split('.')[d.depth - 1] + " : " + d.data.value : d.id);
         this.simulation
             .nodes(nodes)
             .on("tick", () => { return this.ticked() });
