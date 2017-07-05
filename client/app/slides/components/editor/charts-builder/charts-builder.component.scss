@@ -316,6 +316,9 @@ $color-text-lighter: #fff;
   flex-wrap : wrap;
   order: 1;
   flex: 5;
+  overflow: auto;
+  max-height: 700px;
+  margin-right: 1%;
 }
 md-chip {
   background: rgb(36, 39, 45);
