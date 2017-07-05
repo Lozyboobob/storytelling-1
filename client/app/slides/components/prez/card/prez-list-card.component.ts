@@ -64,7 +64,7 @@ export class PrezListCardComponent implements OnInit {
         this.slidesService.submitSlides(newSlide)
             .subscribe(
             data => {
-                console.log('created');
+                console.log('created',data);
                 this.duplicateslidesOpt.emit();
                 // this.router.navigate(['/login']);
                 //this.router.navigate(['/slides']);
