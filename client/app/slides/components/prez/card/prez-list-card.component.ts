@@ -5,6 +5,7 @@ import { Slides } from '../../../models/slides';
 import { SlidesService } from '../../../services/slides.service';
 import { MdDialog } from '@angular/material';
 import { DialogComponent} from '../../dialog/dialog.component';
+import {NotifBarService} from 'app/core';
 @Component({
     selector: 'app-prez-list-card',
     templateUrl: './prez-list-card.component.html',
@@ -18,7 +19,7 @@ export class PrezListCardComponent implements OnInit {
     @select(['session', 'token']) loggedIn$: Observable<string>;
     @select(['session', 'user', 'username']) username$: Observable<Object>;
 
-    constructor(private slidesService: SlidesService, private dialog: MdDialog) {
+    constructor(private slidesService: SlidesService, private dialog: MdDialog, private notifBarService: NotifBarService) {
     }
 
     ngOnInit() {
@@ -32,13 +33,19 @@ export class PrezListCardComponent implements OnInit {
         e.stopPropagation();
         this.slides.slidesSetting.public = !this.slides.slidesSetting.public;
         this.slidesService.updateSlide(this.slides, this.slides._id)
-            .subscribe(elm => console.log(elm.slidesSetting.public));
+            .subscribe(
+            elm => this.notifBarService.showNotif("set upload status successfully!"),
+            error => this.notifBarService.showNotif("fail to set upload status, error is " + error)
+            );
     }
     toggleFavorite(e) {
         e.stopPropagation();
         this.slides.slidesSetting.favorite = !this.slides.slidesSetting.favorite;
         this.slidesService.updateSlide(this.slides, this.slides._id)
-            .subscribe(elm => console.log(elm.slidesSetting.favorite));
+            .subscribe(
+            elm => this.notifBarService.showNotif("set favorte status successfully!"),
+            error => this.notifBarService.showNotif("fail to set favorite status, error is " + error)
+            );
     }
     /*delete the whole slides*/
     deleteSlides(e, id) {
@@ -48,29 +55,26 @@ export class PrezListCardComponent implements OnInit {
             if (result === 'YES') {
                 this.slidesService.deleteSlides(id)
                     .subscribe(res => {
-                        console.log("update succesfully");
-                        // this.router.navigate(['/slides']);
+                        this.notifBarService.showNotif("the slides has been deleted successfully!");
                         this.deletedSlides.emit(id);
                     },
-                    error => console.log(error));
+                    error => this.notifBarService.showNotif("fail to delete the slides, error is " + error));
             }
         });
 
     }
     /*duplicate slides*/
-    duplicateSlides(e,slides) {
+    duplicateSlides(e, slides) {
         e.stopPropagation();
         let newSlide: Slides = new Slides(slides);
         this.slidesService.submitSlides(newSlide)
             .subscribe(
             data => {
-                console.log('created',data);
                 this.duplicateslidesOpt.emit();
-                // this.router.navigate(['/login']);
-                //this.router.navigate(['/slides']);
+                this.notifBarService.showNotif("slides has been copied");
             },
             error => {
-                console.log('fail to createSlides');
+                this.notifBarService.showNotif("Opps! fail to copy the slides. error :" + error);
             });
     }
 }

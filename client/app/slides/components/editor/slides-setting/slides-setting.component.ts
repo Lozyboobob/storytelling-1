@@ -18,11 +18,9 @@ export class SlidesSettingComponent implements OnInit, OnChanges {
     }
 
     ngOnInit() {
-        console.log("setting", this.setting);
     }
     ngOnChanges() {
         if (this.setting) {
-            console.log("get setting", this.setting);
             this.slidesSetting = this.setting;
             this.form = this._buildForm();
             this.validService.changeSettingValid(this.form.valid)
@@ -62,7 +60,6 @@ export class SlidesSettingComponent implements OnInit, OnChanges {
         this.onSettingChange.emit(this.slidesSetting);
     }
     upload(image) {
-        console.log('image',image);
        this.slidesSetting.banner = image;
        this.onSettingChange.emit(this.slidesSetting);
     }

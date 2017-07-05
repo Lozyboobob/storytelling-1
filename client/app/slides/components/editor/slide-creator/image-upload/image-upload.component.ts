@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, Input,O
 import { SlidesService } from '../../../../services/slides.service';
 import { FileUploader} from 'ng2-file-upload';
 import {Http } from '@angular/http';
+import {NotifBarService} from 'app/core'
 const URL = 'localhost:3000/api/images/';
 
 @Component({
@@ -24,7 +25,7 @@ export class ImageUploadComponent implements OnInit,OnChanges {
     image: any = undefined;
     imgPreview  = '';
     id: any;
-    constructor(private el: ElementRef, private slidesService: SlidesService) {
+    constructor(private el: ElementRef, private slidesService: SlidesService,private notifBarService:NotifBarService) {
     }
     ngOnInit() {
     }
@@ -37,7 +38,7 @@ export class ImageUploadComponent implements OnInit,OnChanges {
               this.imgPreview=image;
             },
             error => {
-                console.log("fail ");
+                this.notifBarService.showNotif("fail to get image");
             });
       }
     }
@@ -65,9 +66,6 @@ export class ImageUploadComponent implements OnInit,OnChanges {
             var reader: any = new FileReader();
 
             reader.onload = (e) => {
-                console.log("going to append", e.target);
-
-
                 //upload image
                 let img = {
                     data: file,
@@ -80,16 +78,17 @@ export class ImageUploadComponent implements OnInit,OnChanges {
                       this.imgPreview = image.path;
                       console.log("get image",image);
                       this.setImage.emit(image._id);
+                      this.notifBarService.showNotif("upload image successfully")
                     },
                     error => {
-                        console.log("fail to createSlides");
+                        this.notifBarService.showNotif("opps! fail to upload image: "+error);
                     });
 
             }
 
             reader.readAsDataURL(file);
         } else {
-            console.log("the file format is not correct")
+            this.notifBarService.showNotif("sorry, the image format is not supported")
         }
     }
 }
