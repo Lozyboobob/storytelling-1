@@ -47,14 +47,11 @@ export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit, 
         if (this.slide.config && this.slide.config.chartType
             && this.slide.config.chartType.cmpName != null) {
             cmpName = this.slide.config.chartType.cmpName;
-            console.log("h");
         } else {
             cmpName = this.slide.graph;
-            console.log("h2");
         }
 
         let cmpType: string = cmpName.charAt(0).toUpperCase() + cmpName.slice(1) + 'Component';
-  console.log(cmpType)
         this.setChart(cmpType);
     }
 
@@ -90,7 +87,7 @@ export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit, 
             this.componentRef.instance.dataInput = this.slide.data; // set the input inputData of the abstract class Chart
             this.componentRef.instance.configInput = this.slide.config; // set the input inputData of the abstract class Chart
         }
-        console.log(  "ddddddddddddddddd",this.componentRef);
+
     }
 
 
