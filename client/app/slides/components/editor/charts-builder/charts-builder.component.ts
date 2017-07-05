@@ -152,16 +152,18 @@ export class ChartsBuilderComponent implements OnInit, DoCheck{
     console.log('formatTable: ', this.formatTable);
   }
   loadData() {
-    this.headerValues = this.inputOptions.headerValues;
-    this.dataDims = this.inputOptions.dataDims;
-    this.data = [];
-    this.chartType = this.chartTypes.find(chart => chart.name === this.inputOptions.chartType.name);
-    this.errors = [];
-    this._dataText = babyparse.unparse(this.inputData);
-    this.rawData = this.inputData;
-    this.chartOptions = { ...defaultOptions };
+    if ( this.inputOptions) {
+      this.headerValues = this.inputOptions.headerValues;
+      this.dataDims = this.inputOptions.dataDims;
+      this.chartType = this.chartTypes.find(chart => chart.name === this.inputOptions.chartType.name);
+      this.data = [];
+      this.errors = [];
+      this._dataText = babyparse.unparse(this.inputData);
+      this.rawData = this.inputData;
+      this.chartOptions = { ...defaultOptions };
 
-    this.processData();
+      this.processData();
+    }
   }
 
   useExample() {
