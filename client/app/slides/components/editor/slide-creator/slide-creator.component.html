@@ -1,14 +1,16 @@
 <form novalidate [formGroup]="form" (ngSubmit)="f.form.valid" #f="ngForm">
   <md-card>
     <md-toolbar (click)="toggleForm()">
-     <div>
-      <span class="section-title">{{slideIndex}} - {{slide.pageTitle.title}}</span>
-     </div>
-      <a (click)="deleteSlide($event)" *ngIf="!isInShuffle" class="delete"><md-icon>delete</md-icon></a>
+      <div>
+        <span class="section-title">{{slideIndex}} - {{slide.pageTitle.title}}</span>
+      </div>
+      <a (click)="deleteSlide($event)" *ngIf="!isInShuffle" class="delete">
+        <md-icon>delete</md-icon>
+      </a>
       <div class="align-right">
-          <md-icon *ngIf="showForm">keyboard_arrow_down</md-icon>
-          <md-icon *ngIf="!showForm">keyboard_arrow_right</md-icon>
-        </div>
+        <md-icon *ngIf="showForm">keyboard_arrow_down</md-icon>
+        <md-icon *ngIf="!showForm">keyboard_arrow_right</md-icon>
+      </div>
     </md-toolbar>
 
     <md-card-content *ngIf="showForm">
@@ -27,8 +29,7 @@
           <span><i class="fa fa-check-circle-o fa-fw" [class.checked]="slide.pageLayout"></i>Select Page Layout*</span>
         </md-toolbar-row>
         <div fxFlex="19" *ngFor="let layout of pageLayout">
-          <input type="radio" [attr.id]="layout.value+slide.index" name="layout-selector+slide.index" (change)="pageLayoutChange(layout.value)"
-            [attr.checked]="layout.value==slide.pageLayout?true:null" />
+          <input type="radio" [attr.id]="layout.value+slide.index" name="layout-selector+slide.index" (change)="pageLayoutChange(layout.value)" [attr.checked]="layout.value==slide.pageLayout?true:null" />
 
           <label fxFlex="100" for={{layout.value+slide.index}}><a fxFlex="100" md-raised-button mdTooltip={{layout.type}}><i *ngFor="let icon of layout.icon" [ngStyle]="{ 'padding': '24px'}" class="fa {{icon}} fa-4x"></i></a></label>
 
@@ -48,6 +49,15 @@
             <md-toolbar-row>
               <span><i class="fa fa-check-circle-o fa-fw" [class.checked]="slide.text"></i>Input Text Content*</span>
             </md-toolbar-row>
+          </div>
+          <div class="text-vertical-align">
+            <span>Choose text vertical align: </span>
+            <input type="radio" id="ver-top" name="ver-align" (change)="textAlignChange('TOP')" [attr.checked]="slide.textVerAlign=='LEFT'?true:null" />
+            <label  for="ver-top"><a  md-raised-button mdTooltip="">LEFT</a></label>
+            <input type="radio" id="ver-middle" name="ver-align" (change)="textAlignChange('MIDDLE')" [attr.checked]="slide.textVerAlign=='MIDDLE'?true:null" />
+            <label  for="ver-middle"><a  md-raised-button mdTooltip="">MIDDLE</a></label>
+            <input type="radio" id="ver-bottom" name="ver-align" (change)="textAlignChange('BOTTOM')" [attr.checked]="slide.textVerAlign=='BOTTOM'?true:null" />
+            <label  for="ver-bottom"><a  md-raised-button mdTooltip="">BOTTOM</a></label>
           </div>
           <textarea [froalaEditor]='editorOptions' [(froalaModel)]="slide.text"></textarea>
         </div>
