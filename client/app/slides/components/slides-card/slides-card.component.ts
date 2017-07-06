@@ -5,6 +5,7 @@ import { Slides} from '../../models/slides';
 import {SlidesService} from '../../services/slides.service';
 import {MdDialog} from '@angular/material';
 import {DialogComponent} from '../dialog/dialog.component';
+import {NotifBarService} from "app/core";
 @Component({
     selector: 'app-slides-card',
     templateUrl: './slides-card.component.html',
@@ -23,7 +24,7 @@ export class SlidesCardComponent implements OnInit {
     @select(['session', 'token']) loggedIn$: Observable<string>;
     @select(['session', 'user', 'username']) username$: Observable<Object>;
 
-    constructor(private slidesService: SlidesService, private dialog: MdDialog) {
+    constructor(private slidesService: SlidesService, private dialog: MdDialog, private notifBarService:NotifBarService) {
     }
 
     ngOnInit() {
@@ -46,11 +47,10 @@ export class SlidesCardComponent implements OnInit {
             if (result === 'YES') {
                 this.slidesService.deleteSlides(id)
                     .subscribe(res => {
-                        console.log("update succesfully");
-                        // this.router.navigate(['/slides']);
+                        this.notifBarService.showNotif("the slides has been deleted successfully!");
                         this.deletedSlides.emit(id);
                     },
-                    error => console.log(error));
+                    error => this.notifBarService.showNotif("fail to delete the slides, error is "+error))
             }
         });
 
@@ -62,13 +62,13 @@ export class SlidesCardComponent implements OnInit {
         this.slidesService.submitSlides(newSlide)
             .subscribe(
             data => {
-                console.log('created');
+                this.notifBarService.showNotif("the slides has been copied successfully!");
                 this.duplicateslidesOpt.emit();
                 // this.router.navigate(['/login']);
                 //this.router.navigate(['/slides']);
             },
             error => {
-                console.log('fail to createSlides');
+                this.notifBarService.showNotif("fail to copy the slides, error is "+ error);
             });
     }
 }
