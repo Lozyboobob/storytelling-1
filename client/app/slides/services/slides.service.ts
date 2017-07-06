@@ -64,15 +64,10 @@ export class SlidesService {
         const backendURL = `${this._baseUrl}${environment.backend.endpoints.images}`;
         return this.http.post(backendURL, img).map((response: Response) => response.json());*/
         return Observable.create(observer => {
-            console.log("recieve");
-            console.log(img);
-
             const backendURL = `${this._baseUrl}${environment.backend.endpoints.images}`
             let xhr: XMLHttpRequest = new XMLHttpRequest();
             let formData: any = new FormData();
-            console.log("formdata", formData.entries());
             formData.append('file', img);
-            console.log("formdata", formData);
             xhr.onreadystatechange = () => {
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200) {

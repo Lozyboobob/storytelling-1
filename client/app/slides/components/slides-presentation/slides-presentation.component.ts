@@ -12,7 +12,7 @@ import { PageConfig, HALF_HALF_LAYOUT, FULL_LAYOUT} from './pageConfig';
 
 import { slideTransition } from "./slide.animation";
 import * as screenfull from 'screenfull';
-
+import {NotifBarService} from "app/core";
 @Component({
     selector: 'app-slides-presentation',
     templateUrl: './slides-presentation.component.html',
@@ -59,7 +59,8 @@ export class SlidesPresentationComponent implements OnInit {
         @Inject(DOCUMENT) private document: any,
         private sanitizer: DomSanitizer,
         private router: Router,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private notifBarService:NotifBarService
     ) {
         this.windowResizeService.height$.subscribe(height => {
             this.slideHeight_style = {
@@ -81,7 +82,6 @@ export class SlidesPresentationComponent implements OnInit {
         /* generate and initialize slides*/
         this.slidesService.getSlidesFix(id).subscribe(
             slide => {
-                console.log(slide);
                 this.slides = slide.slides;
                 this.slideNum = this.slides.length;
                 this.slideTitle = slide.slidesSetting.title;
@@ -92,7 +92,7 @@ export class SlidesPresentationComponent implements OnInit {
                 })
             },
             error => {
-                console.log("fail to get slides data");
+                this.notifBarService.showNotif("fail to load slides, error is "+ error);
             });
         window.scrollTo(0, 0);//scroll to top everytime open the slides
 
@@ -171,7 +171,7 @@ export class SlidesPresentationComponent implements OnInit {
     }
 
     animationDone(event: any) {
-      
+
       //  this.direction = 0; ==> if add this line, will get error:ExpressionChangedAfterItHasBeenCheckedError
     }
 
@@ -190,7 +190,6 @@ export class SlidesPresentationComponent implements OnInit {
     }
 
     onClick() {
-        console.log('tootot');
         if (this.screenfull.enabled) {
             this.screenfull.toggle(this.slider.element.nativeElement);
 
