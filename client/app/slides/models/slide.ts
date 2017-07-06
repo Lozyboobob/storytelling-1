@@ -6,7 +6,7 @@ export class Slide {
     config: any = undefined; // config for graph
     /* slide content*/
     text: string = ""; //content of slide
-    textVerAlign:string="LEFT"
+    textVerAlign:string="TOP"
     /* slide layout*/
     pageLayout: string = ''; //pagelayout type
     /* full screen layout setting*/

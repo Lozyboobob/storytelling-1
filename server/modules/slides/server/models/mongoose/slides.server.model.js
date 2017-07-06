@@ -69,7 +69,7 @@ var SlidesSchema = new Schema({
       },
       textVerAlign: {
         type: String,
-        default: 'LEFT',
+        default: 'TOP',
         trim: true
       },
       graph: {
