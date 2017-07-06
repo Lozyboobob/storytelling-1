@@ -36,8 +36,8 @@ export class DendogramComponent extends Chart implements OnInit, OnChanges {
 
     /**
      * Process json Data to D3.js Bar chart format
-     * @param dataDims :  string[] Selected Dimentions 
-     * @param rawData : array<Object> Json data 
+     * @param dataDims :  string[] Selected Dimentions
+     * @param rawData : array<Object> Json data
      */
     public static convertData(dataDims: string[], rawData: any) {
 
@@ -52,7 +52,7 @@ export class DendogramComponent extends Chart implements OnInit, OnChanges {
                 .flatMap(d => sum(d, 0, _.head(dataDims[0]) + '.', hierarchy$(0)))
                 .value();
 
-        function sum(d, depth, prefix, fetchId$){            
+        function sum(d, depth, prefix, fetchId$){
             let level = [];
             depth += 1;
             if(depth < depthDim) {
@@ -141,7 +141,7 @@ export class DendogramComponent extends Chart implements OnInit, OnChanges {
             .duration(2000)
             .style('opacity', 1);
     }
-    
+
     ease() {
         this.curtain.transition()
             .duration(1000)
