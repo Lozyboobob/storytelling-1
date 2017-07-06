@@ -171,7 +171,8 @@ export class SlidesPresentationComponent implements OnInit {
     }
 
     animationDone(event: any) {
-        this.direction = 0;
+      
+      //  this.direction = 0; ==> if add this line, will get error:ExpressionChangedAfterItHasBeenCheckedError
     }
 
     @HostListener('mouseenter')

@@ -8,7 +8,17 @@ export class SlidesSetting {
     author: String = '';
     banner: any;
     imageId: any;
-    constructor() {
-
+    constructor(setting?: SlidesSetting) {
+        if (setting) {
+            if (setting.title) this.title = setting.title;
+            if (setting.description) this.description = setting.description;
+            if (setting.tags) this.tags = setting.tags;
+            if (setting.bannerPath) this.bannerPath = setting.bannerPath;
+            if (setting.public) this.public = setting.public;
+            if (setting.favorite) this.favorite = setting.favorite;
+            if (setting.author) this.author = setting.author;
+            if (setting.banner||setting.banner._id) this.banner = setting.banner._id;
+            if (setting.imageId) this.imageId = setting.imageId;
+        }
     }
 }
