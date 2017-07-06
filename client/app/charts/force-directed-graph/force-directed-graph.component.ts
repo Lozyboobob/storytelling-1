@@ -212,7 +212,10 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit, AfterV
             this.reset()
         });
         this.node.append("title")
-            .text(d => (d.data) ? d.id.split('.')[d.depth - 1] + " : " + d.data.value : d.id);
+            .text(d => {
+                console.log(d,d.id.split('.')[d.depth]);
+                return (d.data)&&d.depth ? d.id.split('.')[d.depth] + " : " + d.data.value : d.id
+            });
         this.simulation
             .nodes(nodes)
             .on("tick", () => { return this.ticked() });
@@ -228,7 +231,7 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit, AfterV
             .attr("class", "legends")
             //.attr('width', legendEle.offsetWidth)
             //.attr('height', legendEle.offsetHeight)
-          //  .attr("viewBox", "0 0 " + (legendEle.offsetWidth) + " " + legendEle.offsetHeight)
+            //  .attr("viewBox", "0 0 " + (legendEle.offsetWidth) + " " + legendEle.offsetHeight)
             //.attr("transform", "translate(40,20)")
             .attr("overflow", "scroll");
 
@@ -258,7 +261,10 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit, AfterV
             .attr('x', legendRectSize + legendSpacing)
             .attr('y', legendRectSize - legendSpacing / 2)
             .attr("transform", "translate(0,5)")
-            .text(d => d.split('.')[this.maxDepth - 1]);
+            .text(d => {
+                console.log(d);
+                return d.split('.')[this.maxDepth - 1]
+            });
 
         let d = document.getElementById("ForceDirectedGraphComponentLegend").getBoundingClientRect();
 
@@ -270,7 +276,7 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit, AfterV
             if (lEle[i].getBoundingClientRect().width > maxWL) maxWL = lEle[i].getBoundingClientRect().width;
         }
 
-        legendBox.attr("width", (maxWL+26) + "px")
+        legendBox.attr("width", (maxWL + 26) + "px")
             .attr("height", (document.getElementsByClassName('legend').length * (legendRectSize + legendSpacing) + 20) + "px")
 
 
