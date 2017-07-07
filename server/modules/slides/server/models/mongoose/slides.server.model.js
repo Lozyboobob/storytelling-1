@@ -62,6 +62,11 @@ var SlidesSchema = new Schema({
         default: '',
         trim: true
       },
+      textVerAlign: {
+        type: String,
+        default: 'TOP',
+        trim: true
+      },
       graph: {
         type: String,
         default: '',
