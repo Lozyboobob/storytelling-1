@@ -44,7 +44,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
     }
 
     ngOnInit() {
-        if (!this.slide.pageTitle.title) this.slide.pageTitle.title = 'title';
+        if (!this.slide.pageTitle.title) this.slide.pageTitle.title = '';
         this.titleAlign = slideOption.titleAlign;
         this.graphs = slideOption.graphType;
         this.pageLayout = slideOption.pageLayoutOption;
