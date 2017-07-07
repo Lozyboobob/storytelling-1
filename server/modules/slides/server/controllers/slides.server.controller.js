@@ -38,12 +38,6 @@ exports.read = function(req, res) {
   slide.isCurrentUserOwner = !!(req.user && slide.user && slide.user._id.toString() === req.user._id.toString());
   res.json(slide);
 };
-exports.readFix = function(req, res) {
-  console.log("read fix")
-  var slide = req.slide ? req.slide.toJSON() : {};
-  slide.isCurrentUserOwner = !!(req.user && slide.user && slide.user._id.toString() === req.user._id.toString());
-  res.json(slide);
-};
 
 /**
  * Update an slide
@@ -89,7 +83,6 @@ exports.delete = function(req, res) {
  * List of slides
  */
 exports.list = function(req, res) {
-  console.log("list");
   Slides.find().sort('-created').populate('user', 'displayName').exec(function(err, slides) {
     if (err) {
       return res.status(422).send({
@@ -101,9 +94,10 @@ exports.list = function(req, res) {
     }
   });
 };
-
+/**
+ * List of private slides
+ */
 exports.myList = function(req, res) {
-  console.log("my list");
   Slides.find({
       $or: [{
         'slidesSetting.author': req.query.username
@@ -146,8 +140,10 @@ exports.slideByID = function(req, res, next, id) {
     next();
   });
 };
+/**
+ * search with filter
+ */
 exports.search = function(req, res) {
-  console.log("search")
   var regexS = new RegExp((req.query.title) || '');
   if (req.query.state === 'Public') {
     if (req.query.favorite === 'favorite') {

@@ -56,9 +56,6 @@ export class SlidesService {
         return this.http.get(backendURL).map((response: Response) => response.json());
     }
     uploadImage(img) {
-        /*console.log('iùg', img);
-        const backendURL = `${this._baseUrl}${environment.backend.endpoints.images}`;
-        return this.http.post(backendURL, img).map((response: Response) => response.json());*/
         return Observable.create(observer => {
             const backendURL = `${this._baseUrl}${environment.backend.endpoints.images}`
             let xhr: XMLHttpRequest = new XMLHttpRequest();

@@ -7,15 +7,16 @@ var slidesPolicy = require('../policies/slides.server.policy'),
   slides = require('../controllers/slides.server.controller');
 
 module.exports = function(app) {
-  // slides collection routes
+  // list all slides
   app.route('/api/slides').all(slidesPolicy.isAllowed)
     .get(slides.list)
     .post(slides.create);
 
-  // Own slides
+  // list private slides
   app.route('/api/slides/me').all(slidesPolicy.isAllowed)
     .get(slides.myList);
 
+  //search slides
   app.route('/api/search/slides').all(slidesPolicy.isAllowed)
     .get(slides.search);
 
