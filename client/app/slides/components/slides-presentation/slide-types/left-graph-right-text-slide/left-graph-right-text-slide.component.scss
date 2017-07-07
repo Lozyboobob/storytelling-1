@@ -30,19 +30,22 @@
     }
 
     .text-container {
-
-        display: flex;
+      display: flex;
         height: 100%;
         padding-left: 10px;
         padding-right: 20px;
-        &.alignTop{
 
+        &.alignTop {
         }
-        &.alignMiddle{
-          align-items: center;
+
+        &.alignMiddle {
+
+            align-items: center;
         }
-        &.alignBottom{
-          vertical-align: bottom;
+
+        &.alignBottom {
+            vertical-align: bottom;
+            position: relative;
         }
     }
 
