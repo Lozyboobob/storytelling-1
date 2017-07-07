@@ -38,12 +38,6 @@ exports.read = function(req, res) {
   slide.isCurrentUserOwner = !!(req.user && slide.user && slide.user._id.toString() === req.user._id.toString());
   res.json(slide);
 };
-exports.readFix = function(req, res) {
-  console.log("read fix")
-  var slide = req.slide ? req.slide.toJSON() : {};
-  slide.isCurrentUserOwner = !!(req.user && slide.user && slide.user._id.toString() === req.user._id.toString());
-  res.json(slide);
-};
 
 /**
  * Update an slide
@@ -51,7 +45,11 @@ exports.readFix = function(req, res) {
 exports.update = function(req, res) {
   var slides = req.slide;
   slides.slidesSetting = req.body.slidesSetting;
+
+  //transfer image object to id string
   if (slides.slidesSetting.banner && slides.slidesSetting.banner._id) slides.slidesSetting.banner = slides.slidesSetting.banner._id;
+  if (slides.slides.slideImage && slides.slides.slideImage._id) slides.slides.slideImage = slides.slides.slideImage._id;
+
   slides.slides = req.body.slides;
   slides.save(function(err) {
     if (err) {
@@ -85,7 +83,6 @@ exports.delete = function(req, res) {
  * List of slides
  */
 exports.list = function(req, res) {
-  console.log("list");
   Slides.find().sort('-created').populate('user', 'displayName').exec(function(err, slides) {
     if (err) {
       return res.status(422).send({
@@ -97,9 +94,10 @@ exports.list = function(req, res) {
     }
   });
 };
-
+/**
+ * List of private slides
+ */
 exports.myList = function(req, res) {
-  console.log("my list");
   Slides.find({
       $or: [{
         'slidesSetting.author': req.query.username
@@ -124,27 +122,6 @@ exports.myList = function(req, res) {
  * slide middleware
  */
 exports.slideByID = function(req, res, next, id) {
-  console.log("find by id")
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).send({
-      message: 'slide is invalid'
-    });
-  }
-
-  Slides.findById(id).populate('user', 'displayName').exec(function(err, slide) {
-    if (err) {
-      return next(err);
-    } else if (!slide) {
-      return res.status(404).send({
-        message: 'No slide with that identifier has been found'
-      });
-    }
-    req.slide = slide;
-    next();
-  });
-};
-exports.slideByIDFix = function(req, res, next, id) {
-  console.log("find by id fix")
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).send({
       message: 'slide is invalid'
@@ -163,8 +140,10 @@ exports.slideByIDFix = function(req, res, next, id) {
     next();
   });
 };
+/**
+ * search with filter
+ */
 exports.search = function(req, res) {
-  console.log("search")
   var regexS = new RegExp((req.query.title) || '');
   if (req.query.state === 'Public') {
     if (req.query.favorite === 'favorite') {

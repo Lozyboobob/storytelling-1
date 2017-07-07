@@ -80,8 +80,9 @@ export class SlidesPresentationComponent implements OnInit {
             id = params['id'];
         });
         /* generate and initialize slides*/
-        this.slidesService.getSlidesFix(id).subscribe(
+        this.slidesService.getSlides(id).subscribe(
             slide => {
+                console.log("get slide",slide);
                 this.slides = slide.slides;
                 this.slideNum = this.slides.length;
                 this.slideTitle = slide.slidesSetting.title;

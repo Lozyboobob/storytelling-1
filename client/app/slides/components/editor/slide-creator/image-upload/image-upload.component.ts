@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, Input,OnChanges } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, Input, OnChanges } from '@angular/core';
 import { SlidesService } from '../../../../services/slides.service';
 import { FileUploader} from 'ng2-file-upload';
 import {Http } from '@angular/http';
@@ -10,7 +10,7 @@ const URL = 'localhost:3000/api/images/';
     templateUrl: './image-upload.component.html',
     styleUrls: ['./image-upload.component.scss']
 })
-export class ImageUploadComponent implements OnInit,OnChanges {
+export class ImageUploadComponent implements OnInit, OnChanges {
     @ViewChild('fileInput') fileInput: ElementRef;
     @ViewChild('fileDisplayArea') fileDisplayArea: ElementRef;
     @ViewChild('form') form: ElementRef;
@@ -19,44 +19,44 @@ export class ImageUploadComponent implements OnInit,OnChanges {
 
     @Input() label = 'Choose Image';
     @Input() imagePath;
-    public uploader: FileUploader = new FileUploader({url: URL, itemAlias: 'banner'});
+    public uploader: FileUploader = new FileUploader({ url: URL, itemAlias: 'banner' });
 
     fileUpload: any;
     image: any = undefined;
-    imgPreview  = '';
+    imgPreview = '';
     id: any;
-    constructor(private el: ElementRef, private slidesService: SlidesService,private notifBarService:NotifBarService) {
+    constructor(private el: ElementRef, private slidesService: SlidesService, private notifBarService: NotifBarService) {
     }
     ngOnInit() {
     }
-    ngOnChanges(){
-      console.log("imagePath",this.imagePath)
-      if(this.imagePath){
-        this.slidesService.getImage(this.imagePath)
-            .subscribe(
-            image => {
-              this.imgPreview=image;
-            },
-            error => {
-                this.notifBarService.showNotif("fail to get image");
-            });
-      }
+    ngOnChanges() {
+        if (this.imagePath) {
+            let path = this.imagePath._id ? this.imagePath._id : this.imagePath;
+            this.slidesService.getImage(path)
+                .subscribe(
+                image => {
+                    this.imgPreview = image;
+                },
+                error => {
+                    this.notifBarService.showNotif("fail to get image, the error is : " + error);
+                });
+        }
     }
-    onChange () {
-      //this.imgPreview = this.imagePath;
-      //this.imgPreview = this.imagePath;
+    onChange() {
+        //this.imgPreview = this.imagePath;
+        //this.imgPreview = this.imagePath;
         const inputEl = this.el.nativeElement.querySelector('#banner');
-      /*  const fileCount: number = inputEl.files.length;
-        const formData = new FormData(inputEl);
-        if (fileCount > 0) { // a file was selected
-            formData.append('banner', inputEl.files[0]);
-            this.slidesService.uploadImage(formData).subscribe( image => {
-                this.uploadImage.emit(image._id);
-                this.imgPreview = image.path;
-                console.log("get image");
-                this.setImage.emit(image.path);
-            });
-        }*/
+        /*  const fileCount: number = inputEl.files.length;
+          const formData = new FormData(inputEl);
+          if (fileCount > 0) { // a file was selected
+              formData.append('banner', inputEl.files[0]);
+              this.slidesService.uploadImage(formData).subscribe( image => {
+                  this.uploadImage.emit(image._id);
+                  this.imgPreview = image.path;
+                  console.log("get image");
+                  this.setImage.emit(image.path);
+              });
+          }*/
         let file = inputEl.files[0];
 
         let textType = /image.*/;
@@ -74,14 +74,14 @@ export class ImageUploadComponent implements OnInit,OnChanges {
                 this.slidesService.uploadImage(file)
                     .subscribe(
                     image => {
-                      this.uploadImage.emit(image._id);
-                      this.imgPreview = image.path;
-                      console.log("get image",image);
-                      this.setImage.emit(image._id);
-                      this.notifBarService.showNotif("upload image successfully")
+                        this.uploadImage.emit(image._id);
+                        this.imgPreview = image.path;
+                        console.log("get image", image);
+                        this.setImage.emit(image._id);
+                        this.notifBarService.showNotif("upload image successfully")
                     },
                     error => {
-                        this.notifBarService.showNotif("opps! fail to upload image: "+error);
+                        this.notifBarService.showNotif("opps! fail to upload image: " + error);
                     });
 
             }

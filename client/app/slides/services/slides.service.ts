@@ -55,14 +55,7 @@ export class SlidesService {
         const backendURL = `${this._baseUrl}${environment.backend.endpoints.slides}/${id}`;
         return this.http.get(backendURL).map((response: Response) => response.json());
     }
-    getSlidesFix(id): Observable<any> {
-        const backendURL = `${this._baseUrl}${environment.backend.endpoints.slidesFix}/${id}`;
-        return this.http.get(backendURL).map((response: Response) => response.json());
-    }
     uploadImage(img) {
-        /*console.log('iùg', img);
-        const backendURL = `${this._baseUrl}${environment.backend.endpoints.images}`;
-        return this.http.post(backendURL, img).map((response: Response) => response.json());*/
         return Observable.create(observer => {
             const backendURL = `${this._baseUrl}${environment.backend.endpoints.images}`
             let xhr: XMLHttpRequest = new XMLHttpRequest();
