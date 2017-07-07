@@ -7,7 +7,8 @@
   </div>
 -->
 <div fxLayout="row" fxFill>
-  <div class="text-container" *ngIf="config.hasText " [class.fadeIn]="easeContentAni" [class.expandUp]="loadContentAni" fxFlex="100%">
+  <div class="text-container" *ngIf="config.hasText " [class.fadeIn]="easeContentAni" [class.expandUp]="loadContentAni" [class.alignTop]="slide.textVerAlign=='TOP'" [class.alignMiddle]="slide.textVerAlign=='MIDDLE'" [class.alignBottom]="slide.textVerAlign=='BOTTOM'"
+      fxFlex="100%">
     <div [innerHTML]="slide.text" style="width:100%"></div>
   </div>
 </div>

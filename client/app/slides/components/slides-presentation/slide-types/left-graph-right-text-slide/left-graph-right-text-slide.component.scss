@@ -10,18 +10,6 @@
         width: 100%;
     }
 
-    md-grid-tile {
-        overflow: visible;
-    }
-
-    md-grid-list,
-    md-grid-tile {
-        height: 100%;
-        overflow: visible;
-        padding-bottom: 0 !important;
-        padding-top: 0 !important;
-    }
-
     .graph-container {
         height: 100%;
         width: 100%;
@@ -30,26 +18,28 @@
     }
 
     .text-container {
-      display: flex;
+        display: flex;
         height: 100%;
         padding-left: 10px;
         padding-right: 20px;
+        position: relative;
 
         &.alignTop {
+            align-items: none;
         }
 
         &.alignMiddle {
-
             align-items: center;
         }
-
         &.alignBottom {
-            vertical-align: bottom;
-            position: relative;
+            div:first-child {
+                position: absolute;
+                bottom: 120px;
+            }
         }
     }
 
-    h2 {
+    .alignBottom h2 {
         color: $accent;
         font-size: $lg;
     }
