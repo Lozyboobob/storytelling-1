@@ -1,16 +1,16 @@
-import { Component, OnInit, Input, Output, EventEmitter, QueryList, OnChanges, ViewEncapsulation, ViewChildren } from '@angular/core';
+import { Component, Input, Output, EventEmitter, QueryList, OnChanges, ViewEncapsulation, ViewChildren } from '@angular/core';
 import {Slides} from '../../models/slides';
 import {Slide} from '../../models/slide';
 import { DragulaService } from 'ng2-dragula';
 import {ValidService} from '../../services/valid.service';
-
+import {NotifBarService} from 'app/core';
 @Component({
     selector: 'app-editor',
     templateUrl: './editor.component.html',
     styleUrls: ['./editor.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class EditorComponent implements OnInit, OnChanges {
+export class EditorComponent implements OnChanges {
 
     curSlideIndex: number = 1;// the slide that will be created(the amounts of slides pages +1 )
     slider: Slides = new Slides(); // the whole slides
@@ -23,14 +23,14 @@ export class EditorComponent implements OnInit, OnChanges {
         drag: 0,
         drop: 0
     }
-    slideOpendIndex :number;
+    slideOpendIndex: number;
     @ViewChildren("creator") _creatorEle: any;
     @Input() sliderIpt: Slides;
     @Output() submit = new EventEmitter();
     @Output() bannerImageUpload = new EventEmitter();
     //  @Output() validate= new EventEmitter();
 
-    constructor(private dragulaService: DragulaService, private validService: ValidService) {
+    constructor(private dragulaService: DragulaService, private validService: ValidService,private notifBarService:NotifBarService) {
         dragulaService.drag.subscribe(value => {
             // value[0] will always be bag name
             this.onDrag(value.slice(1));
@@ -48,7 +48,15 @@ export class EditorComponent implements OnInit, OnChanges {
             this.onOut(value.slice(1));
         });
     }
+    ngOnChanges() {
+        if (this.sliderIpt) {
+            this.slider = this.sliderIpt;
+            this.curSlideIndex = this.slider.slides.length + 1;
+            this.isValidated = true;
+        }
+    }
 
+    /* functions for shuffle slides drop down operation */
     private hasClass(el: any, name: string): any {
         return new RegExp('(?:^|\\s+)' + name + '(?:\\s+|$)').test(el.className);
     }
@@ -99,22 +107,12 @@ export class EditorComponent implements OnInit, OnChanges {
         let [el] = args;
         this.removeClass(el, 'ex-over');
     }
-    private reorder() {
 
-    }
-
+    /* update current slides index*/
     openSlideIndex(index) {
         this.slideOpendIndex = index;
     }
-    ngOnInit() {
-    }
-    ngOnChanges() {
-        if (this.sliderIpt) {
-            this.slider = this.sliderIpt;
-            this.curSlideIndex = this.slider.slides.length + 1;
-            this.isValidated = true;
-        }
-    }
+
     /* trigger when slides setting change*/
     slidesSettingChange(setting) {
 
@@ -137,25 +135,15 @@ export class EditorComponent implements OnInit, OnChanges {
             this.isValidated = true;
         else this.isValidated = false;
     }
-    /*add a new slide*/
+    /*add a new page of slide*/
     addSlide() {
         let s = new Slide(this.curSlideIndex++);
         this.slider.slides.push(s);
         this.isValidatedSlide = false;
         this.checkValid();
     }
-    /* in edit mode, save the change of a page of slide*/
-    saveSlide(slide) {
-        try {
-            this.slider.slides[slide.index - 1] = Object.assign({}, slide);
-        }
-        catch (err) {
-            console.log(err);
-        }
-    }
     /*submit a new slide*/
     submitSlide(slide) {
-
         /* modify slide*/
         if (slide.index < this.curSlideIndex) {
             this.slider.slides[slide.index - 1] = Object.assign({}, slide);
@@ -185,22 +173,22 @@ export class EditorComponent implements OnInit, OnChanges {
                 this.curSlideIndex--;
                 console.log("slide deleted in local");
             }
-            this.validService.changeSlideValid(true,index,"DELETE");
+            this.validService.changeSlideValid(true, index, "DELETE");
         }
         catch (err) {
-            console.log("slide cannot be deleted");
+            this.notifBarService.showNotif("delete fail : "+err);
         }
     }
-    /* check creator valid*/
-    checkCreator(index): boolean {
+    /* check creator valid => not used*/
+    /*checkCreator(index): boolean {
         let creator = this._creatorEle.toArray();
         let valid = true;
-        console.log(creator);
         creator.forEach(c => {
-            if (!c.form.valid&&c.slideIndex!=index) valid = false
+            if (!c.form.valid && c.slideIndex != index) valid = false
         })
         return valid;
-    }
+    }*/
+
     /*change slide order*/
     shuffleSlide() {
         //save new order
@@ -226,9 +214,5 @@ export class EditorComponent implements OnInit, OnChanges {
     /* clear change of shuffle*/
     clearShuffle() {
         this.isInShuffle = false;
-        let t_slides = this.slider.slides;
-        /*  t_slides.forEach((s) => {
-              this.slider.slides[s.index-1]=s;
-          })*/
     }
 }
