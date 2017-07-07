@@ -6,7 +6,7 @@ import {ValidService} from '../../../services/valid.service';
     selector: 'app-slides-setting',
     templateUrl: './slides-setting.component.html',
     styleUrls: ['./slides-setting.component.scss'],
-    providers: [ ]
+    providers: []
 })
 export class SlidesSettingComponent implements OnInit, OnChanges {
     @Input() setting: SlidesSetting;
@@ -56,11 +56,10 @@ export class SlidesSettingComponent implements OnInit, OnChanges {
     }
     /* set banner image*/
     setBanner(path) {
-        this.slidesSetting.bannerPath = path;
         this.onSettingChange.emit(this.slidesSetting);
     }
     upload(image) {
-       this.slidesSetting.banner = image;
-       this.onSettingChange.emit(this.slidesSetting);
+        this.slidesSetting.banner = image;
+        this.onSettingChange.emit(this.slidesSetting);
     }
 }

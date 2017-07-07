@@ -25,12 +25,7 @@ module.exports = function(app) {
     .put(slides.update)
     .delete(slides.delete);
 
-  app.route('/api/slidesFix/:slideIdFix').all(slidesPolicy.isAllowed)
-    .get(slides.readFix);
-
-
-
   // Finish by binding the slide middleware
- app.param('slideId', slides.slideByID);//for getting slide that use to edit
- app.param('slideIdFix', slides.slideByIDFix);//for getting slide that not use to edit
+  app.param('slideId', slides.slideByID);
+
 };

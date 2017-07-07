@@ -51,7 +51,11 @@ exports.readFix = function(req, res) {
 exports.update = function(req, res) {
   var slides = req.slide;
   slides.slidesSetting = req.body.slidesSetting;
+
+  //transfer image object to id string
   if (slides.slidesSetting.banner && slides.slidesSetting.banner._id) slides.slidesSetting.banner = slides.slidesSetting.banner._id;
+  if (slides.slides.slideImage && slides.slides.slideImage._id) slides.slides.slideImage = slides.slides.slideImage._id;
+
   slides.slides = req.body.slides;
   slides.save(function(err) {
     if (err) {
@@ -124,27 +128,6 @@ exports.myList = function(req, res) {
  * slide middleware
  */
 exports.slideByID = function(req, res, next, id) {
-  console.log("find by id")
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).send({
-      message: 'slide is invalid'
-    });
-  }
-
-  Slides.findById(id).populate('user', 'displayName').exec(function(err, slide) {
-    if (err) {
-      return next(err);
-    } else if (!slide) {
-      return res.status(404).send({
-        message: 'No slide with that identifier has been found'
-      });
-    }
-    req.slide = slide;
-    next();
-  });
-};
-exports.slideByIDFix = function(req, res, next, id) {
-  console.log("find by id fix")
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).send({
       message: 'slide is invalid'
