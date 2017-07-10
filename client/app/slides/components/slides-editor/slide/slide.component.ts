@@ -11,13 +11,13 @@ import *  as slideOption from './slideOption';
 import { Slide } from '../../../models/slide';
 
 @Component({
-    selector: 'app-slide-creator',
-    templateUrl: './slide-creator.component.html',
-    styleUrls: ['./slide-creator.component.scss'],
+    selector: 'app-slide',
+    templateUrl: './slide.component.html',
+    styleUrls: ['./slide.component.scss'],
     providers: []
 })
 
-export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
+export class SlideComponent implements OnInit, AfterViewInit, OnChanges {
     @Output() confirmSlideOpt: EventEmitter<Object> = new EventEmitter();
     @Output() deleteSlideOpt: EventEmitter<number> = new EventEmitter();
     @Input() slideIndex: number;

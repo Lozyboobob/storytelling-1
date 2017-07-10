@@ -29,7 +29,7 @@ import { SlidesPresentationComponent,
     RightGraphLeftTextSlideComponent,
     TextSlideComponent,
     PrezFormComponent,
-    SlideCreatorComponent
+    SlideComponent
 } from '.';
 
 // SLIDES SERVICES
@@ -67,8 +67,8 @@ import { WordCloudComponent } from '../charts';
 
 import { AreaChartComponent } from '../charts/ngx-charts/area-chart';
 
-import { CsvInputComponent } from './components/slides-editor/slide-creator/csv-input/csv-input.component';
-import { ImageUploadComponent } from './components/slides-editor/slide-creator/image-upload/image-upload.component';
+import { CsvInputComponent } from './components/slides-editor/slide/csv-input/csv-input.component';
+import { ImageUploadComponent } from './components/slides-editor/slide/image-upload/image-upload.component';
 
 import { SlidesSettingComponent } from './components/slides-editor/slides-setting/slides-setting.component';
 import { ChartsBuilderComponent, CodeEditorComponent, DataTableComponent } from './components/slides-editor/charts-builder';
@@ -128,7 +128,7 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         KeySwitchDirective,
         SlidesPresentationComponent,
         PrezFormComponent,
-        SlideCreatorComponent,
+        SlideComponent,
         CsvInputComponent,
         ImageUploadComponent,
         PrezFormSearchComponent,
