@@ -67,12 +67,12 @@ import { WordCloudComponent } from '../charts';
 
 import { AreaChartComponent } from '../charts/ngx-charts/area-chart';
 
-import { CsvInputComponent } from './components/editor/slide-creator/csv-input/csv-input.component';
-import { ImageUploadComponent } from './components/editor/slide-creator/image-upload/image-upload.component';
+import { CsvInputComponent } from './components/slides-editor/slide-creator/csv-input/csv-input.component';
+import { ImageUploadComponent } from './components/slides-editor/slide-creator/image-upload/image-upload.component';
 
-import { SlidesSettingComponent } from './components/editor/slides-setting/slides-setting.component';
-import { ChartsBuilderComponent, CodeEditorComponent, DataTableComponent } from './components/editor/charts-builder';
-import { EditorComponent } from './components/editor/editor.component';
+import { SlidesSettingComponent } from './components/slides-editor/slides-setting/slides-setting.component';
+import { ChartsBuilderComponent, CodeEditorComponent, DataTableComponent } from './components/slides-editor/charts-builder';
+import { SlidesEditorComponent } from './components/slides-editor/slides-editor.component';
 
 import { PrezListComponent } from './components/prez/prez-list.component';
 import { PrezListCardComponent } from './components/prez/card/prez-list-card.component';
@@ -139,7 +139,7 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         CodeEditorComponent,
         DataTableComponent,
         ChartsBuilderComponent,
-        EditorComponent,
+        SlidesEditorComponent,
         PrezListComponent,
         FullScreenGraphSlideComponent,
         GaugeChartComponent,

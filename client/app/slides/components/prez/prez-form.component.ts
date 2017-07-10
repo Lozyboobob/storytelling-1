@@ -7,7 +7,7 @@ import { SlidesService } from '../../services/slides.service';
 import { ValidService } from '../../services/valid.service';
 import { Slides } from '../../models/slides';
 import { Slide } from '../../models/slide';
-import { EditorComponent} from '../editor/editor.component';
+import { SlidesEditorComponent} from '../slides-editor/slides-editor.component';
 import { Observable } from 'rxjs/Observable';
 import {NotifBarService} from "app/core";
 
@@ -23,7 +23,7 @@ export class PrezFormComponent implements OnInit, AfterViewChecked {
     id: string = null;
     isValidated: boolean = false;
     slider: Slides = new Slides();
-    @ViewChild('editor') _editor: EditorComponent;
+    @ViewChild('editor') _editor: SlidesEditorComponent;
     editorValid: Subscription;
 
     constructor(private router: Router, private sanitizer: DomSanitizer, private slidesService: SlidesService, private validService: ValidService, private cdRef: ChangeDetectorRef, private route: ActivatedRoute, private notifBarService: NotifBarService) { }
