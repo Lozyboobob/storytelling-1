@@ -67,11 +67,10 @@ import { WordCloudComponent } from '../charts';
 
 import { AreaChartComponent } from '../charts/ngx-charts/area-chart';
 
-import { CsvInputComponent } from './components/slides-editor/slide/csv-input/csv-input.component';
 import { ImageUploadComponent } from './components/slides-editor/slide/image-upload/image-upload.component';
 
 import { SlidesSettingComponent } from './components/slides-editor/slides-setting/slides-setting.component';
-import { ChartsBuilderComponent, CodeEditorComponent, DataTableComponent } from './components/slides-editor/charts-builder';
+import { ChartsBuilderComponent, CodeEditorComponent, DataTableComponent } from './components/slides-editor/slide/charts-builder';
 import { SlidesEditorComponent } from './components/slides-editor/slides-editor.component';
 
 import { PrezListComponent } from './components/prez/prez-list.component';
@@ -129,7 +128,6 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         SlidesPresentationComponent,
         PrezFormComponent,
         SlideComponent,
-        CsvInputComponent,
         ImageUploadComponent,
         PrezFormSearchComponent,
         BarChartComponent,
