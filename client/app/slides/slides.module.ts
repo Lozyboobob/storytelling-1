@@ -76,7 +76,7 @@ import { EditorComponent } from './components/editor/editor.component';
 
 import { PrezListComponent } from './components/prez/prez-list.component';
 import { PrezListCardComponent } from './components/prez/card/prez-list-card.component';
-import { DialogComponent } from './components/dialog/dialog.component';
+import { DeleteDialogComponent } from './components/prez/card/delete-dialog/delete-dialog.component';
 import { ToggleFullscreenDirective } from './components/slides-presentation/toggle-fullscreen.directive';
 
 
@@ -113,7 +113,7 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         FullScreenGraphSlideComponent,
         GaugeChartComponent,
         AdvancedPieChartComponent,
-        DialogComponent,
+        DeleteDialogComponent,
         DendogramComponent,
         NgGraphComponent,
         TreemapChartComponent,
@@ -154,7 +154,7 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         AreaChartComponent,
         PieGridChartComponent,
         NumberCardComponent,
-        DialogComponent,
+        DeleteDialogComponent,
         NgGraphComponent,
         TreemapChartComponent,
         ZoomableTreemapChartComponent,
