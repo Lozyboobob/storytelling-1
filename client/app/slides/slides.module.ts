@@ -22,7 +22,6 @@ import { HotTableModule } from 'ng2-handsontable';
 import {PrezFormSearchComponent} from './components/prez/search/prez-form-search.component';
 // SLIDES COMPONENTS
 import { SlidesPresentationComponent,
-    SlidesCardComponent,
     FullScreenGraphSlideComponent,
     ImageComponent,
     TitleSlideComponent,
@@ -43,7 +42,6 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 
-import { ScrollDirective } from './components/slides-presentation/scroll.directive';
 import { KeySwitchDirective } from './components/slides-presentation/key-switch.directive';
 
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
@@ -127,10 +125,8 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         ImageComponent],
 
     declarations: [
-        ScrollDirective,
         KeySwitchDirective,
         SlidesPresentationComponent,
-        SlidesCardComponent,
         PrezFormComponent,
         SlideCreatorComponent,
         CsvInputComponent,

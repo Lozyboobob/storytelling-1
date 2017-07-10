@@ -1,4 +1,3 @@
-export * from './slides-card/slides-card.component';
 export * from './slides-presentation';
 export * from './prez/prez-form.component';
 export * from './editor/slide-creator/slide-creator.component';
