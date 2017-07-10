@@ -5,8 +5,7 @@ import {
 import { FormGroup, FormControl, FormBuilder, Validators, FormArray  } from '@angular/forms';
 import {ValidService} from '../../../services/valid.service';
 import { environment } from '../../../../../environments/environment';
-import *  as sampleData from './data';
-import *  as slideOption from './slideOption';
+import * as slideOption from './slideOption';
 
 import { Slide } from '../../../models/slide';
 
@@ -31,7 +30,6 @@ export class SlideComponent implements OnInit, AfterViewInit, OnChanges {
     graphs: Array<any>;
     pageLayout: Array<any>;
     titleAlign: Array<string>;
-    dataExample: string = '{}';
     dataBuilder: any = {};
     editorOptions: Object;
     @ViewChild("dataInput") dataInputTab;
@@ -220,10 +218,4 @@ export class SlideComponent implements OnInit, AfterViewInit, OnChanges {
     }
 }
 
-const ngxSingleChartDataExample = JSON.stringify(sampleData.single);
-const barCharDataExample = JSON.stringify(sampleData.barCharData);
-const forceDirectedGraphDataExample = JSON.stringify(sampleData.forceDirectedGraphData);
-const lineChartExample = JSON.stringify(sampleData.lineChartData);
-const pieChartExample = JSON.stringify(sampleData.pieChartData);
-const dendogramChartExemple = JSON.stringify(sampleData.dendogramChartData);
-const HierarchicalEdgeExample = JSON.stringify(sampleData.HierarchicalEdgeData);
+
