@@ -4,7 +4,6 @@ import {
 } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators, FormArray  } from '@angular/forms';
 import {ValidService} from '../../../services/valid.service';
-import {JsonValidator } from '../json-validator';
 import { environment } from '../../../../../environments/environment';
 import *  as sampleData from './data';
 import *  as slideOption from './slideOption';
@@ -88,7 +87,6 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
             slideText: new FormControl(this.slide.text, Validators.nullValidator),
             slideGraph: new FormControl(this.slide.graph, Validators.nullValidator),
             //pageLayout: new FormControl(this.slide.pageLayout, Validators.required),
-            graphDataJson: new FormControl(this.dataExample, Validators.compose([JsonValidator()])),
             graphData: this._fb.array([
                 this.initData(),
             ])
@@ -162,23 +160,9 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
                 //if has data, set tab to json
                 this.curTab = 0;
                 let data = { "graphData": this.slide.data };
-                this.form.controls['graphDataJson'].setValue(JSON.stringify(data));
                 return;
             }
         }
-        //**if the slide data has not been set
-        switch (this.form.value.slideGraph) {
-            case "barChart": this.form.controls['graphDataJson'].setValue(barCharDataExample); break;
-            case "gaugeChart": this.form.controls['graphDataJson'].setValue(ngxSingleChartDataExample); break;
-            case "advancedPieChart": this.form.controls['graphDataJson'].setValue(ngxSingleChartDataExample); break;
-            case "forceDirectedGraph": this.form.controls['graphDataJson'].setValue(forceDirectedGraphDataExample); break;
-            case 'lineChart': this.form.controls['graphDataJson'].setValue(lineChartExample); break;
-            case 'pieChart': this.form.controls['graphDataJson'].setValue(pieChartExample); break;
-            case "HierarchicalEdgeBundling": this.form.controls['graphDataJson'].setValue(HierarchicalEdgeExample); break;
-            case "dendogramChart": this.form.controls['graphDataJson'].setValue(dendogramChartExemple); break;
-            default: ;
-        }
-
     }
     pageLayoutChange(value) {
         switch (value) {
@@ -197,21 +181,6 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
     textAlignChange(value) {
         this.slide.textVerAlign = value;
     }
-    getCsvJson(json) {
-        try {
-            console.log(json);
-            const j = json;
-            // for the chars has many series
-            if (this.form.value.slideGraph == "lineChart") {
-                this.csvJson = this.sortSeries(json);
-                // this.csvJson.push(j)
-            }
-            else this.csvJson = j;
-        }
-        catch (e) {
-            console.error("unvalidate json");
-        }
-    }
     /* image background*/
     setImageHtml(image) {
         this.slide.slideImage = image;
@@ -224,7 +193,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
             let index = -1;
             for (let i = 0; i < series.length; i++) {
 
-                if (name == series[i]) {
+                if (name === series[i]) {
                     index = i;
                     break;
                 }
