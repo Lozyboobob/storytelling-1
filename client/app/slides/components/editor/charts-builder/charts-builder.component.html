@@ -156,7 +156,7 @@
         </ngx-charts-pie-grid>
 
 
-        <ngx-charts-number-card *ngIf="chartType.name === 'number-cards'" [scheme]="chartOptions.colorScheme" [results]="data">
+        <ngx-charts-number-card *ngIf="chartType.name === 'number-cards'" [view]="null" [scheme]="chartOptions.colorScheme" [results]="data">
 
         </ngx-charts-number-card>
         <app-bar-chart *ngIf="chartType.name === 'bar-chart'" [dataInput]="data">
