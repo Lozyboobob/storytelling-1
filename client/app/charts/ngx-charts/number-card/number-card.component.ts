@@ -34,7 +34,6 @@ export class NumberCardComponent extends Chart implements OnInit, OnDestroy {
 
     ngOnInit() {
         // Set the config
-        console.log("init");
         this.chartOptions = { ...defaultOptions, ...this.configInput };
 
         this.init();
