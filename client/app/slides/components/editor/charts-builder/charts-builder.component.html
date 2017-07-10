@@ -1,7 +1,7 @@
 <div>
   <div class="sub-title-bar">
     <md-toolbar-row>
-      <span><i class="fa fa-check-circle-o fa-fw" [class.checked]="hasValidDimensions"></i>Graph builder*</span>
+      <span><i class="fa fa-check-circle-o fa-fw" [class.checked]="hasValidDimensions"></i>Graph builder* <span class="warnMsg">{{warnMsg}}</span></span>
       <small class="pull-right">
         <button md-raised-button type="button" (click)="clearAll()"  color="primary">Reset</button>
       </small>

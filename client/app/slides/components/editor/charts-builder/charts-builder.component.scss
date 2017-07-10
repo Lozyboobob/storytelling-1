@@ -1,7 +1,13 @@
 
 @import 'client/theme.scss';
 
-
+.sub-title-bar{
+  .warnMsg{
+    color: $warn;
+    margin-left: 20px;
+    font-size: 14px;
+  }
+}
 md-card {
   padding: 0;
 
