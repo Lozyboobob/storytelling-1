@@ -12,13 +12,13 @@ import { Observable } from 'rxjs/Observable';
 import {NotifBarService} from "app/core";
 
 @Component({
-    selector: 'app-prez-form',
+    selector: 'app-slides-editor-form',
     templateUrl: './slides-editor-form.component.html',
     styleUrls: ['./slides-editor-form.component.scss'],
     providers: [SlidesService, ValidService]
 })
 
-export class PrezFormComponent implements OnInit, AfterViewChecked {
+export class SlidesEditorFormComponent implements OnInit, AfterViewChecked {
 
     id: string = null;
     isValidated: boolean = false;

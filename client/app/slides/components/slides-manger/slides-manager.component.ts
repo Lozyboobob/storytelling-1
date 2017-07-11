@@ -10,7 +10,7 @@ import {NotifBarService} from "app/core";
   styleUrls: ['./slides-manager.component.scss']
 })
 
-export class PrezListComponent implements OnInit {
+export class SlidesMangerComponent implements OnInit {
   @select(['session', 'token']) loggedIn$: Observable<string>;
   states = ['All', 'Private', 'Public'];
   selectedState = 'All';

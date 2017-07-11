@@ -19,7 +19,7 @@ import { DndModule } from 'ng2-dnd';
 import { HotTableModule } from 'ng2-handsontable';
 
 
-import {PrezFormSearchComponent} from './components/slides-manger/search/prez-form-search.component';
+import {SlidesSearchComponent} from './components/slides-manger/slides-search/slides-search.component';
 // SLIDES COMPONENTS
 import { SlidesPresentationComponent,
     FullScreenGraphSlideComponent,
@@ -28,7 +28,7 @@ import { SlidesPresentationComponent,
     LeftGraphRightTextSlideComponent,
     RightGraphLeftTextSlideComponent,
     TextSlideComponent,
-    PrezFormComponent,
+    SlidesEditorFormComponent,
     SlideComponent
 } from '.';
 
@@ -73,8 +73,8 @@ import { SlidesSettingComponent } from './components/slides-editor/slides-settin
 import { ChartsBuilderComponent, CodeEditorComponent, DataTableComponent } from './components/slides-editor/slide/charts-builder';
 import { SlidesEditorComponent } from './components/slides-editor/slides-editor.component';
 
-import { PrezListComponent } from './components/slides-manger/slides-manager.component';
-import { PrezListCardComponent } from './components/slides-manger/slides-card/slides-card.component';
+import { SlidesMangerComponent } from './components/slides-manger/slides-manager.component';
+import { SlidesCardComponent } from './components/slides-manger/slides-card/slides-card.component';
 import { DeleteDialogComponent } from './components/slides-manger/slides-card/delete-dialog/delete-dialog.component';
 import { ToggleFullscreenDirective } from './components/slides-presentation/toggle-fullscreen.directive';
 
@@ -126,10 +126,10 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
     declarations: [
         KeySwitchDirective,
         SlidesPresentationComponent,
-        PrezFormComponent,
+        SlidesEditorFormComponent,
         SlideComponent,
         ImageUploadComponent,
-        PrezFormSearchComponent,
+        SlidesSearchComponent,
         BarChartComponent,
         ForceDirectedGraphComponent,
         LineChartComponent,
@@ -138,7 +138,7 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         DataTableComponent,
         ChartsBuilderComponent,
         SlidesEditorComponent,
-        PrezListComponent,
+        SlidesMangerComponent,
         FullScreenGraphSlideComponent,
         GaugeChartComponent,
         AdvancedPieChartComponent,
@@ -147,7 +147,7 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         RightGraphLeftTextSlideComponent,
         TextSlideComponent,
         PieChartComponent,
-        PrezListCardComponent,
+        SlidesCardComponent,
         HierarchicalEdgeBundlingComponent,
         AreaChartComponent,
         PieGridChartComponent,
@@ -165,8 +165,8 @@ import { ToggleFullscreenDirective } from './components/slides-presentation/togg
         ImageComponent
     ],
     exports: [
-      PrezListCardComponent,
-      PrezFormSearchComponent
+      SlidesCardComponent,
+      SlidesSearchComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     providers: [OverlayContainer, SlidesService, ChartsService]

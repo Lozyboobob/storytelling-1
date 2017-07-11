@@ -11,7 +11,7 @@ import {NotifBarService} from 'app/core';
     templateUrl: './slides-card.component.html',
     styleUrls: ['./slides-card.component.scss']
 })
-export class PrezListCardComponent implements OnInit {
+export class SlidesCardComponent implements OnInit {
     @Input() slides: Slides;
     @Input() editable: boolean; //whether the slides can be edited;
     @Output() deletedSlides = new EventEmitter();
