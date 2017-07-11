@@ -7,9 +7,9 @@ import { MdDialog } from '@angular/material';
 import { DeleteDialogComponent} from './delete-dialog/delete-dialog.component';
 import {NotifBarService} from 'app/core';
 @Component({
-    selector: 'app-prez-list-card',
-    templateUrl: './prez-list-card.component.html',
-    styleUrls: ['./prez-list-card.component.scss']
+    selector: 'app-slides-card',
+    templateUrl: './slides-card.component.html',
+    styleUrls: ['./slides-card.component.scss']
 })
 export class PrezListCardComponent implements OnInit {
     @Input() slides: Slides;

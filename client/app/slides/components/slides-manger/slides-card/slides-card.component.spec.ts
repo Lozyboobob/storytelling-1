@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PrezListCardComponent } from './prez-list-card.component';
+import { PrezListCardComponent } from './slides-card.component';
 
 describe('PrezListCardComponent', () => {
   let component: PrezListCardComponent;
