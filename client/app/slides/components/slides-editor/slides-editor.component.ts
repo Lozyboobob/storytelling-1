@@ -5,12 +5,12 @@ import { DragulaService } from 'ng2-dragula';
 import {ValidService} from '../../services/valid.service';
 import {NotifBarService} from 'app/core';
 @Component({
-    selector: 'app-editor',
-    templateUrl: './editor.component.html',
-    styleUrls: ['./editor.component.scss'],
+    selector: 'app-slides-editor',
+    templateUrl: './slides-editor.component.html',
+    styleUrls: ['./slides-editor.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class EditorComponent implements OnChanges {
+export class SlidesEditorComponent implements OnChanges {
 
     curSlideIndex: number = 1;// the slide that will be created(the amounts of slides pages +1 )
     slider: Slides = new Slides(); // the whole slides

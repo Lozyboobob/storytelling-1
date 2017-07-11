@@ -1,11 +1,11 @@
 import {Component, OnInit, Output, Input, EventEmitter} from '@angular/core';
 
 @Component({
-  selector: 'app-search',
-  templateUrl: './prez-form-search.component.html',
-  styleUrls: ['./prez-form-search.component.scss']
+  selector: 'app-slides-search',
+  templateUrl: './slides-search.component.html',
+  styleUrls: ['./slides-search.component.scss']
 })
-export class PrezFormSearchComponent implements OnInit {
+export class SlidesSearchComponent implements OnInit {
   @Output() textSearch: EventEmitter<string> = new EventEmitter();
   @Input() kind: string;
 

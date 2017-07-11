@@ -3,27 +3,27 @@ import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@ang
 import { DomSanitizer } from '@angular/platform-browser';
 import { Subscription } from 'rxjs/Subscription';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SlidesService } from '../../services/slides.service';
-import { ValidService } from '../../services/valid.service';
-import { Slides } from '../../models/slides';
-import { Slide } from '../../models/slide';
-import { EditorComponent} from '../editor/editor.component';
+import { SlidesService } from '../../../services/slides.service';
+import { ValidService } from '../../../services/valid.service';
+import { Slides } from '../../../models/slides';
+import { Slide } from '../../../models/slide';
+import { SlidesEditorComponent} from '../slides-editor.component';
 import { Observable } from 'rxjs/Observable';
 import {NotifBarService} from "app/core";
 
 @Component({
-    selector: 'app-prez-form',
-    templateUrl: './prez-form.component.html',
-    styleUrls: ['./prez-form.component.scss'],
+    selector: 'app-slides-editor-form',
+    templateUrl: './slides-editor-form.component.html',
+    styleUrls: ['./slides-editor-form.component.scss'],
     providers: [SlidesService, ValidService]
 })
 
-export class PrezFormComponent implements OnInit, AfterViewChecked {
+export class SlidesEditorFormComponent implements OnInit, AfterViewChecked {
 
     id: string = null;
     isValidated: boolean = false;
     slider: Slides = new Slides();
-    @ViewChild('editor') _editor: EditorComponent;
+    @ViewChild('editor') _editor: SlidesEditorComponent;
     editorValid: Subscription;
 
     constructor(private router: Router, private sanitizer: DomSanitizer, private slidesService: SlidesService, private validService: ValidService, private cdRef: ChangeDetectorRef, private route: ActivatedRoute, private notifBarService: NotifBarService) { }

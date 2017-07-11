@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PrezListComponent } from './prez-list.component';
+import { SlidesMangerComponent } from './slides-manager.component';
 
-describe('PrezListComponent', () => {
-  let component: PrezListComponent;
-  let fixture: ComponentFixture<PrezListComponent>;
+describe('SlidesMangerComponent', () => {
+  let component: SlidesMangerComponent;
+  let fixture: ComponentFixture<SlidesMangerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [PrezListComponent]
+      declarations: [SlidesMangerComponent]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PrezListComponent);
+    fixture = TestBed.createComponent(SlidesMangerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -4,14 +4,14 @@ import { Observable } from 'rxjs/Observable';
 import { Slides } from '../../../models/slides';
 import { SlidesService } from '../../../services/slides.service';
 import { MdDialog } from '@angular/material';
-import { DialogComponent} from '../../dialog/dialog.component';
+import { DeleteDialogComponent} from './delete-dialog/delete-dialog.component';
 import {NotifBarService} from 'app/core';
 @Component({
-    selector: 'app-prez-list-card',
-    templateUrl: './prez-list-card.component.html',
-    styleUrls: ['./prez-list-card.component.scss']
+    selector: 'app-slides-card',
+    templateUrl: './slides-card.component.html',
+    styleUrls: ['./slides-card.component.scss']
 })
-export class PrezListCardComponent implements OnInit {
+export class SlidesCardComponent implements OnInit {
     @Input() slides: Slides;
     @Input() editable: boolean; //whether the slides can be edited;
     @Output() deletedSlides = new EventEmitter();
@@ -50,7 +50,7 @@ export class PrezListCardComponent implements OnInit {
     /*delete the whole slides*/
     deleteSlides(e, id) {
         e.stopPropagation();
-        const dialog = this.dialog.open(DialogComponent);
+        const dialog = this.dialog.open(DeleteDialogComponent);
         dialog.afterClosed().subscribe(result => {
             if (result === 'YES') {
                 this.slidesService.deleteSlides(id)

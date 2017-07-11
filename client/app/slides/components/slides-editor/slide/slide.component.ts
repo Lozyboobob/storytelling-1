@@ -4,21 +4,19 @@ import {
 } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators, FormArray  } from '@angular/forms';
 import {ValidService} from '../../../services/valid.service';
-import {JsonValidator } from '../json-validator';
 import { environment } from '../../../../../environments/environment';
-import *  as sampleData from './data';
-import *  as slideOption from './slideOption';
+import * as slideOption from './slideOption';
 
 import { Slide } from '../../../models/slide';
 
 @Component({
-    selector: 'app-slide-creator',
-    templateUrl: './slide-creator.component.html',
-    styleUrls: ['./slide-creator.component.scss'],
+    selector: 'app-slide',
+    templateUrl: './slide.component.html',
+    styleUrls: ['./slide.component.scss'],
     providers: []
 })
 
-export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
+export class SlideComponent implements OnInit, AfterViewInit, OnChanges {
     @Output() confirmSlideOpt: EventEmitter<Object> = new EventEmitter();
     @Output() deleteSlideOpt: EventEmitter<number> = new EventEmitter();
     @Input() slideIndex: number;
@@ -32,7 +30,6 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
     graphs: Array<any>;
     pageLayout: Array<any>;
     titleAlign: Array<string>;
-    dataExample: string = '{}';
     dataBuilder: any = {};
     editorOptions: Object;
     @ViewChild("dataInput") dataInputTab;
@@ -88,7 +85,6 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
             slideText: new FormControl(this.slide.text, Validators.nullValidator),
             slideGraph: new FormControl(this.slide.graph, Validators.nullValidator),
             //pageLayout: new FormControl(this.slide.pageLayout, Validators.required),
-            graphDataJson: new FormControl(this.dataExample, Validators.compose([JsonValidator()])),
             graphData: this._fb.array([
                 this.initData(),
             ])
@@ -162,23 +158,9 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
                 //if has data, set tab to json
                 this.curTab = 0;
                 let data = { "graphData": this.slide.data };
-                this.form.controls['graphDataJson'].setValue(JSON.stringify(data));
                 return;
             }
         }
-        //**if the slide data has not been set
-        switch (this.form.value.slideGraph) {
-            case "barChart": this.form.controls['graphDataJson'].setValue(barCharDataExample); break;
-            case "gaugeChart": this.form.controls['graphDataJson'].setValue(ngxSingleChartDataExample); break;
-            case "advancedPieChart": this.form.controls['graphDataJson'].setValue(ngxSingleChartDataExample); break;
-            case "forceDirectedGraph": this.form.controls['graphDataJson'].setValue(forceDirectedGraphDataExample); break;
-            case 'lineChart': this.form.controls['graphDataJson'].setValue(lineChartExample); break;
-            case 'pieChart': this.form.controls['graphDataJson'].setValue(pieChartExample); break;
-            case "HierarchicalEdgeBundling": this.form.controls['graphDataJson'].setValue(HierarchicalEdgeExample); break;
-            case "dendogramChart": this.form.controls['graphDataJson'].setValue(dendogramChartExemple); break;
-            default: ;
-        }
-
     }
     pageLayoutChange(value) {
         switch (value) {
@@ -197,21 +179,6 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
     textAlignChange(value) {
         this.slide.textVerAlign = value;
     }
-    getCsvJson(json) {
-        try {
-            console.log(json);
-            const j = json;
-            // for the chars has many series
-            if (this.form.value.slideGraph == "lineChart") {
-                this.csvJson = this.sortSeries(json);
-                // this.csvJson.push(j)
-            }
-            else this.csvJson = j;
-        }
-        catch (e) {
-            console.error("unvalidate json");
-        }
-    }
     /* image background*/
     setImageHtml(image) {
         this.slide.slideImage = image;
@@ -224,7 +191,7 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
             let index = -1;
             for (let i = 0; i < series.length; i++) {
 
-                if (name == series[i]) {
+                if (name === series[i]) {
                     index = i;
                     break;
                 }
@@ -251,10 +218,4 @@ export class SlideCreatorComponent implements OnInit, AfterViewInit, OnChanges {
     }
 }
 
-const ngxSingleChartDataExample = JSON.stringify(sampleData.single);
-const barCharDataExample = JSON.stringify(sampleData.barCharData);
-const forceDirectedGraphDataExample = JSON.stringify(sampleData.forceDirectedGraphData);
-const lineChartExample = JSON.stringify(sampleData.lineChartData);
-const pieChartExample = JSON.stringify(sampleData.pieChartData);
-const dendogramChartExemple = JSON.stringify(sampleData.dendogramChartData);
-const HierarchicalEdgeExample = JSON.stringify(sampleData.HierarchicalEdgeData);
+

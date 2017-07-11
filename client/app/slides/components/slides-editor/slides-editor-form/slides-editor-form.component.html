@@ -1,6 +1,6 @@
 <md-card-content>
-  <app-editor *ngIf="!id" #editor></app-editor>
-  <app-editor *ngIf="id" #editor [sliderIpt]="slider"></app-editor>
+  <app-slides-editor *ngIf="!id" #editor></app-slides-editor>
+  <app-slides-editor *ngIf="id" #editor [sliderIpt]="slider"></app-slides-editor>
 </md-card-content>
 <div class="base dark">
   <md-card-actions fxLayout="row" fxLayoutAlign="center center">
