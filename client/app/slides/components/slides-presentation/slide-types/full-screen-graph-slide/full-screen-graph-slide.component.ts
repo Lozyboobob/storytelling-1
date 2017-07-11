@@ -1,4 +1,4 @@
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Component, OnInit, AfterContentInit, OnChanges, SimpleChanges, Input, ViewChild, ViewChildren, ComponentFactoryResolver, ViewContainerRef, ComponentRef } from '@angular/core';
 import { Observable } from "rxjs/Observable";
 import { Slide } from "../../../../models";
@@ -13,37 +13,27 @@ import { ChartsService } from "../../../../services";
 export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit, OnChanges {
 
     @Input() slide: Slide;
-    // @Input() pos: number;
-    // @Input() slideload$: Observable<number>;
-    // @Input() slideease$: Observable<number>;
 
     @ViewChild('parent', { read: ViewContainerRef })
     parent: ViewContainerRef;
     private componentRef: ComponentRef<any>;
 
     config: PageConfig;
-    loadContentAni: boolean;
-    easeContentAni: boolean;
 
-    constructor(private _componentFactoryResolver: ComponentFactoryResolver,
+    constructor(
+        private _componentFactoryResolver: ComponentFactoryResolver,
         private chartsService: ChartsService,
-        private sanitizer: DomSanitizer) { }
-
-
-    ngAfterViewInit() {
-
+        private sanitizer: DomSanitizer) {
     }
 
     ngOnInit() {
         this.setConfig();
     }
 
-
     ngAfterContentInit() {
 
         if (this.slide.graph === 'noGraph') return;
         let cmpName: string;
-        console.log(this.slide)
         if (this.slide.config && this.slide.config.chartType
             && this.slide.config.chartType.cmpName != null) {
             cmpName = this.slide.config.chartType.cmpName;
@@ -90,16 +80,11 @@ export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit, 
 
     }
 
-
-
-
     private setConfig() {
         this.config = new PageConfig();
         Object.assign(this.config, FULL_LAYOUT);
         this.slide.text = this.sanitizer.bypassSecurityTrustHtml(this.slide.text) as string;
 
-        this.loadContentAni = true;
-        this.easeContentAni = false;
 
         if (this.slide.graph == "image") {
             this.config.hasImage = true;
@@ -121,25 +106,5 @@ export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit, 
         }
     }
 
-
-    private loadContent() {
-        if (this.config.hasText) {
-            this.loadContentAni = false;
-            //setTimeout(_ => {
-            this.easeContentAni = false;
-            this.loadContentAni = true
-            //  }, 625);
-        }
-    }
-
-    private easeContent() {
-        if (this.config.hasText) {
-            this.easeContentAni = false;
-            //  setTimeout(() => {
-            this.loadContentAni = false;
-            this.easeContentAni = true
-            //  }, 0);
-        }
-    }
 
 }
