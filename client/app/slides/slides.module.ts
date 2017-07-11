@@ -19,7 +19,7 @@ import { DndModule } from 'ng2-dnd';
 import { HotTableModule } from 'ng2-handsontable';
 
 
-import {PrezFormSearchComponent} from './components/prez/search/prez-form-search.component';
+import {PrezFormSearchComponent} from './components/slides-card-list/search/prez-form-search.component';
 // SLIDES COMPONENTS
 import { SlidesPresentationComponent,
     FullScreenGraphSlideComponent,
@@ -73,9 +73,9 @@ import { SlidesSettingComponent } from './components/slides-editor/slides-settin
 import { ChartsBuilderComponent, CodeEditorComponent, DataTableComponent } from './components/slides-editor/slide/charts-builder';
 import { SlidesEditorComponent } from './components/slides-editor/slides-editor.component';
 
-import { PrezListComponent } from './components/prez/prez-list.component';
-import { PrezListCardComponent } from './components/prez/card/prez-list-card.component';
-import { DeleteDialogComponent } from './components/prez/card/delete-dialog/delete-dialog.component';
+import { PrezListComponent } from './components/slides-card-list/slides-card-list.component';
+import { PrezListCardComponent } from './components/slides-card-list/card/prez-list-card.component';
+import { DeleteDialogComponent } from './components/slides-card-list/card/delete-dialog/delete-dialog.component';
 import { ToggleFullscreenDirective } from './components/slides-presentation/toggle-fullscreen.directive';
 
 

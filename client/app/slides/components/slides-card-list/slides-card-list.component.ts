@@ -6,8 +6,8 @@ import {Slides} from '../../models/index'
 import {NotifBarService} from "app/core";
 @Component({
   selector: 'app-prez-list',
-  templateUrl: './prez-list.component.html',
-  styleUrls: ['./prez-list.component.scss']
+  templateUrl: './slides-card-list.component.html',
+  styleUrls: ['./slides-card-list.component.scss']
 })
 
 export class PrezListComponent implements OnInit {
