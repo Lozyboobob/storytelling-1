@@ -1,4 +1,3 @@
-import { DomSanitizer } from '@angular/platform-browser';
 import { Component, OnInit, AfterContentInit, OnChanges, SimpleChanges, Input, ViewChild, ViewChildren, ComponentFactoryResolver, ViewContainerRef, ComponentRef, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from "rxjs/Observable";
 import { Slide } from "../../../../models";
@@ -27,8 +26,7 @@ export class RightGraphLeftTextSlideComponent implements OnInit, AfterContentIni
 
   constructor(
     private _componentFactoryResolver: ComponentFactoryResolver,
-    private chartsService: ChartsService,
-    private sanitizer: DomSanitizer) { }
+    private chartsService: ChartsService) { }
 
   ngOnInit() {
     this.setConfig();
@@ -80,7 +78,7 @@ export class RightGraphLeftTextSlideComponent implements OnInit, AfterContentIni
         }
 
     }
-    
+
     private setConfig() {
         this.config = new PageConfig();
         Object.assign(this.config, HALF_HALF_LAYOUT);

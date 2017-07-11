@@ -1,4 +1,3 @@
-import { DomSanitizer } from '@angular/platform-browser';
 import { Component, OnInit, AfterContentInit, OnChanges, SimpleChanges, Input, ViewChild, ViewChildren, ComponentFactoryResolver, ViewContainerRef, ComponentRef } from '@angular/core';
 import { Observable } from "rxjs/Observable";
 import { Slide } from "../../../../models";
@@ -22,8 +21,7 @@ export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit, 
 
     constructor(
         private _componentFactoryResolver: ComponentFactoryResolver,
-        private chartsService: ChartsService,
-        private sanitizer: DomSanitizer) {
+        private chartsService: ChartsService) {
     }
 
     ngOnInit() {
@@ -83,8 +81,6 @@ export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit, 
     private setConfig() {
         this.config = new PageConfig();
         Object.assign(this.config, FULL_LAYOUT);
-        this.slide.text = this.sanitizer.bypassSecurityTrustHtml(this.slide.text) as string;
-
 
         if (this.slide.graph == "image") {
             this.config.hasImage = true;
@@ -93,18 +89,5 @@ export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit, 
             this.config.hasChart = true;
         }
     }
-
-    private loadChart() {
-        if (this.config.hasChart) {
-            (<Chart>this.componentRef.instance).load();
-        }
-    }
-
-    private easeChart() {
-        if (this.config.hasChart) {
-            (<Chart>this.componentRef.instance).ease();
-        }
-    }
-
 
 }
