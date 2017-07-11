@@ -1,14 +1,8 @@
-@import 'client/theme.scss'; //  background-color: $accent;
+@import 'client/theme.scss';
 
 :host {
-    //  background-color: $accent;
     height: 100%;
     width: 100%;
-
-    .chart {
-        padding: 20px;
-        width: 100%;
-    }
 
     .graph-container {
         height: 100%;
@@ -27,7 +21,6 @@
         &.alignTop {
             align-items: none;
         }
-
         &.alignMiddle {
             align-items: center;
         }
@@ -39,11 +32,6 @@
         }
     }
 
-    .alignBottom h2 {
-        color: $accent;
-        font-size: $lg;
-    }
-
     /deep/ app-ng-graph {
         align-items: center;
         display: flex;
@@ -52,8 +40,6 @@
     }
 
     /deep/ .img-container {
-        //  margin-left: 20px;
-        //  margin-right: 20px;
         height: 100%;
         display: flex;
         align-items: center;
