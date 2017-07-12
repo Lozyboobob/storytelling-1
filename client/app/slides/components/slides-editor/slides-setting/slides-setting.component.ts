@@ -11,8 +11,10 @@ import {ValidService} from '../../../services/valid.service';
 export class SlidesSettingComponent implements OnInit, OnChanges {
     @Input() setting: SlidesSetting;
     @Output() onSettingChange: EventEmitter<SlidesSetting> = new EventEmitter();
+
     form: FormGroup;
     slidesSetting: SlidesSetting = new SlidesSetting();
+
     constructor(private _fb: FormBuilder, private validService: ValidService) {
         this.form = this._buildForm();
     }
@@ -23,10 +25,10 @@ export class SlidesSettingComponent implements OnInit, OnChanges {
         if (this.setting) {
             this.slidesSetting = this.setting;
             this.form = this._buildForm();
-            this.validService.changeSettingValid(this.form.valid)
+            this.validService.changeSettingValid(this.form.valid);
             this.form.valueChanges.subscribe(data => {
-                this.validService.changeSettingValid(this.form.valid)
-            })
+                this.validService.changeSettingValid(this.form.valid);
+            });
         }
     }
     private _buildForm() {

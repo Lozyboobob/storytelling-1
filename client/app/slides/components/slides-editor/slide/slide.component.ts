@@ -1,7 +1,4 @@
-import {
-    Component, OnInit, AfterViewInit, Input, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectorRef,
-    OnChanges
-} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, OnChanges } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators, FormArray  } from '@angular/forms';
 import {ValidService} from '../../../services/valid.service';
 import { environment } from '../../../../../environments/environment';
@@ -16,14 +13,16 @@ import { Slide } from '../../../models/slide';
     providers: []
 })
 
-export class SlideComponent implements OnInit, AfterViewInit, OnChanges {
+export class SlideComponent implements OnInit, OnChanges {
+
     @Output() confirmSlideOpt: EventEmitter<Object> = new EventEmitter();
     @Output() deleteSlideOpt: EventEmitter<number> = new EventEmitter();
     @Input() slideIndex: number;
     @Input() slideSetting: Slide;
     @Input() slideOpendIndex: number;
     @Output() openSlideIndex: EventEmitter<number> = new EventEmitter();
-    showForm: boolean = true; // indicator for showing slide setting
+
+    showForm= true; // indicator for showing slide setting
     @Input() isInShuffle: boolean;
     slide: Slide = new Slide();
     form: FormGroup;
@@ -32,20 +31,22 @@ export class SlideComponent implements OnInit, AfterViewInit, OnChanges {
     titleAlign: Array<string>;
     dataBuilder: any = {};
     editorOptions: Object;
-    @ViewChild("dataInput") dataInputTab;
-    @ViewChild("graphSelector") graphSelector;
+    @ViewChild('dataInput') dataInputTab;
+    @ViewChild('graphSelector') graphSelector;
     csvJson: any = [];
-    curTab: number = 0;
+    curTab = 0;
     constructor(private _fb: FormBuilder, private validService: ValidService) {
 
     }
 
     ngOnInit() {
-        if (!this.slide.pageTitle.title) this.slide.pageTitle.title = '';
+        if (!this.slide.pageTitle.title) {
+            this.slide.pageTitle.title = '';
+        }
         this.titleAlign = slideOption.titleAlign;
         this.graphs = slideOption.graphType;
         this.pageLayout = slideOption.pageLayoutOption;
-        //set server path
+        // set server path
         let baseURL = `${environment.backend.protocol}://${environment.backend.host}`;
         if (environment.backend.port) {
             baseURL += `:${environment.backend.port}`;
@@ -57,11 +58,9 @@ export class SlideComponent implements OnInit, AfterViewInit, OnChanges {
             toolbarSticky: false,
             imageUploadURL: `${baseURL}${environment.backend.endpoints.imagesServer}`,
             imageManagerLoadURL: `${baseURL}${environment.backend.endpoints.imagesServer}`
-        }
+        };
     }
-    ngAfterViewInit() {
 
-    }
     ngOnChanges() {
 
         if (this.slideSetting) {
@@ -84,7 +83,6 @@ export class SlideComponent implements OnInit, AfterViewInit, OnChanges {
             titleAlign: new FormControl(this.slide.pageTitle.align, Validators.nullValidator),
             slideText: new FormControl(this.slide.text, Validators.nullValidator),
             slideGraph: new FormControl(this.slide.graph, Validators.nullValidator),
-            //pageLayout: new FormControl(this.slide.pageLayout, Validators.required),
             graphData: this._fb.array([
                 this.initData(),
             ])
@@ -106,27 +104,25 @@ export class SlideComponent implements OnInit, AfterViewInit, OnChanges {
         /* to decide which data to take from tab*/
         if (this.slide.hasGraph) {
             if (this.dataBuilder.chartOptions.chartType
-                && this.dataBuilder.chartOptions.chartType.cmpName != null)
+                && this.dataBuilder.chartOptions.chartType.cmpName != null) {
                 this.slide.graph = this.dataBuilder.chartOptions.chartType.cmpName;
-            else this.slide.graph = "ngGraph"
-            /*  else if (this.dataBuilder.chartOptions.chartType
-                  && this.dataBuilder.chartOptions.chartType.name != null)
-                  this.form.value.slideGraph = this.dataBuilder.chartOptions.chartType.name;*/
+            } else {
+                this.slide.graph = 'ngGraph';
+            }
             this.slide.data = this.dataBuilder.data;
             this.slide.config = this.dataBuilder.chartOptions;
+        } else {
+            this.slide.graph = 'noGraph';
         }
-        else this.slide.graph = "noGraph";
-        //this.slide.pageLayout = this.form.value.pageLayout;
-        if (!this.slide.hasText)
-            this.slide.text = "";
+        if (!this.slide.hasText) {
+            this.slide.text = '';
+        }
         if (this.slideIndex) {
             this.slide.index = this.slideIndex;
         }
         this.slide.pageTitle.title = this.form.value.pageTitle;
         this.slide.pageTitle.align = this.form.value.titleAlign;
         this.csvJson = [];
-
-
     }
 
     confirmeSlideGRaphConfig(data) {
@@ -150,29 +146,28 @@ export class SlideComponent implements OnInit, AfterViewInit, OnChanges {
     }
     /* when change graph*/
     graphChanged() {
-        //
-        //change json sample
-        //**if the slide data is already set
-        if (this.slide.data != undefined) {
+        // change json sample
+        // if the slide data is already set
+        if (this.slide.data !== undefined) {
             if (this.slide.data.length && this.form.value.slideGraph == this.slide.graph) {
-                //if has data, set tab to json
+                // if has data, set tab to json
                 this.curTab = 0;
-                let data = { "graphData": this.slide.data };
+                let data = { 'graphData': this.slide.data };
                 return;
             }
         }
     }
     pageLayoutChange(value) {
         switch (value) {
-            case "FullScreenGraph":
+            case 'FullScreenGraph':
                 this.slide.hasGraph = true;
                 this.slide.hasText = false;
                 break;
-            case "textInCenter": this.slide.hasGraph = false; this.slide.hasText = true; break;
-            case "textInCenterImageBackground": this.slide.hasGraph = false; this.slide.hasText = true; break;
-            case "LeftGraphRightText": this.slide.hasGraph = true; this.slide.hasText = true; break;
-            case "LeftTextRightGraph": this.slide.hasGraph = true; this.slide.hasText = true; break;
-            default: ;
+            case 'textInCenter': this.slide.hasGraph = false; this.slide.hasText = true; break;
+            case 'textInCenterImageBackground': this.slide.hasGraph = false; this.slide.hasText = true; break;
+            case 'LeftGraphRightText': this.slide.hasGraph = true; this.slide.hasText = true; break;
+            case 'LeftTextRightGraph': this.slide.hasGraph = true; this.slide.hasText = true; break;
+            default: break;
         }
         this.slide.pageLayout = value;
     }
@@ -200,20 +195,17 @@ export class SlideComponent implements OnInit, AfterViewInit, OnChanges {
         };
         data.forEach(obj => {
             const seriesIndex = isInSeries(obj['series']);
-            if (seriesIndex != -1) {
-                newJson[seriesIndex].push(obj)
-                console.log('add to series', obj['series']);
-            }
-            else {
+            if (seriesIndex !== -1) {
+                /* add to series */
+                newJson[seriesIndex].push(obj);
+            } else {
+                /* create new series */
                 series.push(obj['series']);
-                console.log(series);
                 const newSeries: Array<any> = [];
                 newSeries.push(obj);
                 newJson.push(newSeries);
-                console.log('create new series', obj['series']);
             }
         });
-        console.log(newJson);
         return newJson;
     }
 }
