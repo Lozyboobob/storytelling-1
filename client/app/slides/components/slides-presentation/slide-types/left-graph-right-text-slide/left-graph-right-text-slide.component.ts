@@ -12,14 +12,12 @@ import { ChartsService } from "../../../../services";
 })
 export class LeftGraphRightTextSlideComponent implements OnInit, AfterContentInit, OnChanges {
 
-
     @Input() slide: Slide;
 
     @ViewChild('parent', { read: ViewContainerRef })
     parent: ViewContainerRef;
     private componentRef: ComponentRef<any>;
-
-    config: PageConfig;
+    private config: PageConfig;
 
     constructor(
         private _componentFactoryResolver: ComponentFactoryResolver,
@@ -31,7 +29,13 @@ export class LeftGraphRightTextSlideComponent implements OnInit, AfterContentIni
     }
 
     ngAfterContentInit() {
+        this.resolveCmp();
+    }
 
+    ngOnChanges() {
+        this.resolveCmp();
+    }
+    private resolveCmp() {
         if (this.slide.graph === 'noGraph') return;
         let cmpName: string;
 
@@ -45,23 +49,6 @@ export class LeftGraphRightTextSlideComponent implements OnInit, AfterContentIni
         let cmpType: string = cmpName.charAt(0).toUpperCase() + cmpName.slice(1) + 'Component';
         this.setChart(cmpType);
     }
-
-    ngOnChanges(changes: SimpleChanges) {
-        if (this.slide.graph === 'noGraph') return;
-        let cmpName: string;
-
-        if (this.slide.config && this.slide.config.chartType
-            && this.slide.config.chartType.cmpName != null) {
-            cmpName = this.slide.config.chartType.cmpName;
-        } else {
-            cmpName = this.slide.graph;
-        }
-
-        let cmpType: string = cmpName.charAt(0).toUpperCase() + cmpName.slice(1) + 'Component';
-        console.log(cmpType);
-        this.setChart(cmpType);
-    }
-
 
     private setChart(chartType: string) {
         const componentFactory = this._componentFactoryResolver.resolveComponentFactory(this.chartsService.getChartType(chartType));

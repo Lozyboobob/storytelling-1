@@ -12,12 +12,9 @@ import { ChartsService } from "../../../../services";
 export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit, OnChanges {
 
     @Input() slide: Slide;
-
-    @ViewChild('parent', { read: ViewContainerRef })
-    parent: ViewContainerRef;
+    @ViewChild('parent', { read: ViewContainerRef }) parent: ViewContainerRef;
     private componentRef: ComponentRef<any>;
-
-    config: PageConfig;
+    private config: PageConfig;
 
     constructor(
         private _componentFactoryResolver: ComponentFactoryResolver,
@@ -29,21 +26,14 @@ export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit, 
     }
 
     ngAfterContentInit() {
-
-        if (this.slide.graph === 'noGraph') return;
-        let cmpName: string;
-        if (this.slide.config && this.slide.config.chartType
-            && this.slide.config.chartType.cmpName != null) {
-            cmpName = this.slide.config.chartType.cmpName;
-        } else {
-            cmpName = this.slide.graph;
-        }
-
-        let cmpType: string = cmpName.charAt(0).toUpperCase() + cmpName.slice(1) + 'Component';
-        this.setChart(cmpType);
+        this.resolveCmp();
     }
 
-    ngOnChanges(changes: SimpleChanges) {
+    ngOnChanges() {
+        this.resolveCmp();
+
+    }
+    private resolveCmp() {
         if (this.slide.graph === 'noGraph') return;
         let cmpName: string;
 
@@ -56,7 +46,6 @@ export class FullScreenGraphSlideComponent implements OnInit, AfterContentInit, 
 
         let cmpType: string = cmpName.charAt(0).toUpperCase() + cmpName.slice(1) + 'Component';
         this.setChart(cmpType);
-
     }
 
     private setChart(chartType: string) {
