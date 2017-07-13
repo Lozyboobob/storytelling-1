@@ -1,36 +1,36 @@
-<a class="toto" *ngIf="(loggedIn$|async)||slides.slidesSetting.public" [routerLink]="['/slides/slidesPresentation', slides._id]">
+<a class="card-container" *ngIf="(loggedIn$|async)||slides.slidesSetting.public" [routerLink]="['/slides/slidesPresentation', slides._id]">
   <md-card class="prez-list-card">
-    <h2>{{slides.slidesSetting.title}}</h2>
+    <h2 class="slides-title">{{slides.slidesSetting.title}}</h2>
     <div class="md-card-image" style="background-image:url('assets/logo_full_banner.png');">
       <div class="banner-container" *ngIf="slides.slidesSetting.banner && slides.slidesSetting.banner.path">
       <img class="banner"  [src]="slides.slidesSetting.banner.path">
       <div class="banner-mask"></div>
       </div>
       <div class="options">
-        <a *ngIf="loggedIn$|async" (click)="toggleFavorite($event); false" [class.favorite]="slides.slidesSetting.favorite" [class.unfavorite]="!slides.slidesSetting.favorite" [mdTooltip]="slides.slidesSetting.favorite ? 'Remove from favorite' : 'Add to favorite'">
+        <a class="option-btn" *ngIf="loggedIn$|async" (click)="toggleFavorite($event); false" [class.favorite]="slides.slidesSetting.favorite" [class.unfavorite]="!slides.slidesSetting.favorite" [mdTooltip]="slides.slidesSetting.favorite ? 'Remove from favorite' : 'Add to favorite'">
           <md-icon *ngIf="!slides.slidesSetting.favorite" md-ripple mdRippleCentered="true" mdRippleUnbounded="true">favorite_border</md-icon>
           <md-icon *ngIf="slides.slidesSetting.favorite" md-ripple mdRippleCentered="true" mdRippleUnbounded="true">favorite</md-icon>
         </a>
-        <div *ngIf="(loggedIn$|async) && ((username$|async) === slides.slidesSetting.author)&&editable">
-          <a (click)="publish($event); false" [class.published]="slides.slidesSetting.public" [class.unpublished]="!slides.slidesSetting.public" [mdTooltip]="slides.slidesSetting.public ? 'Unpublish' : 'Publish'">
+        <div *ngIf="(loggedIn$|async) && ((username$|async) === slides.slidesSetting.author)&&editable" class="btn-group">
+          <a class="option-btn" (click)="publish($event); false" [class.published]="slides.slidesSetting.public" [class.unpublished]="!slides.slidesSetting.public" [mdTooltip]="slides.slidesSetting.public ? 'Unpublish' : 'Publish'">
             <md-icon md-ripple mdRippleCentered="true" mdRippleUnbounded="true">publish</md-icon>
           </a>
-          <a (click)="deleteSlides($event, slides._id); false" mdTooltip="Delete">
+          <a class="option-btn" (click)="deleteSlides($event, slides._id); false" mdTooltip="Delete">
             <md-icon md-ripple mdRippleCentered="true" mdRippleUnbounded="true">delete</md-icon>
           </a>
-          <a (click)="open($event); false" [routerLink]="['slides', slides._id]" mdTooltip="Edit">
+          <a class="option-btn" (click)="open($event); false" [routerLink]="['slides', slides._id]" mdTooltip="Edit" >
             <md-icon md-ripple mdRippleCentered="true" mdRippleUnbounded="true">edit</md-icon>
           </a>
-          <a (click)="duplicateSlides($event,slides); false"  mdTooltip="Copy">
+          <a class="option-btn" (click)="duplicateSlides($event,slides); false"  mdTooltip="Copy">
             <md-icon md-ripple mdRippleCentered="true" mdRippleUnbounded="true">content_copy</md-icon>
           </a>
         </div>
       </div>
-      <md-chip-list>
+      <md-chip-list class="tip-list">
         <md-chip class="tip" *ngFor="let tag of slides.slidesSetting.tags">{{tag}}</md-chip>
       </md-chip-list>
     </div>
-    <md-card-content>
+    <md-card-content class="card-content">
       <p class="description">{{slides.slidesSetting.description}}</p>
       <p class="author">{{slides.slidesSetting.author}}</p>
     </md-card-content>

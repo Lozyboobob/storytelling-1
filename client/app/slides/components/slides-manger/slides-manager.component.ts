@@ -12,22 +12,21 @@ import {NotifBarService} from "app/core";
 
 export class SlidesMangerComponent implements OnInit {
   @select(['session', 'token']) loggedIn$: Observable<string>;
-  states = ['All', 'Private', 'Public'];
-  selectedState = 'All';
-  selectedFavorite = 'All';
-
-  result = {
+  private states = ['All', 'Private', 'Public'];
+  private selectedState = 'All';
+  private selectedFavorite = 'All';
+  private result = {
     noResult: false,
     noPublish: false,
     noSlides: false,
     noPrivate: false
   };
-  toSearch = {
+  private toSearch = {
     title: '',
     filter: 'All',
     favorite: 'All'
   };
-  slides: Array<Slides> = [];
+  private slides: Array<Slides> = [];
   constructor(
     private slidesService: SlidesService,
     private notifBarService:NotifBarService
@@ -37,7 +36,6 @@ export class SlidesMangerComponent implements OnInit {
     this.slidesService.getSlidesList()
       .subscribe(
       slide => {
-        /*slide.forEach(s => this.slides.push(new SlidesListItem(s.slidesSetting)))*/
         this.slides = slide;
         this.result = this.calculResult(this.slides.length, this.toSearch.filter, this.toSearch.title);
       },
@@ -46,7 +44,6 @@ export class SlidesMangerComponent implements OnInit {
       });
   }
   search(paramsTosearch) {
-    console.log("search trigger");
     //get search result
     this.toSearch.title = paramsTosearch || '';
     this.slidesService.getSlideToSearch(this.toSearch)
