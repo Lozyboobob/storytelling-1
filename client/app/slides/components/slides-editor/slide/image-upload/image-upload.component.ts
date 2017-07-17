@@ -43,20 +43,7 @@ export class ImageUploadComponent implements OnInit, OnChanges {
         }
     }
     onChange() {
-        //this.imgPreview = this.imagePath;
-        //this.imgPreview = this.imagePath;
         const inputEl = this.el.nativeElement.querySelector('#banner');
-        /*  const fileCount: number = inputEl.files.length;
-          const formData = new FormData(inputEl);
-          if (fileCount > 0) { // a file was selected
-              formData.append('banner', inputEl.files[0]);
-              this.slidesService.uploadImage(formData).subscribe( image => {
-                  this.uploadImage.emit(image._id);
-                  this.imgPreview = image.path;
-                  console.log("get image");
-                  this.setImage.emit(image.path);
-              });
-          }*/
         let file = inputEl.files[0];
 
         let textType = /image.*/;
@@ -66,11 +53,7 @@ export class ImageUploadComponent implements OnInit, OnChanges {
             var reader: any = new FileReader();
 
             reader.onload = (e) => {
-                //upload image
-                let img = {
-                    data: file,
-                    contentType: 'image/*'
-                }
+                // upload image
                 this.slidesService.uploadImage(file)
                     .subscribe(
                     image => {
@@ -84,8 +67,7 @@ export class ImageUploadComponent implements OnInit, OnChanges {
                         this.notifBarService.showNotif("opps! fail to upload image: " + error);
                     });
 
-            }
-
+            };
             reader.readAsDataURL(file);
         } else {
             this.notifBarService.showNotif("sorry, the image format is not supported")

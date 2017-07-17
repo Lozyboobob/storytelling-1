@@ -26,14 +26,5 @@ export class DataTableComponent implements OnInit {
   afterChange(e: any) {
     // tslint:disable-next-line:no-console
     this.updatedData.emit(this.data);
-    console.log(this.data);
   }
-
-  afterOnCellMouseDown(e: any) {
-    // tslint:disable-next-line:no-console
-    console.log(e);
-  }
-
-
-
 }
