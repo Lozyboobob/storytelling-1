@@ -4,24 +4,6 @@
 :host {
     position: relative;
 
-    .chart {
-        padding: 20px;
-        width: 100%;
-    }
-
-
-  md-grid-tile {
-    overflow: visible;
-  }
-
-    md-grid-list,
-    md-grid-tile {
-        height: 100%;
-        overflow: visible;
-        padding-bottom: 0 !important;
-        padding-top: 0 !important;
-    }
-
     .text-container {
         display: flex;
         height: 100%;
@@ -32,7 +14,6 @@
         &.alignTop {
             align-items: none;
         }
-
         &.alignMiddle {
             align-items: center;
         }
