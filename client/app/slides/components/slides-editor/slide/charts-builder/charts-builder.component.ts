@@ -114,7 +114,6 @@ export class ChartsBuilderComponent implements OnInit, DoCheck {
         else if (!this.hasValidDimensions) {
             this.warnMsg = "unvalid dimensions"
         }
-        console.log(this.hasValidDimensions, this.hasChartSelected, this.hasValidData)
         return (this.hasValidDimensions == undefined ? false : this.hasValidDimensions) && (this.hasChartSelected == undefined ? false : this.hasChartSelected) && (this.hasValidData == undefined ? false : this.hasValidData);
     }
 
@@ -161,7 +160,6 @@ export class ChartsBuilderComponent implements OnInit, DoCheck {
     }
     changeFormat() {
         this.formatTable = !this.formatTable;
-        console.log('formatTable: ', this.formatTable);
     }
     loadData() {
         if (this.inputOptions) {

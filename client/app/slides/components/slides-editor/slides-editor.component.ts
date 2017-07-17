@@ -12,39 +12,37 @@ import {NotifBarService} from 'app/core';
 })
 export class SlidesEditorComponent implements OnChanges {
 
-    curSlideIndex: number = 1;// the slide that will be created(the amounts of slides pages +1 )
     slider: Slides = new Slides(); // the whole slides
-    isValidated: boolean = false;
-    isValidatedSetting: boolean = false;
-    isValidatedSlide: boolean = true;
-    isInShuffle: boolean = false;
+    curSlideIndex = 1; // the slide that will be created(the amounts of slides pages +1 )
+
+    isValidated = false;
+    isValidatedSlide = true;
+    isValidatedSetting = false;
+
+    isInShuffle = false;
     shuffleOrder: Array<number> = [];
+    slideOpendIndex: number;
     shuffleTransition = {
         drag: 0,
         drop: 0
-    }
-    slideOpendIndex: number;
-    @ViewChildren("creator") _creatorEle: any;
+    };
+
     @Input() sliderIpt: Slides;
+
     @Output() submit = new EventEmitter();
     @Output() bannerImageUpload = new EventEmitter();
-    //  @Output() validate= new EventEmitter();
 
-    constructor(private dragulaService: DragulaService, private validService: ValidService,private notifBarService:NotifBarService) {
+    constructor(private dragulaService: DragulaService, private validService: ValidService, private notifBarService: NotifBarService) {
         dragulaService.drag.subscribe(value => {
-            // value[0] will always be bag name
             this.onDrag(value.slice(1));
         });
         dragulaService.drop.subscribe((value: any) => {
-            console.log(value);
             this.onDrop(value.slice(1));
         });
         dragulaService.over.subscribe((value: any) => {
-            //console.log(`over: ${value[0]}`);
             this.onOver(value.slice(1));
         });
         dragulaService.out.subscribe((value: any) => {
-            //console.log(`out: ${value[0]}`);
             this.onOut(value.slice(1));
         });
     }
@@ -84,17 +82,24 @@ export class SlidesEditorComponent implements OnChanges {
         let [el] = args;
         let index = [].slice.call(el.parentElement.children).indexOf(el)
         this.shuffleTransition.drop = index;
-        //save the changed order
+        // save the changed order
         this.shuffleOrder.forEach((order, i) => {
             if (this.shuffleTransition.drag < this.shuffleTransition.drop) {
-                if ((i > this.shuffleTransition.drag || i == this.shuffleTransition.drag) && i < this.shuffleTransition.drop) this.shuffleOrder[i]++;
-                if (i == this.shuffleTransition.drop) this.shuffleOrder[i] = this.shuffleTransition.drag;
+                if ((i > this.shuffleTransition.drag || i === this.shuffleTransition.drag) && i < this.shuffleTransition.drop) {
+                    this.shuffleOrder[i]++;
+                }
+                if (i === this.shuffleTransition.drop) {
+                    this.shuffleOrder[i] = this.shuffleTransition.drag;
+                }
+            } else if (this.shuffleTransition.drag > this.shuffleTransition.drop) {
+                if ((i < this.shuffleTransition.drag || i === this.shuffleTransition.drag) && i > this.shuffleTransition.drop) {
+                    this.shuffleOrder[i]--;
+                }
+                if (i === this.shuffleTransition.drop) {
+                    this.shuffleOrder[i] = this.shuffleTransition.drag;
+                }
             }
-            else if (this.shuffleTransition.drag > this.shuffleTransition.drop) {
-                if ((i < this.shuffleTransition.drag || i == this.shuffleTransition.drag) && i > this.shuffleTransition.drop) this.shuffleOrder[i]--;
-                if (i == this.shuffleTransition.drop) this.shuffleOrder[i] = this.shuffleTransition.drag;
-            }
-        })
+        });
         this.addClass(el, 'ex-moved');
     }
 
@@ -115,25 +120,23 @@ export class SlidesEditorComponent implements OnChanges {
 
     /* trigger when slides setting change*/
     slidesSettingChange(setting) {
-
         this.slider.slidesSetting = setting;
-
     }
     /* validate status change*/
     settingValidateChange(status) {
         this.isValidatedSetting = status;
         this.checkValid();
-        //this.validate.emit(status);
     }
     slideValidateChange(status) {
         this.isValidatedSlide = status;
         this.checkValid();
-        //this.validate.emit(status);
     }
     checkValid() {
-        if (this.isValidatedSetting && this.isValidatedSlide)
+        if (this.isValidatedSetting && this.isValidatedSlide) {
             this.isValidated = true;
-        else this.isValidated = false;
+        } else {
+            this.isValidated = false;
+        }
     }
     /*add a new page of slide*/
     addSlide() {
@@ -146,16 +149,14 @@ export class SlidesEditorComponent implements OnChanges {
     submitSlide(slide) {
         /* modify slide*/
         if (slide.index < this.curSlideIndex) {
+            /* slide existing */
             this.slider.slides[slide.index - 1] = Object.assign({}, slide);
-            console.log("slide existing");
-        }
-        /* create new slide*/
-        else {
+        } else {
+            /* create new slide*/
             this.curSlideIndex++;
             let s: Slide = Object.assign({}, slide);
             s.index = this.curSlideIndex;
             this.slider.slides.push(s);
-            console.log("slide new");
         }
     }
     /* delete a page of slide*/
@@ -166,46 +167,35 @@ export class SlidesEditorComponent implements OnChanges {
                 /*change slide index*/
                 this.slider.slides.forEach(
                     s => {
-                        if (s.index > index - 1)
+                        if (s.index > index - 1) {
                             s.index--;
+                        }
                     }
-                )
+                );
+                /* slide deleted in local */
                 this.curSlideIndex--;
-                console.log("slide deleted in local");
             }
             this.validService.changeSlideValid(true, index, "DELETE");
-        }
-        catch (err) {
-            this.notifBarService.showNotif("delete fail : "+err);
+        } catch (err) {
+            this.notifBarService.showNotif('delete fail : '+err);
         }
     }
-    /* check creator valid => not used*/
-    /*checkCreator(index): boolean {
-        let creator = this._creatorEle.toArray();
-        let valid = true;
-        creator.forEach(c => {
-            if (!c.form.valid && c.slideIndex != index) valid = false
-        })
-        return valid;
-    }*/
-
     /*change slide order*/
     shuffleSlide() {
-        //save new order
+        // save new order
         if (this.isInShuffle) {
             let slides = Object.assign({}, this.slider.slides);;
             this.shuffleOrder.forEach((order, i) => {
                 this.slider.slides[i] = slides[order];
                 this.slider.slides[i].index = i + 1;
-            })
+            });
             this.isInShuffle = false;
-        }
-        //start to shuffle
-        else {
+        } else {
+            // start to shuffle
             this.shuffleOrder = [];
             this.slider.slides.forEach((s, i) => {
                 this.shuffleOrder.push(i);
-            })
+            });
 
             this.isInShuffle = true;
         }

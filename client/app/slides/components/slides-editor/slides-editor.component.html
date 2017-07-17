@@ -1,6 +1,4 @@
 <app-slides-setting #slidesSetting (onSettingChange)="slidesSettingChange($event)" (formValidateChange)="settingValidateChange($event)" [setting]="slider.slidesSetting"></app-slides-setting>
-
-
 <div *ngIf="!isInShuffle" #slideBlock>
   <app-slide *ngFor="let slide of slider.slides;let i=index" [slideIndex]="i+1" [slideOpendIndex]="slideOpendIndex" (openSlideIndex)="openSlideIndex($event)" [slideSetting]="slide" (confirmSlideOpt)="submitSlide($event)" (deleteSlideOpt)="deleteSlide($event)" (formValidateChange)="slideValidateChange($event)" #creator></app-slide>
 </div>
@@ -22,5 +20,4 @@
   <a md-fab (click)="clearShuffle()" mdTooltip="clear changes" *ngIf="isInShuffle">
     <md-icon>clear</md-icon>
   </a>
-
 </div>
