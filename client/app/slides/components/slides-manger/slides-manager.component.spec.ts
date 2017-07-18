@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import {SlidesCardComponent } from './slides-card/slides-card.component'
 import { SlidesMangerComponent } from './slides-manager.component';
 
 describe('SlidesMangerComponent', () => {
@@ -8,7 +8,8 @@ describe('SlidesMangerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [SlidesMangerComponent]
+      declarations: [SlidesMangerComponent],
+      imports:[SlidesCardComponent]
     })
       .compileComponents();
   }));

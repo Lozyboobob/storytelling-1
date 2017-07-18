@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { MaterialModule, OverlayContainer, TooltipPosition } from '@angular/material';
 import { AngularFontAwesomeModule } from 'angular-font-awesome/angular-font-awesome';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import {XHRBackend, Http, RequestOptions} from '@angular/http';
+import {XHRBackend, RequestOptions} from '@angular/http';
 
 // NGX-CHARTS MODULE
 import { PieChartModule, GaugeModule, NgxChartsModule } from '@swimlane/ngx-charts';
