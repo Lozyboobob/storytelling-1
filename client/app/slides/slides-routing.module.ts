@@ -14,7 +14,7 @@ const slidesRoutes: Routes = [
     canActivate: [Auth],
     data: {
       roles: ['*'],
-      title: 'slides Manager'
+      title: 'slides List'
     },
     pathMatch: 'full'
   }, {
