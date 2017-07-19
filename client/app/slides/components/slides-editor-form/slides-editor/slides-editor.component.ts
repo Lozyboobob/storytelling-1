@@ -28,7 +28,6 @@ export class SlidesEditorComponent implements OnChanges {
     };
 
     @Input() sliderIpt: Slides;
-
     @Output() submit = new EventEmitter();
     @Output() bannerImageUpload = new EventEmitter();
 
