@@ -41,9 +41,10 @@ export class DendogramComponent extends Chart implements OnInit, OnChanges {
      */
     public static convertData(dataDims: string[], rawData: any) {
 
+        if(dataDims===undefined||rawData===undefined) return null;
         const hierarchy$ = depth => d => d[dataDims[0][depth]];
         const value$ = d => d[dataDims[1]];
-        const depthDim = dataDims[0].length;
+        const depthDim = dataDims[0]?dataDims[0].length:0;
 
         const root = [ { id: _.head(dataDims[0]), value: 0 } ];
 
@@ -77,6 +78,7 @@ export class DendogramComponent extends Chart implements OnInit, OnChanges {
             this.data = DendogramComponent.convertData(this.chartOptions.dataDims, this.dataInput);
         else
             this.data = this.dataInput;
+        if(this.data===undefined) return;
         this.drawChart();
         this.load();
     }
