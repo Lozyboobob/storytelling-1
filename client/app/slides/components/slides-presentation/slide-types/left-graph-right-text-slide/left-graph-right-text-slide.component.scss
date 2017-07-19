@@ -1,26 +1,8 @@
-@import 'client/theme.scss'; //  background-color: $accent;
+@import 'client/theme.scss';
 
 :host {
-    //  background-color: $accent;
     height: 100%;
     width: 100%;
-
-    .chart {
-        padding: 20px;
-        width: 100%;
-    }
-
-    md-grid-tile {
-        overflow: visible;
-    }
-
-    md-grid-list,
-    md-grid-tile {
-        height: 100%;
-        overflow: visible;
-        padding-bottom: 0 !important;
-        padding-top: 0 !important;
-    }
 
     .graph-container {
         height: 100%;
@@ -30,16 +12,24 @@
     }
 
     .text-container {
-        align-items: center;
         display: flex;
         height: 100%;
         padding-left: 10px;
         padding-right: 20px;
-    }
+        position: relative;
 
-    h2 {
-        color: $accent;
-        font-size: $lg;
+        &.alignTop {
+            align-items: none;
+        }
+        &.alignMiddle {
+            align-items: center;
+        }
+        &.alignBottom {
+            div:first-child {
+                position: absolute;
+                bottom: 120px;
+            }
+        }
     }
 
     /deep/ app-ng-graph {
@@ -50,8 +40,6 @@
     }
 
     /deep/ .img-container {
-        //  margin-left: 20px;
-        //  margin-right: 20px;
         height: 100%;
         display: flex;
         align-items: center;

@@ -1,5 +1,4 @@
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { Component, OnInit, AfterContentInit, OnChanges, SimpleChanges, AfterViewInit, Input, ViewChild, ViewChildren, ComponentFactoryResolver, ViewContainerRef, ComponentRef } from '@angular/core';
+import { Component, OnInit, AfterContentInit, OnChanges, SimpleChanges, Input, ViewChild, ComponentFactoryResolver, ViewContainerRef, ComponentRef } from '@angular/core';
 import { Observable } from "rxjs/Observable";
 import { Slide } from "../../../../models";
 import { PageConfig, HALF_HALF_LAYOUT } from "../../pageConfig";
@@ -13,38 +12,35 @@ import { ChartsService } from "../../../../services";
 })
 export class LeftGraphRightTextSlideComponent implements OnInit, AfterContentInit, OnChanges {
 
-
     @Input() slide: Slide;
-    @Input() pos: number;
-    @Input() slideload$: Observable<number>;
-    @Input() slideease$: Observable<number>;
 
     @ViewChild('parent', { read: ViewContainerRef })
     parent: ViewContainerRef;
     private componentRef: ComponentRef<any>;
+    private config: PageConfig;
 
-    config: PageConfig;
-    loadContentAni: boolean = false;
-    easeContentAni: boolean = false;
+    constructor(
+        private _componentFactoryResolver: ComponentFactoryResolver,
+        private chartsService: ChartsService) { }
 
-    constructor(private _componentFactoryResolver: ComponentFactoryResolver,
-        private chartsService: ChartsService,
-        private sanitizer: DomSanitizer) { }
-
-    ngAfterViewInit() {
-    }
 
     ngOnInit() {
         this.setConfig();
     }
 
     ngAfterContentInit() {
+        this.resolveCmp();
+    }
 
+    ngOnChanges() {
+        this.resolveCmp();
+    }
+    private resolveCmp() {
         if (this.slide.graph === 'noGraph') return;
         let cmpName: string;
 
-        if(this.slide.config && this.slide.config.chartType
-        && this.slide.config.chartType.cmpName != null){
+        if (this.slide.config && this.slide.config.chartType
+            && this.slide.config.chartType.cmpName != null) {
             cmpName = this.slide.config.chartType.cmpName;
         } else {
             cmpName = this.slide.graph;
@@ -53,23 +49,6 @@ export class LeftGraphRightTextSlideComponent implements OnInit, AfterContentIni
         let cmpType: string = cmpName.charAt(0).toUpperCase() + cmpName.slice(1) + 'Component';
         this.setChart(cmpType);
     }
-
-    ngOnChanges(changes: SimpleChanges) {
-        if (this.slide.graph === 'noGraph') return;
-        let cmpName: string;
-
-        if(this.slide.config && this.slide.config.chartType
-        && this.slide.config.chartType.cmpName != null){
-            cmpName = this.slide.config.chartType.cmpName;
-        } else {
-            cmpName = this.slide.graph;
-        }
-
-        let cmpType: string = cmpName.charAt(0).toUpperCase() + cmpName.slice(1) + 'Component';
-        console.log(cmpType);
-        this.setChart(cmpType);
-    }
-
 
     private setChart(chartType: string) {
         const componentFactory = this._componentFactoryResolver.resolveComponentFactory(this.chartsService.getChartType(chartType));
@@ -79,7 +58,7 @@ export class LeftGraphRightTextSlideComponent implements OnInit, AfterContentIni
         }
         this.componentRef = this.parent.createComponent(componentFactory);
         if (chartType == 'ImageComponent') {
-          console.log("get path");
+            console.log("get path");
             if (this.slide.slideImage) this.componentRef.instance.path = this.slide.slideImage.path;
         }
         else {
@@ -100,37 +79,4 @@ export class LeftGraphRightTextSlideComponent implements OnInit, AfterContentIni
             this.config.hasChart = true;
         };
     }
-
-    private loadChart() {
-      if (this.slide.text.length) {
-          this.slide.text = this.sanitizer.bypassSecurityTrustHtml(this.slide.text) as string;
-      }
-        if (this.config.hasChart) {
-            (<Chart>this.componentRef.instance).load();
-        }
-    }
-
-    private easeChart() {
-        if (this.config.hasChart) {
-            (<Chart>this.componentRef.instance).ease();
-        }
-    }
-
-
-    private loadContent() {
-        if (this.config.hasText) {
-            this.loadContentAni = false;
-            this.easeContentAni = false;
-            this.loadContentAni = true;
-        }
-    }
-
-    private easeContent() {
-        if (this.config.hasText) {
-            this.easeContentAni = false;
-            this.loadContentAni = false;
-            this.easeContentAni = true;
-        }
-    }
-
 }
