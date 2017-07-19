@@ -7,7 +7,7 @@
         <div class="banner-mask"></div>
       </div>
       <div class="options">
-        <a class="option-btn" *ngIf="loggedIn$|async" (click)="toggleFavorite($event); false" [class.favorite]="slides&&slides.slidesSetting.favorite" [class.unfavorite]="slides&&slides.slidesSetting.favorite" [mdTooltip]="(slides&&slides.slidesSetting.favorite) ? 'Remove from favorite' : 'Add to favorite'">
+        <a class="option-btn" *ngIf="loggedIn$|async" (click)="toggleFavorite($event); false" [class.favorite]="slides&&slides.slidesSetting.favorite" [class.unfavorite]="slides&&!slides.slidesSetting.favorite" [mdTooltip]="(slides&&slides.slidesSetting.favorite) ? 'Remove from favorite' : 'Add to favorite'">
           <md-icon *ngIf="slides&&!slides.slidesSetting.favorite" md-ripple mdRippleCentered="true" mdRippleUnbounded="true">favorite_border</md-icon>
           <md-icon *ngIf="slides&&slides.slidesSetting.favorite" md-ripple mdRippleCentered="true" mdRippleUnbounded="true">favorite</md-icon>
         </a>

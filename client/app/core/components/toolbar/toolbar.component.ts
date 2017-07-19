@@ -8,29 +8,28 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 
 import { SessionActions } from '../../actions';
-import { IUser } from "../../store/session";
+import { IUser } from '../../store/session';
 import { ToggleNavService } from '../../services';
 
 @Component({
-  selector: 'app-app-toolbar',
-  templateUrl: './app-toolbar.component.html',
-  styleUrls: ['./app-toolbar.component.scss']
+  selector: 'app-toolbar',
+  templateUrl: './toolbar.component.html',
+  styleUrls: ['./toolbar.component.scss']
 })
-export class AppToolbarComponent implements OnInit {
+export class ToolbarComponent implements OnInit {
   title : string;
   isToggled: Observable<boolean>;
 
   @Input() titleToolbar: string;
   @select(['session', 'token']) loggedIn$: Observable<string>;
   @select(['session', 'user']) user$: Observable<IUser>;
-   
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
-              private actions: SessionActions, 
+              private actions: SessionActions,
               private toggleNavService: ToggleNavService) {}
 
 
-  ngOnInit(){
+  ngOnInit() {
     this.router.events
       .filter(event => event instanceof NavigationEnd)
       .map(() => this.activatedRoute)
@@ -43,7 +42,7 @@ export class AppToolbarComponent implements OnInit {
       .mergeMap(route => route.data)
       .subscribe((event) => this.title = event['title'] );
     //subscribe toggle service
-    this.isToggled= this.toggleNavService.toggle$;
+    this.isToggled = this.toggleNavService.toggle$;
 
   }
 
