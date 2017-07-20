@@ -25,6 +25,7 @@ import { SlidesService } from '../../../services/slides.service';
 import {HttpModule} from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+
 describe('SlidesEditorComponent', () => {
   let component: SlidesEditorComponent;
   let fixture: ComponentFixture<SlidesEditorComponent>;
