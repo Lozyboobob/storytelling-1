@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 
 import { WindowResizeService } from '../../services/window-resize.service';
-import { PageScrollInstance, PageScrollService, PageScrollConfig } from 'ng2-page-scroll';
+
 import {DOCUMENT, DomSanitizer} from '@angular/platform-browser';
 import {SlidesService} from '../../services/slides.service';
 import { BarChartComponent, ForceDirectedGraphComponent, LineChartComponent, HierarchicalEdgeBundlingComponent} from 'app/charts';
@@ -54,7 +54,6 @@ export class SlidesViewComponent implements OnInit {
 
     constructor(
         private windowResizeService: WindowResizeService,
-        private pageScrollService: PageScrollService,
         private slidesService: SlidesService,
         @Inject(DOCUMENT) private document: any,
         private sanitizer: DomSanitizer,
@@ -110,7 +109,6 @@ export class SlidesViewComponent implements OnInit {
             // this.easeContent(this.curSlideIndex - 1);
             this.slideease$.next(this.curSlideIndex);
             this.curSlideIndex--;
-            this.goToSlide(this.curSlideIndex);
 
             // if (this.curSlideIndex != 0) {
             //     this.loadChart(this.curSlideIndex - 1);
@@ -136,7 +134,6 @@ export class SlidesViewComponent implements OnInit {
             this.slideease$.next(this.curSlideIndex);
             this.curSlideIndex++;
             // console.log('curSlideIndex : ', this.curSlideIndex);
-            this.goToSlide(this.curSlideIndex);
             this.slideload$.next(this.curSlideIndex);
             // this.loadChart(this.curSlideIndex - 1);
             /*add animation to text content*/
@@ -195,11 +192,6 @@ export class SlidesViewComponent implements OnInit {
             this.screenfull.toggle(this.slider.element.nativeElement);
 
         }
-    }
-
-    private goToSlide(index: number) {
-        let pageScrollInstance: PageScrollInstance = PageScrollInstance.simpleInstance(this.document, '#slide-' + index);
-        this.pageScrollService.start(pageScrollInstance);
     }
 
     private getCurSlideIndex(): number {

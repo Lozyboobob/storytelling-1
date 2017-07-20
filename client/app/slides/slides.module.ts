@@ -38,13 +38,11 @@ import {SlidesService, ValidService, ChartsService} from '.';
 // SLIDES ROUTES MODULE
 import { SlidesRoutingModule } from '.';
 import { CoreModule } from 'app/core';
-import { FileUploadModule } from 'ng2-file-upload';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 import { KeySwitchDirective } from './components/slides-view/key-switch.directive';
 
-import { Ng2PageScrollModule } from 'ng2-page-scroll';
 import { DragulaModule } from 'ng2-dragula';
 import { BarChartComponent } from '../charts';
 import { GaugeChartComponent } from '../charts';
@@ -96,10 +94,8 @@ import { ToggleFullscreenDirective } from './components/slides-view/toggle-fulls
         FlexLayoutModule,
         DndModule.forRoot(),
         HotTableModule,
-        Ng2PageScrollModule.forRoot(),
         FroalaEditorModule.forRoot(),
-        FroalaViewModule.forRoot(),
-        FileUploadModule
+        FroalaViewModule.forRoot()
     ],
     entryComponents: [
         BarChartComponent,
