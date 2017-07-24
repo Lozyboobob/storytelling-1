@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, Input, OnChanges } from '@angular/core';
 import { SlidesService } from '../../../../../services/slides.service';
-import { FileUploader} from 'ng2-file-upload';
 import {Http } from '@angular/http';
 import {NotifBarService} from 'app/core'
 const URL = 'localhost:3000/api/images/';
@@ -19,7 +18,6 @@ export class ImageUploadComponent implements OnInit, OnChanges {
 
     @Input() label = 'Choose Image';
     @Input() imagePath;
-    public uploader: FileUploader = new FileUploader({ url: URL, itemAlias: 'banner' });
 
     fileUpload: any;
     image: any = undefined;

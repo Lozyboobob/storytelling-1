@@ -1,4 +1,7 @@
+import 'hammerjs';
 import { TestBed, async } from '@angular/core/testing';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser'
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AppComponent } from './app.component';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -36,10 +39,12 @@ describe('AppComponent', () => {
     TestBed.configureTestingModule({
       declarations: [AppComponent],
       imports: [
+        BrowserModule,
         NgReduxTestingModule,
         RouterTestingModule,
         HttpModule,
-        MaterialModule],
+        MaterialModule,
+        BrowserAnimationsModule],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
       providers: [
         NgReduxRouter,

@@ -25,7 +25,7 @@ export class SlideComponent implements OnInit, OnChanges {
     showForm= true; // indicator for showing slide setting
     @Input() isInShuffle: boolean;
     slide: Slide = new Slide();
-    form: FormGroup;
+    form: FormGroup =  this._buildForm();
     graphs: Array<any>;
     pageLayout: Array<any>;
     titleAlign: Array<string>;
