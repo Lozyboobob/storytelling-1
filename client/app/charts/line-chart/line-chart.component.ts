@@ -32,12 +32,14 @@ export class LineChartComponent extends Chart implements OnInit {
 
         this.chartOptions = { ...this.configInput };
         d3.select("#LineChartComponent").remove();
+        if (this.data === undefined) return;
         this.init();
     }
 
     ngOnChanges() {
 
         d3.select("#LineChartComponent").remove();
+        if (this.data === undefined) return;
         this.init();
     }
     brushed(x, xTB, xAxis, svg, area, focus, zoom) {
@@ -67,10 +69,10 @@ export class LineChartComponent extends Chart implements OnInit {
         if (this.dateMode) context.select(".brush").call(brush.move, x.range().map(t.invertX, t));
     }
     setData(data: any) {
-
+        if (data === undefined) return;
         let parseDate = d3.timeParse("%b %Y");
 
-        this.data = JSON.parse(JSON.stringify(data));
+         this.data = data;
 
         if (parseDate(this.data[0][0].xAxis) != null) this.dateMode = true;
         this.data.forEach((d) => {
@@ -137,6 +139,7 @@ export class LineChartComponent extends Chart implements OnInit {
         this.heightTB = 60;//set height of thumbnail
 
         this.setData(this.data);
+        if(this.data===undefined) return;
         this.drawChart();
         this.load();
     }

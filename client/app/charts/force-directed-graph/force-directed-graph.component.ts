@@ -30,7 +30,7 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit, AfterV
     ngOnInit() {
         // Set data
         // FIXME
-        this.data = this.dataInput[0];
+        this.data = this.dataInput;
 
 
 
@@ -41,11 +41,13 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit, AfterV
         this.chartOptions = { ...this.configInput };
         d3.select("#ForceDirectedGraphComponent").remove();
         d3.select("#ForceDirectedGraphComponentLegend").remove();
+        if(this.data===undefined) return;
         this.init();
     }
     ngOnChanges() {
         d3.select("#ForceDirectedGraphComponent").remove();
         d3.select("#ForceDirectedGraphComponentLegend").remove();
+        if(this.data===undefined) return;
         this.init();
     }
 
@@ -55,7 +57,7 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit, AfterV
      * @param rawData : array<Object> Json data
      */
     public static convertData(dataDims: string[], rawData: any) {
-
+        if(dataDims===undefined || rawData===undefined) return null;
         const hierarchy$ = depth => d => d[dataDims[0][depth]];
         const value$ = d => d[dataDims[1]];
         const depthDim = dataDims[0].length;
@@ -213,7 +215,6 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit, AfterV
         });
         this.node.append("title")
             .text(d => {
-                console.log(d,d.id.split('.')[d.depth]);
                 return (d.data)&&d.depth ? d.id.split('.')[d.depth] + " : " + d.data.value : d.id
             });
         this.simulation
@@ -262,7 +263,6 @@ export class ForceDirectedGraphComponent extends Chart implements OnInit, AfterV
             .attr('y', legendRectSize - legendSpacing / 2)
             .attr("transform", "translate(0,5)")
             .text(d => {
-                console.log(d);
                 return d.split('.')[this.maxDepth - 1]
             });
 

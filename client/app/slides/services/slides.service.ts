@@ -24,7 +24,6 @@ export class SlidesService {
             this._baseUrl += `:${environment.backend.port}`;
         };
         this.user$.subscribe(user => {
-            console.log(user.username);
             this.user = {
                 username: user.username,
                 firstName: user.firstName,
@@ -47,7 +46,8 @@ export class SlidesService {
     }
     getSlidesList(): Observable<any> {
         const params: URLSearchParams = new URLSearchParams();
-        params.set('username', this.user.username);
+        if (this.user != undefined)
+            params.set('username', this.user.username);
         const backendURL = `${this._baseUrl}${environment.backend.endpoints.search}`;
         return this.http.get(backendURL, { search: params }).map((response: Response) => response.json());
     }
