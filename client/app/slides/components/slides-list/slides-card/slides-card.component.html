@@ -4,8 +4,9 @@
     <div class="md-card-image" style="background-image:url('assets/logo_full_banner.png');">
       <div class="banner-container" *ngIf="slides&&slides.slidesSetting.banner && slides.slidesSetting.banner.path">
         <img class="banner" [src]="slides?slides.slidesSetting.banner.path:''">
-        <div class="banner-mask"></div>
+
       </div>
+      <div class="banner-mask"><i class="fa fa-play-circle-o fa-5x" aria-hidden="true"></i></div>
       <div class="options">
         <a class="option-btn" *ngIf="loggedIn$|async" (click)="toggleFavorite($event); false" [class.favorite]="slides&&slides.slidesSetting.favorite" [class.unfavorite]="slides&&!slides.slidesSetting.favorite" [mdTooltip]="(slides&&slides.slidesSetting.favorite) ? 'Remove from favorite' : 'Add to favorite'">
           <md-icon *ngIf="slides&&!slides.slidesSetting.favorite" md-ripple mdRippleCentered="true" mdRippleUnbounded="true">favorite_border</md-icon>
