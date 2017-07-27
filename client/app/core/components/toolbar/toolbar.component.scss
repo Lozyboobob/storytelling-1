@@ -1,5 +1,4 @@
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
-@import 'client/theme.scss';
+@import 'client/stylesheets/theme.scss';
 /* animation */
 * {
   -webkit-transition: all .3s ease;
@@ -9,7 +8,7 @@
   transition: all .3s ease;
 }
 .header {
-  @include basic-frame-theme($theme);
+  //
   .top {
     background: white;
     border-bottom: 1px solid #ddd;
