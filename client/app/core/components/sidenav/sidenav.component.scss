@@ -25,11 +25,11 @@
   @include Nav-theme($theme);
 
   .head {
-    background-color: md-color($primary, 800);
+    background-color: mat-color($primary, 800);
   }
 
   .foot {
-    background-color: md-color($primary, 800);
+    background-color: mat-color($primary, 800);
     bottom: 0;
     color: white;
     height: 50px;
