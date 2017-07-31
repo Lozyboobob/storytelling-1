@@ -1,7 +1,13 @@
 @import 'client/theme.scss';
 
-.pointer {
-    cursor: pointer;
+.slide-editor{
+  height: 50vh;
+  .selection-panel{
+    background-color: red;
+  }
+  .editor-panel{
+
+  }
 }
 
 md-card {

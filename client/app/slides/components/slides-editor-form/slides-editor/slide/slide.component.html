@@ -14,6 +14,14 @@
     </md-toolbar>
 
     <md-card-content *ngIf="showForm">
+
+
+      <div fxLayout="row wrap" class="slide-editor">
+        <div fxFlex="none" class="selection-panel"> [flex="none"] </div>
+        <div fxFlex class="editor-panel"> [flex] </div>
+
+      </div>
+      <!--
       <div class="titleDiv">
         <md-input-container>
           <input mdInput [(ngModel)]="slide.pageTitle.title" formControlName="pageTitle" name="pageTitle" placeholder="Title" />
@@ -69,6 +77,7 @@
         <br>
 
       </div>
+-->
     </md-card-content>
 
   </md-card>
