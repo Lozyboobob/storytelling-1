@@ -1,4 +1,4 @@
-@import 'client/theme.scss';
+@import 'client/stylesheets/theme.scss';
 
 .slides-container {
     width: 100%;
@@ -16,11 +16,10 @@
         }
 
         .title-text {
-            color: black;
-            font-size: 30px;
-            font-weight: bold;
+            color: mat-color($primary);
             margin-left: 40px;
             margin-right: 40px;
+            padding-top: 16px;
         }
     }
 }

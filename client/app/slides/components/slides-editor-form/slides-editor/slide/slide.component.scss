@@ -1,4 +1,4 @@
-@import 'client/theme.scss';
+@import 'client/stylesheets/theme.scss';
 
 .slide-editor{
   height: 50vh;
@@ -49,7 +49,7 @@ md-card {
 
             &:hover {
                 a {
-                    background-color: $accent;
+                    background-color: mat-color($accent);
                     color: white;
                 }
             }
@@ -58,7 +58,7 @@ md-card {
         &:checked {
             & + label {
                 a {
-                    background-color: $accent;
+                    background-color: mat-color($accent);
                     color: white;
                 }
             }
@@ -84,7 +84,7 @@ md-card {
         color: grey;
 
         &.checked {
-            color: $accent;
+            color: mat-color($accent);
         }
     }
 }
