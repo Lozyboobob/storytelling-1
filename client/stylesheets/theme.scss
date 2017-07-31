@@ -1,5 +1,4 @@
 @import '~@angular/material/_theming.scss';
-@import './backbone.scss';
 @include mat-core();
 $primary: mat-palette($mat-blue-grey, 800);
 $accent: mat-palette($mat-cyan, 600);
@@ -25,7 +24,6 @@ $theme: mat-light-theme($primary, $accent, $warn);
   }
   .section-title, h2 {
     color: mat-color($accent);
-    font-size: $font-lg;
   }
 
   button {
