@@ -75,6 +75,8 @@ import { SlidesListComponent } from './components/slides-list/slides-list.compon
 import { SlidesCardComponent } from './components/slides-list/slides-card/slides-card.component';
 import { DeleteDialogComponent } from './components/slides-list/slides-card/delete-dialog/delete-dialog.component';
 import { ToggleFullscreenDirective } from './components/slides-view/toggle-fullscreen.directive';
+import { TextBuilderComponent } from './components/slides-editor-form/slides-editor/slide/text-builder/text-builder.component';
+import { ElementTextComponent } from './components/slides-editor-form/slides-editor/slide/slide-elements-type/element-text/element-text.component';
 
 
 
@@ -117,7 +119,9 @@ import { ToggleFullscreenDirective } from './components/slides-view/toggle-fulls
         WordCloudComponent,
         SunburstChartComponent,
         AreaChartComponent,
-        ImageComponent],
+        ImageComponent,
+        ElementTextComponent
+      ],
 
     declarations: [
         KeySwitchDirective,
@@ -158,7 +162,9 @@ import { ToggleFullscreenDirective } from './components/slides-view/toggle-fulls
         SunburstChartComponent,
         KeySwitchDirective,
         ToggleFullscreenDirective,
-        ImageComponent
+        ImageComponent,
+        TextBuilderComponent,
+        ElementTextComponent
     ],
     exports: [
       SlidesCardComponent,

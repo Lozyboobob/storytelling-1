@@ -1,0 +1,22 @@
+<div [ngSwitch]="state$ | async">
+  <div *ngSwitchCase="'INITIAL'">
+    <div style="width:50px;height:50px;background-color:grey" #selectionView>
+      hello
+    </div>
+  </div>
+  <div *ngSwitchCase="'UNDO'">
+    <div style="width:50px;height:50px;background-color:grey" #undoView>
+      add text
+    </div>
+  </div>
+  <div *ngSwitchCase="'DONE'">
+    <div style="width:50px;height:50px;background-color:grey" #doneView>
+      text fone
+    </div>
+  </div>
+  <div *ngSwitchDefault>
+    <div style="width:50px;height:50px;background-color:grey" #selectionView>
+      hello
+    </div>
+  </div>
+</div>

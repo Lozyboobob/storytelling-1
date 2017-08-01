@@ -16,11 +16,20 @@
     <md-card-content *ngIf="showForm">
 
 
-      <div fxLayout="row wrap" class="slide-editor">
-        <div fxFlex="none" class="selection-panel"> [flex="none"] </div>
-        <div fxFlex class="editor-panel"> [flex] </div>
+      <md-sidenav-container class="">
+        <md-sidenav #sidenav mode="side" opened="true">
 
-      </div>
+          <div class="selection-panel" [dragula]='"element-bag"' name="selection-panel" >
+            <div><i class="fa fa-picture-o fa-4x" aria-hidden="false"></i></div>
+            <div><i class="fa fa-align-left fa-4x" aria-hidden="false"></i></div>
+          </div>
+        </md-sidenav>
+        <div class="slide-editor" fxLayout="row wrap" >
+          <div fxFlex="33.33%" [dragula]='"element-bag"' name="slide-col" id="slide-col-0" > <ng-template #elementContainer></ng-template> </div>
+          <div fxFlex="33.33%" [dragula]='"element-bag"' name="slide-col" id="slide-col-1"> <ng-template #elementContainer></ng-template>[flex="33.33%"] </div>
+          <div fxFlex="33.33%" [dragula]='"element-bag"' name="slide-col" id="slide-col-2"> <ng-template #elementContainer></ng-template>[flex="33.33%"] </div>
+        </div>
+      </md-sidenav-container>
       <!--
       <div class="titleDiv">
         <md-input-container>
