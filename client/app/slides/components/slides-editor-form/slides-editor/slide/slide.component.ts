@@ -43,7 +43,7 @@ export class SlideComponent implements OnInit, OnChanges {
     };
     //new builder
     @ViewChildren('elementContainer', { read: ViewContainerRef }) eleContainer: QueryList<ViewContainerRef>;
-    slideGrid: Array<any> = [];
+    slideGrid: Array<Slide> = [];
     constructor(private _fb: FormBuilder, private dragulaService: DragulaService, private validService: ValidService,
         private _componentFactoryResolver: ComponentFactoryResolver) {
         dragulaService.setOptions('element-bag', {
@@ -70,8 +70,8 @@ export class SlideComponent implements OnInit, OnChanges {
             let el = value[1];
             let target = value[2];
             let source = value[3];
-            console.log(this.eleContainer.toArray()[0]);
-            if (source.getAttribute('name') === "selection-panel" && target.getAttribute('name') === "slide-col") {
+            console.log(value);
+            if (source&&target&&source.getAttribute('name') === "selection-panel" && target.getAttribute('name') === "slide-col") {
                 //remove the element icon node
                 target.removeChild(el);
                 //add real element node
@@ -145,47 +145,11 @@ export class SlideComponent implements OnInit, OnChanges {
             ])
         });
     }
-    /* functions for shuffle slides drop down operation */
-    /*    private hasClass(el: any, name: string): any {
-            return new RegExp('(?:^|\\s+)' + name + '(?:\\s+|$)').test(el.className);
-        }
-
-        private addClass(el: any, name: string): void {
-            if (!this.hasClass(el, name)) {
-                el.className = el.className ? [el.className, name].join(' ') : name;
-            }
-        }
-
-        private removeClass(el: any, name: string): void {
-            if (this.hasClass(el, name)) {
-                el.className = el.className.replace(new RegExp('(?:^|\\s+)' + name + '(?:\\s+|$)', 'g'), '');
-            }
-        }
-
-        private onDrag(args: any): void {
-            let [el] = args;
-            let index = [].slice.call(el.parentElement.children).indexOf(el);
-            this.dragTransition.drag = index;
-            this.removeClass(el, 'ex-moved');
-        }
-
-        private onDrop(args: any): void {
-            let [el] = args;
-            let index = [].slice.call(el.parentElement.children).indexOf(el)
-            this.dragTransition.drop = index;
-            this.addClass(el, 'ex-moved');
-        }
-
-        private onOver(args: any): void {
-            let [el] = args;
-            this.addClass(el, 'ex-over');
-        }
-
-        private onOut(args: any): void {
-            let [el] = args;
-            this.removeClass(el, 'ex-over');
-        }
-    */
+    //add Colum in editor
+    addCol(){
+      let newSlide=new Slide();
+      this.slideGrid.push(newSlide);
+    }
     /* toggle the slideSetting*/
     toggleForm() {
         this.slideOpendIndex = null;

@@ -77,8 +77,8 @@ export class SlidesEditorComponent implements OnChanges {
         this.removeClass(el, 'ex-moved');
     }
 
-    private onDrop(args: any): void {
-        let [el] = args;
+  private onDrop(args: any): void {
+    /*    let [el] = args;
         let index = [].slice.call(el.parentElement.children).indexOf(el)
         this.shuffleTransition.drop = index;
         // save the changed order
@@ -99,7 +99,7 @@ export class SlidesEditorComponent implements OnChanges {
                 }
             }
         });
-        this.addClass(el, 'ex-moved');
+        this.addClass(el, 'ex-moved');*/
     }
 
     private onOver(args: any): void {

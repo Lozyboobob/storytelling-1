@@ -2,9 +2,18 @@
 
 .slide-editor{
   height: 50vh;
+
+  //position: relative;
   .selection-panel{
   }
   .editor-panel{
+    height: 50vh;
+    padding-right: 40px;
+    .add-col-btn{
+      position: absolute;
+      right: 0px;
+      top: 10px;
+    }
   }
 }
 
