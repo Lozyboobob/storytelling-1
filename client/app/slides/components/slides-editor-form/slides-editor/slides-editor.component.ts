@@ -8,6 +8,7 @@ import {NotifBarService} from 'app/core';
     selector: 'app-slides-editor',
     templateUrl: './slides-editor.component.html',
     styleUrls: ['./slides-editor.component.scss'],
+    providers: [DragulaService],
     encapsulation: ViewEncapsulation.None
 })
 export class SlidesEditorComponent implements OnChanges {
@@ -32,17 +33,13 @@ export class SlidesEditorComponent implements OnChanges {
     @Output() bannerImageUpload = new EventEmitter();
 
     constructor(private dragulaService: DragulaService, private validService: ValidService, private notifBarService: NotifBarService) {
-        dragulaService.drag.subscribe(value => {
-            this.onDrag(value.slice(1));
-        });
-        dragulaService.drop.subscribe((value: any) => {
-            this.onDrop(value.slice(1));
-        });
-        dragulaService.over.subscribe((value: any) => {
-            this.onOver(value.slice(1));
-        });
-        dragulaService.out.subscribe((value: any) => {
-            this.onOut(value.slice(1));
+        dragulaService.setOptions('shuffle-bag', {
+            moves: (el, source, handle, sibling) =>{
+              console.log("hi",this.isInShuffle)
+                if (this.isInShuffle)
+                    return true;
+                else return false;
+            }
         });
     }
     ngOnChanges() {
@@ -52,66 +49,6 @@ export class SlidesEditorComponent implements OnChanges {
             this.isValidated = true;
         }
     }
-
-    /* functions for shuffle slides drop down operation */
-    private hasClass(el: any, name: string): any {
-        return new RegExp('(?:^|\\s+)' + name + '(?:\\s+|$)').test(el.className);
-    }
-
-    private addClass(el: any, name: string): void {
-        if (!this.hasClass(el, name)) {
-            el.className = el.className ? [el.className, name].join(' ') : name;
-        }
-    }
-
-    private removeClass(el: any, name: string): void {
-        if (this.hasClass(el, name)) {
-            el.className = el.className.replace(new RegExp('(?:^|\\s+)' + name + '(?:\\s+|$)', 'g'), '');
-        }
-    }
-
-    private onDrag(args: any): void {
-        let [el] = args;
-        let index = [].slice.call(el.parentElement.children).indexOf(el);
-        this.shuffleTransition.drag = index;
-        this.removeClass(el, 'ex-moved');
-    }
-
-    private onDrop(args: any): void {
-        let [el] = args;
-        let index = [].slice.call(el.parentElement.children).indexOf(el)
-        this.shuffleTransition.drop = index;
-        // save the changed order
-        this.shuffleOrder.forEach((order, i) => {
-            if (this.shuffleTransition.drag < this.shuffleTransition.drop) {
-                if ((i > this.shuffleTransition.drag || i === this.shuffleTransition.drag) && i < this.shuffleTransition.drop) {
-                    this.shuffleOrder[i]++;
-                }
-                if (i === this.shuffleTransition.drop) {
-                    this.shuffleOrder[i] = this.shuffleTransition.drag;
-                }
-            } else if (this.shuffleTransition.drag > this.shuffleTransition.drop) {
-                if ((i < this.shuffleTransition.drag || i === this.shuffleTransition.drag) && i > this.shuffleTransition.drop) {
-                    this.shuffleOrder[i]--;
-                }
-                if (i === this.shuffleTransition.drop) {
-                    this.shuffleOrder[i] = this.shuffleTransition.drag;
-                }
-            }
-        });
-        this.addClass(el, 'ex-moved');
-    }
-
-    private onOver(args: any): void {
-        let [el] = args;
-        this.addClass(el, 'ex-over');
-    }
-
-    private onOut(args: any): void {
-        let [el] = args;
-        this.removeClass(el, 'ex-over');
-    }
-
     /* update current slides index*/
     openSlideIndex(index) {
         this.slideOpendIndex = index;
@@ -176,7 +113,7 @@ export class SlidesEditorComponent implements OnChanges {
             }
             this.validService.changeSlideValid(true, index, "DELETE");
         } catch (err) {
-            this.notifBarService.showNotif('delete fail : '+err);
+            this.notifBarService.showNotif('delete fail : ' + err);
         }
     }
     /*change slide order*/

@@ -1,11 +1,7 @@
 <app-slides-setting #slidesSetting (onSettingChange)="slidesSettingChange($event)" (formValidateChange)="settingValidateChange($event)" [setting]="slider.slidesSetting"></app-slides-setting>
-<div *ngIf="!isInShuffle" #slideBlock>
+<div [dragula]="'shuffle-bag'" [dragulaModel]='slider.slides'>
   <app-slide *ngFor="let slide of slider.slides;let i=index" [slideIndex]="i+1" [slideOpendIndex]="slideOpendIndex" (openSlideIndex)="openSlideIndex($event)" [slideSetting]="slide" (confirmSlideOpt)="submitSlide($event)" (deleteSlideOpt)="deleteSlide($event)" (formValidateChange)="slideValidateChange($event)" #creator></app-slide>
 </div>
-<div *ngIf="isInShuffle" class="shuffle-container" [dragula]="'shuffle-bag'">
-  <app-slide *ngFor="let slide of slider.slides;let i=index" [slideIndex]="i+1" [slideOpendIndex]="slideOpendIndex" (openSlideIndex)="openSlideIndex($event)" [slideSetting]="slide" [isInShuffle]="isInShuffle" (confirmSlideOpt)="submitSlide($event)" (deleteSlideOpt)="deleteSlide($event)" (formValidateChange)="slideValidateChange($event)"></app-slide>
-</div>
-
 <div class="base light" fxLayout="row" fxLayoutAlign="center center">
 
   <a md-fab (click)="addSlide()" mdTooltip="add a new slide" [disabled]="isInShuffle">
