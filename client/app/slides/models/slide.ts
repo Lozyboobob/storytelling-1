@@ -1,3 +1,4 @@
+import {SlideEle} from './slide-ele';
 export class Slide {
     index: number = 1;
     /* graph setting*/
@@ -20,6 +21,9 @@ export class Slide {
         title: "",
         align: ""
     }
+
+    //new param
+    slideCols:Array<SlideEle>=[];
     constructor(index?: number) {
         if (index) this.index = index;
     }

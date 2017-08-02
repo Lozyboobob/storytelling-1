@@ -5,14 +5,14 @@ import { DragulaService } from 'ng2-dragula';
 import { environment } from '../../../../../../environments/environment';
 import * as slideOption from './slideOption';
 
-import { Slide } from '../../../../models/slide';
+import { Slide, SlideEle } from '../../../../models';
 import {TextBuilderComponent} from './text-builder/text-builder.component';
 import {ElementTextComponent} from './slide-elements-type/element-text/element-text.component';
 @Component({
     selector: 'app-slide',
     templateUrl: './slide.component.html',
     styleUrls: ['./slide.component.scss'],
-    providers: []
+    providers: [DragulaService]
 })
 
 export class SlideComponent implements OnInit, OnChanges {
@@ -43,10 +43,15 @@ export class SlideComponent implements OnInit, OnChanges {
     };
     //new builder
     @ViewChildren('elementContainer', { read: ViewContainerRef }) eleContainer: QueryList<ViewContainerRef>;
-    slideGrid: Array<Slide> = [];
+    @ViewChildren('eleBuilder', { read: ViewContainerRef }) eleBuilders: QueryList<ViewContainerRef>;
+    slideGrid: Array<Array<SlideEle>> = [[]];
     constructor(private _fb: FormBuilder, private dragulaService: DragulaService, private validService: ValidService,
         private _componentFactoryResolver: ComponentFactoryResolver) {
-        dragulaService.setOptions('element-bag', {
+        //  let firstCol=[];
+        //  this.slideGrid.push(firstCol);
+    }
+    ngOnInit() {
+        this.dragulaService.setOptions('element-bag-' + this.slideIndex, {
             accepts: function(el, target, source, sibling) {
                 //  console.log(el,target.getAttribute('name'),source,sibling);
                 if (target.getAttribute('name') === 'slide-col') return true;
@@ -59,44 +64,49 @@ export class SlideComponent implements OnInit, OnChanges {
             revertOnSpill: false,              // spilling will put the element back where it was dragged from, if this is true
             //removeOnSpill: true,              // spilling will `.remove` the element, if this is true
         });
-        dragulaService.drag.subscribe(value => {
+        this.dragulaService.drag.subscribe(value => {
             //  this.onDrag(value.slice(1));
 
         });
 
-        dragulaService.drop.subscribe((value: any) => {
+        this.dragulaService.drop.subscribe((value: any) => {
             //  this.onDrop(value.slice(1));
 
             let el = value[1];
             let target = value[2];
             let source = value[3];
             console.log(value);
-            if (source&&target&&source.getAttribute('name') === "selection-panel" && target.getAttribute('name') === "slide-col") {
+            if (source && target && source.getAttribute('name') === "selection-panel" && target.getAttribute('name') === "slide-col") {
                 //remove the element icon node
                 target.removeChild(el);
+
                 //add real element node
                 const colIndex = target.getAttribute('id').split('-')[2];
-                const factory = this._componentFactoryResolver.resolveComponentFactory(ElementTextComponent);
-                const eleRef = this.eleContainer.toArray()[colIndex].createComponent(factory);
-                eleRef.instance.to_undo();
-                eleRef.changeDetectorRef.detectChanges();
+                const eleIndex = this.slideGrid.reduce((sum,col)=>sum+col.length,0);
+                let newEle=new SlideEle(eleIndex,"TEXT");
+                this.slideGrid[colIndex].push(newEle);
+                console.log(this.slideGrid);
+                //this.eleBuilders[eleIndex].to_undo();
+                /*  const factory = this._componentFactoryResolver.resolveComponentFactory(ElementTextComponent);
+                  const eleRef = this.eleContainer.toArray()[colIndex].createComponent(factory);
+                  eleRef.instance.to_undo();
+                  eleRef.changeDetectorRef.detectChanges();*/
 
             }
         });
-        dragulaService.over.subscribe((value: any) => {
+        this.dragulaService.over.subscribe((value: any) => {
             //this.onOver(value.slice(1));
 
         });
-        dragulaService.cancel.subscribe((value: any) => {
+        this.dragulaService.cancel.subscribe((value: any) => {
             //this.onOver(value.slice(1));
 
         });
-        dragulaService.out.subscribe((value: any) => {
+        this.dragulaService.out.subscribe((value: any) => {
             //this.onOut(value.slice(1));
 
         });
-    }
-    ngOnInit() {
+
         if (!this.slide.pageTitle.title) {
             this.slide.pageTitle.title = '';
         }
@@ -146,9 +156,9 @@ export class SlideComponent implements OnInit, OnChanges {
         });
     }
     //add Colum in editor
-    addCol(){
-      let newSlide=new Slide();
-      this.slideGrid.push(newSlide);
+    addCol() {
+        let newSlideCol = []
+        this.slideGrid.push(newSlideCol);
     }
     /* toggle the slideSetting*/
     toggleForm() {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Output,EventEmitter } from '@angular/core';
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 
 @Component({
@@ -9,14 +9,13 @@ import { BehaviorSubject } from "rxjs/BehaviorSubject";
 
 export class ElementTextComponent implements OnInit {
     private state$: BehaviorSubject<string>;
+    @Output() deleteEleOpt=new EventEmitter();
     readonly STATE_OPTION= {
-        init: "INITIAL",
         undo: "UNDO",
         done: "DONE"
     }
     constructor() {
-      console.log("dddddddddddd");
-      this.state$ =new BehaviorSubject<string>(this.STATE_OPTION.init);
+      this.state$ =new BehaviorSubject<string>(this.STATE_OPTION.undo);
     }
 
     ngOnInit() {
@@ -26,8 +25,10 @@ export class ElementTextComponent implements OnInit {
       this.state$.next(this.STATE_OPTION.undo);
     }
     public to_done(){
-      console.log("todone")
       this.state$.next(this.STATE_OPTION.done);
+    }
+    private delete(){
+      this.deleteEleOpt.emit();
     }
 
 }

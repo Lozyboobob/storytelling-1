@@ -190,7 +190,8 @@ describe('FullScreenChartSlideComponent', () => {
       "text" : "<p>dsgfgdg</p>",
       "index" : 1,
       fullScreenHtml: false,
-      slideImage : null
+      slideImage : null,
+      slideCols:[]
     };
     fixture.detectChanges();
   });
