@@ -2,7 +2,7 @@
 
   <div class="base">
     <md-input-container fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="50" fxFlex.lg="50" fxFlex.xl="50">
-      <input mdInput placeholder="Presentation name" formControlName="title" name="title" required (ngModelChange)="titleChange($event)">
+      <input mdInput placeholder="Presentation name"  formControlName="title" name="title" required (ngModelChange)="titleChange($event)">
       <span class="error" *ngIf=" form.controls.title.invalid">Slides Name is required</span>
     </md-input-container>
     <div class="tag" fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="50" fxFlex.lg="50" fxFlex.xl="50">
@@ -12,11 +12,8 @@
         </md-chip-list>
       </div>
       <md-input-container fxFlex.xs="100">
-        <input mdInput placeholder="Input Tag" formControlName="tag" name="tag">
+        <input mdInput validateOnBlur placeholder="Input Tag" formControlName="tag" name="tag" (addTagOpt)="addTag()">
       </md-input-container>
-      <a md-mini-fab (click)="addTag()">
-        <md-icon>add</md-icon>
-      </a>
     </div>
   </div>
 

@@ -76,7 +76,7 @@ import { SlidesCardComponent } from './components/slides-list/slides-card/slides
 import { DeleteDialogComponent } from './components/slides-list/slides-card/delete-dialog/delete-dialog.component';
 import { ToggleFullscreenDirective } from './components/slides-view/toggle-fullscreen.directive';
 
-
+import { ValidateOnBlurDirective } from './components/slides-editor-form/slides-editor/slides-setting/validate-on-blur.directive';
 
 @NgModule({
     imports: [
@@ -158,7 +158,8 @@ import { ToggleFullscreenDirective } from './components/slides-view/toggle-fulls
         SunburstChartComponent,
         KeySwitchDirective,
         ToggleFullscreenDirective,
-        ImageComponent
+        ImageComponent,
+        ValidateOnBlurDirective
     ],
     exports: [
       SlidesCardComponent,
