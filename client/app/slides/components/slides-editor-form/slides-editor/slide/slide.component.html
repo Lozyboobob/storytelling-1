@@ -19,7 +19,7 @@
           <input mdInput [(ngModel)]="slide.pageTitle.title" formControlName="pageTitle" name="pageTitle" placeholder="Title" />
         </md-input-container>
         <md-select formControlName="titleAlign" [(ngModel)]="slide.pageTitle.align" name="titleAlign" placeholder="Align">
-          <md-option *ngFor="let align of titleAlign" [value]="align">
+          <md-option *ngFor="let align of titleAlignOption" [value]="align">
             {{ align }}
           </md-option>
         </md-select>
@@ -28,7 +28,7 @@
         <md-toolbar-row class="sub-title-bar">
           <span><i class="fa fa-check-circle-o fa-fw" [class.checked]="slide.pageLayout"></i>Select Page Layout*</span>
         </md-toolbar-row>
-        <div fxFlex="19" *ngFor="let layout of pageLayout">
+        <div fxFlex="19" *ngFor="let layout of pageLayoutOption">
           <input type="radio" [attr.id]="layout.value+slide.index" name="layout-selector+slide.index" (change)="pageLayoutChange(layout.value)" [attr.checked]="layout.value==slide.pageLayout?true:null" />
 
           <label fxFlex="100" for={{layout.value+slide.index}}><a fxFlex="100" md-raised-button mdTooltip={{layout.type}}><i *ngFor="let icon of layout.icon" [ngStyle]="{ 'padding': '24px'}" class="fa {{icon}} fa-4x"></i></a></label>
@@ -37,7 +37,7 @@
       </div>
 
       <div fxLayout="column" fxLayoutWrap="wrap" fxLayoutAlign="space-between none" class="base dark">
-        <div *ngIf="(slide.hasGraph && form.controls.slideGraph.value=='image')||(slide.pageLayout=='textInCenterImageBackground')" class="step">
+        <div *ngIf="(slide.pageLayout=='textInCenterImageBackground')" class="step">
           <md-toolbar-row class="sub-title-bar">
             <span><i class="fa fa-check-circle-o fa-fw" [class.checked]="slide.slideImage"></i>Upload Image*</span>
           </md-toolbar-row>

@@ -35,7 +35,6 @@ export class SlidesEditorComponent implements OnChanges {
     constructor(private dragulaService: DragulaService, private validService: ValidService, private notifBarService: NotifBarService) {
         dragulaService.setOptions('shuffle-bag', {
             moves: (el, source, handle, sibling) =>{
-              console.log("hi",this.isInShuffle)
                 if (this.isInShuffle)
                     return true;
                 else return false;
@@ -81,20 +80,7 @@ export class SlidesEditorComponent implements OnChanges {
         this.isValidatedSlide = false;
         this.checkValid();
     }
-    /*submit a new slide*/
-    submitSlide(slide) {
-        /* modify slide*/
-        if (slide.index < this.curSlideIndex) {
-            /* slide existing */
-            this.slider.slides[slide.index - 1] = Object.assign({}, slide);
-        } else {
-            /* create new slide*/
-            this.curSlideIndex++;
-            let s: Slide = Object.assign({}, slide);
-            s.index = this.curSlideIndex;
-            this.slider.slides.push(s);
-        }
-    }
+
     /* delete a page of slide*/
     deleteSlide(index) {
         try {

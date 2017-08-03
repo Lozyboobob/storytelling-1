@@ -15,37 +15,32 @@ import { Slide } from '../../../../models/slide';
 
 export class SlideComponent implements OnInit, OnChanges {
 
-    @Output() confirmSlideOpt: EventEmitter<Object> = new EventEmitter();
-    @Output() deleteSlideOpt: EventEmitter<number> = new EventEmitter();
-    @Input() slideIndex: number;
-    @Input() slideSetting: Slide;
-    @Input() slideOpendIndex: number;
-    @Output() openSlideIndex: EventEmitter<number> = new EventEmitter();
+    @Output() deleteSlideOpt: EventEmitter<number> = new EventEmitter(); //event:delete a page of slide
+    @Output() openSlideIndexOpt: EventEmitter<number> = new EventEmitter();//event:toggle a slide form
+    @Input() slideIndex: number;  //slide index
+    @Input() slideOpendIndex: number; //toggled open slide index
+    @Input() slideSetting: Slide; //if it's not a new slide, the previous setting of the slide
+    @Input() isInShuffle: boolean;//indicator:whether it's in shuffling mode
 
-    showForm= true; // indicator for showing slide setting
-    @Input() isInShuffle: boolean;
-    slide: Slide = new Slide();
-    form: FormGroup =  this._buildForm();
-    graphs: Array<any>;
-    pageLayout: Array<any>;
-    titleAlign: Array<string>;
-    dataBuilder: any = {};
-    editorOptions: Object;
-    @ViewChild('dataInput') dataInputTab;
-    @ViewChild('graphSelector') graphSelector;
-    csvJson: any = [];
-    curTab = 0;
+    private slide: Slide; //slide setting
+    private form: FormGroup;//slide setting form
+    private showForm: boolean; // indicator:showing slide form
+    private dataBuilder: any; //data builder of graph
+    private pageLayoutOption: Array<any>; // page layout option of the slide
+    private titleAlignOption: Array<string>; //title align option of the slide
+    private editorOptions: Object;//option of the text editor
+
+
+
     constructor(private _fb: FormBuilder, private validService: ValidService) {
+        this.slide = new Slide();
+        this.form = this._buildForm();
+        this.showForm = true;
+        this.dataBuilder = {};
 
-    }
+        this.titleAlignOption = slideOption.titleAlign;
+        this.pageLayoutOption = slideOption.pageLayoutOption;
 
-    ngOnInit() {
-        if (!this.slide.pageTitle.title) {
-            this.slide.pageTitle.title = '';
-        }
-        this.titleAlign = slideOption.titleAlign;
-        this.graphs = slideOption.graphType;
-        this.pageLayout = slideOption.pageLayoutOption;
         // set server path
         let baseURL = `${environment.backend.protocol}://${environment.backend.host}`;
         if (environment.backend.port) {
@@ -59,49 +54,55 @@ export class SlideComponent implements OnInit, OnChanges {
             imageUploadURL: `${baseURL}${environment.backend.endpoints.imagesServer}`,
             imageManagerLoadURL: `${baseURL}${environment.backend.endpoints.imagesServer}`
         };
-    }
 
-    ngOnChanges() {
-
-        if (this.slideSetting) {
-            this.slide = this.slideSetting;
-        }
-        if (this.slideIndex) {
-            this.slide.index = this.slideIndex;
-        }
-        this.form = this._buildForm();
-        this.validService.changeSlideValid(this.form.valid, this.slideIndex);
         this.form.valueChanges.subscribe(data => {
             this.validService.changeSlideValid(this.form.valid, this.slideIndex);
         });
-        this.graphChanged();
-        this.showForm = this.slideIndex === this.slideOpendIndex;
+
     }
+
+    ngOnInit() {
+        this.openSlideIndexOpt.emit(this.slideIndex);
+    }
+
+    ngOnChanges(changes) {
+        if (changes.hasOwnProperty("slideSetting")) {
+            this.slide = this.slideSetting;
+            this.validService.changeSlideValid(this.form.valid, this.slideIndex);
+        }
+        if (changes.hasOwnProperty("slideIndex")) {
+            this.slide.index = this.slideIndex;
+        }
+        if (changes.hasOwnProperty("slideIndex") || changes.hasOwnProperty("slideOpendIndex")) {
+            this.showForm = this.slideIndex === this.slideOpendIndex;
+        }
+    }
+
     private _buildForm() {
         return this._fb.group({
             pageTitle: new FormControl(this.slide.pageTitle.title, Validators.nullValidator),
             titleAlign: new FormControl(this.slide.pageTitle.align, Validators.nullValidator),
-            slideText: new FormControl(this.slide.text, Validators.nullValidator),
-            slideGraph: new FormControl(this.slide.graph, Validators.nullValidator),
-            graphData: this._fb.array([
-                this.initData(),
-            ])
+            slideText: new FormControl(this.slide.text, Validators.nullValidator)
         });
     }
-    /* toggle the slideSetting*/
+
+    /* toggle the slide form*/
     toggleForm() {
-        this.slideOpendIndex = null;
         this.showForm = !this.showForm;
         if (this.showForm) {
-            this.openSlideIndex.emit(this.slideIndex);
+            this.openSlideIndexOpt.emit(this.slideIndex);
+        }
+        else {
+            this.openSlideIndexOpt.emit(-1);
         }
     }
+
+    /*validation for the childForm of slideForm*/
     validChildForm(isValid) {
         this.validService.changeSlideValid(isValid, this.slideIndex);
     }
-
+    /*confirm the slide setting*/
     confirmSlide(isValid) {
-        /* to decide which data to take from tab*/
         if (this.slide.hasGraph) {
             if (this.dataBuilder.chartOptions.chartType
                 && this.dataBuilder.chartOptions.chartType.cmpName != null) {
@@ -122,41 +123,17 @@ export class SlideComponent implements OnInit, OnChanges {
         }
         this.slide.pageTitle.title = this.form.value.pageTitle;
         this.slide.pageTitle.align = this.form.value.titleAlign;
-        this.csvJson = [];
     }
-
+    /*confirm graph setting*/
     confirmeSlideGRaphConfig(data) {
         this.dataBuilder.data = data.data;
         this.dataBuilder.chartOptions = data.chartOptions;
     }
-
+    /*delete slide*/
     deleteSlide(e) {
         this.deleteSlideOpt.emit(this.slideIndex);
     }
-    initData() {
-        let dataForm = {
-            index: [''],
-            value: ['', Validators.pattern('^[0-9]*$')]
-        };
-        return this._fb.group(dataForm);
-    }
-    addData() {
-        const control = <FormArray>this.form.controls['graphData'];
-        control.push(this.initData());
-    }
-    /* when change graph*/
-    graphChanged() {
-        // change json sample
-        // if the slide data is already set
-        if (this.slide.data !== undefined) {
-            if (this.slide.data.length && this.form.value.slideGraph == this.slide.graph) {
-                // if has data, set tab to json
-                this.curTab = 0;
-                let data = { 'graphData': this.slide.data };
-                return;
-            }
-        }
-    }
+    /*change page layout*/
     pageLayoutChange(value) {
         switch (value) {
             case 'FullScreenGraph':
@@ -171,43 +148,12 @@ export class SlideComponent implements OnInit, OnChanges {
         }
         this.slide.pageLayout = value;
     }
+    /*change text vertical align*/
     textAlignChange(value) {
         this.slide.textVerAlign = value;
     }
-    /* image background*/
+    /* set image path*/
     setImageHtml(image) {
         this.slide.slideImage = image;
     }
-    /* sort and group series of json data*/
-    sortSeries(data) {
-        let newJson = [];
-        let series = [];
-        let isInSeries = (name) => {
-            let index = -1;
-            for (let i = 0; i < series.length; i++) {
-
-                if (name === series[i]) {
-                    index = i;
-                    break;
-                }
-            }
-            return index;
-        };
-        data.forEach(obj => {
-            const seriesIndex = isInSeries(obj['series']);
-            if (seriesIndex !== -1) {
-                /* add to series */
-                newJson[seriesIndex].push(obj);
-            } else {
-                /* create new series */
-                series.push(obj['series']);
-                const newSeries: Array<any> = [];
-                newSeries.push(obj);
-                newJson.push(newSeries);
-            }
-        });
-        return newJson;
-    }
 }
-
-
