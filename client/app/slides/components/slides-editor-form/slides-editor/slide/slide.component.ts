@@ -62,6 +62,7 @@ export class SlideComponent implements OnInit, OnChanges {
     }
 
     ngOnInit() {
+        if(!this.slide.pageLayout)
         this.openSlideIndexOpt.emit(this.slideIndex);
     }
 

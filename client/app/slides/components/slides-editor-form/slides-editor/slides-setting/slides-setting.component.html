@@ -2,7 +2,7 @@
 
   <div class="base">
     <md-input-container fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="50" fxFlex.lg="50" fxFlex.xl="50">
-      <input mdInput placeholder="Presentation name"  formControlName="title" name="title" required (ngModelChange)="titleChange($event)">
+      <input mdInput placeholder="Presentation name" formControlName="title" name="title" required (ngModelChange)="titleChange($event)">
       <span class="error" *ngIf=" form.controls.title.invalid">Slides Name is required</span>
     </md-input-container>
     <div class="tag" fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="50" fxFlex.lg="50" fxFlex.xl="50">
@@ -23,6 +23,9 @@
     <md-input-container fxFlex="100">
       <textarea mdInput mdTextareaAutosize placeholder="Slides Description" formControlName="description" name="description" (ngModelChange)="descriptionChange($event)"></textarea>
     </md-input-container>
+  </div>
+  <div class="base light" >
+    <md-checkbox [checked]="slidesSetting.public" (change)="publicStatusChange($event)">Publish To Public</md-checkbox>
   </div>
 
 </form>

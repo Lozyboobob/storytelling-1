@@ -18,7 +18,7 @@
         <md-input-container>
           <input mdInput [(ngModel)]="slide.pageTitle.title" formControlName="pageTitle" name="pageTitle" placeholder="Title" />
         </md-input-container>
-        <md-select formControlName="titleAlign" [(ngModel)]="slide.pageTitle.align" name="titleAlign" placeholder="Align">
+        <md-select formControlName="titleAlign" [(ngModel)]="slide.pageTitle.align" name="titleAlign" placeholder="Title Align">
           <md-option *ngFor="let align of titleAlignOption" [value]="align">
             {{ align }}
           </md-option>

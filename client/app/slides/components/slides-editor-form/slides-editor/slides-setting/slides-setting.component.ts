@@ -47,6 +47,10 @@ export class SlidesSettingComponent implements OnInit, OnChanges {
         this.slidesSetting.description = description;
         this.onSettingChange.emit(this.slidesSetting);
     }
+    publicStatusChange(publicStatus){
+      this.slidesSetting.public = publicStatus.checked;
+      this.onSettingChange.emit(this.slidesSetting);
+    }
     /* tag operation*/
     addTag() {
         this.slidesSetting.tags.push(this.form.value.tag);
