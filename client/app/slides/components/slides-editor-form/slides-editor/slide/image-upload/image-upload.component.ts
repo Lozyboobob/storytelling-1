@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, Input, OnChanges } from '@angular/core';
-import { SlidesService } from '../../../../../services/slides.service';
+import { SlidesService, ImagesService } from '../../../../../services';
 import {Http } from '@angular/http';
 import {NotifBarService} from 'app/core'
 const URL = 'localhost:3000/api/images/';
@@ -23,14 +23,18 @@ export class ImageUploadComponent implements OnInit, OnChanges {
     image: any = undefined;
     imgPreview = '';
     id: any;
-    constructor(private el: ElementRef, private slidesService: SlidesService, private notifBarService: NotifBarService) {
+    constructor(
+      private el: ElementRef,
+      private slidesService: SlidesService,
+      private imagesService:ImagesService,
+      private notifBarService: NotifBarService) {
     }
     ngOnInit() {
     }
     ngOnChanges() {
         if (this.imagePath) {
             let path = this.imagePath._id ? this.imagePath._id : this.imagePath;
-            this.slidesService.getImage(path)
+            this.imagesService.getImage(path)
                 .subscribe(
                 image => {
                     this.imgPreview = image;
@@ -51,7 +55,7 @@ export class ImageUploadComponent implements OnInit, OnChanges {
 
             reader.onload = (e) => {
                 // upload image
-                this.slidesService.uploadImage(file)
+                this.imagesService.uploadImage(file)
                     .subscribe(
                     image => {
                         this.uploadImage.emit(image._id);
