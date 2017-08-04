@@ -19,33 +19,29 @@ export class SlidesCardComponent implements OnInit {
     @select(['session', 'token']) loggedIn$: Observable<string>;
     @select(['session', 'user', 'username']) username$: Observable<Object>;
 
-    private banner;
+    private banner:string; //banner picture of the slides card
 
     constructor(
         private slidesService: SlidesService,
         private imagesService: ImagesService,
         private dialog: MdDialog,
         private notifBarService: NotifBarService) {
+          this.banner=""
     }
 
     ngOnInit() {
+      /*after load slides info, load slides banner*/
         if (this.slides.slidesSetting.banner) {
-            console.log(this.slides.slidesSetting.banner)
             this.imagesService.getImage(this.slides.slidesSetting.banner).subscribe(
                 _banner => {
-                    console.log("get banner");
                     this.banner = _banner;
                 }
             )
         }
-
     }
 
-    open(e) {
-        e.stopPropagation();
-    }
-
-    publish(e) {
+    /*publish/unpublish slides*/
+    togglePublish(e) {
         e.stopPropagation();
         this.slides.slidesSetting.public = !this.slides.slidesSetting.public;
         this.slidesService.updateSlide(this.slides, this.slides._id)
@@ -54,6 +50,7 @@ export class SlidesCardComponent implements OnInit {
             error => this.notifBarService.showNotif("fail to set upload status, error is " + error)
             );
     }
+    /*set like/dislike slides*/
     toggleFavorite(e) {
         e.stopPropagation();
         this.slides.slidesSetting.favorite = !this.slides.slidesSetting.favorite;

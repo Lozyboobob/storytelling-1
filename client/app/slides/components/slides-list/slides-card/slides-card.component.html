@@ -12,13 +12,13 @@
           <md-icon *ngIf="slides&&slides.slidesSetting.favorite" md-ripple mdRippleCentered="true" mdRippleUnbounded="true">favorite</md-icon>
         </a>
         <div *ngIf="slides&&(loggedIn$|async) && ((username$|async) === slides.slidesSetting.author)&&editable" class="btn-group">
-          <a class="option-btn" (click)="publish($event); false" [class.published]="slides&&slides.slidesSetting.public" [class.unpublished]="slides&&!slides.slidesSetting.public" [mdTooltip]="(slides&&slides.slidesSetting.public) ? 'Unpublish' : 'Publish'">
+          <a class="option-btn" (click)="togglePublish($event); false" [class.published]="slides&&slides.slidesSetting.public" [class.unpublished]="slides&&!slides.slidesSetting.public" [mdTooltip]="(slides&&slides.slidesSetting.public) ? 'Unpublish' : 'Publish'">
             <md-icon md-ripple mdRippleCentered="true" mdRippleUnbounded="true">publish</md-icon>
           </a>
           <a class="option-btn" (click)="deleteSlides($event, slides._id); false" mdTooltip="Delete">
             <md-icon md-ripple mdRippleCentered="true" mdRippleUnbounded="true">delete</md-icon>
           </a>
-          <a class="option-btn" (click)="open($event); false" [routerLink]="['slides', slides._id]" mdTooltip="Edit">
+          <a class="option-btn" (click)="false" [routerLink]="['slides', slides._id]" mdTooltip="Edit">
             <md-icon md-ripple mdRippleCentered="true" mdRippleUnbounded="true">edit</md-icon>
           </a>
           <a class="option-btn" (click)="duplicateSlides($event,slides); false" mdTooltip="Copy">
