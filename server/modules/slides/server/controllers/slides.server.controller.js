@@ -104,11 +104,7 @@ exports.myList = function(req, res) {
       }, {
         'slidesSetting.public': true
       }]
-    }).sort('-created')
-    .populate({
-      path: 'slidesSetting.banner',
-      model: 'Image'
-    }).exec(function(err, slides) {
+    }).sort('-created').exec(function(err, slides) {
       if (err) {
         return res.status(422).send({
           message: errorHandler.getErrorMessage(err)
@@ -128,7 +124,7 @@ exports.slideByID = function(req, res, next, id) {
     });
   }
 
-  Slides.findById(id).populate('slides.slideImage', 'path').exec(function(err, slide) {
+  Slides.findById(id).exec(function(err, slide) {
     if (err) {
       return next(err);
     } else if (!slide) {
@@ -162,10 +158,7 @@ exports.search = function(req, res) {
         }).sort({
           "slidesSetting.title": 1
         })
-        .populate({
-          path: 'slidesSetting.banner',
-          model: 'Image'
-        }).exec(function(err, slides) {
+        .exec(function(err, slides) {
           if (err) {
             return res.status(422).send({
               message: errorHandler.getErrorMessage(err)
@@ -190,10 +183,7 @@ exports.search = function(req, res) {
         }).sort({
           "slidesSetting.title": 1
         })
-        .populate({
-          path: 'slidesSetting.banner',
-          model: 'Image'
-        }).exec(function(err, slides) {
+        .exec(function(err, slides) {
           if (err) {
             return res.status(422).send({
               message: errorHandler.getErrorMessage(err)
@@ -216,10 +206,7 @@ exports.search = function(req, res) {
         }).sort({
           "slidesSetting.title": 1
         })
-        .populate({
-          path: 'slidesSetting.banner',
-          model: 'Image'
-        }).exec(function(err, slides) {
+        .exec(function(err, slides) {
           if (err) {
             return res.status(422).send({
               message: errorHandler.getErrorMessage(err)
@@ -248,10 +235,7 @@ exports.search = function(req, res) {
         }).sort({
           "slidesSetting.title": 1
         })
-        .populate({
-          path: 'slidesSetting.banner',
-          model: 'Image'
-        }).exec(function(err, slides) {
+        .exec(function(err, slides) {
           if (err) {
             return res.status(422).send({
               message: errorHandler.getErrorMessage(err)
@@ -278,10 +262,7 @@ exports.search = function(req, res) {
         }).sort({
           "slidesSetting.title": 1
         })
-        .populate({
-          path: 'slidesSetting.banner',
-          model: 'Image'
-        }).exec(function(err, slides) {
+      .exec(function(err, slides) {
           if (err) {
             return res.status(422).send({
               message: errorHandler.getErrorMessage(err)
@@ -306,10 +287,7 @@ exports.search = function(req, res) {
         }).sort({
           "slidesSetting.title": 1
         })
-        .populate({
-          path: 'slidesSetting.banner',
-          model: 'Image'
-        }).exec(function(err, slides) {
+        .exec(function(err, slides) {
           if (err) {
             return res.status(422).send({
               message: errorHandler.getErrorMessage(err)
@@ -347,10 +325,7 @@ exports.search = function(req, res) {
         }).sort({
           "slidesSetting.title": 1
         })
-        .populate({
-          path: 'slidesSetting.banner',
-          model: 'Image'
-        }).exec(function(err, slides) {
+      .exec(function(err, slides) {
           if (err) {
             return res.status(422).send({
               message: errorHandler.getErrorMessage(err)
@@ -385,10 +360,7 @@ exports.search = function(req, res) {
         }).sort({
           "slidesSetting.title": 1
         })
-        .populate({
-          path: 'slidesSetting.banner',
-          model: 'Image'
-        }).exec(function(err, slides) {
+      .exec(function(err, slides) {
           if (err) {
             return res.status(422).send({
               message: errorHandler.getErrorMessage(err)
@@ -421,10 +393,7 @@ exports.search = function(req, res) {
         }).sort({
           "slidesSetting.title": 1
         })
-        .populate({
-          path: 'slidesSetting.banner',
-          model: 'Image'
-        }).exec(function(err, slides) {
+    .exec(function(err, slides) {
           if (err) {
             return res.status(422).send({
               message: errorHandler.getErrorMessage(err)

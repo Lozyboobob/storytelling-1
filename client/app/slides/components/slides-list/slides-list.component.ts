@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { select } from '@angular-redux/store';
 import {Observable} from 'rxjs/Observable';
-import {SlidesService} from '../../services/index';
+import {SlidesService,ImagesService} from '../../services/index';
 import {Slides} from '../../models/index'
 import {NotifBarService} from "app/core";
 @Component({
@@ -10,7 +10,7 @@ import {NotifBarService} from "app/core";
   styleUrls: ['./slides-list.component.scss']
 })
 
-export class SlidesListComponent implements OnInit {
+export class SlidesListComponent implements OnInit{
   @select(['session', 'token']) loggedIn$: Observable<string>;
   private states = ['All', 'Private', 'Public'];
   private selectedState = 'All';
@@ -29,6 +29,7 @@ export class SlidesListComponent implements OnInit {
   private slides: Array<Slides> = [];
   constructor(
     private slidesService: SlidesService,
+    private imagesService:ImagesService,
     private notifBarService:NotifBarService
   ) { }
 
@@ -38,6 +39,16 @@ export class SlidesListComponent implements OnInit {
       slide => {
         this.slides = slide;
         this.result = this.calculResult(this.slides.length, this.toSearch.filter, this.toSearch.title);
+        console.log("hi0");
+        //after load slides, fetch banner pic
+        /*     this.slides.forEach(s=>{
+     this.imagesService.getImage("595ca2e3fd66fd11a5e4b9cf").subscribe(
+            banner=>{
+
+            }
+          )
+        })*/
+
       },
       error => {
         this.notifBarService.showNotif("fail to load slides list");

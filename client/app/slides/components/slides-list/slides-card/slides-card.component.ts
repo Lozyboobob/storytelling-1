@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { select } from '@angular-redux/store';
 import { Observable } from 'rxjs/Observable';
 import { Slides } from '../../../models/slides';
-import { SlidesService } from '../../../services/slides.service';
+import { SlidesService, ImagesService } from '../../../services';
 import { MdDialog } from '@angular/material';
 import { DeleteDialogComponent} from './delete-dialog/delete-dialog.component';
 import {NotifBarService} from 'app/core';
@@ -19,10 +19,26 @@ export class SlidesCardComponent implements OnInit {
     @select(['session', 'token']) loggedIn$: Observable<string>;
     @select(['session', 'user', 'username']) username$: Observable<Object>;
 
-    constructor(private slidesService: SlidesService, private dialog: MdDialog, private notifBarService: NotifBarService) {
+    private banner;
+
+    constructor(
+        private slidesService: SlidesService,
+        private imagesService: ImagesService,
+        private dialog: MdDialog,
+        private notifBarService: NotifBarService) {
     }
 
     ngOnInit() {
+        if (this.slides.slidesSetting.banner) {
+            console.log(this.slides.slidesSetting.banner)
+            this.imagesService.getImage(this.slides.slidesSetting.banner).subscribe(
+                _banner => {
+                    console.log("get banner");
+                    this.banner = _banner;
+                }
+            )
+        }
+
     }
 
     open(e) {

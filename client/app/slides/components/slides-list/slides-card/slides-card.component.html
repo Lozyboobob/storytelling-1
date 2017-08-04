@@ -2,9 +2,8 @@
   <md-card class="prez-list-card" >
     <h2 class="slides-title">{{slides?slides.slidesSetting.title:""}}</h2>
     <div class="md-card-image" style="background-image:url('assets/logo_full_banner.png');">
-      <div class="banner-container" *ngIf="slides&&slides.slidesSetting.banner && slides.slidesSetting.banner.path">
-        <img class="banner" [src]="slides?slides.slidesSetting.banner.path:''">
-
+      <div class="banner-container" *ngIf="slides&&slides.slidesSetting.banner">
+        <img class="banner" [src]="banner">
       </div>
       <div class="banner-mask"><i class="fa fa-play-circle-o fa-5x" aria-hidden="true"></i></div>
       <div class="options">
