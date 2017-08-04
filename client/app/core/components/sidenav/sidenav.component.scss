@@ -1,8 +1,7 @@
 /*
  * sidenav
  */
-// Import your custom input theme file so you can call the custom-input-theme function
-@import 'client/theme.scss';
+@import 'client/stylesheets/theme.scss';
 /* animation */
 * {
   -webkit-transition: all .3s ease;
@@ -13,6 +12,7 @@
 }
 /* normal */
 .sidenav {
+  @include Nav-theme($theme);
   height: 100%;
   margin-left: -120px;
   overflow-x: hidden;
@@ -22,14 +22,7 @@
   width: 60px;
   z-index: 49;
 
-  @include Nav-theme($theme);
-
-  .head {
-    background-color: md-color($primary, 800);
-  }
-
   .foot {
-    background-color: md-color($primary, 800);
     bottom: 0;
     color: white;
     height: 50px;
@@ -162,13 +155,13 @@
 }
 
 .sidenav .sidebar-nav .user a {
-  color: #fff;
+  color:mat-color($primary,50);
   padding: 10px 20px;
   text-decoration: none;
 
   .active-link {
-    background-color: #24272d;
-    color: #fff;
+    background-color:mat-color($primary,900);
+    color: mat-color($primary,50);
   }
 }
 
@@ -187,16 +180,16 @@
 
 .sidenav .sidebar-nav {
   .active-link {
-    background-color: #24272d;
+    background-color:mat-color($primary,900);
   }
 
   .user:hover {
-    background-color: #24272d;
+    background-color: mat-color($primary,900);
   }
 }
 
 .dropdown-toggle {
-  color: #fff;
+  color: mat-color($primary,50);
   cursor: pointer;
   display: block;
   height: 100%;
@@ -223,14 +216,14 @@
 }
 
 .sidenav .sidebar ul li a {
-  color: #c5d0de;
+  color: mat-color($primary,50);
   display: block;
   padding: 10px 20px;
 }
 
 .sidebar ul li a:hover, .sidenav .sidebar ul li a.active {
-  background-color: #24272d;
-  color: #fff;
+  background-color: mat-color($primary,900);
+  color: mat-color($primary,50);
 }
 
 .sidenav .sidebar .arrow {

@@ -1,4 +1,4 @@
-@import 'client/theme.scss';
+@import 'client/stylesheets/theme.scss';
 //@import '~/node_modules/dragula/dist/dragula.css';
 
 .gu-mirror {
@@ -30,15 +30,14 @@
 }
 
 .slide-creator {
-  background: $accent;
+  background:mat-color($accent);
 
-  @include basic-frame-theme($theme);
 }
 
 .ex-moved {
   .slide-creator {
     .section-title {
-      color: $warn !important;
+      color: mat-color($warn) !important;
     }
   }
 }
@@ -52,5 +51,3 @@
 a.mat-fab {
   margin: 5px;
 }
-
-
