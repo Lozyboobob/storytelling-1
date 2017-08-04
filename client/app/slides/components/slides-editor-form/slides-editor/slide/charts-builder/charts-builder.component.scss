@@ -1,9 +1,9 @@
 
-@import 'client/theme.scss';
+@import 'client/stylesheets/theme.scss';
 
 .sub-title-bar{
   .warnMsg{
-    color: $warn;
+    color: mat-color($warn);
     margin-left: 20px;
     font-size: 14px;
   }
@@ -447,7 +447,7 @@ md-chip {
     color: grey;
 
     &.checked {
-      color: $accent;
+      color: mat-color($accent);
     }
   }
 }

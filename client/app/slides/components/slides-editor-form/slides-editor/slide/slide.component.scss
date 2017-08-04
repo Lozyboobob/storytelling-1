@@ -1,4 +1,4 @@
-@import 'client/theme.scss';
+@import 'client/stylesheets/theme.scss';
 
 .pointer {
     cursor: pointer;
@@ -43,7 +43,7 @@ md-card {
 
             &:hover {
                 a {
-                    background-color: $accent;
+                    background-color: mat-color($accent);
                     color: white;
                 }
             }
@@ -52,7 +52,7 @@ md-card {
         &:checked {
             & + label {
                 a {
-                    background-color: $accent;
+                    background-color: mat-color($accent);
                     color: white;
                 }
             }
@@ -78,7 +78,7 @@ md-card {
         color: grey;
 
         &.checked {
-            color: $accent;
+            color: mat-color($accent);
         }
     }
 }
