@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { select } from '@angular-redux/store';
 import { Observable } from 'rxjs/Observable';
 import { Slides } from '../../../models/slides';
-import { SlidesService } from '../../../services/slides.service';
+import { SlidesService, ImagesService } from '../../../services';
 import { MdDialog } from '@angular/material';
 import { DeleteDialogComponent} from './delete-dialog/delete-dialog.component';
 import {NotifBarService} from 'app/core';
@@ -19,17 +19,29 @@ export class SlidesCardComponent implements OnInit {
     @select(['session', 'token']) loggedIn$: Observable<string>;
     @select(['session', 'user', 'username']) username$: Observable<Object>;
 
-    constructor(private slidesService: SlidesService, private dialog: MdDialog, private notifBarService: NotifBarService) {
+    private banner:string; //banner picture of the slides card
+
+    constructor(
+        private slidesService: SlidesService,
+        private imagesService: ImagesService,
+        private dialog: MdDialog,
+        private notifBarService: NotifBarService) {
+          this.banner=""
     }
 
     ngOnInit() {
+      /*after load slides info, load slides banner*/
+        if (this.slides.slidesSetting.banner) {
+            this.imagesService.getImage(this.slides.slidesSetting.banner).subscribe(
+                _banner => {
+                    this.banner = _banner;
+                }
+            )
+        }
     }
 
-    open(e) {
-        e.stopPropagation();
-    }
-
-    publish(e) {
+    /*publish/unpublish slides*/
+    togglePublish(e) {
         e.stopPropagation();
         this.slides.slidesSetting.public = !this.slides.slidesSetting.public;
         this.slidesService.updateSlide(this.slides, this.slides._id)
@@ -38,6 +50,7 @@ export class SlidesCardComponent implements OnInit {
             error => this.notifBarService.showNotif("fail to set upload status, error is " + error)
             );
     }
+    /*set like/dislike slides*/
     toggleFavorite(e) {
         e.stopPropagation();
         this.slides.slidesSetting.favorite = !this.slides.slidesSetting.favorite;
