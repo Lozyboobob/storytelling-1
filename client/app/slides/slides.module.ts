@@ -33,7 +33,7 @@ import { SlidesViewComponent,
 } from '.';
 
 // SLIDES SERVICES
-import {SlidesService, ValidService, ChartsService} from '.';
+import {SlidesService,ImagesService, ValidService, ChartsService} from '.';
 
 // SLIDES ROUTES MODULE
 import { SlidesRoutingModule } from '.';
@@ -165,7 +165,7 @@ import { ToggleFullscreenDirective } from './components/slides-view/toggle-fulls
       SlidesSearchComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    providers: [OverlayContainer, SlidesService, ChartsService]
+    providers: [OverlayContainer, SlidesService,ImagesService, ChartsService]
 
 })
 export class SlidesModule {
