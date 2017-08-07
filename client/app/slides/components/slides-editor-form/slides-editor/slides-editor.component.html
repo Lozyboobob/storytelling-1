@@ -1,22 +1,14 @@
 <app-slides-setting #slidesSetting (onSettingChange)="slidesSettingChange($event)" (formValidateChange)="settingValidateChange($event)" [setting]="slider.slidesSetting"></app-slides-setting>
 
 <div [dragula]="'shuffle-bag'" [dragulaModel]='slider.slides'>
-  <app-slide *ngFor="let slide of slider.slides;let i=index" [slideIndex]="i+1" [slideOpendIndex]="slideOpendIndex" (openSlideIndexOpt)="openSlideIndex($event)" [slideSetting]="slide" (deleteSlideOpt)="deleteSlide($event)" (formValidateChange)="slideValidateChange($event)"
+  <app-slide *ngFor="let slide of slider.slides;let i=index" [slideIndex]="i+1" [slideOpendIndex]="slideOpendIndex"  (openSlideIndexOpt)="openSlideIndex($event)" [slideSetting]="slide" (deleteSlideOpt)="deleteSlide($event)" (formValidateChange)="slideValidateChange($event)"
       #creator></app-slide>
 </div>
 
 <div class="base light" fxLayout="row" fxLayoutAlign="center center">
 
-  <a md-fab (click)="addSlide()" mdTooltip="add a new slide" [disabled]="isInShuffle">
+  <a md-fab (click)="addSlide()" mdTooltip="add a new slide" >
     <md-icon>add</md-icon>
   </a>
-  <a md-fab (click)="shuffleSlide()" mdTooltip="change slide order" *ngIf="!isInShuffle">
-    <md-icon>shuffle</md-icon>
-  </a>
-  <a md-fab (click)="shuffleSlide()" mdTooltip="keep changes" *ngIf="isInShuffle" class="pulse">
-    <md-icon>done</md-icon>
-  </a>
-  <a md-fab (click)="clearShuffle()" mdTooltip="clear changes" *ngIf="isInShuffle">
-    <md-icon>clear</md-icon>
-  </a>
+
 </div>

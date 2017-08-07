@@ -20,7 +20,6 @@ export class SlideComponent implements OnInit, OnChanges {
     @Input() slideIndex: number;  //slide index
     @Input() slideOpendIndex: number; //toggled open slide index
     @Input() slideSetting: Slide; //if it's not a new slide, the previous setting of the slide
-    @Input() isInShuffle: boolean;//indicator:whether it's in shuffling mode
 
     private slide: Slide; //slide setting
     private form: FormGroup;//slide setting form
@@ -62,8 +61,8 @@ export class SlideComponent implements OnInit, OnChanges {
     }
 
     ngOnInit() {
-        if(!this.slide.pageLayout)
-        this.openSlideIndexOpt.emit(this.slideIndex);
+        if (!this.slide.pageLayout)
+            this.openSlideIndexOpt.emit(this.slideIndex);
     }
 
     ngOnChanges(changes) {

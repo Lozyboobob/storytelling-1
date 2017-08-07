@@ -4,7 +4,7 @@
       <div>
         <span class="section-title">{{slideIndex}} - {{slide.pageTitle.title}}</span>
       </div>
-      <a (click)="deleteSlide($event)" *ngIf="!isInShuffle" class="delete">
+      <a (click)="deleteSlide($event)"  class="delete">
         <md-icon>delete</md-icon>
       </a>
       <div class="align-right">
@@ -53,11 +53,11 @@
           <div class="text-vertical-align">
             <span>Choose text vertical align: </span>
             <input type="radio" id="ver-top" name="ver-align" (change)="textAlignChange('TOP')" [attr.checked]="slide.textVerAlign=='TOP'?true:null" />
-            <label  for="ver-top"><a  md-raised-button mdTooltip="">TOP</a></label>
+            <label for="ver-top"><a  md-raised-button mdTooltip="">TOP</a></label>
             <input type="radio" id="ver-middle" name="ver-align" (change)="textAlignChange('MIDDLE')" [attr.checked]="slide.textVerAlign=='MIDDLE'?true:null" />
-            <label  for="ver-middle"><a  md-raised-button mdTooltip="">MIDDLE</a></label>
+            <label for="ver-middle"><a  md-raised-button mdTooltip="">MIDDLE</a></label>
             <input type="radio" id="ver-bottom" name="ver-align" (change)="textAlignChange('BOTTOM')" [attr.checked]="slide.textVerAlign=='BOTTOM'?true:null" />
-            <label  for="ver-bottom"><a  md-raised-button mdTooltip="">BOTTOM</a></label>
+            <label for="ver-bottom"><a  md-raised-button mdTooltip="">BOTTOM</a></label>
           </div>
           <textarea [froalaEditor]='editorOptions' [(froalaModel)]="slide.text"></textarea>
         </div>

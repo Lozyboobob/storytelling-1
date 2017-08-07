@@ -20,27 +20,15 @@ export class SlidesEditorComponent implements OnChanges {
     isValidatedSlide = true;
     isValidatedSetting = false;
 
-    isInShuffle = false;
-    shuffleOrder: Array<number> = [];
+
     slideOpendIndex: number;
-    shuffleTransition = {
-        drag: 0,
-        drop: 0
-    };
 
     @Input() sliderIpt: Slides;
     @Output() submit = new EventEmitter();
     @Output() bannerImageUpload = new EventEmitter();
 
-    constructor(private dragulaService: DragulaService, private validService: ValidService, private notifBarService: NotifBarService) {
-        dragulaService.setOptions('shuffle-bag', {
-            moves: (el, source, handle, sibling) =>{
-                if (this.isInShuffle)
-                    return true;
-                else return false;
-            }
-        });
-    }
+    constructor(private dragulaService: DragulaService, private validService: ValidService, private notifBarService: NotifBarService) {  }
+
     ngOnChanges() {
         if (this.sliderIpt) {
             this.slider = this.sliderIpt;
@@ -101,30 +89,5 @@ export class SlidesEditorComponent implements OnChanges {
         } catch (err) {
             this.notifBarService.showNotif('delete fail : ' + err);
         }
-    }
-    /*change slide order*/
-    shuffleSlide() {
-        // save new order
-        if (this.isInShuffle) {
-            let slides = Object.assign({}, this.slider.slides);;
-            this.shuffleOrder.forEach((order, i) => {
-                this.slider.slides[i] = slides[order];
-                this.slider.slides[i].index = i + 1;
-            });
-            this.isInShuffle = false;
-        } else {
-            // start to shuffle
-            this.shuffleOrder = [];
-            this.slider.slides.forEach((s, i) => {
-                this.shuffleOrder.push(i);
-            });
-
-            this.isInShuffle = true;
-        }
-
-    }
-    /* clear change of shuffle*/
-    clearShuffle() {
-        this.isInShuffle = false;
     }
 }
