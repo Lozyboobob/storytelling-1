@@ -1,6 +1,13 @@
 @import 'client/stylesheets/theme.scss';
 //@import '~/node_modules/dragula/dist/dragula.css';
 
+.tips{
+  background-color: white;
+  margin-bottom: 0px !important;
+  padding-left: 15px;
+  color: mat-color($primary,400);
+}
+
 .gu-mirror {
   margin: 0 !important;
   opacity: .8;

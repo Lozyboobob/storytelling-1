@@ -27,8 +27,12 @@ export class SlidesEditorComponent implements OnChanges {
     @Output() submit = new EventEmitter();
     @Output() bannerImageUpload = new EventEmitter();
 
-    constructor(private dragulaService: DragulaService, private validService: ValidService, private notifBarService: NotifBarService) {  }
-
+    constructor(private dragulaService: DragulaService, private validService: ValidService, private notifBarService: NotifBarService) {
+        dragulaService.setOptions('shuffle-bag', {
+            moves: (el, source, handle, sibling) => !(this.slideOpendIndex != null && this.slideOpendIndex > 0)
+        });
+    }
+    
     ngOnChanges() {
         if (this.sliderIpt) {
             this.slider = this.sliderIpt;
