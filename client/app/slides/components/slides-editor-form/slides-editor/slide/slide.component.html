@@ -44,7 +44,7 @@
           <app-image-upload (setImage)="setImageHtml($event)" [imagePath]="slide.slideImage" align="center"></app-image-upload>
         </div>
 
-        <div *ngIf="slide.hasText" class="step">
+        <div *ngIf="slide.hasText" class="step text-container">
           <div class="sub-title-bar">
             <md-toolbar-row>
               <span><i class="fa fa-check-circle-o fa-fw" [class.checked]="slide.text"></i>Input Text Content*</span>
@@ -59,7 +59,7 @@
             <input type="radio" id="ver-bottom" name="ver-align" (change)="textAlignChange('BOTTOM')" [attr.checked]="slide.textVerAlign=='BOTTOM'?true:null" />
             <label for="ver-bottom"><a  md-raised-button mdTooltip="">BOTTOM</a></label>
           </div>
-          <textarea [froalaEditor]='editorOptions' [(froalaModel)]="slide.text"></textarea>
+          <textarea [froalaEditor]='editorOptions' [(froalaModel)]="slide.text" ></textarea>
         </div>
 
         <div *ngIf="slide.hasGraph" class="step">
