@@ -16,18 +16,25 @@ import {NotifBarService} from 'app/core';
 
 export class SlidesEditorFormComponent implements OnInit, AfterViewChecked {
 
-    id: string = null;
-    isValidated: boolean;
-    slider: Slides = new Slides();
+    private id: string;//slides id in database
+    private slider: Slides = new Slides();//corresponding slides
+    private editorValid: Subscription; //validation of slide editor
+    private isValidated: boolean; //indicator:validation of slide editor
+    private errorMsg: Array<string>;//error
+    private mode = '';//SAVE mode or CREATE mode
+
     @ViewChild('editor') _editor: SlidesEditorComponent;
-    editorValid: Subscription;
-    mode = '';
+
     constructor(private router: Router,
-                private slidesService: SlidesService,
-                private validService: ValidService,
-                private route: ActivatedRoute,
-                private notifBarService: NotifBarService,
-                private cdRef: ChangeDetectorRef) {}
+        private slidesService: SlidesService,
+        private validService: ValidService,
+        private route: ActivatedRoute,
+        private notifBarService: NotifBarService,
+        private cdRef: ChangeDetectorRef) {
+        this.id = null;
+        this.slider = new Slides();
+        this.errorMsg = [];
+    }
 
     ngAfterViewChecked() {
         this.cdRef.detectChanges();
@@ -54,9 +61,12 @@ export class SlidesEditorFormComponent implements OnInit, AfterViewChecked {
             this.mode = 'CREATE';
             this.slider = new Slides();
         }
+
         this.editorValid = this.validService.validAll$.subscribe(
             valid => {
-                this.isValidated = valid;
+                this.isValidated = valid['status'];
+                if (!this.isValidated) this.errorMsg = valid['msg'];
+                else this.errorMsg = [];
             });
     }
 
@@ -66,22 +76,22 @@ export class SlidesEditorFormComponent implements OnInit, AfterViewChecked {
         if (id) {
             this.slidesService.updateSlide(this.slider, this.slider._id)
                 .subscribe(
-                    () => {
-                        this.notifBarService.showNotif('your changes in slides has been saved.');
-                        this.router.navigate(['/slides']);
-                    },
-                    error => this.notifBarService.showNotif('fail to save your changes. the error is ' + error));
+                () => {
+                    this.notifBarService.showNotif('your changes in slides has been saved.');
+                    this.router.navigate(['/slides']);
+                },
+                error => this.notifBarService.showNotif('fail to save your changes. the error is ' + error));
         } else {
             this.slider = this._editor.slider;
             this.editorValid = this.slidesService.submitSlides(this.slider)
                 .subscribe(
-                    () => {
-                        this.notifBarService.showNotif('create slides successfully!');
-                        this.router.navigate(['/slides']);
-                    },
-                    error => {
-                        this.notifBarService.showNotif('fail to create slides. the error is '+error);
-                    });
+                () => {
+                    this.notifBarService.showNotif('create slides successfully!');
+                    this.router.navigate(['/slides']);
+                },
+                error => {
+                    this.notifBarService.showNotif('fail to create slides. the error is ' + error);
+                });
         }
     }
 

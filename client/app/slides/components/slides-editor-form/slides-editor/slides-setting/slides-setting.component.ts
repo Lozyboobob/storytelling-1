@@ -12,22 +12,27 @@ export class SlidesSettingComponent implements OnInit, OnChanges {
     @Input() setting: SlidesSetting;
     @Output() onSettingChange: EventEmitter<SlidesSetting> = new EventEmitter();
 
-    form: FormGroup;
-    slidesSetting: SlidesSetting = new SlidesSetting();
+    private form: FormGroup;
+    private slidesSetting: SlidesSetting;
 
     constructor(private _fb: FormBuilder, private validService: ValidService) {
+        this.slidesSetting = new SlidesSetting();
         this.form = this._buildForm();
     }
 
     ngOnInit() {
+        this.validService.changeSettingValid(false);
+        this.form.valueChanges.subscribe(data => {
+            this.validService.changeSettingValid(!this.form.controls.title.invalid,"TITLE");
+        });
+
     }
-    ngOnChanges() {
-        if (this.setting) {
+    ngOnChanges(changes) {
+        if (changes.hasOwnProperty('setting') && this.setting) {
             this.slidesSetting = this.setting;
-            this.form = this._buildForm();
-            this.validService.changeSettingValid(this.form.valid);
+            this.form = this._buildForm(); this.validService.changeSettingValid(!this.form.controls.title.invalid,"TITLE");
             this.form.valueChanges.subscribe(data => {
-                this.validService.changeSettingValid(this.form.valid);
+                this.validService.changeSettingValid(!this.form.controls.title.invalid,"TITLE");
             });
         }
     }
@@ -47,9 +52,9 @@ export class SlidesSettingComponent implements OnInit, OnChanges {
         this.slidesSetting.description = description;
         this.onSettingChange.emit(this.slidesSetting);
     }
-    publicStatusChange(publicStatus){
-      this.slidesSetting.public = publicStatus.checked;
-      this.onSettingChange.emit(this.slidesSetting);
+    publicStatusChange(publicStatus) {
+        this.slidesSetting.public = publicStatus.checked;
+        this.onSettingChange.emit(this.slidesSetting);
     }
     /* tag operation*/
     addTag() {

@@ -28,7 +28,7 @@ export class SlideComponent implements OnInit, OnChanges {
     private pageLayoutOption: Array<any>; // page layout option of the slide
     private titleAlignOption: Array<string>; //title align option of the slide
     private editorOptions: Object;//option of the text editor
-
+    private isChartBuilderValid: boolean;//indicator for validation of chart builder
 
 
     constructor(private _fb: FormBuilder, private validService: ValidService) {
@@ -40,6 +40,7 @@ export class SlideComponent implements OnInit, OnChanges {
         this.titleAlignOption = slideOption.titleAlign;
         this.pageLayoutOption = slideOption.pageLayoutOption;
 
+        this.isChartBuilderValid = true;
         // set server path
         let baseURL = `${environment.backend.protocol}://${environment.backend.host}`;
         if (environment.backend.port) {
@@ -54,21 +55,22 @@ export class SlideComponent implements OnInit, OnChanges {
             imageManagerLoadURL: `${baseURL}${environment.backend.endpoints.imagesServer}`
         };
 
-        this.form.valueChanges.subscribe(data => {
-            this.validService.changeSlideValid(this.form.valid, this.slideIndex);
-        });
+
 
     }
 
     ngOnInit() {
-        if (!this.slide.pageLayout)
+        if (!this.slide.pageLayout) {
             this.openSlideIndexOpt.emit(this.slideIndex);
+            this.validService.changeSlideValid(false, this.slideIndex, "LAYOUT");
+        }
+
     }
 
     ngOnChanges(changes) {
         if (changes.hasOwnProperty("slideSetting")) {
             this.slide = this.slideSetting;
-            this.validService.changeSlideValid(this.form.valid, this.slideIndex);
+            this.validService.changeSlideValid(this.slide.pageLayout && this.isChartBuilderValid, this.slideIndex);
         }
         if (changes.hasOwnProperty("slideIndex")) {
             this.slide.index = this.slideIndex;
@@ -147,6 +149,7 @@ export class SlideComponent implements OnInit, OnChanges {
             default: break;
         }
         this.slide.pageLayout = value;
+        this.validService.changeSlideValid(true, this.slideIndex);
     }
     /*change text vertical align*/
     textAlignChange(value) {
