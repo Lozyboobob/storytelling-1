@@ -55,8 +55,6 @@ export class SlideComponent implements OnInit, OnChanges {
             imageManagerLoadURL: `${baseURL}${environment.backend.endpoints.imagesServer}`
         };
 
-
-
     }
 
     ngOnInit() {
@@ -150,6 +148,10 @@ export class SlideComponent implements OnInit, OnChanges {
         }
         this.slide.pageLayout = value;
         this.validService.changeSlideValid(true, this.slideIndex);
+    }
+    /*change bkg layout*/
+    imgLayoutChange(value) {
+        this.slide.bkgLayout = value;
     }
     /*change text vertical align*/
     textAlignChange(value) {

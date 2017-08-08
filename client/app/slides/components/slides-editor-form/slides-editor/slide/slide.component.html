@@ -4,7 +4,7 @@
       <div>
         <span class="section-title">{{slideIndex}} - {{slide.pageTitle.title}}</span>
       </div>
-      <a (click)="deleteSlide($event)"  class="delete">
+      <a (click)="deleteSlide($event)" class="delete">
         <md-icon>delete</md-icon>
       </a>
       <div class="align-right">
@@ -41,6 +41,15 @@
           <md-toolbar-row class="sub-title-bar">
             <span><i class="fa fa-check-circle-o fa-fw" [class.checked]="slide.slideImage"></i>Upload Image*</span>
           </md-toolbar-row>
+          <div class="image-layout">
+            <span>Choose text vertical align: </span>
+            <input type="radio" id="img-stretch" name="img-stretch" (change)="imgLayoutChange('STRETCH')" [attr.checked]="slide.bkgLayout=='STRETCH'?true:null" />
+            <label for="img-stretch"><a  md-raised-button mdTooltip="">STRETCH</a></label>
+            <input type="radio" id="img-center" name="img-center" (change)="imgLayoutChange('CENTER')" [attr.checked]="slide.bkgLayout=='CENTER'?true:null" />
+            <label for="img-center"><a  md-raised-button mdTooltip="">CENTER</a></label>
+            <input type="radio" id="img-cover" name="img-cover" (change)="imgLayoutChange('COVER')" [attr.checked]="slide.bkgLayout=='COVER'?true:null" />
+            <label for="img-cover"><a  md-raised-button mdTooltip="">COVER</a></label>
+          </div>
           <app-image-upload (setImage)="setImageHtml($event)" [imagePath]="slide.slideImage" align="center"></app-image-upload>
         </div>
 
@@ -59,7 +68,7 @@
             <input type="radio" id="ver-bottom" name="ver-align" (change)="textAlignChange('BOTTOM')" [attr.checked]="slide.textVerAlign=='BOTTOM'?true:null" />
             <label for="ver-bottom"><a  md-raised-button mdTooltip="">BOTTOM</a></label>
           </div>
-          <textarea [froalaEditor]='editorOptions' [(froalaModel)]="slide.text" ></textarea>
+          <textarea [froalaEditor]='editorOptions' [(froalaModel)]="slide.text"></textarea>
         </div>
 
         <div *ngIf="slide.hasGraph" class="step">

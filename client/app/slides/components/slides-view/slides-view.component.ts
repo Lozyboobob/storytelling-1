@@ -6,6 +6,7 @@ import { WindowResizeService } from '../../services/window-resize.service';
 
 import {DOCUMENT, DomSanitizer} from '@angular/platform-browser';
 import {SlidesService} from '../../services/slides.service';
+import {ImagesService} from '../../services/images.service';
 import { BarChartComponent, ForceDirectedGraphComponent, LineChartComponent, HierarchicalEdgeBundlingComponent} from 'app/charts';
 
 import { PageConfig, HALF_HALF_LAYOUT, FULL_LAYOUT} from './pageConfig';
@@ -55,11 +56,12 @@ export class SlidesViewComponent implements OnInit {
     constructor(
         private windowResizeService: WindowResizeService,
         private slidesService: SlidesService,
+        private imagesService: ImagesService,
         @Inject(DOCUMENT) private document: any,
         private sanitizer: DomSanitizer,
         private router: Router,
         private route: ActivatedRoute,
-        private notifBarService:NotifBarService
+        private notifBarService: NotifBarService
     ) {
         this.windowResizeService.height$.subscribe(height => {
             this.slideHeight_style = {
@@ -84,14 +86,18 @@ export class SlidesViewComponent implements OnInit {
                 this.slides = slide.slides;
                 this.slideNum = this.slides.length;
                 this.slideTitle = slide.slidesSetting.title;
-                this.slides.forEach(s=>{
-                  if (s.text.length) {
-                    s.text = this.sanitizer.bypassSecurityTrustHtml(s.text) as string;
-                  }
+                this.slides.forEach(s => {
+                    if (s.text.length) {
+                        s.text = this.sanitizer.bypassSecurityTrustHtml(s.text) as string;
+                    }
+                    if (s.slideImage) {
+                        this.imagesService.getImage(s.slideImage).subscribe(img => s.slideImage = img
+                        )
+                    }
                 })
             },
             error => {
-                this.notifBarService.showNotif("fail to load slides, error is "+ error);
+                this.notifBarService.showNotif("fail to load slides, error is " + error);
             });
         window.scrollTo(0, 0);//scroll to top everytime open the slides
 
@@ -160,7 +166,7 @@ export class SlidesViewComponent implements OnInit {
 
     animationDone(event: any) {
 
-      //  this.direction = 0; ==> if add this line, will get error:ExpressionChangedAfterItHasBeenCheckedError
+        //  this.direction = 0; ==> if add this line, will get error:ExpressionChangedAfterItHasBeenCheckedError
     }
 
     @HostListener('mouseenter')

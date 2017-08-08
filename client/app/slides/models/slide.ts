@@ -11,6 +11,7 @@ export class Slide {
     pageLayout: string = ''; //pagelayout type
     /* full screen layout setting*/
     fullScreenHtml: any;
+    bkgLayout:string="STRETCH";
     slideImage: any;//full screen img :object in image collection
 
     /* indecator for text and graph*/
