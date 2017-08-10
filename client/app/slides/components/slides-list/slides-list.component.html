@@ -1,5 +1,5 @@
 <div fxLayout="row" fxLayoutAlign="center center">
-  <app-slides-search (textSearch)="search($event)" kind="advanced" (fState)="fState($event)" [selectedState]="selectedState" [states]="states" (fFavorite)="fFavorite($event)" [selectedFavorite]="selectedFavorite"></app-slides-search>
+  <app-slides-search (textSearchOpt)="search($event)" kind="advanced" (filterPubOpt)="filterPub($event)"   (filterFavorOpt)="filterFavor($event)" ></app-slides-search>
 </div>
 
 <div fxLayout="row" fxLayoutWrap="wrap" fxLayoutAlign="space-around">

@@ -1,3 +1,12 @@
-md-select {
-  padding: 22px 0 !important;
+.filter-container {
+  padding-left: 20px;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    md-checkbox{
+      margin-right: 10px;
+    }
+    md-checkbox :last-child{
+      margin-right: 0px;
+    }
 }

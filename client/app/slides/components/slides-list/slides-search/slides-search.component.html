@@ -1,5 +1,5 @@
-<form  fxLayout="row" fxLayoutWrap="wrap" fxLayoutAlign="space-around">
-  <md-input-container *ngIf="kind === 'advanced'" fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="50" fxFlex.lg="33">
+<form fxLayout="row" fxLayoutWrap="wrap" fxLayoutAlign="space-around">
+  <md-input-container *ngIf="kind === 'advanced'" fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="50" fxFlex.lg="60">
     <md-placeholder>
       <md-icon>search</md-icon>
     </md-placeholder>
@@ -13,15 +13,10 @@
     <input mdInput [(ngModel)]="textToSearch" name="textToSearch" (ngModelChange)="onChange(textToSearch)">
   </md-input-container>
 
-  <md-select *ngIf="kind === 'advanced'" (change)="onChangeState(selectedState)" [(ngModel)]="selectedState" name="state"  fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="30" fxFlex.lg="30">
-    <md-option *ngFor="let state of states" [value]="state">
-      {{state}}
-    </md-option>
-  </md-select>
-
-  <md-select *ngIf="kind === 'advanced'" (change)="onChangeFavorite(selectedFavorite)" [(ngModel)]="selectedFavorite" name="favorite" fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="30" fxFlex.lg="30">
-    <md-option [value]="'All'">All</md-option>
-    <md-option [value]="'favorite'">Favorite</md-option>
-    <md-option [value]="'notFavorite'">Not favorite</md-option>
-  </md-select>
+  <div *ngIf="kind === 'advanced'" class="filter-container" fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="50" fxFlex.lg="40">
+    <md-checkbox name="checkFavor" [(ngModel)]="states.checkFavor" [disabled]="states.checkFavor&&!states.checkNotFavor" (change)="onChangeState($event)">Favorite</md-checkbox>
+    <md-checkbox name="checkNotFavor" [(ngModel)]="states.checkNotFavor" (change)="onChangeState($event)" [disabled]="!states.checkFavor&&states.checkNotFavor">Unfavorite</md-checkbox>
+    <md-checkbox name="checkPublic" [(ngModel)]="states.checkPublic" (change)="onChangeState($event)" [disabled]="states.checkPublic&&!states.checkPrivate">Public</md-checkbox>
+    <md-checkbox name="checkPrivate" [(ngModel)]="states.checkPrivate" (change)="onChangeState($event)" [disabled]="!states.checkPublic&&states.checkPrivate">Private</md-checkbox>
+  </div>
 </form>
