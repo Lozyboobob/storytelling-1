@@ -48,6 +48,11 @@ md-card {
     -o-transition: background .1s ease-in-out;
     transition: background .1s ease-in-out;
     width: 100%;
+
+    &.error{
+      background-color: mat-color($warn);
+      color: mat-color($primary,50);
+    }
   }
 
   .pull-right {

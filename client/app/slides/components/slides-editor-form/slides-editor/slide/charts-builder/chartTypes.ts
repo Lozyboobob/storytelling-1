@@ -23,7 +23,7 @@ function createChartType({title, ...obj}) {
 export const chartTypes = [
 
     createChartType({
-        title: 'Number Cards', simpleData: true, cmpName: 'numberCard', convertData: NumberCardComponent.convertData, dimLabels: [{ column: 'Card Name', maxSize: 1 }, { column: 'Card Value', maxSize: 1 }],
+        title: 'Number Cards', simpleData: true, cmpName: 'numberCard', convertData: NumberCardComponent.convertData, dimLabels: [{ column: 'Card Name', maxSize: 1, dataType: ["string", "number"] }, { column: 'Card Value', maxSize: 1, dataType: ["string", "number"] }],
         description: '',
         categorie: 'Comparison',
         image: 'assets/img-graph/numberCards.png'
@@ -47,7 +47,7 @@ export const chartTypes = [
         image: 'assets/img-graph/wordCloud-chart.jpg'
     }),
     createChartType({
-        title: 'Dendogram', simpleData: true, cmpName: 'dendogram', convertData: DendogramComponent.convertData, dimLabels: [{ column: 'Group by', maxSize: 10 }, { column: 'Value', maxSize: 1 }],
+        title: 'Dendogram', simpleData: true, cmpName: 'dendogram', convertData: DendogramComponent.convertData, dimLabels: [{ column: 'Group by', maxSize: 10, dataType: ["string"] }, { column: 'Value', maxSize: 1 , dataType: ["number"]}],
         description: 'Dendrograms are tree-like diagrams used to represent the distribution of a hierarchical clustering.' +
         ' The different depth levels represented by each node are visualized on the horizontal axes and it is useful to visualize a non-weighted hierarchy.',
         categorie: 'Hierarchy',

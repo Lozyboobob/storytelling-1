@@ -1,7 +1,7 @@
 <div>
   <div class="sub-title-bar">
     <md-toolbar-row>
-      <span><i class="fa fa-check-circle-o fa-fw" [class.checked]="hasValidDimensions"></i>Graph builder* <span class="warnMsg">{{warnMsg}}</span></span>
+      <span><i class="fa fa-check-circle-o fa-fw" [class.checked]="hasValidBuilder"></i>Graph builder* <span class="warnMsg">{{warnMsg}}</span></span>
       <small class="pull-right">
         <button md-raised-button type="button" (click)="clearAll()"  color="primary">Reset</button>
       </small>
@@ -89,14 +89,16 @@
         </div>
 
         <div class="dimension" *ngFor="let dimensionCol of chartType.dimLabels; let dimIndex = index" dnd-droppable [allowDrop]="allowDropFunction(dimensionCol.maxSize, dimIndex)" (onDropSuccess)="addTobox1Items(dimIndex, $event)">
-          <div class="title">{{dimensionCol.column}} <i>(Drop on me)</i></div>
+          <div class="title">{{dimensionCol.column}} (<i *ngFor="let type of dimensionCol.dataType;let i=index"><i *ngIf="i!=0">,</i>{{type}}</i>)</div>
           <ul class="list-unstyled dimensions-list" dnd-sortable-container [sortableData]="dataDims[dimIndex]">
-            <li *ngFor="let dimension of dataDims[dimIndex]; let i = index" dnd-sortable [sortableIndex]="i">
+            <li *ngFor="let dimension of dataDims[dimIndex]; let i = index" dnd-sortable [sortableIndex]="i" [class.error]="dimension.split(' ')[0]=='err'">
               {{dimension}}
               <span class="pull-right" (click)="removeItem(dimIndex, dimension)"><i class="fa fa-times"></i></span>
             </li>
           </ul>
         </div>
+        <p class="error" *ngIf="!hasValidDim">*there are items not in the correct data type</p>
+
 
       </div>
     </md-card-content>
