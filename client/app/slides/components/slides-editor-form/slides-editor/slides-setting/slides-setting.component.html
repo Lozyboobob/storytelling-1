@@ -12,11 +12,8 @@
         </md-chip-list>
       </div>
       <md-input-container fxFlex.xs="100">
-        <input mdInput placeholder="Input Tag" formControlName="tag" name="tag">
+        <input mdInput validateOnBlur placeholder="Input Tag" formControlName="tag" name="tag" (addTagOpt)="addTag()">
       </md-input-container>
-      <a md-mini-fab (click)="addTag()">
-        <md-icon>add</md-icon>
-      </a>
     </div>
   </div>
 
@@ -26,6 +23,9 @@
     <md-input-container fxFlex="100">
       <textarea mdInput mdTextareaAutosize placeholder="Slides Description" formControlName="description" name="description" (ngModelChange)="descriptionChange($event)"></textarea>
     </md-input-container>
+  </div>
+  <div class="base light" >
+    <md-checkbox [checked]="slidesSetting.public" (change)="publicStatusChange($event)">Publish To Public</md-checkbox>
   </div>
 
 </form>

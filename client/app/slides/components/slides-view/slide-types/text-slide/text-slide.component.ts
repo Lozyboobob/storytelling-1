@@ -4,7 +4,6 @@ import { Slide } from "../../../../models";
 import { PageConfig, FULL_LAYOUT } from "../../pageConfig";
 import { Chart } from "../../../../../charts/chart.class";
 
-
 @Component({
     selector: 'app-text-slide',
     templateUrl: './text-slide.component.html',
@@ -14,6 +13,7 @@ export class TextSlideComponent implements OnInit {
 
     @Input() slide: Slide;
     private config: PageConfig;
+    private slideBkg:string;
 
     constructor() { }
 

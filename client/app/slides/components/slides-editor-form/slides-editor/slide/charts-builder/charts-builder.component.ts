@@ -76,8 +76,8 @@ export class ChartsBuilderComponent implements OnInit, DoCheck {
         return this.hasValidData && this.chartType && this.chartType.name;
     }
 
-    get hasValidDimensions() {
-        return this.hasChartSelected &&
+    get hasValidBuilder() {
+        return this.hasChartSelected && this.hasValidDim &&
             !this.chartType.dimLabels.some((l, i) => l ? !(this.dataDims[i] && this.dataDims[i].length > 0) : false);
     }
     get isValidSlide() {
@@ -88,10 +88,23 @@ export class ChartsBuilderComponent implements OnInit, DoCheck {
         else if (!this.hasChartSelected) {
             this.warnMsg = "please select chart type"
         }
-        else if (!this.hasValidDimensions) {
+        else if (!this.hasValidBuilder) {
             this.warnMsg = "unvalid dimensions"
         }
-        return (this.hasValidDimensions == undefined ? false : this.hasValidDimensions) && (this.hasChartSelected == undefined ? false : this.hasChartSelected) && (this.hasValidData == undefined ? false : this.hasValidData);
+        return (this.hasValidBuilder == undefined ? false : this.hasValidBuilder) && (this.hasChartSelected == undefined ? false : this.hasChartSelected) && (this.hasValidData == undefined ? false : this.hasValidData);
+    }
+    get hasValidDim() {
+        if (this.dataDims == null || this.dataDims == undefined) return true;
+        let valid = true;
+        this.dataDims.forEach(
+            dim => {
+                if (dim != null)
+                    dim.forEach(
+                        d => { if (d.split(" ")[0] == "err") valid = false }
+                    )
+            }
+        )
+        return valid;
     }
 
     editorConfig = {
@@ -106,10 +119,19 @@ export class ChartsBuilderComponent implements OnInit, DoCheck {
     }
 
     addTobox1Items(dimIndex: number, $event: any) {
+        let type = this.headerValues.find(h => h.name == $event.dragData)['type'];
+        let valid = false;
+        this.chartType.dimLabels[dimIndex].dataType.forEach(_type => { if (_type == type) valid = true; })
         if (this.dataDims[dimIndex] == null)
             this.dataDims[dimIndex] = [];
-        this.dataDims[dimIndex].push($event.dragData);
-        this.processData();
+        if (valid) {
+            this.dataDims[dimIndex].push($event.dragData);
+            this.processData();
+        }
+        else {
+            this.dataDims[dimIndex].push("err" + " " + $event.dragData);
+        }
+
     }
 
     removeItem(dimIndex: number, item: string) {
@@ -175,20 +197,21 @@ export class ChartsBuilderComponent implements OnInit, DoCheck {
     }
     choseChartType(chart) {
         this.chartType = chart;
+        this.dataDims = [null, null, null, null];
         this.processData();
     }
     processData() {
-        if (!this.hasValidDimensions) {
+        if (!this.hasValidBuilder) {
             return;
         }
         this.data = this.chartType.convertData(this.dataDims, this.rawData);
         this.configGraph.emit({ data: this.rawData, chartOptions: { chartType: this.chartType, headerValues: this.headerValues, dataDims: this.dataDims, ...this.chartOptions } });
+
 if (this.isValidSlide) {
     this.validSlide.emit('this slid is valid');
-
 }
 return this.data;
-  }
+    }
 
 updateData(value = this._dataText) {
     this._dataText = value;

@@ -33,7 +33,8 @@ describe('TextSlideComponent', () => {
       "text" : "<p>dsbgsdfbfds</p>",
       "index" : 1,
       'fullScreenHtml' : false,
-      'slideImage': null
+      'slideImage': null,
+      "bkgLayout":"STRETCH"
     };
     fixture.detectChanges();
   });

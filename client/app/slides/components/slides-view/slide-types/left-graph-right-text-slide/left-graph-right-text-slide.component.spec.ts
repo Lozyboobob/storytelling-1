@@ -193,7 +193,8 @@ describe('LeftGraphRightTextSlideComponent', () => {
       "text" : "<p>dsgfgdg</p>",
       "index" : 1,
       fullScreenHtml: false,
-      slideImage : null
+      slideImage : null,
+      bkgLayout:"STRETCH"
     };
     component.slide.config.chartType.cmpName = 'lineChart';
     fixture.detectChanges();
