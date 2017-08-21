@@ -17,6 +17,10 @@
 </div>
 
 <div class="error">
-  <p *ngIf="noPublish">Sorry, no one publish slides yet! <br>Would you want to be the pioneer?</p>
+  <p *ngIf="noPublish">Sorry, no one publish slides yet! <br>Would you want to be the pioneer?
+    <a href="#/slides/createSlides">
+      <button md-button color="accent">Create Now</button>
+    </a>
+  </p>
   <p *ngIf="noResult">Opps, no result for these key words</p>
 </div>

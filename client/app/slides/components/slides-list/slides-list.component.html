@@ -15,4 +15,4 @@
   <p *ngIf="result.noResult">Opps, no result for these key words</p>
 </div>
 
-<button class="buttonBottom" *ngIf="loggedIn$|async" [routerLink]="['createSlides']" md-fab><md-icon>add</md-icon> </button>
+<button class="buttonBottom" [routerLink]="['createSlides']" md-fab><md-icon>add</md-icon> </button>
