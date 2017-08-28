@@ -114,6 +114,7 @@ export const chartTypes = [
     }),
     createChartType({
         title: 'Bar Horizontal Normalized', convertData: NgGraphComponent.convertData,
+        dimLabels: [{ column: 'Group by', maxSize: 10, dataType: ["string", "number"] }, { column: 'Name', maxSize: 1, dataType: ["string", "number"] }, { column: 'Value', maxSize: 1, dataType: ["number"] }],
         description: '',
         categorie: 'Comparison',
         image: 'assets/img-graph/BarHorizontalNormalize.jpg'
