@@ -16,7 +16,7 @@
   </div>
 
 </div>
-<md-paginator [length]="length"
+<md-paginator *ngIf="showSlidesList" [length]="length"
               [pageSize]="pageSize"
               (page)="nextPage($event)">
 </md-paginator>
