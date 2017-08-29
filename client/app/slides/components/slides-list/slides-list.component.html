@@ -6,6 +6,7 @@
   <div *ngFor="let s of slides" [class.display-div]="!(loggedIn$|async)&& !s.slidesSetting.public" fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="50" fxFlex.lg="33" fxFlex.xl="33">
     <app-slides-card (deletedSlides)="refreshList()" [slides]="s" [editable]="true" (duplicateslidesOpt)="refreshList()"></app-slides-card>
   </div>
+
 </div>
 
 <div class="error" >
@@ -14,5 +15,8 @@
   <p *ngIf="result.noPublish">Sorry, no one publish slides yet! <br>Would you want to be the pioneer?</p>
   <p *ngIf="result.noResult">Opps, no result for these key words</p>
 </div>
-
+<md-paginator [length]="length"
+              [pageSize]="pageSize"
+              (page)="nextPage($event)">
+</md-paginator>
 <button class="buttonBottom" [routerLink]="['createSlides']" md-fab><md-icon>add</md-icon> </button>

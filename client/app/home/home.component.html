@@ -14,8 +14,12 @@
   <div *ngFor="let s of slides" [class.display-div]="!(loggedIn$|async)&& !s.slidesSetting.public" fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="50" fxFlex.lg="33" fxFlex.xl="33">
     <app-slides-card [slides]="s" [editable]="false"></app-slides-card>
   </div>
-</div>
 
+</div>
+<md-paginator *ngIf="showSlidesList" [length]="length"
+              [pageSize]="pageSize"
+              (page)="nextPage($event)">
+</md-paginator>
 <div class="error">
   <p *ngIf="noPublish">Sorry, no one publish slides yet! <br>Would you want to be the pioneer?
     <a href="#/slides/createSlides">

@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { select } from '@angular-redux/store';
 import {Observable} from 'rxjs/Observable';
 import {SlidesService, ImagesService} from '../../services/index';
-import {Slides} from '../../models/index'
+import {Slides} from '../../models/index';
 import {NotifBarService} from "app/core";
+import {PageEvent} from '@angular/material';
 @Component({
     selector: 'app-slides-list',
     templateUrl: './slides-list.component.html',
@@ -18,23 +19,42 @@ export class SlidesListComponent implements OnInit {
         noSlides: false,
         noPrivate: false
     };
+    private pageSize = 6;
+    private pageIndex = 0;
     private toSearch = {
         title: '',
         filter: 'All',
         favorite: 'All'
     };
+    pageEvent: PageEvent;
     private slides: Array<Slides> = [];
+    private length = this.slides.length;
+
     constructor(
         private slidesService: SlidesService,
         private imagesService: ImagesService,
         private notifBarService: NotifBarService
     ) { }
-
-    ngOnInit() {
-        this.slidesService.getSlidesList()
+    nextPage($event) {
+        this.pageEvent = $event;
+        this.pageIndex = $event.pageIndex;
+        this.slidesService.getSlideToSearch(this.toSearch, this.pageIndex, this.pageSize )
             .subscribe(
-            slide => {
-                this.slides = slide;
+                slides => {
+                    this.slides = slides[0];
+                    this.length = slides[1];
+                    this.result = this.calculResult(this.slides.length, this.toSearch.filter, this.toSearch.title);
+                },
+                error => {
+                    this.notifBarService.showNotif("fail to load slides list");
+                });
+    }
+    ngOnInit() {
+        this.slidesService.getSlidesList( this.pageIndex, this.pageSize )
+            .subscribe(
+            slides => {
+                this.slides = slides[0];
+                this.length = slides[1];
                 this.result = this.calculResult(this.slides.length, this.toSearch.filter, this.toSearch.title);
             },
             error => {
@@ -44,38 +64,42 @@ export class SlidesListComponent implements OnInit {
     search(paramsTosearch) {
         //get search result
         this.toSearch.title = paramsTosearch || '';
-        this.slidesService.getSlideToSearch(this.toSearch)
+        this.slidesService.getSlideToSearch(this.toSearch, this.pageIndex, this.pageSize)
             .subscribe(slides => {
                 this.slides = [];
-                this.slides = slides;
+                this.slides = slides[0];
+                this.length = slides[1];
                 this.result = this.calculResult(this.slides.length, this.toSearch.filter, this.toSearch.title)
             });
     }
 
     filterPub(state) {
         this.toSearch.filter = state;
-        this.slidesService.getSlideToSearch(this.toSearch)
+        this.slidesService.getSlideToSearch(this.toSearch, this.pageIndex, this.pageSize)
             .subscribe(slides => {
                 this.slides = [];
-                this.slides = slides;
+                this.slides = slides[0];
+                this.length = slides[1];
                 this.result = this.calculResult(this.slides.length, this.toSearch.filter, this.toSearch.title)
             });
     }
     filterFavor(isFavorite) {
         this.toSearch.favorite = isFavorite;
-        this.slidesService.getSlideToSearch(this.toSearch)
+        this.slidesService.getSlideToSearch(this.toSearch, this.pageIndex, this.pageSize)
             .subscribe(slides => {
                 this.slides = [];
-                this.slides = slides;
+                this.slides = slides[0];
+                this.length = slides[1];
                 this.result = this.calculResult(this.slides.length, this.toSearch.filter, this.toSearch.title)
             });
 
     }
     refreshList() {
-        this.slidesService.getSlideToSearch(this.toSearch)
+        this.slidesService.getSlideToSearch(this.toSearch, this.pageIndex, this.pageSize)
             .subscribe(slides => {
                 this.slides = [];
-                this.slides = slides;
+                this.slides = slides[0];
+                this.length = slides[1];
                 this.result = this.calculResult(this.slides.length, this.toSearch.filter, this.toSearch.title);
 
             });
