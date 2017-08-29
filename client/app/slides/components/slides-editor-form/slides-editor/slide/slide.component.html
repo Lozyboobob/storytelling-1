@@ -42,12 +42,12 @@
             <span><i class="fa fa-check-circle-o fa-fw" [class.checked]="slide.slideImage"></i>Upload Image*</span>
           </md-toolbar-row>
           <div class="image-layout">
-            <span>Choose text vertical align: </span>
-            <input type="radio" id="img-stretch" name="img-stretch" (change)="imgLayoutChange('STRETCH')" [attr.checked]="slide.bkgLayout=='STRETCH'?true:null" />
+            <span>Choose Image Size: </span>
+            <input type="radio" id="img-stretch" name="img-size" (change)="imgLayoutChange('STRETCH')" [attr.checked]="slide.bkgLayout=='STRETCH'?true:null" />
             <label for="img-stretch"><a  md-raised-button mdTooltip="">STRETCH</a></label>
-            <input type="radio" id="img-center" name="img-center" (change)="imgLayoutChange('CENTER')" [attr.checked]="slide.bkgLayout=='CENTER'?true:null" />
+            <input type="radio" id="img-center" name="img-size" (change)="imgLayoutChange('CENTER')" [attr.checked]="slide.bkgLayout=='CENTER'?true:null" />
             <label for="img-center"><a  md-raised-button mdTooltip="">CENTER</a></label>
-            <input type="radio" id="img-cover" name="img-cover" (change)="imgLayoutChange('COVER')" [attr.checked]="slide.bkgLayout=='COVER'?true:null" />
+            <input type="radio" id="img-cover" name="img-size" (change)="imgLayoutChange('COVER')" [attr.checked]="slide.bkgLayout=='COVER'?true:null" />
             <label for="img-cover"><a  md-raised-button mdTooltip="">COVER</a></label>
           </div>
           <app-image-upload (setImage)="setImageHtml($event)" [imagePath]="slide.slideImage" align="center"></app-image-upload>
