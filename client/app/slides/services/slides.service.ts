@@ -44,10 +44,13 @@ export class SlidesService {
         const backendURL = `${this._baseUrl}${environment.backend.endpoints.slides}`;
         return this.http.post(backendURL, slides).map((response: Response) => response.json());
     }
-    getSlidesList(): Observable<any> {
+    getSlidesList(pageIndex, pageSize): Observable<any> {
         const params: URLSearchParams = new URLSearchParams();
-        if (this.user != undefined)
+        if (this.user !== undefined)
             params.set('username', this.user.username);
+        params.set('pageIndex', pageIndex);
+        params.set('pageSize', pageSize);
+
         const backendURL = `${this._baseUrl}${environment.backend.endpoints.search}`;
         return this.http.get(backendURL, { search: params }).map((response: Response) => response.json());
     }
@@ -64,12 +67,14 @@ export class SlidesService {
         const backendURL = `${this._baseUrl}${environment.backend.endpoints.slides}/${id}`;
         return this.http.delete(backendURL).map((response: Response) => response.json());
     }
-    getSlideToSearch(textToSearch): Observable<any> {
+    getSlideToSearch(textToSearch,  pageIndex, pageSize): Observable<any> {
         const params: URLSearchParams = new URLSearchParams();
         params.set('title', textToSearch.title);
         params.set('state', textToSearch.filter);
         params.set('favorite', textToSearch.favorite);
         params.set('username', this.user.username);
+        params.set('pageIndex', pageIndex);
+        params.set('pageSize', pageSize);
         const backendURL = `${this._baseUrl}${environment.backend.endpoints.search}`;
         return this.http.get(backendURL, { params: params }).map((response: Response) => response.json());
     }

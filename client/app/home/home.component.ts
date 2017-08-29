@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { SlidesService } from 'app/slides';
 import { Slides } from 'app/slides';
+import {PageEvent} from '@angular/material';
 
 @Component({
   selector: 'app-home',
@@ -20,6 +21,10 @@ export class HomeComponent implements OnInit {
   private states: Array<string>;
   private selectedValue: string;
   private toSearch;
+  private pageSize = 5;
+  private pageSizeOptions = [5, 10, 25, 100];
+  private pageIndex = 0;
+  pageEvent: PageEvent;
 
   constructor(private slidesService: SlidesService) { }
 
@@ -38,7 +43,7 @@ export class HomeComponent implements OnInit {
     this.showSlidesList = true;
     //get search result
     this.toSearch.title = searchText;
-    this.slidesService.getSlideToSearch(this.toSearch)
+    this.slidesService.getSlideToSearch(this.toSearch, this.pageIndex, this.pageSize)
       .subscribe(slides => {
         this.slides = slides;
         if (this.slides.length === 0) this.noResult = true;
@@ -52,7 +57,7 @@ export class HomeComponent implements OnInit {
   getAllslides() {
     this.showSlidesList = true;
     this.toSearch.title = '';
-    this.slidesService.getSlideToSearch(this.toSearch)
+    this.slidesService.getSlideToSearch(this.toSearch, this.pageIndex, this.pageSize)
       .subscribe(slides => {
         this.slides = slides;
         if (this.slides.length === 0) {

@@ -14,5 +14,9 @@
   <p *ngIf="result.noPublish">Sorry, no one publish slides yet! <br>Would you want to be the pioneer?</p>
   <p *ngIf="result.noResult">Opps, no result for these key words</p>
 </div>
-
+<md-paginator [length]="length"
+              [pageSize]="pageSize"
+              [pageSizeOptions]="pageSizeOptions"
+              (page)="nextPage($event)">
+</md-paginator>
 <button class="buttonBottom" [routerLink]="['createSlides']" md-fab><md-icon>add</md-icon> </button>

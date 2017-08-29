@@ -15,7 +15,11 @@
     <app-slides-card [slides]="s" [editable]="false"></app-slides-card>
   </div>
 </div>
-
+<md-paginator [length]="length"
+              [pageSize]="pageSize"
+              [pageSizeOptions]="pageSizeOptions"
+              (page)="nextPage($event)">
+</md-paginator>
 <div class="error">
   <p *ngIf="noPublish">Sorry, no one publish slides yet! <br>Would you want to be the pioneer?
     <a href="#/slides/createSlides">

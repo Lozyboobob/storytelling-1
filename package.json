@@ -99,6 +99,7 @@
     "passport-local": "~1.0.0",
     "passport-paypal-openidconnect": "~0.1.1",
     "passport-twitter": "~1.0.4",
+    "promise": "^8.0.1",
     "redux-localstorage": "1.0.0-rc5",
     "redux-logger": "^2.8.1",
     "request": "^2.79.0",
