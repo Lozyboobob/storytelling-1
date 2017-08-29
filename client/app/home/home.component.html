@@ -14,10 +14,10 @@
   <div *ngFor="let s of slides" [class.display-div]="!(loggedIn$|async)&& !s.slidesSetting.public" fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="50" fxFlex.lg="33" fxFlex.xl="33">
     <app-slides-card [slides]="s" [editable]="false"></app-slides-card>
   </div>
+
 </div>
 <md-paginator [length]="length"
               [pageSize]="pageSize"
-              [pageSizeOptions]="pageSizeOptions"
               (page)="nextPage($event)">
 </md-paginator>
 <div class="error">

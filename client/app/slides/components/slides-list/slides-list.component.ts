@@ -19,8 +19,7 @@ export class SlidesListComponent implements OnInit {
         noSlides: false,
         noPrivate: false
     };
-    private pageSize = 5;
-    private pageSizeOptions = [5, 10, 25, 100];
+    private pageSize = 6;
     private pageIndex = 0;
     private toSearch = {
         title: '',
@@ -39,8 +38,7 @@ export class SlidesListComponent implements OnInit {
     nextPage($event) {
         this.pageEvent = $event;
         this.pageIndex = $event.pageIndex;
-        console.log('next', $event.pageIndex);
-        this.slidesService.getSlidesList( this.pageIndex, this.pageSize )
+        this.slidesService.getSlideToSearch(this.toSearch, this.pageIndex, this.pageSize )
             .subscribe(
                 slides => {
                     this.slides = slides[0];
@@ -50,11 +48,6 @@ export class SlidesListComponent implements OnInit {
                 error => {
                     this.notifBarService.showNotif("fail to load slides list");
                 });
-    }
-    setPageSizeOptions(setPageSizeOptionsInput: string) {
-        this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
-        this.length = this.slides.length;
-
     }
     ngOnInit() {
         this.slidesService.getSlidesList( this.pageIndex, this.pageSize )

@@ -15,14 +15,14 @@ export class HomeComponent implements OnInit {
   @select(['session', 'token']) loggedIn$: Observable<string>;
 
   slides: Array<Slides> = [];
+  private length = this.slides.length;
   showSlidesList: boolean;
   noResult: boolean;
   noPublish: boolean;
   private states: Array<string>;
   private selectedValue: string;
   private toSearch;
-  private pageSize = 5;
-  private pageSizeOptions = [5, 10, 25, 100];
+  private pageSize = 6;
   private pageIndex = 0;
   pageEvent: PageEvent;
 
@@ -45,7 +45,8 @@ export class HomeComponent implements OnInit {
     this.toSearch.title = searchText;
     this.slidesService.getSlideToSearch(this.toSearch, this.pageIndex, this.pageSize)
       .subscribe(slides => {
-        this.slides = slides;
+        this.slides = slides[0];
+        this.length = slides[1];
         if (this.slides.length === 0) this.noResult = true;
         else {
           this.noResult = false;
@@ -59,7 +60,8 @@ export class HomeComponent implements OnInit {
     this.toSearch.title = '';
     this.slidesService.getSlideToSearch(this.toSearch, this.pageIndex, this.pageSize)
       .subscribe(slides => {
-        this.slides = slides;
+        this.slides = slides[0];
+        this.length = slides[1];
         if (this.slides.length === 0) {
           this.noPublish = true;
         } else {
@@ -67,5 +69,17 @@ export class HomeComponent implements OnInit {
         }
       });
   }
+
+  nextPage($event) {
+        this.pageEvent = $event;
+        this.pageIndex = $event.pageIndex;
+        console.log('next', $event.pageIndex);
+        this.slidesService.getSlideToSearch(this.toSearch, this.pageIndex, this.pageSize )
+            .subscribe(
+                slides => {
+                    this.slides = slides[0];
+                    this.length = slides[1];
+                });
+    }
 
 }

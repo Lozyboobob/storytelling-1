@@ -144,6 +144,7 @@ exports.search = function(req, res) {
   var request = null;
   var totalResultsCount = null;
   var regexS = new RegExp((req.query.title) || '');
+  mongoose.set('debug', true)
   if (req.query.state === 'Public') {
     if (req.query.favorite === 'favorite') {
       request = Slides.find({
@@ -286,7 +287,9 @@ exports.search = function(req, res) {
           'slidesSetting.favorite': false
         }]
       }).count();
-    } else {
+    }
+    else {
+      console.log('je suis ici normalement cest le cas?');
       request = Slides.find({
         $and: [{
           $or: [{
@@ -317,28 +320,28 @@ exports.search = function(req, res) {
   } else {
     if (req.query.favorite === 'favorite') {
       request = Slides.find({
-          $and: [{
-            $or: [{
-              'slidesSetting.title': {
-                $regex: regexS,
-                $options: "i"
-              }
-            }, {
-              'slidesSetting.tags': {
-                $regex: regexS,
-                $options: "i"
-              }
-            }]
+        $and: [{
+          $or: [{
+            'slidesSetting.title': {
+              $regex: regexS,
+              $options: "i"
+            }
           }, {
-            $or: [{
-              'slidesSetting.author': req.query.username
-            }, {
-              'slidesSetting.public': true
-            }]
-          }, {
-            'slidesSetting.favorite': true
+            'slidesSetting.tags': {
+              $regex: regexS,
+              $options: "i"
+            }
           }]
-        });
+        }, {
+          $or: [{
+            'slidesSetting.author': req.query.username
+          }, {
+            'slidesSetting.public': true
+          }]
+        }, {
+          'slidesSetting.favorite': true
+        }]
+      });
       totalResultsCount = Slides.find({
         $and: [{
           $or: [{
@@ -364,28 +367,28 @@ exports.search = function(req, res) {
       }).count();
     } else if (req.query.favorite === 'notFavorite') {
       request = Slides.find({
-          $and: [{
-            $or: [{
-              'slidesSetting.title': {
-                $regex: regexS,
-                $options: "i"
-              }
-            }, {
-              'slidesSetting.tags': {
-                $regex: regexS,
-                $options: "i"
-              }
-            }]
+        $and: [{
+          $or: [{
+            'slidesSetting.title': {
+              $regex: regexS,
+              $options: "i"
+            }
           }, {
-            $or: [{
-              'slidesSetting.author': req.query.username
-            }, {
-              'slidesSetting.public': true
-            }]
-          }, {
-            'slidesSetting.favorite': false
+            'slidesSetting.tags': {
+              $regex: regexS,
+              $options: "i"
+            }
           }]
-        });
+        }, {
+          $or: [{
+            'slidesSetting.author': req.query.username
+          }, {
+            'slidesSetting.public': true
+          }]
+        }, {
+          'slidesSetting.favorite': false
+        }]
+      });
       totalResultsCount = Slides.find({
         $and: [{
           $or: [{
@@ -453,7 +456,8 @@ exports.search = function(req, res) {
         }]
       }).count();
     }
-    Promise.all([
+  }
+  Promise.all([
       request.sort({
         "slidesSetting.title": 1
       }).skip(pageIndex > 0 ? (pageIndex * pageSize) : 0).limit(pageSize).exec(),
@@ -467,5 +471,4 @@ exports.search = function(req, res) {
           });
         }
       });
-  }
 };
