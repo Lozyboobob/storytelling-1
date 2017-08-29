@@ -11,8 +11,7 @@ var path = require('path'),
   Image = mongoose.model('Image'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
   ObjectId = mongoose.Schema.ObjectId,
-
-  user = require(path.resolve('./modules/users/server/controllers/users/users.profile.server.controller'));
+  Promise = require('promise');
 /**
  * Create an slide
  */
@@ -140,10 +139,15 @@ exports.slideByID = function(req, res, next, id) {
  * search with filter
  */
 exports.search = function(req, res) {
+  var pageIndex = parseInt(req.query.pageIndex ,10);
+  var pageSize = parseInt(req.query.pageSize ,10);
+  var request = null;
+  var totalResultsCount = null;
   var regexS = new RegExp((req.query.title) || '');
+  mongoose.set('debug', true)
   if (req.query.state === 'Public') {
     if (req.query.favorite === 'favorite') {
-      Slides.find({
+      request = Slides.find({
           $and: [{
             $or: [{
               'slidesSetting.title': regexS
@@ -155,45 +159,49 @@ exports.search = function(req, res) {
           }, {
             'slidesSetting.favorite': true
           }]
-        }).sort({
-          "slidesSetting.title": 1
-        })
-        .exec(function(err, slides) {
-          if (err) {
-            return res.status(422).send({
-              message: errorHandler.getErrorMessage(err)
-            });
-          } else {
-            res.json(slides);
-          }
         });
+      totalResultsCount = Slides.find({
+        $and: [{
+          $or: [{
+            'slidesSetting.title': regexS
+          }, {
+            'slidesSetting.tags': regexS
+          }]
+        }, {
+          'slidesSetting.public': true
+        }, {
+          'slidesSetting.favorite': true
+        }]
+      }).count();
     } else if (req.query.favorite === 'notFavorite') {
-      Slides.find({
-          $and: [{
-            $or: [{
-              'slidesSetting.title': regexS
-            }, {
-              'slidesSetting.tags': regexS
-            }]
+      request = Slides.find({
+        $and: [{
+          $or: [{
+            'slidesSetting.title': regexS
           }, {
-            'slidesSetting.public': true
-          }, {
-            'slidesSetting.favorite': false
+            'slidesSetting.tags': regexS
           }]
-        }).sort({
-          "slidesSetting.title": 1
-        })
-        .exec(function(err, slides) {
-          if (err) {
-            return res.status(422).send({
-              message: errorHandler.getErrorMessage(err)
-            });
-          } else {
-            res.json(slides);
-          }
-        });
+        }, {
+          'slidesSetting.public': true
+        }, {
+          'slidesSetting.favorite': false
+        }]
+      });
+      totalResultsCount = Slides.find({
+        $and: [{
+          $or: [{
+            'slidesSetting.title': regexS
+          }, {
+            'slidesSetting.tags': regexS
+          }]
+        }, {
+          'slidesSetting.public': true
+        }, {
+          'slidesSetting.favorite': false
+        }]
+      }).count();
     } else {
-      Slides.find({
+      request = Slides.find({
           $and: [{
             $or: [{
               'slidesSetting.title': regexS
@@ -203,22 +211,22 @@ exports.search = function(req, res) {
           }, {
             'slidesSetting.public': true
           }]
-        }).sort({
-          "slidesSetting.title": 1
-        })
-        .exec(function(err, slides) {
-          if (err) {
-            return res.status(422).send({
-              message: errorHandler.getErrorMessage(err)
-            });
-          } else {
-            res.json(slides);
-          }
         });
+      totalResultsCount = Slides.find({
+        $and: [{
+          $or: [{
+            'slidesSetting.title': regexS
+          }, {
+            'slidesSetting.tags': regexS
+          }]
+        }, {
+          'slidesSetting.public': true
+        }]
+      }).count();
     }
   } else if (req.query.state === 'Private') {
     if (req.query.favorite === 'favorite') {
-      Slides.find({
+      request = Slides.find({
           $and: [{
             $or: [{
               'slidesSetting.title': regexS
@@ -232,20 +240,24 @@ exports.search = function(req, res) {
           }, {
             'slidesSetting.favorite': true
           }]
-        }).sort({
-          "slidesSetting.title": 1
-        })
-        .exec(function(err, slides) {
-          if (err) {
-            return res.status(422).send({
-              message: errorHandler.getErrorMessage(err)
-            });
-          } else {
-            res.json(slides);
-          }
         });
+      totalResultsCount = Slides.find({
+        $and: [{
+          $or: [{
+            'slidesSetting.title': regexS
+          }, {
+            'slidesSetting.tags': regexS
+          }]
+        }, {
+          'slidesSetting.author': req.query.username
+        }, {
+          'slidesSetting.public': false
+        }, {
+          'slidesSetting.favorite': true
+        }]
+      }).count();
     } else if (req.query.favorite === 'notFavorite') {
-      Slides.find({
+      request = Slides.find({
           $and: [{
             $or: [{
               'slidesSetting.title': regexS
@@ -259,149 +271,204 @@ exports.search = function(req, res) {
           }, {
             'slidesSetting.favorite': false
           }]
-        }).sort({
-          "slidesSetting.title": 1
-        })
-      .exec(function(err, slides) {
-          if (err) {
-            return res.status(422).send({
-              message: errorHandler.getErrorMessage(err)
-            });
-          } else {
-            res.json(slides);
-          }
         });
-    } else {
-      Slides.find({
-          $and: [{
-            $or: [{
-              'slidesSetting.title': regexS
-            }, {
-              'slidesSetting.tags': regexS
-            }]
+      totalResultsCount = Slides.find({
+        $and: [{
+          $or: [{
+            'slidesSetting.title': regexS
           }, {
-            'slidesSetting.author': req.query.username
-          }, {
-            'slidesSetting.public': false
+            'slidesSetting.tags': regexS
           }]
-        }).sort({
-          "slidesSetting.title": 1
-        })
-        .exec(function(err, slides) {
-          if (err) {
-            return res.status(422).send({
-              message: errorHandler.getErrorMessage(err)
-            });
-          } else {
-            res.json(slides);
-          }
-        });
+        }, {
+          'slidesSetting.author': req.query.username
+        }, {
+          'slidesSetting.public': false
+        }, {
+          'slidesSetting.favorite': false
+        }]
+      }).count();
+    }
+    else {
+      console.log('je suis ici normalement cest le cas?');
+      request = Slides.find({
+        $and: [{
+          $or: [{
+            'slidesSetting.title': regexS
+          }, {
+            'slidesSetting.tags': regexS
+          }]
+        }, {
+          'slidesSetting.author': req.query.username
+        }, {
+          'slidesSetting.public': false
+        }]
+      });
+      totalResultsCount = Slides.find({
+        $and: [{
+          $or: [{
+            'slidesSetting.title': regexS
+          }, {
+            'slidesSetting.tags': regexS
+          }]
+        }, {
+          'slidesSetting.author': req.query.username
+        }, {
+          'slidesSetting.public': false
+        }]
+      }).count();
     }
   } else {
-    console.log("list")
     if (req.query.favorite === 'favorite') {
-      Slides.find({
-          $and: [{
-            $or: [{
-              'slidesSetting.title': {
-                $regex: regexS,
-                $options: "i"
-              }
-            }, {
-              'slidesSetting.tags': {
-                $regex: regexS,
-                $options: "i"
-              }
-            }]
+      request = Slides.find({
+        $and: [{
+          $or: [{
+            'slidesSetting.title': {
+              $regex: regexS,
+              $options: "i"
+            }
           }, {
-            $or: [{
-              'slidesSetting.author': req.query.username
-            }, {
-              'slidesSetting.public': true
-            }]
-          }, {
-            'slidesSetting.favorite': true
+            'slidesSetting.tags': {
+              $regex: regexS,
+              $options: "i"
+            }
           }]
-        }).sort({
-          "slidesSetting.title": 1
-        })
-      .exec(function(err, slides) {
-          if (err) {
-            return res.status(422).send({
-              message: errorHandler.getErrorMessage(err)
-            });
-          } else {
-            res.json(slides);
-          }
-        });
+        }, {
+          $or: [{
+            'slidesSetting.author': req.query.username
+          }, {
+            'slidesSetting.public': true
+          }]
+        }, {
+          'slidesSetting.favorite': true
+        }]
+      });
+      totalResultsCount = Slides.find({
+        $and: [{
+          $or: [{
+            'slidesSetting.title': {
+              $regex: regexS,
+              $options: "i"
+            }
+          }, {
+            'slidesSetting.tags': {
+              $regex: regexS,
+              $options: "i"
+            }
+          }]
+        }, {
+          $or: [{
+            'slidesSetting.author': req.query.username
+          }, {
+            'slidesSetting.public': true
+          }]
+        }, {
+          'slidesSetting.favorite': true
+        }]
+      }).count();
     } else if (req.query.favorite === 'notFavorite') {
-      Slides.find({
-          $and: [{
-            $or: [{
-              'slidesSetting.title': {
-                $regex: regexS,
-                $options: "i"
-              }
-            }, {
-              'slidesSetting.tags': {
-                $regex: regexS,
-                $options: "i"
-              }
-            }]
+      request = Slides.find({
+        $and: [{
+          $or: [{
+            'slidesSetting.title': {
+              $regex: regexS,
+              $options: "i"
+            }
           }, {
-            $or: [{
-              'slidesSetting.author': req.query.username
-            }, {
-              'slidesSetting.public': true
-            }]
-          }, {
-            'slidesSetting.favorite': false
+            'slidesSetting.tags': {
+              $regex: regexS,
+              $options: "i"
+            }
           }]
-        }).sort({
-          "slidesSetting.title": 1
-        })
-      .exec(function(err, slides) {
-          if (err) {
-            return res.status(422).send({
-              message: errorHandler.getErrorMessage(err)
-            });
-          } else {
-            res.json(slides);
-          }
-        });
+        }, {
+          $or: [{
+            'slidesSetting.author': req.query.username
+          }, {
+            'slidesSetting.public': true
+          }]
+        }, {
+          'slidesSetting.favorite': false
+        }]
+      });
+      totalResultsCount = Slides.find({
+        $and: [{
+          $or: [{
+            'slidesSetting.title': {
+              $regex: regexS,
+              $options: "i"
+            }
+          }, {
+            'slidesSetting.tags': {
+              $regex: regexS,
+              $options: "i"
+            }
+          }]
+        }, {
+          $or: [{
+            'slidesSetting.author': req.query.username
+          }, {
+            'slidesSetting.public': true
+          }]
+        }, {
+          'slidesSetting.favorite': false
+        }]
+      }).count();
     } else {
-      Slides.find({
-          $and: [{
-            $or: [{
-              'slidesSetting.title': {
-                $regex: regexS,
-                $options: "i"
-              }
-            }, {
-              'slidesSetting.tags': {
-                $regex: regexS,
-                $options: "i"
-              }
-            }]
+      request = Slides.find({
+        $and: [{
+          $or: [{
+            'slidesSetting.title': {
+              $regex: regexS,
+              $options: "i"
+            }
           }, {
-            $or: [{
-              'slidesSetting.author': req.query.username
-            }, {
-              'slidesSetting.public': true
-            }]
+            'slidesSetting.tags': {
+              $regex: regexS,
+              $options: "i"
+            }
           }]
-        }).sort({
-          "slidesSetting.title": 1
-        })
-    .exec(function(err, slides) {
-          if (err) {
-            return res.status(422).send({
-              message: errorHandler.getErrorMessage(err)
-            });
-          } else {
-            res.json(slides);
-          }
-        });
+        }, {
+          $or: [{
+            'slidesSetting.author': req.query.username
+          }, {
+            'slidesSetting.public': true
+          }]
+        }]
+      });
+      totalResultsCount = Slides.find({
+        $and: [{
+          $or: [{
+            'slidesSetting.title': {
+              $regex: regexS,
+              $options: "i"
+            }
+          }, {
+            'slidesSetting.tags': {
+              $regex: regexS,
+              $options: "i"
+            }
+          }]
+        }, {
+          $or: [{
+            'slidesSetting.author': req.query.username
+          }, {
+            'slidesSetting.public': true
+          }]
+        }]
+      }).count();
     }
   }
+  Promise.all([
+      request.sort({
+        "slidesSetting.title": 1
+      }).skip(pageIndex > 0 ? (pageIndex * pageSize) : 0).limit(pageSize).exec(),
+      totalResultsCount])
+      .then(function(items) {
+        res.json(items);
+      }, function(err) {
+        if (err) {
+          return res.status(422).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        }
+      });
 };
