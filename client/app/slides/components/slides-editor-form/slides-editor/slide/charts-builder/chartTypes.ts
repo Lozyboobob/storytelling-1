@@ -78,7 +78,7 @@ export const chartTypes = [
         image: 'assets/img-graph/ForceLayoutBubble.jpg'
     }),
     createChartType({
-        title: 'Force Directed Graph', simpleData: true, cmpName: 'ForceDirectedGraph', convertData: ForceDirectedGraphComponent.convertData, dimLabels: [{ column: 'Group by', maxSize: 1, dataType: ["string", "number"] }, { column: 'Value', maxSize: 1, dataType: ["number"] }],
+        title: 'Force Directed Graph', simpleData: true, cmpName: 'ForceDirectedGraph', convertData: ForceDirectedGraphComponent.convertData, dimLabels: [{ column: 'Group by', maxSize: 10, dataType: ["string", "number"] }, { column: 'Value', maxSize: 1, dataType: ["number"] }],
         description: 'Nested circles allow to represent hierarchies and compare values.' +
         ' This visualization is particularly effective to show the proportion between elements through their areas and their position inside a hierarchical structure. ',
         categorie: 'Hierarchy',
