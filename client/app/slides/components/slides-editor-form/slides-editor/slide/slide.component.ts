@@ -49,7 +49,7 @@ export class SlideComponent implements OnInit, OnChanges {
         this.editorOptions = {
             heightMin: 200,
             heightMax: 400,
-            charCounterMax: 1000,
+            charCounterMax: 3000,
             toolbarSticky: false,
             imageUploadURL: `${baseURL}${environment.backend.endpoints.imagesServer}`,
             imageManagerLoadURL: `${baseURL}${environment.backend.endpoints.imagesServer}`
