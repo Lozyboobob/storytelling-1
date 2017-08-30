@@ -47,7 +47,6 @@ export class BubbleChartComponent extends Chart implements OnInit, OnChanges {
         else
             this.data = this.dataInput;
 
-        console.log('convertData: ', this.data);
 
         this.drawChart();
     }
@@ -269,7 +268,7 @@ export class BubbleChartComponent extends Chart implements OnInit, OnChanges {
                 lastNode.fx = null;
                 lastNode.fy = null;
                 node.filter((d, i) => i === lastNode.index)
-                    .transition().duration(2000).ease(d3.easePolyOut)
+                    .transition().duration(1000).ease(d3.easePolyOut)
                     .tween('circleOut', () => {
                         let irl = d3.interpolateNumber(lastNode.r, lastNode.radius);
                         return (t) => {
@@ -283,9 +282,8 @@ export class BubbleChartComponent extends Chart implements OnInit, OnChanges {
 
             // if (!d3.event.active) simulation.alphaTarget(0.5).restart();
 
-            d3.transition('').duration(2000).ease(d3.easePolyOut)
+            d3.transition('').duration(1000).ease(d3.easePolyOut)
                 .tween('moveIn', () => {
-                    console.log('tweenMoveIn', currentNode);
                     let ix = d3.interpolateNumber(currentNode.x, centerX);
                     let iy = d3.interpolateNumber(currentNode.y, centerY);
                     let ir = d3.interpolateNumber(currentNode.r, centerY * 0.5);
@@ -306,7 +304,6 @@ export class BubbleChartComponent extends Chart implements OnInit, OnChanges {
 
                 })
                 .on('interrupt', () => {
-                    console.log('move interrupt', currentNode);
                     currentNode.fx = null;
                     currentNode.fy = null;
                     simulation.alphaTarget(0);
@@ -322,9 +319,8 @@ export class BubbleChartComponent extends Chart implements OnInit, OnChanges {
                 focusedNode.fx = null;
                 focusedNode.fy = null;
                 simulation.alphaTarget(0.2).restart();
-                d3.transition('').duration(2000).ease(d3.easePolyOut)
+                d3.transition('').duration(1000).ease(d3.easePolyOut)
                     .tween('moveOut', function() {
-                        console.log('tweenMoveOut', focusedNode);
                         let ir = d3.interpolateNumber(focusedNode.r, focusedNode.radius);
                         return function(t) {
                             focusedNode.r = ir(t);
