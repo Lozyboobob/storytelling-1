@@ -117,8 +117,7 @@ export class SunburstChartComponent extends Chart implements OnInit, OnChanges {
         // Set size of the svg
         let element = this.chartContainer.nativeElement;
         this.width = element.offsetWidth - this.margin.left - this.margin.right;
-        this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
-
+        this.height = element.offsetHeight - this.margin.top - this.margin.bottom-100;//100 is the height of explanation
         this.formatNumber = d3.format(",d");
         this.radius = Math.min(this.width - this.margin.left - this.margin.right, this.height - this.margin.top - this.margin.bottom) / 2;
         this.xScale = d3.scaleLinear().range([0, 2 * Math.PI]);
